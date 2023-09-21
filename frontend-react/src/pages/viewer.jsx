@@ -1,6 +1,6 @@
 // Importing modules
 import React, { useState} from "react";
-import UpsetPlot from "../components/UpsetPlot";
+import UpsetPlot from "../components/visualization/UpsetPlot";
 
 
 function Viewer() {

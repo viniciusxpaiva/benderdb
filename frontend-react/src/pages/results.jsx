@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import BaseLayout from "../components/layout/base";
 import PredictorContent from "../components/results/PredictorContent";
-import MolecularViewer from "../components/MolecularViewer";
 
 const Results = () => {
     

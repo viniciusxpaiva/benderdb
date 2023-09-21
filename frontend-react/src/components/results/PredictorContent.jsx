@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import ResidueTable from "./ResidueTable";
-import MolecularViewer from "../MolecularViewer";
+import MolecularViewer from "../visualization/NGLViewer";
 import ViewerControlButtons from "./ViewerControlButtons";
 
 const PredictorContent = (props) => {
 
     const [bSiteTab, setbSiteTab] = useState(0);
+
+    const [backgroundButton, setBackgroundButton] = useState("black");
+
+    const handleBackgroundButton = () => {
+        backgroundButton === "white" ? setBackgroundButton("black") : setBackgroundButton("white")   
+    }
 
     const handleBSiteTab = (tabNum) => {
         console.log("tab:" + tabNum)
@@ -59,15 +65,13 @@ const PredictorContent = (props) => {
                 <div className="col-md-6">
                     {/* Viewer div*/}
                     <div className="card mx-0" id="card-results">
-                        <div className="card-header color-dark text-white">
+                        <div className="card-header color-white text-black">
                             <div className="row">
                                 <div className="col-md-6">
-                                    <span className="align-middle">{props.pred + "  Molecular Visualization"}</span>
+                                    <span className="align-middle">{props.pred + "  Molecular Visualization" + backgroundButton}</span>
                                 </div>
                                 <div className="col-md-6 ">
-                                    <a className="btn btn-outline-light btn-sm float-right" role="button" href="{{url_for('home')}}" data-toggle="tooltip" data-placement="top" title="Download results" >
-                                        download
-                                    </a>
+                                    <ViewerControlButtons handleBackgroundButton={handleBackgroundButton}/>
                                 </div>
                             </div>
                         </div>
@@ -76,7 +80,7 @@ const PredictorContent = (props) => {
                                 <div className="row">
                                     {/* List of bSites div*/}
                                     <div className="col-md-12">
-                                        {(props.predictors[props.activeTab] === props.pred ? <MolecularViewer/> : "")}
+                                        {(props.predictors[props.activeTab] === props.pred ? <MolecularViewer backgroundButton={backgroundButton} moleculeRepresentation="sticks"/> : "")}
                                     </div>
                                 </div>
                             </div>
