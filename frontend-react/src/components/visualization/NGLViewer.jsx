@@ -5,23 +5,18 @@ import * as NGL from 'ngl/dist/ngl'
 const MolecularViewer = (props) => {
     console.log("page rendering")
 
-    const [bSiteTab, setbSiteTab] = useState(0);
-   
-    const handleBSiteTab = (tabNum) => {
-        console.log("tab:" + tabNum)
-        setbSiteTab(tabNum);
-    };
-
-    let stage;
+    const [stage, setStage] = useState(null);
 
     useEffect(() => {
-        stage = new NGL.Stage("viewport");
-        stage.removeAllComponents(); // Remove previous components
-        stage.loadFile('/pdbs/2aai.pdb').then((component) => { 
+        const newStage = new NGL.Stage("viewport");
+        newStage.removeAllComponents(); // Remove previous components
+        newStage.loadFile('/pdbs/2aai.pdb').then((component) => { 
             component.addRepresentation("cartoon");
             component.autoView();
         });
-        stage.setParameters({ backgroundColor: "white" });
+        newStage.setParameters({ backgroundColor: "white" });
+        setStage(newStage)
+
     },[]);
 
      
@@ -71,13 +66,33 @@ const MolecularViewer = (props) => {
         })
         stage.getComponentsByName(pdb_id).autoView(sele)
     }
+  
+    const [bindSiteTab, setBindSiteTab] = useState(0);
+   
+    const handleBindSiteTab = (stage, tabNum, site) => {
+        const pdb_id = "2aai.pdb"
+        console.log("tab:" + tabNum)
+        setBindSiteTab(tabNum);
 
+        // Construct an array of selection strings from the residue list
+        var selectionStrings = site.map(function(residue){
+            return residue[2] + ":" + residue[0] + " and " + residue[1];
+        });
+
+        // Combine the selection strings using " or " logical operator
+        var combinedSelection = selectionStrings.join(" or ");
+
+        // Automatically adjust the camera view to the combined selection
+        stage.getComponentsByName(pdb_id).autoView(combinedSelection);
+
+
+    };
 
 
     return (
         <>
         <div className="col-md-6">
-            {/* bSite card div*/}
+            {/* BindSite card div*/}
             <div className="card mx-0" id="card-results">
                 <div className="card-header color-dark text-white">
                     <div className="row">
@@ -94,19 +109,19 @@ const MolecularViewer = (props) => {
                 <div className="card-body p-0 b-0" style={{height: "500px"}}>                                   
                     <div className="container d-block p-0" id="cl-tab">
                         <div className="row">
-                            {/* List of bSites div*/}
+                            {/* List of BindSites div*/}
                             <div className="col-md-12">
                                 <nav>
                                     <div className="nav nav-tabs nav-fill bg-light" role="tablist">
-                                        {props.bSites.map((p, i) =>(
-                                            <a className={"nav-item nav-link" + (bSiteTab === i ? " active" : "")} href="#" onClick={() => handleBSiteTab(i)} id={"bSite-" + i} data-toggle="tab" role="tab" aria-controls={"nav-" + i} aria-selected={bSiteTab === i ? " true" : "false"} >{"Cluster " + i}</a>
+                                        {props.bindSites.map((site, i) =>(
+                                            <a className={"nav-item nav-link" + (bindSiteTab === i ? " active" : "")} href="#" onClick={() => handleBindSiteTab(stage, i, site)} id={"bindSite-" + i} data-toggle="tab" role="tab" aria-controls={"nav-" + i} aria-selected={bindSiteTab === i ? " true" : "false"} >{"Binding Site " + i}</a>
                                         ))}</div>
                                 </nav>
                                 <div className="tab-content">
                                 <div className="tab-pane fade active show" id={"nav-" + props.pred} role="tabpanel" aria-labelledby={"predictor-" + props.pred}>
                                     </div>
-                                    {props.bSites.map((p, i) =>(
-                                        <div className={"tab-pane fade" + (bSiteTab === i ? " active show" : "")}  id={"nav-" + i} role="tabpanel" aria-labelledby={"bSite-" + i}>
+                                    {props.bindSites.map((p, i) =>(
+                                        <div className={"tab-pane fade" + (bindSiteTab === i ? " active show" : "")}  id={"nav-" + i} role="tabpanel" aria-labelledby={"bindSite-" + i}>
                                             <div class="table-responsive">
                                                 <table class="table table-sm table-hover">
                                                     <thead class="bg-light">

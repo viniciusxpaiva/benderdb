@@ -4,7 +4,7 @@ import PredictorContent from "../components/results/PredictorContent";
 
 const Results = () => {
     
-	const bSites = [[['B', 'ASP', '22'], ['B', 'GNL', '35'], ['B', 'TRP', '37'], ['B', 'ASN', '46']], 
+	const bindSites = [[['B', 'ASP', '22'], ['B', 'GNL', '35'], ['B', 'TRP', '37'], ['B', 'ASN', '46']], 
 				[['B', 'ASP', '234'], ['B', 'ARG', '236'], ['B', 'ALA', '237'], ['B', 'ILE', '246'], ['B', 'TYR', '248'], ['B', 'ASN', '255']],
 				[['A', 'CYS', '104'], ['A', 'THR', '106'], ['A', 'GLU', '110']]
 			]
@@ -53,7 +53,7 @@ const Results = () => {
 									<p>Summary tab content</p>
 								</div>
 								{predictors.map((pred, i) => (
-									<PredictorContent pred={pred} predictors={predictors} bSites={bSites} activeTab={predictorTab}/>
+									<PredictorContent pred={pred} predictors={predictors} bindSites={bindSites} activeTab={predictorTab}/>
 								))}
 								
 							</div>

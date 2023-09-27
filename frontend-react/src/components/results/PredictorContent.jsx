@@ -10,7 +10,7 @@ const PredictorContent = (props) => {
         <div className={"tab-pane fade" + (props.predictors[props.activeTab] === props.pred ? " active show" : "")} id={"nav-" + props.pred} role="tabpanel" aria-labelledby={"predictor-" + props.pred}>
             <div className="row">
                 {/* Viewer div*/}
-                {(props.predictors[props.activeTab] === props.pred ? <MolecularViewer pred={props.pred} predictors={props.predictors} bSites={props.bSites} activeTab={props.predictorTab}/>: "")}
+                {(props.predictors[props.activeTab] === props.pred ? <MolecularViewer pred={props.pred} predictors={props.predictors} bindSites={props.bindSites} activeTab={props.predictorTab}/>: "")}
             </div>
         </div>
     );
