@@ -1,6 +1,7 @@
 import React, { useEffect, useState} from 'react';
 import ResidueTable from '../results/ResidueTable';
 import * as NGL from 'ngl/dist/ngl'
+import MousePopup from '../results/MousePopup';
 
 const MolecularViewer = (props) => {
     console.log("page rendering")
@@ -13,13 +14,33 @@ const MolecularViewer = (props) => {
         newStage.loadFile('/pdbs/2aai.pdb').then((component) => { 
             component.addRepresentation("cartoon");
             component.autoView();
+            changeColorBindSites(component, props.bindSites)
         });
         newStage.setParameters({ backgroundColor: "white" });
         setStage(newStage)
 
     },[]);
 
-     
+    function changeColorBindSites(component, BindSites) {
+        // Generate strings for each list inside bindSites
+        const bindSitesToShow = BindSites.map(generateBindSiteString);
+        // Log the result strings
+        bindSitesToShow.forEach((site, index) => {
+            console.log(`"${site}"`);
+            component.addRepresentation("ball+stick", {
+                color: "cyan",
+                sele: site
+            });
+
+        });
+    }
+
+    function generateBindSiteString(bindSiteList) {
+        const stringArray = bindSiteList.map(item => `${item[2]}:${item[0]}`).join(' or ');
+        return stringArray;
+      }
+
+
     function handleBackgroundColor(stage){
         const stageBackgroundColor = stage.getParameters().backgroundColor;
         stageBackgroundColor === "white" ? stage.setParameters({ backgroundColor: "black" }) : stage.setParameters({ backgroundColor: "white" });
@@ -194,13 +215,15 @@ const MolecularViewer = (props) => {
                                     </button>	
                                 </div>
                                 <div>
-                                    <button class="btn btn-outline-dark btn-sm mx-1" data-toggle="modal" data-target="#modal-control">
-                                        <span data-toggle="tooltip" title="Mouse controls" >
-                                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-mouse2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M3 5.188C3 2.341 5.22 0 8 0s5 2.342 5 5.188v5.625C13 13.658 10.78 16 8 16s-5-2.342-5-5.188V5.189zm4.5-4.155C5.541 1.289 4 3.035 4 5.188V5.5h3.5V1.033zm1 0V5.5H12v-.313c0-2.152-1.541-3.898-3.5-4.154zM12 6.5H4v4.313C4 13.145 5.81 15 8 15s4-1.855 4-4.188V6.5z"/>
-                                            </svg>
-                                        </span>
-                                    </button>
+                                    <MousePopup>
+                                        <button class="btn btn-outline-dark btn-sm mx-1" data-toggle="modal" data-target="#modal-control">
+                                            <span data-toggle="tooltip" title="Mouse controls" >
+                                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-mouse2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" d="M3 5.188C3 2.341 5.22 0 8 0s5 2.342 5 5.188v5.625C13 13.658 10.78 16 8 16s-5-2.342-5-5.188V5.189zm4.5-4.155C5.541 1.289 4 3.035 4 5.188V5.5h3.5V1.033zm1 0V5.5H12v-.313c0-2.152-1.541-3.898-3.5-4.154zM12 6.5H4v4.313C4 13.145 5.81 15 8 15s4-1.855 4-4.188V6.5z"/>
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </MousePopup>
                                 </div>
                             </div>
                         </div>

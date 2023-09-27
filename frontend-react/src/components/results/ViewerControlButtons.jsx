@@ -1,6 +1,3 @@
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
-
 const options = [
     'one', 'two', 'three'
   ];

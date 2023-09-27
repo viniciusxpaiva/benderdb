@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import BaseLayout from "../components/layout/base";
 import PredictorContent from "../components/results/PredictorContent";
+import UpsetPlot from "../components/visualization/UpsetPlot";
+import Summary from "../components/results/Summary";
 
 const Results = () => {
     
 	const bindSites = [[['B', 'ASP', '22'], ['B', 'GNL', '35'], ['B', 'TRP', '37'], ['B', 'ASN', '46']], 
 				[['B', 'ASP', '234'], ['B', 'ARG', '236'], ['B', 'ALA', '237'], ['B', 'ILE', '246'], ['B', 'TYR', '248'], ['B', 'ASN', '255']],
-				[['A', 'CYS', '104'], ['A', 'THR', '106'], ['A', 'GLU', '110']]
-			]
+				[['A', 'ILE', '218'], ['A', 'PHE', '226'], ['A', 'PRO', '229']]
+	]
 
 
 	const predictors = ['GRaSP', 'PUResNet', 'GASS', 'DeepPocket', 'PointSite', 'P2Rank']
@@ -48,10 +50,26 @@ const Results = () => {
 
 							</nav>
 							<div class="tab-content">
-								{/* Content for each predictor*/}
-								<div className={"tab-pane fade" + (predictorTab === -1 ? " active show" : "")} id="nav-Summary" role="tabpanel" aria-labelledby="predictor-Summary">
-									<p>Summary tab content</p>
-								</div>
+									{/* Content for each predictor*/}
+									<div className={"tab-pane fade" + (predictorTab === -1 ? " active show" : "")} id="nav-Summary" role="tabpanel" aria-labelledby="predictor-Summary">
+										<Summary title={"Residues found on binding site"}>
+											<div>
+												<p>14 binding sites/pockets were predicted for protein ABC123 in 5 different predictors</p>
+												<p>55 different residues were found in those predicted binding sites</p>
+												<p>Most common residues found:</p>
+												<ul>
+													<li>TYR 80 A (12 binding sites/pockets)</li>
+													<li>CYS 123 A (9 binding sites/pockets)</li>
+													<li>GLU 127 A (8 binding sites/pockets)</li>
+													<li>ASP 113 A (7 binding sites/pockets)</li>
+												</ul>
+												<p>Residues at selected intersection: TRP 12 A | ASP 24 A | CYS 57 A</p>
+											</div>
+										</Summary>
+										<Summary title={"Binding site intersections"}>
+											<UpsetPlot></UpsetPlot>
+										</Summary>
+									</div>
 								{predictors.map((pred, i) => (
 									<PredictorContent pred={pred} predictors={predictors} bindSites={bindSites} activeTab={predictorTab}/>
 								))}
