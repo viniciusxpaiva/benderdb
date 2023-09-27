@@ -1,11 +1,10 @@
 import BaseLayout from "../components/layout/base";
-import MolecularViewer from "../components/visualization/NGLViewer";
 
 const Contact = () => {
 	return (
 		<>
 			<BaseLayout>
-			<MolecularViewer/>
+			<h1>Contact page content</h1>
 			</BaseLayout>
 		</>
 	);

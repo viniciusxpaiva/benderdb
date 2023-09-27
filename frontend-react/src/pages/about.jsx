@@ -4,7 +4,7 @@ const About = () => {
 	return (
 		<>
 			<BaseLayout>
-				<div>About page content</div>
+			<h1>About page content</h1>
 			</BaseLayout>
 		</>
 	);

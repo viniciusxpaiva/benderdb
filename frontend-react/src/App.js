@@ -7,7 +7,6 @@ import Home from './pages/home';
 import Results from './pages/results';
 import About from './pages/about';
 import Contact from './pages/contact';
-import Viewer from './pages/viewer';
 import Help from './pages/help';
 
 function App() {
@@ -19,7 +18,6 @@ function App() {
 				<Route path='/about' element={<About />} />
 				<Route path='/contact' element={<Contact />} />
 				<Route path='/help' element={<Help />} />
-				<Route path='/viewer' element={<Viewer />} />
 			</Routes>
 		</Router>
 	);

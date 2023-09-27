@@ -33,6 +33,11 @@ const Home = () => {
 						<div class="col-md-6 align-bottom">
 						<h2 style={{marginBottom: "25px"}}>Binding sites in Database</h2>
 						<p>
+							Dizer que os binding sites são predições feitas a partir de N proteomas, em X proteínas a partir do AlphaFold. 
+							Cada pretidor tem Y binding sites.
+						</p>
+						
+						<p>
 							For each residue, physicochemical and topological properties of its
 							atoms and non-covalent interactions are modeled as a graph which,
 							in turn, is encoded as a feature vector. A set of feature vectors is
@@ -48,6 +53,10 @@ const Home = () => {
 					<div class="row">
 						<div class="col-md-6">
 						<h2 style={{marginBottom: "25px"}}>Data collection and organization</h2>
+						
+						<p>
+							Dizer dos experimentos realizados e como os dados estão organizados no database
+						</p>
 						<p>
 							GRaSP uses the residues environment, modeled as feature vectors, as input
 							to a machine learning strategy. The prediction is performed using a
@@ -63,6 +72,8 @@ const Home = () => {
 					<div class="row">
 						<div class="col-md-6">
 						<h2 style={{marginBottom: "25px"}}>Data visualization</h2>
+						
+						<p>Falar das duas visualizações: NGL Viewer e Upset Plot</p>
 						<p>
 							For each residue, physicochemical and topological properties of its
 							atoms and non-covalent interactions are modeled as a graph which,

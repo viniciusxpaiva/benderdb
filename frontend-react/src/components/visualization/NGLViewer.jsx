@@ -49,28 +49,28 @@ const MolecularViewer = (props) => {
     function handleMoleculeColor(stage, colorType){
         const current_repr = stage.compList[0].reprList[0].repr.type
         const current_pdb = "2aai.pdb"
-        if (colorType == "chain"){
+        if (colorType === "chain"){
             stage.getComponentsByName(current_pdb).addRepresentation(current_repr, {colorScheme: "chainname"})
-        } else if (colorType == "uniform") {
+        } else if (colorType === "uniform") {
             stage.getComponentsByName(current_pdb).addRepresentation(current_repr, {colorScheme: "uniform", color: "papayawhip"})
         }
     }
 
     function handleRepresentation(stage, repr){
         const current_pdb = "2aai.pdb"
-        if (repr == "surface"){
+        if (repr === "surface"){
             stage.getRepresentationsByName("cartoon").dispose()
             stage.getRepresentationsByName("licorice").dispose()
             stage.getComponentsByName(current_pdb).addRepresentation(repr,  {opacity: 0.3, color:"papayawhip"})
-        } else if (repr == "cartoon"){
+        } else if (repr === "cartoon"){
             stage.getRepresentationsByName("surface").dispose()
             stage.getRepresentationsByName("licorice").dispose()
             stage.getComponentsByName(current_pdb).addRepresentation(repr)
-        } else if (repr == "licorice"){
+        } else if (repr === "licorice"){
             stage.getRepresentationsByName("cartoon").dispose()
             stage.getRepresentationsByName("surface").dispose()
             stage.getComponentsByName(current_pdb).addRepresentation(repr)
-        } else if (repr == "surface+cartoon"){
+        } else if (repr === "surface+cartoon"){
             stage.getRepresentationsByName("surface").dispose()
             stage.getRepresentationsByName("licorice").dispose()
             stage.getComponentsByName(current_pdb).addRepresentation("cartoon")
