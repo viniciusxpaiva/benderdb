@@ -19,7 +19,14 @@ def get_time():
         { 'name': 'A-THR-42', 'sets': ['GRaSP', 'PUResNet'] },
     ]
 	# Returning an api for showing in reactjs
-	return jsonify(elems)
+	#return jsonify(elems)
+
+	return {
+        'Name':"geek",
+        "Age":"25",
+        "Date":x,
+        "programming":"python"
+       }
 
 	
 # Running app
