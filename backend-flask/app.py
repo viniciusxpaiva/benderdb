@@ -22,17 +22,22 @@ def process_string():
     data = request.get_json()
     input_string = data.get('inputString', '')
     
-    bsites_deeppocket = deeppocket_search(input_string)
     bsites_grasp = grasp_search(input_string)
+    bsites_puresnet = puresnet_search(input_string)
+    bsites_gass = []
+    bsites_deeppocket = deeppocket_search(input_string)
     bsites_pointsite = pointsite_search(input_string)
     bsites_p2rank = p2rank_search(input_string)
-    bsites_gass = []
 
-    return jsonify({'grasp': bsites_grasp, 
+    summary_content = build_summary(bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank)    
+
+    return jsonify({'grasp': bsites_grasp,
+                    'puresnet': bsites_puresnet,
+                    'gass': bsites_gass, 
                     'deeppocket': bsites_deeppocket, 
                     'pointsite': bsites_pointsite,
                     'p2rank': bsites_p2rank,
-                    'gass': bsites_gass})
+                    'summary': summary_content})
 
 # Run the app
 if __name__ == '__main__':

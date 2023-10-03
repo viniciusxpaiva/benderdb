@@ -9,7 +9,9 @@ const Results = () => {
     
 
 	const { inputString } = useParams();
+	
 	const [graspSites, setGraspSites] = useState([]);
+	const [puresnetSites, setPuresnetSites] = useState([]);
 	const [gassSites, setGassSites] = useState([]);
 	const [deeppocketSites, setDeeppocketSites] = useState([]);
 	const [pointsiteSites, setPointsiteSites] = useState([]);
@@ -30,10 +32,12 @@ const Results = () => {
 
 			const data = await response.json();
 			setGraspSites(data.grasp);
+			setPuresnetSites(data.puresnet);
+			setGassSites(data.gass);
 			setDeeppocketSites(data.deeppocket);
 			setPointsiteSites(data.pointsite);
 			setP2rankSites(data.p2rank);
-			setGassSites(data.gass)
+			
 		} catch (error) {
 			console.error('Error:', error);
 		}
@@ -71,7 +75,7 @@ const Results = () => {
 						<div class="col-md-6">
 							<span class="align-middle">Predicted Binding Sites for Protein {decodeURIComponent(inputString)} </span>
 							<ul>
-								{p2rankSites.map((item, index) => (
+								{puresnetSites.map((item, index) => (
 								<li key={index}>{JSON.stringify(item)}</li>
 								))}
 							</ul>
@@ -119,7 +123,7 @@ const Results = () => {
 										bindSites={graspSites}/>
 									<PredictorContent
 										pred={predictors[1]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
-										bindSites={graspSites}/>
+										bindSites={puresnetSites}/>
 									<PredictorContent
 										pred={predictors[2]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
 										bindSites={gassSites}/>
