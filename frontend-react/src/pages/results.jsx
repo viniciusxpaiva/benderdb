@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import BaseLayout from "../components/layout/base";
 import PredictorContent from "../components/results/PredictorContent";
 import UpsetPlot from "../components/visualization/UpsetPlot";
@@ -9,7 +9,12 @@ const Results = () => {
     
 
 	const { inputString } = useParams();
-	const [processedString, setProcessedString] = useState([]);
+	const [graspSites, setGraspSites] = useState([]);
+	const [gassSites, setGassSites] = useState([]);
+	const [deeppocketSites, setDeeppocketSites] = useState([]);
+	const [pointsiteSites, setPointsiteSites] = useState([]);
+	const [p2rankSites, setP2rankSites] = useState([]);
+	
   
 	useEffect(() => {
 		// Fetch the processed string from the Flask backend
@@ -24,7 +29,11 @@ const Results = () => {
 			});
 
 			const data = await response.json();
-			setProcessedString(data.result);
+			setGraspSites(data.grasp);
+			setDeeppocketSites(data.deeppocket);
+			setPointsiteSites(data.pointsite);
+			setP2rankSites(data.p2rank);
+			setGassSites(data.gass)
 		} catch (error) {
 			console.error('Error:', error);
 		}
@@ -33,13 +42,13 @@ const Results = () => {
 	  fetchProcessedString();
 	}, [inputString]);
 	
-	const bindSites = [[['B', 'ASP', '22'], ['B', 'GNL', '35'], ['B', 'TRP', '37'], ['B', 'ASN', '46']], 
+	const bindSites1 = [[['B', 'ASP', '22'], ['B', 'GNL', '35'], ['B', 'TRP', '37'], ['B', 'ASN', '46']], 
 				[['B', 'ASP', '234'], ['B', 'ARG', '236'], ['B', 'ALA', '237'], ['B', 'ILE', '246'], ['B', 'TYR', '248'], ['B', 'ASN', '255']],
 				[['A', 'ILE', '218'], ['A', 'PHE', '226'], ['A', 'PRO', '229']]
 	]
 
 
-	const predictors = ['GRaSP', 'PUResNet', 'GASS', 'DeepPocket', 'PointSite', 'P2Rank']
+	const predictors = ['GRaSP', 'PUResNet', 'GASS', 'Deeppocket', 'PointSite', 'P2Rank']
 
 	const [predictorTab, setPredictorTab] = useState(-1);
 
@@ -48,9 +57,12 @@ const Results = () => {
         setPredictorTab(tabNum);
     };
 
+	console.log()
+
 	return (
 	<>
 		<BaseLayout>
+	
 		<div class="container-lg mt-3">
         	<div class="card mx-0" id="card-results">
 				{/* Card on top of the page*/}
@@ -59,7 +71,7 @@ const Results = () => {
 						<div class="col-md-6">
 							<span class="align-middle">Predicted Binding Sites for Protein {decodeURIComponent(inputString)} </span>
 							<ul>
-								{processedString.map((item, index) => (
+								{p2rankSites.map((item, index) => (
 								<li key={index}>{JSON.stringify(item)}</li>
 								))}
 							</ul>
@@ -102,10 +114,24 @@ const Results = () => {
 											<UpsetPlot></UpsetPlot>
 										</Summary>
 									</div>
-								{predictors.map((pred, i) => (
-									<PredictorContent pred={pred} predictors={predictors} bindSites={bindSites} activeTab={predictorTab}/>
-								))}
-								
+									<PredictorContent
+										pred={predictors[0]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
+										bindSites={graspSites}/>
+									<PredictorContent
+										pred={predictors[1]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
+										bindSites={graspSites}/>
+									<PredictorContent
+										pred={predictors[2]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
+										bindSites={gassSites}/>
+									<PredictorContent
+										pred={predictors[3]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
+										bindSites={deeppocketSites}/>
+									<PredictorContent
+										pred={predictors[4]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
+										bindSites={pointsiteSites}/>
+									<PredictorContent
+										pred={predictors[5]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
+										bindSites={p2rankSites}/>							
 							</div>
 						</div>
 					</div>

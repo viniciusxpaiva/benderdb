@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react';
-import ResidueTable from '../results/ResidueTable';
+import BSiteContent from '../results/BSiteContent';
 import * as NGL from 'ngl/dist/ngl'
 import MousePopup from '../results/MousePopup';
 
@@ -11,7 +11,7 @@ const MolecularViewer = (props) => {
     useEffect(() => {
         const newStage = new NGL.Stage("viewport");
         newStage.removeAllComponents(); // Remove previous components
-        newStage.loadFile('/pdbs/2aai.pdb').then((component) => { 
+        newStage.loadFile('/pdbs/' + props.pdb + '.pdb').then((component) => { 
             component.addRepresentation("cartoon");
             component.autoView();
             changeColorBindSites(component, props.bindSites)
@@ -48,7 +48,7 @@ const MolecularViewer = (props) => {
 
     function handleMoleculeColor(stage, colorType){
         const current_repr = stage.compList[0].reprList[0].repr.type
-        const current_pdb = "2aai.pdb"
+        const current_pdb = props.pdb + ".pdb"
         if (colorType === "chain"){
             stage.getComponentsByName(current_pdb).addRepresentation(current_repr, {colorScheme: "chainname"})
         } else if (colorType === "uniform") {
@@ -57,7 +57,7 @@ const MolecularViewer = (props) => {
     }
 
     function handleRepresentation(stage, repr){
-        const current_pdb = "2aai.pdb"
+        const current_pdb = props.pdb + ".pdb"
         if (repr === "surface"){
             stage.getRepresentationsByName("cartoon").dispose()
             stage.getRepresentationsByName("licorice").dispose()
@@ -80,7 +80,7 @@ const MolecularViewer = (props) => {
 
     function focusResidue(stage, resNum, chain){
         const sele = resNum + ":" + chain
-        const pdb_id = "2aai.pdb"
+        const pdb_id = props.pdb + ".pdb"
         stage.getRepresentationsByName("surface").dispose()
         stage.getComponentsByName(pdb_id).addRepresentation("surface", {
             sele:sele, opacity: 0.5, side: "front"
@@ -91,7 +91,7 @@ const MolecularViewer = (props) => {
     const [bindSiteTab, setBindSiteTab] = useState(0);
    
     const handleBindSiteTab = (stage, tabNum, site) => {
-        const pdb_id = "2aai.pdb"
+        const pdb_id = props.pdb + ".pdb"
         console.log("tab:" + tabNum)
         setBindSiteTab(tabNum);
 
@@ -118,7 +118,7 @@ const MolecularViewer = (props) => {
                 <div className="card-header color-dark text-white">
                     <div className="row">
                         <div className="col-md-6">
-                            <span className="align-middle">{props.pred + " Results"}</span>
+                            <span className="align-middle">{props.pred + " Results for " + props.pdb}</span>
                         </div>
                         <div className="col-md-6 ">
                             <a className="btn btn-outline-light btn-sm float-right" role="button" href="{{url_for('home')}}" data-toggle="tooltip" data-placement="top" title="Download results" >
@@ -129,54 +129,52 @@ const MolecularViewer = (props) => {
                 </div>
                 <div className="card-body p-0 b-0" style={{height: "500px"}}>                                   
                     <div className="container d-block p-0" id="cl-tab">
-                        <div className="row">
-                            {/* List of BindSites div*/}
-                            <div className="col-md-12">
-                                <nav>
-                                    <div className="nav nav-tabs nav-fill bg-light" role="tablist">
-                                        {props.bindSites.map((site, i) =>(
-                                            <a className={"nav-item nav-link" + (bindSiteTab === i ? " active" : "")} href="#" onClick={() => handleBindSiteTab(stage, i, site)} id={"bindSite-" + i} data-toggle="tab" role="tab" aria-controls={"nav-" + i} aria-selected={bindSiteTab === i ? " true" : "false"} >{"Binding Site " + i}</a>
-                                        ))}</div>
-                                </nav>
-                                <div className="tab-content">
-                                <div className="tab-pane fade active show" id={"nav-" + props.pred} role="tabpanel" aria-labelledby={"predictor-" + props.pred}>
-                                    </div>
-                                    {props.bindSites.map((p, i) =>(
-                                        <div className={"tab-pane fade" + (bindSiteTab === i ? " active show" : "")}  id={"nav-" + i} role="tabpanel" aria-labelledby={"bindSite-" + i}>
-                                            <div class="table-responsive">
-                                                <table class="table table-sm table-hover">
-                                                    <thead class="bg-light">
-                                                    <tr>
-                                                        <th class="text-center">Residue</th>
-                                                        <th class="text-center">Number</th>
-                                                        <th class="text-center">Chain</th>
-                                                        <th class="text-center">Look at</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {p.map((res, j) => (
-                                                            <tr>
-                                                                <td class="text-center">{res[1]}</td>
-                                                                <td class="text-center">{res[2]}</td>
-                                                                <td class="text-center">{res[0]}</td>
-                                                            
-                                                                <td>
-                                                                    <div class="row justify-content-center">
-                                                                        <button type="button" onClick={() => focusResidue(stage, res[2], res[0])} data-toggle="tooltip" data-placement="top" title="Focus on this residue">
-                                                                            Look
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        ))}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    ))}
+                    <div className="row">
+                {/* List of BindSites div*/}
+                <div className="col-md-12">
+                    <nav>
+                        <div className="nav nav-tabs nav-fill bg-light" role="tablist">
+                            {props.bindSites.map((site, i) =>(
+                                <a className={"nav-item nav-link" + (bindSiteTab === i ? " active" : "")} href="#" onClick={() => handleBindSiteTab(stage, i, site)} id={"bindSite-" + i} data-toggle="tab" role="tab" aria-controls={"nav-" + i} aria-selected={bindSiteTab === i ? " true" : "false"} >{"Site " + i}</a>
+                            ))}</div>
+                    </nav>
+                    <div className="tab-content">
+                        {props.bindSites.map((p, i) =>(
+                            <div className={"tab-pane fade" + (bindSiteTab === i ? " active show" : "")}  id={"nav-" + i} role="tabpanel" aria-labelledby={"bindSite-" + i}>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-hover">
+                                        <thead class="bg-light">
+                                        <tr>
+                                            <th class="text-center">Residue</th>
+                                            <th class="text-center">Number</th>
+                                            <th class="text-center">Chain</th>
+                                            <th class="text-center">Look at</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {p.map((res, j) => (
+                                                <tr>
+                                                    <td class="text-center">{res[1]}</td>
+                                                    <td class="text-center">{res[2]}</td>
+                                                    <td class="text-center">{res[0]}</td>
+                                                
+                                                    <td>
+                                                        <div class="row justify-content-center">
+                                                            <button type="button" onClick={() => focusResidue(stage, res[2], res[0])} data-toggle="tooltip" data-placement="top" title="Focus on this residue">
+                                                                Look
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                        </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
                     </div>
                 </div>
             </div>

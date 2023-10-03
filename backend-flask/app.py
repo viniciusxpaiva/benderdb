@@ -21,8 +21,18 @@ def get_time():
 def process_string():
     data = request.get_json()
     input_string = data.get('inputString', '')
-    bsite_list = grasp_search(input_string)
-    return jsonify({'result': bsite_list})
+    
+    bsites_deeppocket = deeppocket_search(input_string)
+    bsites_grasp = grasp_search(input_string)
+    bsites_pointsite = pointsite_search(input_string)
+    bsites_p2rank = p2rank_search(input_string)
+    bsites_gass = []
+
+    return jsonify({'grasp': bsites_grasp, 
+                    'deeppocket': bsites_deeppocket, 
+                    'pointsite': bsites_pointsite,
+                    'p2rank': bsites_p2rank,
+                    'gass': bsites_gass})
 
 # Run the app
 if __name__ == '__main__':

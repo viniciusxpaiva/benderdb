@@ -49,9 +49,17 @@ def p2rank_search(prot_name):
 
 	matches_list = matches.to_string(index=False).split('\n')
 
-	print(matches_list)
-	print(type(matches_list[0]))
-	return matches_list
+	print(matches_list[0])
+
+	if matches_list[0] == 'Series([], )':
+		matches_list = []
+
+	result_list = []
+
+	for blist in matches_list:
+		result_list.append(format_bsite_string(blist))
+
+	return result_list
 
 def pointsite_search(prot_name):
 	'''
@@ -67,9 +75,16 @@ def pointsite_search(prot_name):
 
 	matches_list = matches.to_string(index=False).split('\n')
 
-	print(matches_list)
-	print(type(matches_list[0]))
-	return matches_list
+
+	if matches_list[0] == 'Series([], )':
+		matches_list = []
+
+	result_list = []
+	
+	for blist in matches_list:
+		result_list.append(format_bsite_string(blist))
+
+	return result_list
 
 def deeppocket_search(prot_name):
 	'''
@@ -85,11 +100,18 @@ def deeppocket_search(prot_name):
 
 	pd.set_option('display.max_colwidth', None)
 
-	matches_list = matches.to_string(index=False).split('\n')
+	matches_list = matches.to_string(index=False).replace(' ','').split('\n')
 
-	print(matches_list)
-	print(type(matches_list[0]))
-	return matches_list
+
+	if matches_list[0] == 'Series([],)':
+		matches_list = []
+
+	result_list = []
+	
+	for blist in matches_list:
+		result_list.append(format_bsite_string(blist))
+	
+	return result_list
 
 #grasp_search('X8F8R7')
 #p2rank_search('X8F8R7')
