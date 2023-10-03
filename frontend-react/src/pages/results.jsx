@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, useLocation } from "react-router-dom";
 import BaseLayout from "../components/layout/base";
 import PredictorContent from "../components/results/PredictorContent";
 import UpsetPlot from "../components/visualization/UpsetPlot";
@@ -6,6 +7,32 @@ import Summary from "../components/results/Summary";
 
 const Results = () => {
     
+
+	const { inputString } = useParams();
+	const [processedString, setProcessedString] = useState([]);
+  
+	useEffect(() => {
+		// Fetch the processed string from the Flask backend
+		const fetchProcessedString = async () => {
+		try {
+			const response = await fetch('http://localhost:5000/process', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ inputString }),
+			});
+
+			const data = await response.json();
+			setProcessedString(data.result);
+		} catch (error) {
+			console.error('Error:', error);
+		}
+		};
+  
+	  fetchProcessedString();
+	}, [inputString]);
+	
 	const bindSites = [[['B', 'ASP', '22'], ['B', 'GNL', '35'], ['B', 'TRP', '37'], ['B', 'ASN', '46']], 
 				[['B', 'ASP', '234'], ['B', 'ARG', '236'], ['B', 'ALA', '237'], ['B', 'ILE', '246'], ['B', 'TYR', '248'], ['B', 'ASN', '255']],
 				[['A', 'ILE', '218'], ['A', 'PHE', '226'], ['A', 'PRO', '229']]
@@ -30,7 +57,12 @@ const Results = () => {
 				<div class="card-header color-dark text-white">
 					<div class="row">
 						<div class="col-md-6">
-							<span class="align-middle">Predicted Binding Sites for Protein ABC123</span>
+							<span class="align-middle">Predicted Binding Sites for Protein {decodeURIComponent(inputString)} </span>
+							<ul>
+								{processedString.map((item, index) => (
+								<li key={index}>{JSON.stringify(item)}</li>
+								))}
+							</ul>
 						</div>
 						<div class="col-md-6 ">
 						</div>

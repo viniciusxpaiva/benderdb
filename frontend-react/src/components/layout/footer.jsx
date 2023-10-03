@@ -6,17 +6,17 @@ const Footer = () => {
             <div class="row my-2">
                 <div class="col-md-3">
                 <a href="https://www.ufv.br/">
-                    <img src="img/ufv.png" height="50"/>
+                    <img src="../img/ufv.png" height="50"/>
                 </a>
                 </div>
                 <div class="col-md-3">
                 <a href="https://www.ufmg.br/">
-                    <img src="img/ufmg.png" height="50"/>
+                    <img src="../img/ufmg.png" height="50"/>
                 </a>
                 </div>
                 <div class="col-md-3">
                 <a href="https://unifei.edu.br/">
-                    <img src="img/unifei.jpg" height="50"/>
+                    <img src="../img/unifei.jpg" height="50"/>
                 </a>
                 </div>
                 <div class="col-md-3 ">

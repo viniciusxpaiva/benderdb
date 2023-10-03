@@ -14,7 +14,7 @@ function App() {
 		<Router>
 			<Routes>
 				<Route path='/' element={<Home />} />
-				<Route path='/results' element={<Results />} />
+				<Route path='/results/:inputString' element={<Results />} />
 				<Route path='/about' element={<About />} />
 				<Route path='/contact' element={<Contact />} />
 				<Route path='/help' element={<Help />} />

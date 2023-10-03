@@ -1,5 +1,6 @@
 # Import flask and datetime module for showing date and time
 from flask import Flask, jsonify
+from utils import *
 import datetime
 
 x = datetime.datetime.now()

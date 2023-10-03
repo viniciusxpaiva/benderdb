@@ -16,7 +16,7 @@ const Contact = () => {
     useEffect(() => {
         // Using fetch to fetch the api from
         // flask server it will be redirected to proxy
-        fetch("/api/data1").then((res) =>
+        fetch("/data1").then((res) =>
             res.json().then((data) => {
                 // Setting a data from api
                 setdata({

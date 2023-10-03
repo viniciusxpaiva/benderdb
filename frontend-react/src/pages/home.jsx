@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import BaseLayout from '../components/layout/base';
 
 const Home = () => {
+	
+	const [searchString, setSearchString] = useState('');
+	const navigate = useNavigate();
+  
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		// Navigate to the "results" page with the input string
+		navigate(`/results/${encodeURIComponent(searchString)}`);
+	};
+
 	return (
 		<>
 			<BaseLayout>
@@ -9,14 +21,19 @@ const Home = () => {
 					<div class="container">
 					<div class="row mt-6">
 						<div class="col-md-6">
-							<h1 class="display-3 text-light">Database DB1</h1>
+							<h1 class="display-3 text-light">Database X8FIS2</h1>
 							<p class = "text-light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 							Sed ac elementum elit. Praesent eget risus finibus, congue enim nec, aliquet quam. Donec volutpat semper ligula non consequat. 
 							In eleifend libero pharetra, accumsan est at, aliquet mi. Maecenas bibendum ultricies mauris ut vulputate.</p>
 							<div class="container p-0 m-0">
-								<a class="bnt button button-1 button-1a mx-0" href="{{url_for('results">
-									Search Bar &raquo;
-								</a>
+							<form onSubmit={handleSubmit}>
+								<input
+								type="text"
+								value={searchString}
+								onChange={(e) => setSearchString(e.target.value)}
+								/>
+								<button type="submit">Submit</button>
+							</form>
 							</div>
 						</div>
 					</div>
@@ -29,6 +46,7 @@ const Home = () => {
 						<span aria-hidden="true">&times;</span>
 					</button>
 					</div>
+					<div>resul</div>
 					<div class="row">
 						<div class="col-md-6 align-bottom">
 						<h2 style={{marginBottom: "25px"}}>Binding sites in Database</h2>
