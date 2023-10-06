@@ -21,7 +21,7 @@ const Home = () => {
 					<div class="container">
 					<div class="row mt-6">
 						<div class="col-md-6">
-							<h1 class="display-3 text-light">Database X8FIS2</h1>
+							<h1 class="display-3 text-light">Database X8FIS2 C6KSS7 A0A0N4UM35</h1>
 							<p class = "text-light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 							Sed ac elementum elit. Praesent eget risus finibus, congue enim nec, aliquet quam. Donec volutpat semper ligula non consequat. 
 							In eleifend libero pharetra, accumsan est at, aliquet mi. Maecenas bibendum ultricies mauris ut vulputate.</p>

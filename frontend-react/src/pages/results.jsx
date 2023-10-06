@@ -4,6 +4,7 @@ import BaseLayout from "../components/layout/base";
 import PredictorContent from "../components/results/PredictorContent";
 import UpsetPlot from "../components/visualization/UpsetPlot";
 import Summary from "../components/results/Summary";
+import SummaryTable from "../components/results/SummaryTable";
 
 const Results = () => {
     
@@ -16,6 +17,9 @@ const Results = () => {
 	const [deeppocketSites, setDeeppocketSites] = useState([]);
 	const [pointsiteSites, setPointsiteSites] = useState([]);
 	const [p2rankSites, setP2rankSites] = useState([]);
+
+	const [summaryContent, setSummaryContent] = useState([]);
+	const [intersectionData, setIntersectionData] = useState([]);
 	
   
 	useEffect(() => {
@@ -37,6 +41,9 @@ const Results = () => {
 			setDeeppocketSites(data.deeppocket);
 			setPointsiteSites(data.pointsite);
 			setP2rankSites(data.p2rank);
+			setSummaryContent(data.summary);
+			setIntersectionData(data.intersection);
+
 			
 		} catch (error) {
 			console.error('Error:', error);
@@ -74,11 +81,6 @@ const Results = () => {
 					<div class="row">
 						<div class="col-md-6">
 							<span class="align-middle">Predicted Binding Sites for Protein {decodeURIComponent(inputString)} </span>
-							<ul>
-								{puresnetSites.map((item, index) => (
-								<li key={index}>{JSON.stringify(item)}</li>
-								))}
-							</ul>
 						</div>
 						<div class="col-md-6 ">
 						</div>
@@ -100,18 +102,20 @@ const Results = () => {
 							<div class="tab-content">
 									{/* Content for each predictor*/}
 									<div className={"tab-pane fade" + (predictorTab === -1 ? " active show" : "")} id="nav-Summary" role="tabpanel" aria-labelledby="predictor-Summary">
+										<Summary>
+											<SummaryTable intersectionData={intersectionData}/>
+										</Summary>
 										<Summary title={"Residues found on binding site"}>
 											<div>
-												<p>14 binding sites/pockets were predicted for protein ABC123 in 5 different predictors</p>
-												<p>55 different residues were found in those predicted binding sites</p>
+												<p>{summaryContent[0]} binding sites/pockets were predicted for protein ABC123 in {summaryContent[3]} different predictors</p>
+												<p>{summaryContent[1]} different residues were found in those predicted binding sites</p>
 												<p>Most common residues found:</p>
 												<ul>
-													<li>TYR 80 A (12 binding sites/pockets)</li>
-													<li>CYS 123 A (9 binding sites/pockets)</li>
-													<li>GLU 127 A (8 binding sites/pockets)</li>
-													<li>ASP 113 A (7 binding sites/pockets)</li>
+												{summaryContent[2] && summaryContent[2].map((innerList, index) => (
+													<li>{innerList[1]} {innerList[2]} {innerList[0]}: found in {innerList[3]} binding sites/pockets </li>
+												))}
 												</ul>
-												<p>Residues at selected intersection: TRP 12 A | ASP 24 A | CYS 57 A</p>
+												<p>Residues at selected intersection: -</p>
 											</div>
 										</Summary>
 										<Summary title={"Binding site intersections"}>

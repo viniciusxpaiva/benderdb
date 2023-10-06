@@ -29,7 +29,12 @@ def process_string():
     bsites_pointsite = pointsite_search(input_string)
     bsites_p2rank = p2rank_search(input_string)
 
-    summary_content = build_summary(bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank)    
+    summary_content = build_summary(bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank)
+
+    #intersection_data = process_intersection_data([bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank], summary_content[2])
+
+    for i in summary_content[2]:
+        print(i)
 
     return jsonify({'grasp': bsites_grasp,
                     'puresnet': bsites_puresnet,
