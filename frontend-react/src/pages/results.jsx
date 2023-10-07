@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { MDBDataTable } from 'mdbreact';
 import BaseLayout from "../components/layout/base";
-import PredictorContent from "../components/results/PredictorContent";
+import PredictorContent from "../components/results/predictors/PredictorContent";
 import UpsetPlot from "../components/visualization/UpsetPlot";
-import Summary from "../components/results/Summary";
+import Summary from "../components/results/summary/Summary";
+import SummaryPopup from "../components/results/summary/SummaryPopup";
 
 const Results = () => {
     
@@ -22,6 +23,8 @@ const Results = () => {
 
 	const[upsetClickName, setUpsetClickName] = useState("");
 	const[upsetClickResidues, setUpsetClickResidues] = useState([]);
+
+	const[showPopup, setShowPopup] = useState(false);
 	
   
 	useEffect(() => {
@@ -96,15 +99,15 @@ const Results = () => {
 
 	function upsetOnClick(set) {
 		setUpsetClickName(set.name)
-		//console.log(set.name)
 		
 		const residueValues = set.elems.map((e) => e.residue);
 		setUpsetClickResidues(residueValues);
+
+		console.log(residueValues)
 		
-		set.elems.map((e) => (
-			console.log(e.residue)
-		))
 	}
+
+	console.log(showPopup)
 
 	return (
 	<>
@@ -146,6 +149,12 @@ const Results = () => {
 											</div>
 										</Summary>
 										<Summary title={"Binding site intersections"}>
+											<div className="row">
+												<div className="col-md-2">
+													<button onClick={() => {showPopup === false ? setShowPopup(true) : setShowPopup(false)}}>Show on protein</button>
+												</div>
+											</div>
+											
 											<div> {upsetClickName} </div>
 											<div>
 											{upsetClickResidues.map((res, index) => (
@@ -160,7 +169,16 @@ const Results = () => {
 												) : (
 												<div>Loading...</div>
 											)}
-											
+										</Summary>
+										<Summary>
+											{showPopup === true && upsetClickResidues ? (
+												<SummaryPopup 
+													pdb={inputString}
+													bindSites={upsetClickResidues}
+												/>
+												) : (
+												<div>false</div>
+											)}
 										</Summary>
 									</div>
 									<PredictorContent

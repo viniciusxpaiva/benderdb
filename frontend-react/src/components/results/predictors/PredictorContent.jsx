@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import MolecularViewer from "../visualization/NGLViewer";
+import MolecularViewer from "../../visualization/NGLViewer";
 
 const PredictorContent = (props) => {
 

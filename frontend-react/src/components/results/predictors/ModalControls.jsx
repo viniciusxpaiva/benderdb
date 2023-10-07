@@ -1,5 +1,3 @@
-
-
 const ModalControls = () => {
     return (
         <div class="container">

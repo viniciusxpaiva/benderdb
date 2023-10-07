@@ -1,11 +1,11 @@
 import React, { useEffect, useState} from 'react';
 import * as NGL from 'ngl/dist/ngl'
-import MousePopup from '../results/predictors/MousePopup';
+import MousePopup from '../predictors/MousePopup';
 
-const MolecularViewer = (props) => {
-    console.log("page rendering")
-
+const SummaryPopup = (props) => {
     const [stage, setStage] = useState(null);
+
+    console.log(props.bindSites)
 
     useEffect(() => {
         const newStage = new NGL.Stage("viewport");
@@ -22,9 +22,14 @@ const MolecularViewer = (props) => {
 
     function changeColorBindSites(component, BindSites) {
         // Generate strings for each list inside bindSites
-        const bindSitesToShow = BindSites.map(generateBindSiteString);
+        const transformedArray = BindSites.map((item) => {
+            const parts = item.split('-');
+            return `${parts[1]}:${parts[2]}`;
+          });
+          
+        //const bindSitesToShow = transformedArray.join(' or ');
+        const bindSitesToShow = [transformedArray.join(' or ')];
         // Log the result strings
-        console.log(bindSitesToShow)
         bindSitesToShow.forEach((site, index) => {
             console.log(`"${site}"`);
             component.addRepresentation("ball+stick", {
@@ -34,12 +39,6 @@ const MolecularViewer = (props) => {
 
         });
     }
-
-    function generateBindSiteString(bindSiteList) {
-        const stringArray = bindSiteList.map(item => `${item[2]}:${item[0]}`).join(' or ');
-        return stringArray;
-      }
-
 
     function handleBackgroundColor(stage){
         const stageBackgroundColor = stage.getParameters().backgroundColor;
@@ -78,106 +77,8 @@ const MolecularViewer = (props) => {
         }
     }
 
-    function focusResidue(stage, resNum, chain){
-        const sele = resNum + ":" + chain
-        const pdb_id = props.pdb + ".pdb"
-        stage.getRepresentationsByName("surface").dispose()
-        stage.getComponentsByName(pdb_id).addRepresentation("surface", {
-            sele:sele, opacity: 0.5, side: "front"
-        })
-        stage.getComponentsByName(pdb_id).autoView(sele)
-    }
-  
-    const [bindSiteTab, setBindSiteTab] = useState(0);
-   
-    const handleBindSiteTab = (stage, tabNum, site) => {
-        const pdb_id = props.pdb + ".pdb"
-        console.log("tab:" + tabNum)
-        setBindSiteTab(tabNum);
-
-        // Construct an array of selection strings from the residue list
-        var selectionStrings = site.map(function(residue){
-            return residue[2] + ":" + residue[0] + " and " + residue[1];
-        });
-
-        // Combine the selection strings using " or " logical operator
-        var combinedSelection = selectionStrings.join(" or ");
-
-        // Automatically adjust the camera view to the combined selection
-        stage.getComponentsByName(pdb_id).autoView(combinedSelection);
-    };
-
-
-    return (
-        <>
-        <div className="col-md-6">
-            {/* BindSite card div*/}
-            <div className="card mx-0" id="card-results">
-                <div className="card-header color-dark text-white">
-                    <div className="row">
-                        <div className="col-md-6">
-                            <span className="align-middle">{props.pred + " Results for " + props.pdb}</span>
-                        </div>
-                        <div className="col-md-6 ">
-                            <a className="btn btn-outline-light btn-sm float-right" role="button" href="{{url_for('home')}}" data-toggle="tooltip" data-placement="top" title="Download results" >
-                                download
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div className="card-body p-0 b-0" style={{height: "500px"}}>                                   
-                    <div className="container d-block p-0" id="cl-tab">
-                    <div className="row">
-                {/* List of BindSites div*/}
-                <div className="col-md-12">
-                    <nav>
-                        <div className="nav nav-tabs nav-fill bg-light" role="tablist">
-                            {props.bindSites.map((site, i) =>(
-                                <a className={"nav-item nav-link" + (bindSiteTab === i ? " active" : "")} href="#" onClick={() => handleBindSiteTab(stage, i, site)} id={"bindSite-" + i} data-toggle="tab" role="tab" aria-controls={"nav-" + i} aria-selected={bindSiteTab === i ? " true" : "false"} >{"Site " + i}</a>
-                            ))}</div>
-                    </nav>
-                    <div className="tab-content">
-                        {props.bindSites.map((p, i) =>(
-                            <div className={"tab-pane fade" + (bindSiteTab === i ? " active show" : "")}  id={"nav-" + i} role="tabpanel" aria-labelledby={"bindSite-" + i}>
-                                <div class="table-responsive">
-                                    <table class="table table-sm table-hover">
-                                        <thead class="bg-light">
-                                        <tr>
-                                            <th class="text-center">Residue</th>
-                                            <th class="text-center">Number</th>
-                                            <th class="text-center">Chain</th>
-                                            <th class="text-center">Look at</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                            {p.map((res, j) => (
-                                                <tr>
-                                                    <td class="text-center">{res[1]}</td>
-                                                    <td class="text-center">{res[2]}</td>
-                                                    <td class="text-center">{res[0]}</td>
-                                                
-                                                    <td>
-                                                        <div class="row justify-content-center">
-                                                            <button type="button" onClick={() => focusResidue(stage, res[2], res[0])} data-toggle="tooltip" data-placement="top" title="Focus on this residue">
-                                                                Look
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div className="col-md-6">
+    return(
+        <div className="col-md-12">
             <div className="card mx-0" id="card-results">
                 <div className="card-header color-white text-black">
                     <div className="row">
@@ -236,7 +137,6 @@ const MolecularViewer = (props) => {
                 </div>
             </div>
         </div>
-        </>
     )
 }
-export default MolecularViewer;
+export default SummaryPopup

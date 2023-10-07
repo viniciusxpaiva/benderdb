@@ -2,7 +2,7 @@ import React from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import ModalControls from './ModalControls';
-import '../../styles/ModalControls.css';
+import '../../../styles/ModalControls.css';
 
 const MousePopup = (props) => (
   <Popup trigger={props.children} position="bottom center">
