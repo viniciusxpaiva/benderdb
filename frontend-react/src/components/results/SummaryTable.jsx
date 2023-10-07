@@ -40,53 +40,25 @@ const DatatablePage = (props) => {
     ],
     rows: [
         {
-        residue: 'Tiger Nixon',
-        number: 'System Architect',
-        chain: 'Edinburgh',
-        occurrance: '61',
-        predictors: '2011/04/25'
+        residue: 'ARG',
+        number: '125',
+        chain: 'A',
+        occurrance: '7',
+        predictors: 'PUResNet, P2Rank, DeepPocket, PointSite'
         },
         {
-        residue: 'Tiger Nixon',
-        number: 'System Architect',
-        chain: 'Edinburgh',
-        occurrance: '61',
-        predictors: '2011/04/25'
+        residue: 'LYS',
+        number: '104',
+        chain: 'A',
+        occurrance: '5',
+        predictors: 'PUResNet, P2Rank, DeepPocket, PointSite'
         },
         {
-        residue: 'Tiger Nixon',
-        number: 'System Architect',
-        chain: 'Edinburgh',
-        occurrance: '61',
-        predictors: '2011/04/25'
-        },
-        {
-        residue: 'Tiger Nixon',
-        number: 'System Architect',
-        chain: 'Edinburgh',
-        occurrance: '61',
-        predictors: '2011/04/25'
-        },
-        {
-        residue: 'Tiger Nixon',
-        number: 'System Architect',
-        chain: 'Edinburgh',
-        occurrance: '61',
-        predictors: '2011/04/25'
-        },
-        {
-        residue: 'Tiger Nixon',
-        number: 'System Architect',
-        chain: 'Edinburgh',
-        occurrance: '61',
-        predictors: '2011/04/25'
-        },
-        {
-        residue: 'Tiger Nixon',
-        number: 'System Architect',
-        chain: 'Edinburgh',
-        occurrance: '61',
-        predictors: '2011/04/25'
+        residue: 'PHE',
+        number: '55',
+        chain: 'A',
+        occurrance: '2',
+        predictors: 'GRaSP, DeepPocket'
         }
     ]
   };
@@ -96,7 +68,7 @@ const DatatablePage = (props) => {
       striped
       bordered
       small
-      data={data}
+      data={props.data}
     />
   );
 }

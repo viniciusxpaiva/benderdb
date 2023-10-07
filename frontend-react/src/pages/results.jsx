@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { MDBDataTable } from 'mdbreact';
 import BaseLayout from "../components/layout/base";
 import PredictorContent from "../components/results/PredictorContent";
 import UpsetPlot from "../components/visualization/UpsetPlot";
 import Summary from "../components/results/Summary";
-import SummaryTable from "../components/results/SummaryTable";
 
 const Results = () => {
     
@@ -19,7 +19,9 @@ const Results = () => {
 	const [p2rankSites, setP2rankSites] = useState([]);
 
 	const [summaryContent, setSummaryContent] = useState([]);
-	const [intersectionData, setIntersectionData] = useState([]);
+
+	const[upsetClickName, setUpsetClickName] = useState("");
+	const[upsetClickResidues, setUpsetClickResidues] = useState([]);
 	
   
 	useEffect(() => {
@@ -42,7 +44,6 @@ const Results = () => {
 			setPointsiteSites(data.pointsite);
 			setP2rankSites(data.p2rank);
 			setSummaryContent(data.summary);
-			setIntersectionData(data.intersection);
 
 			
 		} catch (error) {
@@ -68,12 +69,46 @@ const Results = () => {
         setPredictorTab(tabNum);
     };
 
-	console.log()
+
+	
+	const summaryTableData = {
+		columns: [
+		  { label: 'Residue', field: 'residue', sort: 'asc', width: 150 },
+		  { label: 'Number', field: 'number', sort: 'asc', width: 270 },
+		  { label: 'Chain', field: 'chain', sort: 'asc', width: 200 },
+		  { label: 'Occurrence', field: 'occurrence', sort: 'asc', width: 100 },
+		  { label: 'Predictors', field: 'predictors', sort: 'asc', width: 150 }
+		],
+		rows: summaryContent[2] && summaryContent[2].map(([residue, predictors, occurrence]) => ({
+		  residue: residue[1],
+		  number: residue[2],
+		  chain: residue[0],
+		  occurrence: occurrence.toString(),
+		  predictors: predictors.join(', ')
+		}))
+	};
+
+	const upsetPlotData = summaryContent[2] && summaryContent[2].map(([residue, predictors, occurrence]) => ({
+		residue: `${residue[1]}-${residue[2]}-${residue[0]}`,
+		sets: predictors
+	  }));
+
+
+	function upsetOnClick(set) {
+		setUpsetClickName(set.name)
+		//console.log(set.name)
+		
+		const residueValues = set.elems.map((e) => e.residue);
+		setUpsetClickResidues(residueValues);
+		
+		set.elems.map((e) => (
+			console.log(e.residue)
+		))
+	}
 
 	return (
 	<>
 		<BaseLayout>
-	
 		<div class="container-lg mt-3">
         	<div class="card mx-0" id="card-results">
 				{/* Card on top of the page*/}
@@ -102,24 +137,30 @@ const Results = () => {
 							<div class="tab-content">
 									{/* Content for each predictor*/}
 									<div className={"tab-pane fade" + (predictorTab === -1 ? " active show" : "")} id="nav-Summary" role="tabpanel" aria-labelledby="predictor-Summary">
-										<Summary>
-											<SummaryTable intersectionData={intersectionData}/>
-										</Summary>
 										<Summary title={"Residues found on binding site"}>
 											<div>
 												<p>{summaryContent[0]} binding sites/pockets were predicted for protein ABC123 in {summaryContent[3]} different predictors</p>
 												<p>{summaryContent[1]} different residues were found in those predicted binding sites</p>
-												<p>Most common residues found:</p>
-												<ul>
-												{summaryContent[2] && summaryContent[2].map((innerList, index) => (
-													<li>{innerList[1]} {innerList[2]} {innerList[0]}: found in {innerList[3]} binding sites/pockets </li>
-												))}
-												</ul>
-												<p>Residues at selected intersection: -</p>
+												<h6>Most common residues found:</h6>
+												<MDBDataTable striped bordered small data={summaryTableData}	/>
 											</div>
 										</Summary>
 										<Summary title={"Binding site intersections"}>
-											<UpsetPlot></UpsetPlot>
+											<div> {upsetClickName} </div>
+											<div>
+											{upsetClickResidues.map((res, index) => (
+											<React.Fragment key={index}>
+												{res}
+												{index < upsetClickResidues.length - 1 && " | "} {/* Add space if not the last element */}
+											</React.Fragment>
+											))}
+											</div>
+											{upsetPlotData ? (
+												<UpsetPlot upsetOnClick={upsetOnClick} data={upsetPlotData}/>
+												) : (
+												<div>Loading...</div>
+											)}
+											
 										</Summary>
 									</div>
 									<PredictorContent
