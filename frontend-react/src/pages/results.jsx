@@ -6,6 +6,9 @@ import PredictorContent from "../components/results/predictors/PredictorContent"
 import UpsetPlot from "../components/visualization/UpsetPlot";
 import Summary from "../components/results/summary/Summary";
 import SummaryPopup from "../components/results/summary/SummaryPopup";
+import 'reactjs-popup/dist/index.css';
+import Popup from 'reactjs-popup';
+
 
 const Results = () => {
     
@@ -21,10 +24,8 @@ const Results = () => {
 
 	const [summaryContent, setSummaryContent] = useState([]);
 
-	const[upsetClickName, setUpsetClickName] = useState("");
+	const[upsetClickName, setUpsetClickName] = useState([]);
 	const[upsetClickResidues, setUpsetClickResidues] = useState([]);
-
-	const[showPopup, setShowPopup] = useState(false);
 	
   
 	useEffect(() => {
@@ -68,7 +69,6 @@ const Results = () => {
 	const [predictorTab, setPredictorTab] = useState(-1);
 
     const handlePredictorTab = (tabNum) => {
-        console.log("tab:" + tabNum)
         setPredictorTab(tabNum);
     };
 
@@ -94,20 +94,14 @@ const Results = () => {
 	const upsetPlotData = summaryContent[2] && summaryContent[2].map(([residue, predictors, occurrence]) => ({
 		residue: `${residue[1]}-${residue[2]}-${residue[0]}`,
 		sets: predictors
-	  }));
+	}));
 
 
 	function upsetOnClick(set) {
-		setUpsetClickName(set.name)
-		
+		setUpsetClickName(set.name.replace(/[\s()]/g, '').split('∩'))
 		const residueValues = set.elems.map((e) => e.residue);
-		setUpsetClickResidues(residueValues);
-
-		console.log(residueValues)
-		
+		setUpsetClickResidues(residueValues);		
 	}
-
-	console.log(showPopup)
 
 	return (
 	<>
@@ -140,18 +134,26 @@ const Results = () => {
 							<div class="tab-content">
 									{/* Content for each predictor*/}
 									<div className={"tab-pane fade" + (predictorTab === -1 ? " active show" : "")} id="nav-Summary" role="tabpanel" aria-labelledby="predictor-Summary">
-										<Summary title={"Residues found on binding site"}>
-											<div>
-												<p>{summaryContent[0]} binding sites/pockets were predicted for protein ABC123 in {summaryContent[3]} different predictors</p>
-												<p>{summaryContent[1]} different residues were found in those predicted binding sites</p>
-												<h6>Most common residues found:</h6>
-												<MDBDataTable striped bordered small data={summaryTableData}	/>
-											</div>
-										</Summary>
-										<Summary title={"Binding site intersections"}>
+									<Summary title={"Binding site intersections"}>
 											<div className="row">
 												<div className="col-md-2">
-													<button onClick={() => {showPopup === false ? setShowPopup(true) : setShowPopup(false)}}>Show on protein</button>
+												{upsetClickResidues.length > 0 ? (
+													<Popup trigger={<button>View on protein</button>} position="right center" modal>
+														<SummaryPopup 
+															pdb={inputString}
+															bindSites={upsetClickResidues}
+															graspSites={graspSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
+															puresnetSites={puresnetSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
+															gassSites={gassSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
+															deeppocketSites={deeppocketSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
+															pointsiteSites={pointsiteSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
+															p2rankSites={p2rankSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
+															predsToShow={upsetClickName}
+														/>
+													</Popup>
+													) : (
+													<div>Select intersection</div>
+												)}
 												</div>
 											</div>
 											
@@ -170,16 +172,15 @@ const Results = () => {
 												<div>Loading...</div>
 											)}
 										</Summary>
-										<Summary>
-											{showPopup === true && upsetClickResidues ? (
-												<SummaryPopup 
-													pdb={inputString}
-													bindSites={upsetClickResidues}
-												/>
-												) : (
-												<div>false</div>
-											)}
+										<Summary title={"Residues found on binding site"}>
+											<div>
+												<p>{summaryContent[0]} binding sites/pockets were predicted for protein ABC123 in {summaryContent[3]} different predictors</p>
+												<p>{summaryContent[1]} different residues were found in those predicted binding sites</p>
+												<h6>Most common residues found:</h6>
+												<MDBDataTable striped bordered small data={summaryTableData}	/>
+											</div>
 										</Summary>
+										
 									</div>
 									<PredictorContent
 										pred={predictors[0]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 

@@ -1,26 +1,46 @@
 import React, { useEffect, useState} from 'react';
 import * as NGL from 'ngl/dist/ngl'
 import MousePopup from '../predictors/MousePopup';
+import '../../../styles/SummaryPopup.css';
+
 
 const SummaryPopup = (props) => {
-    const [stage, setStage] = useState(null);
+    const [stage, setStage] = useState(null);  
 
-    console.log(props.bindSites)
+    console.log(props.predsToShow)
 
     useEffect(() => {
+        
+        
         const newStage = new NGL.Stage("viewport");
         newStage.removeAllComponents(); // Remove previous components
         newStage.loadFile('/pdbs/' + props.pdb + '.pdb').then((component) => { 
             component.addRepresentation("cartoon");
             component.autoView();
-            changeColorBindSites(component, props.bindSites)
+            colorAllSites(component);
+            changeColorBindSites(component, props.bindSites, "cyan")
         });
         newStage.setParameters({ backgroundColor: "white" });
         setStage(newStage)
 
     },[]);
 
-    function changeColorBindSites(component, BindSites) {
+    function colorAllSites(component) {
+        if (props.predsToShow.includes("GRaSP"))
+            changeColorBindSites(component, props.graspSites[0], "red")
+        if (props.predsToShow.includes("PUResNet"))
+            changeColorBindSites(component, props.puresnetSites[0], "green")
+        if (props.predsToShow.includes("GASS"))
+            changeColorBindSites(component, props.gassSites[0], "yellow")
+        if (props.predsToShow.includes("DeepPocket"))
+            changeColorBindSites(component, props.deeppocketSites[0], "orange")
+        if (props.predsToShow.includes("PointSite"))
+            changeColorBindSites(component, props.pointsiteSites[0], "purple")
+        if (props.predsToShow.includes("P2Rank"))
+            changeColorBindSites(component, props.p2rankSites[0], "pink")
+    }
+
+    function changeColorBindSites(component, BindSites, color) {
         // Generate strings for each list inside bindSites
         const transformedArray = BindSites.map((item) => {
             const parts = item.split('-');
@@ -33,7 +53,7 @@ const SummaryPopup = (props) => {
         bindSitesToShow.forEach((site, index) => {
             console.log(`"${site}"`);
             component.addRepresentation("ball+stick", {
-                color: "cyan",
+                color: color,
                 sele: site
             });
 
