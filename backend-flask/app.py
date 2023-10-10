@@ -31,10 +31,7 @@ def process_string():
 
     summary_content = build_summary(bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank)
 
-    #intersection_data = process_intersection_data([bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank], summary_content[2])
-
-    for i in summary_content[2]:
-        print(i)
+    create_download_files(input_string, bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank)
 
     return jsonify({'grasp': bsites_grasp,
                     'puresnet': bsites_puresnet,

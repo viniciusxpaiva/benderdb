@@ -2,6 +2,13 @@ import React, { useEffect, useState} from 'react';
 import * as NGL from 'ngl/dist/ngl'
 import MousePopup from '../results/predictors/MousePopup';
 
+
+const bSiteColors = ["red", "cyan", "green", "magenta", "grey", "yellow", "orange", "purple", "blue", "brown"];
+
+function ColorfulText({color, children}) {
+    return <span style={{color: color}}>{children}</span>;
+  }
+
 const MolecularViewer = (props) => {
     console.log("page rendering")
 
@@ -26,9 +33,8 @@ const MolecularViewer = (props) => {
         // Log the result strings
         console.log(bindSitesToShow)
         bindSitesToShow.forEach((site, index) => {
-            console.log(`"${site}"`);
             component.addRepresentation("ball+stick", {
-                color: "cyan",
+                color: bSiteColors[index % bSiteColors.length],
                 sele: site
             });
 
@@ -110,22 +116,22 @@ const MolecularViewer = (props) => {
 
     return (
         <>
-        <div className="col-md-6">
+        <div className="col-md-4">
             {/* BindSite card div*/}
             <div className="card mx-0" id="card-results">
                 <div className="card-header color-dark text-white">
                     <div className="row">
-                        <div className="col-md-6">
-                            <span className="align-middle">{props.pred + " Results for " + props.pdb}</span>
+                        <div className="col-md-8">
+                            <span className="align-middle">{props.pred + " results for " + props.pdb}</span>
                         </div>
-                        <div className="col-md-6 ">
+                        <div className="col-md-4 ">
                             <a className="btn btn-outline-light btn-sm float-right" role="button" href="{{url_for('home')}}" data-toggle="tooltip" data-placement="top" title="Download results" >
-                                download
+                                
                             </a>
                         </div>
                     </div>
                 </div>
-                <div className="card-body p-0 b-0" style={{height: "500px"}}>                                   
+                <div className="card-body p-0 b-0" style={{height: "673px"}}>                                   
                     <div className="container d-block p-0" id="cl-tab">
                     <div className="row">
                 {/* List of BindSites div*/}
@@ -133,15 +139,16 @@ const MolecularViewer = (props) => {
                     <nav>
                         <div className="nav nav-tabs nav-fill bg-light" role="tablist">
                             {props.bindSites.map((site, i) =>(
-                                <a className={"nav-item nav-link" + (bindSiteTab === i ? " active" : "")} href="#" onClick={() => handleBindSiteTab(stage, i, site)} id={"bindSite-" + i} data-toggle="tab" role="tab" aria-controls={"nav-" + i} aria-selected={bindSiteTab === i ? " true" : "false"} >{"Site " + i}</a>
+                                <a className={"nav-item nav-link" + (bindSiteTab === i ? " active" : "")} href="#" onClick={() => handleBindSiteTab(stage, i, site)} id={"bindSite-" + i} data-toggle="tab" role="tab" aria-controls={"nav-" + i} aria-selected={bindSiteTab === i ? " true" : "false"} > <ColorfulText color={bSiteColors[i]}>{"Site " + i}</ColorfulText></a>
                             ))}</div>
                     </nav>
                     <div className="tab-content">
                         {props.bindSites.map((p, i) =>(
                             <div className={"tab-pane fade" + (bindSiteTab === i ? " active show" : "")}  id={"nav-" + i} role="tabpanel" aria-labelledby={"bindSite-" + i}>
-                                <div class="table-responsive">
+                                <div className="table-container" style={{ maxHeight: "630px", overflowY: "auto", overflowX: "hidden" }}>
+                                <div class="table">
                                     <table class="table table-sm table-hover">
-                                        <thead class="bg-light">
+                                        <thead class="bg-light" style={{ position: "sticky", top: 0, zIndex: 1 }}>
                                         <tr>
                                             <th class="text-center">Residue</th>
                                             <th class="text-center">Number</th>
@@ -156,17 +163,25 @@ const MolecularViewer = (props) => {
                                                     <td class="text-center">{res[2]}</td>
                                                     <td class="text-center">{res[0]}</td>
                                                 
-                                                    <td>
-                                                        <div class="row justify-content-center">
+                                                    <td  class="text-center">
+                                                        <div class="row justify-content-center" style={{display: "flex"}}>
+                                                            <div>
                                                             <button type="button" onClick={() => focusResidue(stage, res[2], res[0])} data-toggle="tooltip" data-placement="top" title="Focus on this residue">
-                                                                Look
+                                                                <span>
+                                                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                                                    <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                                                </svg>
+                                                                </span>
                                                             </button>
+                                                            </div>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             ))}
                                         </tbody>
                                     </table>
+                                </div>
                                 </div>
                             </div>
                         ))}
@@ -177,32 +192,32 @@ const MolecularViewer = (props) => {
                 </div>
             </div>
         </div>
-        <div className="col-md-6">
+        <div className="col-md-8">
             <div className="card mx-0" id="card-results">
                 <div className="card-header color-white text-black">
                     <div className="row">
-                        <div className="col-md-6">
-                            <span className="align-middle">{"  Molecular Visualization "}</span>
+                        <div className="col-md-6 d-flex align-items-center">
+                            Molecular Visualization
                         </div>
                         <div className="col-md-6 ">
-                            <div style={{display: "flex", justifyContent: "right"}}>
-                                <div>
-                                    <select className="btn btn-outline-dark btn-sm dropdown-toggle mx-1" onChange={(e) => handleRepresentation(stage, e.target.value)}>
+                            <div style={{display: "flex", justifyContent: "flex-end", alignItems: "center"}}>
+                                <div className="d-flex">
+                                    <select className="btn btn-outline-dark btn-sm dropdown-toggle mx-1" style={{ height: "32px" }} onChange={(e) => handleRepresentation(stage, e.target.value)}>
                                         <option value="cartoon">Cartoon</option>
                                         <option value="licorice">Licorice</option>
                                         <option value="surface">Surface 1</option>
                                         <option value="surface+cartoon">Surface 2</option>
                                     </select>
                                 </div>
-                                <div>
-                                    <select className="btn btn-outline-dark btn-sm dropdown-toggle mx-1" onChange={(e) => handleMoleculeColor(stage, e.target.value)}>
+                                <div className="d-flex">
+                                    <select className="btn btn-outline-dark btn-sm dropdown-toggle mx-1" style={{ height: "32px" }} onChange={(e) => handleMoleculeColor(stage, e.target.value)}>
                                         <option value="color">Color</option>
                                         <option value="uniform">Uniform</option>
                                         <option value="chain">By Chain</option>
                                     </select>
                                 </div>
-                                <div>
-                                    <button class="btn btn-outline-dark btn-sm mx-1" onClick={() => handleBackgroundColor(stage)} data-toggle="tooltip" data-placement="top" title="Background color" >
+                                <div className="d-flex">
+                                    <button class="btn btn-outline-dark btn-sm mx-1" style={{ height: "32px" }} onClick={() => handleBackgroundColor(stage)} data-toggle="tooltip" data-placement="top" title="Background color" >
                                         <span>
                                             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-back" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H2z"/>
@@ -210,9 +225,9 @@ const MolecularViewer = (props) => {
                                         </span>
                                     </button>	
                                 </div>
-                                <div>
+                                <div className="d-flex">
                                     <MousePopup>
-                                        <button class="btn btn-outline-dark btn-sm mx-1" data-toggle="modal" data-target="#modal-control">
+                                        <button class="btn btn-outline-dark btn-sm mx-1" style={{ height: "32px" }} data-toggle="modal" data-target="#modal-control">
                                             <span data-toggle="tooltip" title="Mouse controls" >
                                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-mouse2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                     <path fill-rule="evenodd" d="M3 5.188C3 2.341 5.22 0 8 0s5 2.342 5 5.188v5.625C13 13.658 10.78 16 8 16s-5-2.342-5-5.188V5.189zm4.5-4.155C5.541 1.289 4 3.035 4 5.188V5.5h3.5V1.033zm1 0V5.5H12v-.313c0-2.152-1.541-3.898-3.5-4.154zM12 6.5H4v4.313C4 13.145 5.81 15 8 15s4-1.855 4-4.188V6.5z"/>
@@ -225,11 +240,11 @@ const MolecularViewer = (props) => {
                         </div>
                     </div>
                 </div>
-                <div className="card-body p-0 b-0" style={{height: "600px"}}> 
+                <div className="card-body p-0 b-0" style={{height: "665px"}}> 
                     <div className="container d-block p-0" id="cl-tab">
                         <div className="row">
                             <div className="col-md-12">
-                                <div id="viewport" style={{width:"100%", height:"550px"}}></div>
+                                <div id="viewport" style={{width:"100%", height:"650px"}}></div>
                             </div>
                         </div>
                     </div>

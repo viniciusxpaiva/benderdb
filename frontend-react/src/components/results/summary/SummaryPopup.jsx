@@ -3,6 +3,29 @@ import * as NGL from 'ngl/dist/ngl'
 import MousePopup from '../predictors/MousePopup';
 import '../../../styles/SummaryPopup.css';
 
+const LegendItem = ({ itemName, color }) => {
+    const containerStyle = {
+      marginBottom: '10px',
+    };
+  
+    const itemStyle = {
+      color: 'black', // Set text color for "Item 1"
+    };
+  
+    const backgroundColorStyle = {
+      backgroundColor: color, // Set background color for the entire space after ":"
+      padding: '0 10px', // Adjust padding for spacing
+      borderRadius: '5px', // Optional: Add border radius for a rounded look
+    };
+  
+    return (
+      <div style={containerStyle}>
+        <span style={itemStyle}>{itemName}: </span>
+        <span style={backgroundColorStyle}></span>
+      </div>
+    );
+  };
+
 
 const SummaryPopup = (props) => {
     const [stage, setStage] = useState(null);  
@@ -98,7 +121,8 @@ const SummaryPopup = (props) => {
     }
 
     return(
-        <div className="col-md-12">
+        <div className="row">
+        <div className="col-md-10">
             <div className="card mx-0" id="card-results">
                 <div className="card-header color-white text-black">
                     <div className="row">
@@ -156,6 +180,25 @@ const SummaryPopup = (props) => {
                     </div>
                 </div>
             </div>
+        </div>
+        <div className="col-md-2">
+        <div className="card mx-0" id="card-results">
+                <div className="card-header color-white text-black">
+                    Legends
+                </div>
+                <div className="card-body p-0 b-0" style={{height: "600px"}}>
+                    Other residues that do not belong to the selected intersection are shown in the following colors:
+                    <br></br><br></br>
+                    <LegendItem itemName="Intersection" color="#00FFFF	" />
+                    <LegendItem itemName="GRaSP" color="#FF0000" />
+                    <LegendItem itemName="PUResNet" color="#008000" />
+                    <LegendItem itemName="GASS" color="#FFFF00" />
+                    <LegendItem itemName="DeepPocket" color="#FFA500" />
+                    <LegendItem itemName="PointSite" color="#800080" />
+                    <LegendItem itemName="P2Rank" color="#FFB6C1" />
+                </div>
+            </div>
+        </div>
         </div>
     )
 }

@@ -8,6 +8,24 @@ def format_bsite_string(bsite_string):
 	return processed_result
 
 
+def create_dataframe(prot_name, data, predictor):
+    rows = []
+    for inner_list in data:
+        site = ','.join([f'{x[1]}_{x[2]}_{x[0]}' for x in inner_list])
+        rows.append([predictor, site])
+
+    df = pd.DataFrame(rows, columns=['Predictor', 'Site'])
+    df.to_csv(prot_name + '_' + predictor + '_results.csv', index=False)
+
+
+def create_download_files(prot_name, bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank):
+	create_dataframe(prot_name, bsites_grasp, "GRaSP")
+	create_dataframe(prot_name, bsites_puresnet, "PUResNet")
+	create_dataframe(prot_name, bsites_gass, "GASS")
+	create_dataframe(prot_name, bsites_deeppocket, "DeepPocket")
+	create_dataframe(prot_name, bsites_pointsite, "PointSite")
+	create_dataframe(prot_name, bsites_p2rank, "P2Rank")
+
 def count_common_residues(total_res, unique_total_res):
 	'''
 	Function to count occurrence of unique residues in a list.

@@ -18,6 +18,8 @@ export default function UpsetPlot(props) {
 
   function onClick(set) {
     props.upsetOnClick(set)
+    selection = set
+    rerender();
   }
 
   useEffect(() => {
@@ -27,7 +29,7 @@ export default function UpsetPlot(props) {
   
   function rerender() {
 	try {
-	  const props = { sets, combinations, width: 1250, height: 300, selection, onHover, onClick };
+	  const props = { sets, combinations, width: 1250, height: 300, selection, onClick };
 	  render(document.getElementById('upset-plot-container'), props);
 	} catch (error) {
 	  console.error('Error in UpSetPlotComponent:', error);
