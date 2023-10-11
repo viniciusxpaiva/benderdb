@@ -40,7 +40,7 @@ const Results = () => {
 		// Fetch the processed string from the Flask backend
 		const fetchProcessedString = async () => {
 		try {
-			const response = await fetch('http://localhost:5000/process', {
+			const response = await fetch('/api/process', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -144,7 +144,6 @@ const Results = () => {
 																	<Stack sx={{ width: '100%' }} spacing={2}>
 																		<Alert variant="outlined" severity="success">
 																			<AlertTitle>
-																				
 																					<div className="col">
 																						{upsetClickName.map((str, index) => (
 																							<React.Fragment key={index}>

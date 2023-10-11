@@ -19,6 +19,8 @@ def get_time():
 
 @app.route('/process', methods=['POST'])
 def process_string():
+    print("testando")
+
     data = request.get_json()
     input_string = data.get('inputString', '')
     
