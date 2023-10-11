@@ -8,7 +8,7 @@
     color: rgb(255, 255, 255);
   }
   [role='tooltip'].popup-content {
-    width: 200px;
+    width: 650px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 3px;
   }
   
@@ -17,4 +17,5 @@
   }
   [data-popup='tooltip'].popup-overlay {
     background: transparent;
+    width: 650px;
   }

@@ -3,7 +3,7 @@ import * as NGL from 'ngl/dist/ngl'
 import MousePopup from '../results/predictors/MousePopup';
 
 
-const bSiteColors = ["red", "cyan", "green", "magenta", "grey", "yellow", "orange", "purple", "blue", "brown"];
+const bSiteColors = ["red", "cyan", "green", "magenta", "blue", "gold", "orange", "purple", "papayawhip", "brown"];
 
 function ColorfulText({color, children}) {
     return <span style={{color: color}}>{children}</span>;
@@ -18,7 +18,7 @@ const MolecularViewer = (props) => {
         const newStage = new NGL.Stage("viewport");
         newStage.removeAllComponents(); // Remove previous components
         newStage.loadFile('/pdbs/' + props.pdb + '.pdb').then((component) => { 
-            component.addRepresentation("cartoon");
+            component.addRepresentation("cartoon", {color: "grey"});
             component.autoView();
             changeColorBindSites(component, props.bindSites)
         });
@@ -113,21 +113,44 @@ const MolecularViewer = (props) => {
         stage.getComponentsByName(pdb_id).autoView(combinedSelection);
     };
 
+    function handleDownload(predictor, protName){
+        const fileUrl = process.env.PUBLIC_URL + '/results/' + protName + '_' + predictor + '_results.csv';
+        const link = document.createElement('a');
+        // Setting the href attribute to the file URL
+        link.href = fileUrl;
+
+        // Setting the filename for the download
+        link.download = protName + '_' + predictor + '_results.csv';
+
+        // Appending the link to the document
+        document.body.appendChild(link);
+
+        // Triggering a click event on the link to start the download
+        link.click();
+
+        // Removing the link from the document
+        document.body.removeChild(link);
+    }
 
     return (
         <>
         <div className="col-md-4">
             {/* BindSite card div*/}
-            <div className="card mx-0" id="card-results">
-                <div className="card-header color-dark text-white">
+            <div className="card mx-0 p-1" id="card-results">
+                <div className="card-header">
                     <div className="row">
                         <div className="col-md-8">
                             <span className="align-middle">{props.pred + " results for " + props.pdb}</span>
                         </div>
-                        <div className="col-md-4 ">
-                            <a className="btn btn-outline-light btn-sm float-right" role="button" href="{{url_for('home')}}" data-toggle="tooltip" data-placement="top" title="Download results" >
-                                
-                            </a>
+                        <div className="col-md-4 d-flex justify-content-end">
+                            <button type="button" onClick={() => handleDownload(props.pred, props.pdb)} data-toggle="tooltip" data-placement="top" title="Download results">
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+  <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+</svg>
+                                </span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -137,7 +160,7 @@ const MolecularViewer = (props) => {
                 {/* List of BindSites div*/}
                 <div className="col-md-12">
                     <nav>
-                        <div className="nav nav-tabs nav-fill bg-light" role="tablist">
+                        <div className="nav nav-tabs nav-fill bg-light mt-1" role="tablist">
                             {props.bindSites.map((site, i) =>(
                                 <a className={"nav-item nav-link" + (bindSiteTab === i ? " active" : "")} href="#" onClick={() => handleBindSiteTab(stage, i, site)} id={"bindSite-" + i} data-toggle="tab" role="tab" aria-controls={"nav-" + i} aria-selected={bindSiteTab === i ? " true" : "false"} > <ColorfulText color={bSiteColors[i]}>{"Site " + i}</ColorfulText></a>
                             ))}</div>
@@ -145,7 +168,7 @@ const MolecularViewer = (props) => {
                     <div className="tab-content">
                         {props.bindSites.map((p, i) =>(
                             <div className={"tab-pane fade" + (bindSiteTab === i ? " active show" : "")}  id={"nav-" + i} role="tabpanel" aria-labelledby={"bindSite-" + i}>
-                                <div className="table-container" style={{ maxHeight: "630px", overflowY: "auto", overflowX: "hidden" }}>
+                                <div className="table-container" style={{ maxHeight: "590px", overflowY: "auto", overflowX: "hidden" }}>
                                 <div class="table">
                                     <table class="table table-sm table-hover">
                                         <thead class="bg-light" style={{ position: "sticky", top: 0, zIndex: 1 }}>
@@ -202,7 +225,7 @@ const MolecularViewer = (props) => {
                         <div className="col-md-6 ">
                             <div style={{display: "flex", justifyContent: "flex-end", alignItems: "center"}}>
                                 <div className="d-flex">
-                                    <select className="btn btn-outline-dark btn-sm dropdown-toggle mx-1" style={{ height: "32px" }} onChange={(e) => handleRepresentation(stage, e.target.value)}>
+                                    <select className="btn btn-outline-dark btn-sm dropdown-toggle mx-1 text-left" style={{ height: "32px" }} onChange={(e) => handleRepresentation(stage, e.target.value)}>
                                         <option value="cartoon">Cartoon</option>
                                         <option value="licorice">Licorice</option>
                                         <option value="surface">Surface 1</option>
@@ -240,11 +263,11 @@ const MolecularViewer = (props) => {
                         </div>
                     </div>
                 </div>
-                <div className="card-body p-0 b-0" style={{height: "665px"}}> 
+                <div className="card-body p-0 b-0" style={{height: "676px"}}> 
                     <div className="container d-block p-0" id="cl-tab">
                         <div className="row">
                             <div className="col-md-12">
-                                <div id="viewport" style={{width:"100%", height:"650px"}}></div>
+                                <div id="viewport" style={{width:"100%", height:"673px"}}></div>
                             </div>
                         </div>
                     </div>

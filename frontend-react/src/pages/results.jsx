@@ -8,6 +8,10 @@ import Summary from "../components/results/summary/Summary";
 import SummaryPopup from "../components/results/summary/SummaryPopup";
 import 'reactjs-popup/dist/index.css';
 import Popup from 'reactjs-popup';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
 
 const predictors = ['GRaSP', 'PUResNet', 'GASS', 'DeepPocket', 'PointSite', 'P2Rank']
@@ -86,7 +90,9 @@ const Results = () => {
 
 
 	function upsetOnClick(set) {
+		console.log(set.name)
 		setUpsetClickName(set.name.replace(/[\s()]/g, '').split('∩'))
+		console.log(set.name.replace(/[\s()]/g, '').split('∩'))
 		const residueValues = set.elems.map((e) => e.residue);
 		setUpsetClickResidues(residueValues);		
 	}
@@ -111,7 +117,7 @@ const Results = () => {
 						</div>
 					</div>
 				</div>
-				<div class="card-body p-0 b-0" style={{height: "815px"}}>
+				<div class="card-body p-0 b-0" style={{ height: "815px", overflowY: "auto", overflowX: "hidden" }}>
 					<div class="container d-block p-0" id="cl-tab">
 						<div class="row d-block m-0">
 							<nav>
@@ -131,36 +137,63 @@ const Results = () => {
 										<>
 											<Summary title={"Binding site intersections"}>
 												
-														<div className="row">
-															<div className="col-md-2">
+														<div className="row p-2">
+															<div className="col-md-12">
 															{upsetClickResidues.length > 0 ? (
-																<Popup trigger={<button>View on protein</button>} position="right center" modal>
-																	<SummaryPopup 
-																		pdb={inputString}
-																		bindSites={upsetClickResidues}
-																		graspSites={graspSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
-																		puresnetSites={puresnetSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
-																		gassSites={gassSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
-																		deeppocketSites={deeppocketSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
-																		pointsiteSites={pointsiteSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
-																		p2rankSites={p2rankSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
-																		predsToShow={upsetClickName}
-																	/>
-																</Popup>
+																<>
+																	<Stack sx={{ width: '100%' }} spacing={2}>
+																		<Alert variant="outlined" severity="success">
+																			<AlertTitle>
+																				
+																					<div className="col">
+																						{upsetClickName.map((str, index) => (
+																							<React.Fragment key={index}>
+																							<strong>{str}</strong>
+																							{index < upsetClickName.length - 1 && ' | '}
+																							</React.Fragment>
+																						))}
+																					</div>
+																					<div className="col">
+																						<Popup trigger={<Button variant="contained" color="success">
+																											View on protein
+																										</Button>} 
+																										position="right center" modal>
+																							<SummaryPopup 
+																								pdb={inputString}
+																								bindSites={upsetClickResidues}
+																								graspSites={graspSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
+																								puresnetSites={puresnetSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
+																								gassSites={gassSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
+																								deeppocketSites={deeppocketSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
+																								pointsiteSites={pointsiteSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
+																								p2rankSites={p2rankSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
+																								predsToShow={upsetClickName}
+																							/>
+																						</Popup>
+																					</div>
+																				
+																			</AlertTitle>
+																			<div>
+																				{upsetClickResidues.map((res, index) => (
+																				<React.Fragment key={index}>
+																					{res}
+																					{index < upsetClickResidues.length - 1 && " | "}
+																				</React.Fragment>
+																				))}
+																			</div>
+																		</Alert>
+																	</Stack>
+																	
+																</>
 																) : (
-																<div>Select intersection</div>
+																<Stack sx={{ width: '100%' }} spacing={2}>
+																	<Alert variant="outlined" severity="warning">
+																		<AlertTitle><strong>Select an intersection</strong></AlertTitle>
+																		Click on graph to show residues found by predictors
+																	</Alert>
+																</Stack>
 															)}
 															</div>
-														</div>
-														
-														<div> {upsetClickName} </div>
-														<div>
-														{upsetClickResidues.map((res, index) => (
-														<React.Fragment key={index}>
-															{res}
-															{index < upsetClickResidues.length - 1 && " | "} {/* Add space if not the last element */}
-														</React.Fragment>
-														))}
 														</div>
 														<UpsetPlot upsetOnClick={upsetOnClick} data={upsetPlotData}/>	
 											</Summary>
@@ -180,7 +213,15 @@ const Results = () => {
 											</Summary>
 										</>
 										) : (
-										<div>Loading data. Please wait.</div>
+										<div className="row mt-4">
+
+										<Stack sx={{ width: '100%' }} spacing={2}>
+											<Alert variant="outlined" severity="info">
+												<AlertTitle><strong>Please wait</strong></AlertTitle>
+												Loading data...
+											</Alert>
+										</Stack>
+										</div>
 									)}
 									</div>
 									<PredictorContent
