@@ -1,6 +1,19 @@
 import React, { useEffect, useState} from 'react';
 import * as NGL from 'ngl/dist/ngl'
 import MousePopup from '../results/predictors/MousePopup';
+import Stack from '@mui/material/Stack';
+import MouseIcon from '@mui/icons-material/Mouse';
+import IconButton from '@mui/material/IconButton';
+import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import DownloadingIcon from '@mui/icons-material/Downloading';
+import Button from '@mui/material/Button';
+
 
 
 const bSiteColors = ["red", "cyan", "green", "magenta", "blue", "gold", "orange", "purple", "papayawhip", "brown"];
@@ -9,10 +22,15 @@ function ColorfulText({color, children}) {
     return <span style={{color: color}}>{children}</span>;
   }
 
+
 const MolecularViewer = (props) => {
     console.log("page rendering")
 
     const [stage, setStage] = useState(null);
+    const [bindSiteTab, setBindSiteTab] = useState(0);
+    const [reprButton, setReprButton] = useState('');
+    const [reprColorButton, setReprColorButton] = useState('');
+
 
     useEffect(() => {
         const newStage = new NGL.Stage("viewport");
@@ -30,8 +48,6 @@ const MolecularViewer = (props) => {
     function changeColorBindSites(component, BindSites) {
         // Generate strings for each list inside bindSites
         const bindSitesToShow = BindSites.map(generateBindSiteString);
-        // Log the result strings
-        console.log(bindSitesToShow)
         bindSitesToShow.forEach((site, index) => {
             component.addRepresentation("ball+stick", {
                 color: bSiteColors[index % bSiteColors.length],
@@ -39,6 +55,17 @@ const MolecularViewer = (props) => {
             });
 
         });
+    }
+
+    function resetNGLViewer(stage) {
+        stage.removeAllComponents();
+        stage.loadFile('/pdbs/' + props.pdb + '.pdb').then((component) => { 
+            component.addRepresentation("cartoon", {color: "grey"});
+            component.autoView();
+            changeColorBindSites(component, props.bindSites)
+        });
+        stage.setParameters({ backgroundColor: "white" });
+        setStage(stage) // Remove previous components
     }
 
     function generateBindSiteString(bindSiteList) {
@@ -55,6 +82,7 @@ const MolecularViewer = (props) => {
     function handleMoleculeColor(stage, colorType){
         const current_repr = stage.compList[0].reprList[0].repr.type
         const current_pdb = props.pdb + ".pdb"
+        setReprColorButton(colorType)
         if (colorType === "chain"){
             stage.getComponentsByName(current_pdb).addRepresentation(current_repr, {colorScheme: "chainname"})
         } else if (colorType === "uniform") {
@@ -64,6 +92,8 @@ const MolecularViewer = (props) => {
 
     function handleRepresentation(stage, repr){
         const current_pdb = props.pdb + ".pdb"
+        console.log("handle")
+        setReprButton(repr);
         if (repr === "surface"){
             stage.getRepresentationsByName("cartoon").dispose()
             stage.getRepresentationsByName("licorice").dispose()
@@ -94,7 +124,7 @@ const MolecularViewer = (props) => {
         stage.getComponentsByName(pdb_id).autoView(sele)
     }
   
-    const [bindSiteTab, setBindSiteTab] = useState(0);
+    
    
     const handleBindSiteTab = (stage, tabNum, site) => {
         const pdb_id = props.pdb + ".pdb"
@@ -132,25 +162,22 @@ const MolecularViewer = (props) => {
         document.body.removeChild(link);
     }
 
+
     return (
         <>
         <div className="col-md-4">
             {/* BindSite card div*/}
             <div className="card mx-0 p-1" id="card-results">
                 <div className="card-header">
-                    <div className="row">
-                        <div className="col-md-8">
-                            <span className="align-middle">{props.pred + " results for " + props.pdb}</span>
+                    <div className="row">    
+                        <div className="col-md-6 d-flex align-items-center">
+                            <span className="align-middle">{props.pred + " sites"}</span>
                         </div>
-                        <div className="col-md-4 d-flex justify-content-end">
-                            <button type="button" onClick={() => handleDownload(props.pred, props.pdb)} data-toggle="tooltip" data-placement="top" title="Download results">
-                                <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
-  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-  <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-</svg>
-                                </span>
-                            </button>
+                        <div className="col-md-6 d-flex justify-content-end">
+                        <Button size="small" aria-label="download" title="Download results" onClick={() => handleDownload(props.pred, props.pdb)} variant="outlined" startIcon={<DownloadingIcon />}>
+                            Download
+                        </Button>
+                            
                         </div>
                     </div>
                 </div>
@@ -159,6 +186,7 @@ const MolecularViewer = (props) => {
                     <div className="row">
                 {/* List of BindSites div*/}
                 <div className="col-md-12">
+                    
                     <nav>
                         <div className="nav nav-tabs nav-fill bg-light mt-1" role="tablist">
                             {props.bindSites.map((site, i) =>(
@@ -167,6 +195,8 @@ const MolecularViewer = (props) => {
                     </nav>
                     <div className="tab-content">
                         {props.bindSites.map((p, i) =>(
+                            <>
+
                             <div className={"tab-pane fade" + (bindSiteTab === i ? " active show" : "")}  id={"nav-" + i} role="tabpanel" aria-labelledby={"bindSite-" + i}>
                                 <div className="table-container" style={{ maxHeight: "590px", overflowY: "auto", overflowX: "hidden" }}>
                                 <div class="table">
@@ -189,14 +219,9 @@ const MolecularViewer = (props) => {
                                                     <td  class="text-center">
                                                         <div class="row justify-content-center" style={{display: "flex"}}>
                                                             <div>
-                                                            <button type="button" onClick={() => focusResidue(stage, res[2], res[0])} data-toggle="tooltip" data-placement="top" title="Focus on this residue">
-                                                                <span>
-                                                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                                                                    <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                                                                </svg>
-                                                                </span>
-                                                            </button>
+                                                            <IconButton aria-label="focus-res" title="Focus on this residue" onClick={() => focusResidue(stage, res[2], res[0])}>
+                                                                <RemoveRedEyeOutlinedIcon />
+                                                            </IconButton>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -207,6 +232,7 @@ const MolecularViewer = (props) => {
                                 </div>
                                 </div>
                             </div>
+                            </>
                         ))}
                     </div>
                 </div>
@@ -224,41 +250,49 @@ const MolecularViewer = (props) => {
                         </div>
                         <div className="col-md-6 ">
                             <div style={{display: "flex", justifyContent: "flex-end", alignItems: "center"}}>
-                                <div className="d-flex">
-                                    <select className="btn btn-outline-dark btn-sm dropdown-toggle mx-1 text-left" style={{ height: "32px" }} onChange={(e) => handleRepresentation(stage, e.target.value)}>
-                                        <option value="cartoon">Cartoon</option>
-                                        <option value="licorice">Licorice</option>
-                                        <option value="surface">Surface 1</option>
-                                        <option value="surface+cartoon">Surface 2</option>
-                                    </select>
-                                </div>
-                                <div className="d-flex">
-                                    <select className="btn btn-outline-dark btn-sm dropdown-toggle mx-1" style={{ height: "32px" }} onChange={(e) => handleMoleculeColor(stage, e.target.value)}>
-                                        <option value="color">Color</option>
-                                        <option value="uniform">Uniform</option>
-                                        <option value="chain">By Chain</option>
-                                    </select>
-                                </div>
-                                <div className="d-flex">
-                                    <button class="btn btn-outline-dark btn-sm mx-1" style={{ height: "32px" }} onClick={() => handleBackgroundColor(stage)} data-toggle="tooltip" data-placement="top" title="Background color" >
-                                        <span>
-                                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-back" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H2z"/>
-                                            </svg>
-                                        </span>
-                                    </button>	
-                                </div>
-                                <div className="d-flex">
+                                <Stack direction="row" spacing={1}>
+                                    <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
+                                        <InputLabel id="demo-select-small-label">Representation</InputLabel>
+                                        <Select
+                                            labelId="demo-select-small-label"
+                                            id="demo-select-small"
+                                            value={reprButton}
+                                            label="Representation"
+                                            onChange={(e) => handleRepresentation(stage, e.target.value)}
+                                        >
+                                            <MenuItem value="cartoon">Cartoon</MenuItem>
+                                            <MenuItem value="licorice">Licorice</MenuItem>
+                                            <MenuItem value="surface">Surface 1</MenuItem>
+                                            <MenuItem value="surface+cartoon">Surface 2</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                    <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
+                                        <InputLabel id="demo-select-small-label">Color</InputLabel>
+                                        <Select
+                                            labelId="demo-select-small-label"
+                                            id="demo-select-small"
+                                            value={reprColorButton}
+                                            label="Color"
+                                            onChange={(e) => handleMoleculeColor(stage, e.target.value)}
+                                        >
+                                            <MenuItem value="uniform">Uniform</MenuItem>
+                                            <MenuItem value="chain">By Chain</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                    <IconButton aria-label="fill" title="Background color"  onClick={() => handleBackgroundColor(stage)}>
+                                        <FormatColorFillIcon />
+                                    </IconButton>
                                     <MousePopup>
-                                        <button class="btn btn-outline-dark btn-sm mx-1" style={{ height: "32px" }} data-toggle="modal" data-target="#modal-control">
-                                            <span data-toggle="tooltip" title="Mouse controls" >
-                                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-mouse2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" d="M3 5.188C3 2.341 5.22 0 8 0s5 2.342 5 5.188v5.625C13 13.658 10.78 16 8 16s-5-2.342-5-5.188V5.189zm4.5-4.155C5.541 1.289 4 3.035 4 5.188V5.5h3.5V1.033zm1 0V5.5H12v-.313c0-2.152-1.541-3.898-3.5-4.154zM12 6.5H4v4.313C4 13.145 5.81 15 8 15s4-1.855 4-4.188V6.5z"/>
-                                                </svg>
-                                            </span>
-                                        </button>
+                                        <IconButton aria-label="mouse" title="Mouse controls">
+                                            <MouseIcon />
+                                        </IconButton>
                                     </MousePopup>
-                                </div>
+                                    <IconButton aria-label="restart" title="Reset visualization" onClick={() => resetNGLViewer(stage)}>
+                                        <RestartAltIcon />
+                                    </IconButton>
+                                </Stack>
+
+                                
                             </div>
                         </div>
                     </div>

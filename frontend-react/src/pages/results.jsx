@@ -40,7 +40,7 @@ const Results = () => {
 		// Fetch the processed string from the Flask backend
 		const fetchProcessedString = async () => {
 		try {
-			const response = await fetch('/api/process', {
+			const response = await fetch('/process', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -156,7 +156,9 @@ const Results = () => {
 																						<Popup trigger={<Button variant="contained" color="success">
 																											View on protein
 																										</Button>} 
-																										position="right center" modal>
+																										position="right center"
+																										modal
+																										nested>
 																							<SummaryPopup 
 																								pdb={inputString}
 																								bindSites={upsetClickResidues}
@@ -167,18 +169,14 @@ const Results = () => {
 																								pointsiteSites={pointsiteSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
 																								p2rankSites={p2rankSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
 																								predsToShow={upsetClickName}
+																								upsetClickResidues={upsetClickResidues}
 																							/>
 																						</Popup>
 																					</div>
 																				
 																			</AlertTitle>
 																			<div>
-																				{upsetClickResidues.map((res, index) => (
-																				<React.Fragment key={index}>
-																					{res}
-																					{index < upsetClickResidues.length - 1 && " | "}
-																				</React.Fragment>
-																				))}
+																				Click on button to view list of residues for selected intersection 
 																			</div>
 																		</Alert>
 																	</Stack>
@@ -197,18 +195,29 @@ const Results = () => {
 														<UpsetPlot upsetOnClick={upsetOnClick} data={upsetPlotData}/>	
 											</Summary>
 											<Summary title={"Residues found on binding site"}>
+											<div className="row p-2">
 											{summaryTableData ? (
 												<div>
-													<p>{summaryContent[0]} binding sites/pockets were predicted for protein {decodeURIComponent(inputString)} in {summaryContent[3]} different predictors</p>
-													<p>{summaryContent[1]} different residues were found in those predicted binding sites</p>
+													<br></br>
+													<h6>{summaryContent[0]} binding sites/pockets were predicted for protein {decodeURIComponent(inputString)} in {summaryContent[3]} different predictors</h6>
+													<br></br>
+													<h6>{summaryContent[1]} different residues were found in those predicted binding sites</h6>
+													<br></br>
 													<h6>Most common residues found:</h6>
-													<MDBDataTable striped bordered small data={summaryTableData}	/>
+													<MDBDataTable 
+														striped
+														bordered
+														small
+														displayEntries={false}
+														data={summaryTableData}
+														fixed={"bottom"}
+														/>
 												</div>
 													) : (
 													<div>Loading...</div>
 												)}
 												
-												
+												</div>
 											</Summary>
 										</>
 										) : (

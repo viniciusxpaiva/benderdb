@@ -17,9 +17,13 @@ export default function UpsetPlot(props) {
   }
 
   function onClick(set) {
-    props.upsetOnClick(set)
-    selection = set
-    rerender();
+    if (set) {
+      
+      console.log(set)
+      props.upsetOnClick(set)
+      selection = set
+      rerender();
+    }
   }
 
   useEffect(() => {
