@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import BaseLayout from '../components/layout/base';
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
+import Button from '@mui/material/Button';
+
 
 const Home = () => {
 	
@@ -20,92 +26,109 @@ const Home = () => {
 				<div class="jumbotron bg-light-dark">
 					<div class="container">
 					<div class="row mt-6">
-						<div class="col-md-6">
-							<h1 class="display-3 text-light">Database X8FIS2 C6KSS7 A0A0N4UM35</h1>
-							<p class = "text-light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-							Sed ac elementum elit. Praesent eget risus finibus, congue enim nec, aliquet quam. Donec volutpat semper ligula non consequat. 
-							In eleifend libero pharetra, accumsan est at, aliquet mi. Maecenas bibendum ultricies mauris ut vulputate.</p>
-							<div class="container p-0 m-0">
-							<form onSubmit={handleSubmit}>
-								<input
-								type="text"
-								value={searchString}
-								onChange={(e) => setSearchString(e.target.value)}
-								/>
-								<button type="submit">Submit</button>
-							</form>
+						<div class="col-md-12 text-center">
+							<h1 class="display-1 text-light mt-4">SERVERDB</h1>
+							<h3 className="display-4 text-light">Database of protein binding sites of neglected diseases proteoms</h3>
+							<div class="container p-0 mb-3 justify-content-center" style={{display: "flex"}}>
+									<Paper
+										component="form"
+										sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 800 }}
+										onSubmit={handleSubmit}
+										
+										>
+										<IconButton type="button" sx={{ p: '10px' }} aria-label="search" disabled>
+											<SearchIcon />
+										</IconButton>
+										
+										<InputBase
+											onChange={(e) => setSearchString(e.target.value)}
+											sx={{ ml: 1, flex: 1 }}
+											placeholder="Search for protein"
+											inputProps={{ 'aria-label': 'search for protein' }}
+										/>
+										<IconButton sx={{ p: '10px' }} aria-label="menu">
+											<Button variant="contained" onClick={handleSubmit} >Search</Button>
+										</IconButton>
+									
+									</Paper>
 							</div>
 						</div>
 					</div>
 					</div>
 				</div>
 				<div class="container">
-					<div class="alert alert-info alert-dismissible fade show" role="alert">
-					This website is free and open to all users and there is no login requirement.
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					</div>
-					<div>resul</div>
+					<div>X8FIS2 C6KSS7 A0A0N4UM35</div>
 					<div class="row">
-						<div class="col-md-6 align-bottom">
-						<h2 style={{marginBottom: "25px"}}>Binding sites in Database</h2>
+						<div class="col-md-6" style={{display: "flex", flexDirection:"column", justifyContent:"center"}}>
+							<p>
+								<h2>Binding sites in Database</h2>
+							</p>
+							<p>
+								Dizer que os binding sites são predições feitas a partir de N proteomas, em X proteínas a partir do AlphaFold. 
+								Cada pretidor tem Y binding sites.
+							</p>
+							<p>
+								For each residue, physicochemical and topological properties of its
+								atoms and non-covalent interactions are modeled as a graph which,
+								in turn, is encoded as a feature vector. A set of feature vectors is
+								the input for the machine learning predictor.
+							</p>
+
+
+						</div>
+						<div class="col-md-6">
+							<div class="bordered">
+							<img
+								src="img/ngl_example.png"
+								className="img-fluid"
+								style={{ maxWidth: '100%', maxHeight: '400px', width: 'auto', height: 'auto' }}
+								alt="ngl"
+								/>
+							</div>
+						</div>
+					</div>
+					<div class="row mb-5">
+						<div class="col-md-6" style={{display: "flex", flexDirection:"column", justifyContent:"center"}}>
 						<p>
-							Dizer que os binding sites são predições feitas a partir de N proteomas, em X proteínas a partir do AlphaFold. 
-							Cada pretidor tem Y binding sites.
+
+						<h2>Data collection and experiements</h2>
 						</p>
 						
 						<p>
-							For each residue, physicochemical and topological properties of its
-							atoms and non-covalent interactions are modeled as a graph which,
-							in turn, is encoded as a feature vector. A set of feature vectors is
-							the input for the machine learning predictor.
+						Proteomes related to neglected disease pathogens (listed by WHO and PAHO) were collected from the AlphaFold database.
+
+
+						</p>
+						<p>
+						Six different predictors were used to predict pockets/binding sites in all proteins in the proteomes.
 						</p>
 						</div>
 						<div class="col-md-6">
 						<div class="bordered">
-							<img src="img/layer.png" class=" img-fluid"/>
+							<img src="img/workflow.png" class=" img-fluid"/>
 						</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-6">
-						<h2 style={{marginBottom: "25px"}}>Data collection and organization</h2>
-						
-						<p>
-							Dizer dos experimentos realizados e como os dados estão organizados no database
-						</p>
-						<p>
-							GRaSP uses the residues environment, modeled as feature vectors, as input
-							to a machine learning strategy. The prediction is performed using a
-							balancing strategy to reduce the imbalanced distribution of classes.
-						</p>
+					<div class="row mt-1">
+						<div class="col-md-6" style={{display: "flex", flexDirection:"column", justifyContent:"center"}}>
+							<br /><br />
+							<h2 style={{marginBottom: "25px"}}>Data visualization</h2>
+							<p>SERVERDB uses two main visual representations: NGL Viewer and UpSet Plot.</p>
+							<p>NGL Viewer is a molecule viewer and allows binding sites and residues found by predictors to be analyzed in the protein structure itself.</p>
+							<p>The UpSet Plot is a focused plot for visualizing multiple intersections between sets. From there, it is possible to verify the convergence of results in all combinations of binding site predictions.</p>
 						</div>
 						<div class="col-md-6">
-						<div class="bordered">
-							<img src="img/classifier.png" class=" img-fluid"/>
-						</div>
+							<div class="bordered">
+							<img
+								src="img/upset_example.png"
+								className="img-fluid"
+								style={{ maxWidth: '100%', maxHeight: '500px', width: 'auto', height: 'auto' }}
+								alt="Example"
+								/>
+							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-6">
-						<h2 style={{marginBottom: "25px"}}>Data visualization</h2>
-						
-						<p>Falar das duas visualizações: NGL Viewer e Upset Plot</p>
-						<p>
-							For each residue, physicochemical and topological properties of its
-							atoms and non-covalent interactions are modeled as a graph which,
-							in turn, is encoded as a feature vector. A set of feature vectors is
-							the input for the machine learning predictor.
-						</p>
-						</div>
-						<div class="col-md-6">
-						<div class="bordered">
-							<img src="img/ufv.png" class=" img-fluid"/>
-						</div>
-						</div>
-					</div>
-					<div class="row">
+					<div class="row mt-4">
 						<h3>References</h3>
 						<a href="http://dx.doi.org/10.1093/bioinformatics/btaa805"> Charles A. Santana, Sabrina de A. Silveira, João P. A. Moraes, Sandro C. Izidoro,
 						Raquel C. de Melo-Minardi, António J. M. Ribeiro, Jonathan D. Tyzack, Neera Borkakoti and Janet M. Thornton.

@@ -27,26 +27,26 @@ const Help = () => {
 							<a className="nav-link" href="#resultsp-submit">
 								<svg width="1em" height="1em" viewBox="0 0 16 16" className="mb-1 bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 								<path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
-								</svg> <span className="mx-1 ">DETAILED RESULTS</span></a>
+								</svg> <span className="mx-1 ">SUMMARY CONTENT</span></a>
 							</li>
 							<li className="nav-item">
 							<a className="nav-link" href="#ligands-submit">
 								<svg width="1em" height="1em" viewBox="0 0 16 16" className="mb-1 bi bi-share-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 									<path fill-rule="evenodd" d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/>
-								</svg> <span className="mx-1 "></span>SUGGESTED LIGANDS</a>
+								</svg> <span className="mx-1 "></span>PREDICTOR CONTENT</a>
 							</li>
 							<li className="nav-item">
 							<a className="nav-link" href="#help-browser">
 								<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" className="mb-1 bi bi-bar-chart" viewBox="0 0 16 16">
 								<path d="M4 11H2v3h2v-3zm5-4H7v7h2V7zm5-5v12h-2V2h2zm-2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-2zM6 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm-5 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3z"/>
-								</svg> <span className="mx-1 "></span>FEATURE IMPORTANCE</a>
+								</svg> <span className="mx-1 "></span>VISUALIZATIONS</a>
 							</li>
 						</ul>
   					</div>
-					<div className="container-fluid color-dark text-white mt-0 py-5"  id="help-submit">
-						<div className="row justify-content-md-center" >
-						<div className="col-md-4">
-							<h2>How to use GRaSP?</h2>
+					<div className="container-fluid bg-light-dark text-white mt-0 py-5"  id="help-submit">
+						<div className="row justify-content-center" >
+						<div class="col-md-12 text-center">
+							<h6 className="display-5 text-light">How to use SERVERDB</h6>
 						</div>
 						</div>
 					</div>
@@ -59,17 +59,9 @@ const Help = () => {
 						<div class="col-md-8" style={{fontSize:"16px"}}>
 							<div class="crad border-light bg-light">
 							<div class="card-body">
-								<h5 class="card-title">Use the submit page to upload your protein files:</h5>
-								<ol>
-								<li>Use this field to upload one or more protein structures in PDB format.</li>
-								<li>You can also submit structures from <a href="https://www.rcsb.org/">RCSB PDB</a>
-									directly by typing protein identifiers separeted by comma.</li>
-								<li id="results-submit">Here you can use your email to receive the link
-									containing the results. This field is not madatory, but we recommend you
-									use it to keep saved the address to your experiment. The link is the
-									only way to access your results, if you lose it, you will no longer
-									be able to access the results.</li>
-								</ol>
+								<h5 class="card-title">Use the input search bar at main page or at top navigation tab.</h5>
+								<br />
+								<h5 class="card-title">Use this field to upload one UniProt code of protein structures.</h5>
 							</div>
 							</div>
 						</div>
@@ -103,32 +95,27 @@ const Help = () => {
 						</div>
 						</div>
 						<div class="row mt-4">
-						<h3>Detailed results</h3>
+						<h3>Summary Content</h3>
 						</div>
 						<hr/>
 						<div class="row align-items-center">
 						<div class="col-md-6">
 							<div class="card border-light bg-light" style={{fontSize:"16px"}}>
-							<div class="card-body" >
-								<h5 class="card-title">Detailed results allow the user to explore
-								and make sense of the predicted binding site residues of a protein.</h5>
-								<ol start="7">
-								<li>List of binding site residues. The <span class="font-weight-bold">
-									Confidence</span> column contains the probabilities extracted from
-									the machine learning predictor, which indicates the confidence level
-									for each residue. Use the <span class="font-weight-bold">Look at</span>
-									column to focus on the residue in the molecule viewer.
-								</li>
-								<li>
-									Turn on the <span class="font-weight-bold">CLUSTERING</span> button to group
-								the predicted residues in areas of high density.</li>
-								<li id="ligands-submit">
-									These controls can be used to better personalize the molecule viewer,
-									changing the background color or the protein structure representation
-									for example.
-								</li>
-								</ol>
-							</div>
+								<div class="card-body" >
+									<h5 class="card-title"> Binding site intersections:</h5>
+									<ol start="11">
+									<li> Total number of different binding sites predicted and their residues are shown </li>
+									<li> Table shows all those predicted residues ordered by occurrance in binding sites</li>
+									<li> Search bar can filter by residue or predictors</li>
+									</ol>
+									<br />
+									<h5 class="card-title"> Residues found on binding sites:</h5>
+									<ol start="11">
+									<li> Total number of different binding sites predicted and their residues are shown </li>
+									<li> Table shows all those predicted residues ordered by occurrance in binding sites</li>
+									<li> Search bar can filter by residue or predictors</li>
+									</ol>
+								</div>
 							</div>
 						</div>
 						<div class="col-md-6">
@@ -137,7 +124,7 @@ const Help = () => {
 
 						</div>
 						<div class="row mt-4">
-						<h3>Suggested ligands</h3>
+						<h3>Predictor Content</h3>
 						</div>
 						<hr/>
 						<div class="row mt-3">
@@ -161,19 +148,30 @@ const Help = () => {
 						</div>
 
 						<div class="row mt-4">
-						<h3>Feature Importance</h3>
+						<h3>Visulization</h3>
 						</div>
 						<hr/>
 						<div class="row align-items-center">
 						<div class="col-md-6">
 							<div class="card border-light bg-light" style={{fontSize:"16px"}}>
-							<div class="card-body" >
-								<h5 class="card-title"> Descriptors ranked in accordance with their relevance
-								for the machine learning task.</h5>
-								<ol start="11">
-								<li> Descriptors are ranked by relevance into a ordered list followed by a brief explanation. </li>
-								</ol>
-							</div>
+								<div class="card-body" >
+									<h5 class="card-title"> SERVERDB uses NGL Viewer and UpSet Plot</h5>
+									<br />
+									<h5 class="card-title"> NGL Viewer:</h5>
+									<ol start="11">
+									<li> Binding sites predicted for the protein are shown in sticks representation </li>
+									<li> Each diffrent binding site is colored by different color </li>
+									<li> Molecular visualization can be customized by representation type and colors</li>
+									</ol>
+									<br />
+									<h5 class="card-title"> UpSet Plot:</h5>
+									<ol start="14">
+									<li> Intersection of residues from different binding sites are shown in UpSet Plot </li>
+									<li> Connected dots represent intersection of residues between predictors </li>
+									<li> Horizontal bars count total residues found by each predictor </li>
+									<li> Vertical bars count total residues presented by each intersection</li>
+									</ol>
+								</div>
 							</div>
 						</div>
 						<div class="col-md-6">

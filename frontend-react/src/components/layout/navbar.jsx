@@ -1,63 +1,189 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
+import SearchIcon from '@mui/icons-material/Search';
+import InputBase from '@mui/material/InputBase';
+import { styled, alpha } from '@mui/material/styles';
 import { Link } from "react-router-dom";
+import Paper from '@mui/material/Paper';
 
-const NavBar = () => {
-    return (
-    <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top color-dark">
-            <Link to="/">
-                <a class="navbar-brand h1">Database</a>
-            </Link>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse float-right" id="navbarNav">
-            <ul class="navbar-nav mx-2">
-                <li class="nav-item mx-2">
-                    <Link to="/results/X8FIS2" activeStyle>
-                        <a class="nav-link text-light">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 mx-1 bi bi-info-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                            <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                            </svg> Results
-                        </a>
-                    </Link>
-                </li>
-                <li class="nav-item mx-2">
-                    <Link to="/about" activeStyle>
-                        <a class="nav-link text-light">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 mx-1 bi bi-info-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                            <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                            </svg> About
-                        </a>
-                    </Link>
-                </li>
-                <li class="nav-item mx-2">
-                    <Link to="/contact" activeStyle>
-                        <a class="nav-link text-light">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 mx-1 bi bi-info-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                            <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                            </svg> Contact
-                        </a>
-                    </Link>
-                </li>
-                <li class="nav-item mx-2">
-                    <Link to="/help" activeStyle>
-                        <a class="nav-link text-light">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 mx-1 bi bi-info-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                            <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                            </svg> Help
-                        </a>
-                    </Link>
-                </li>
-            </ul>
-            </div>
-        </nav>
-    </div>
-    );
-    
+const Search = styled('div')(({ theme }) => ({
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(1),
+      width: 'auto',
+    },
+  }));
+  
+  const SearchIconWrapper = styled('div')(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }));
+
+  const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: 'inherit',
+    '& .MuiInputBase-input': {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('sm')]: {
+        width: '12ch',
+        '&:focus': {
+          width: '20ch',
+        },
+      },
+    },
+  }));
+
+function ResponsiveAppBar() {
+
+    const [searchString, setSearchString] = useState('');
+	const navigate = useNavigate();
+  
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		// Navigate to the "results" page with the input string
+		navigate(`/results/${encodeURIComponent(searchString)}`);
+	};
+
+
+
+  return (
+    <AppBar position="static">
+      <Container maxWidth="xl">
+        <div className="container">
+        <Toolbar disableGutters>
+          <Typography
+            variant="h6"
+            noWrap
+            component={Link}
+            to="/"
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            SERVERDB
+          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            <Button
+                key={'results'}
+                sx={{
+                my: 2,
+                color: 'white',
+                display: 'block',
+                textDecoration: 'none', // Remove underline
+                '&:hover': {
+                    textDecoration: 'none', // Remove underline on hover as well
+                },
+                }}
+            component={Link}
+            to="/results/X8FIS2"
+            >
+                Results
+            </Button>
+            <Button
+                key={'about'}
+                sx={{
+                my: 2,
+                color: 'white',
+                display: 'block',
+                textDecoration: 'none', // Remove underline
+                '&:hover': {
+                    textDecoration: 'none', // Remove underline on hover as well
+                },
+                }}
+            component={Link}
+            to="/about"
+            >
+                About
+            </Button>
+            <Button
+                key={'contact'}
+                sx={{
+                my: 2,
+                color: 'white',
+                display: 'block',
+                textDecoration: 'none', // Remove underline
+                '&:hover': {
+                    textDecoration: 'none', // Remove underline on hover as well
+                },
+                }}
+            component={Link}
+            to="/contact"
+            >
+                Contact
+            </Button>
+            <Button
+                key={'help'}
+                sx={{
+                my: 2,
+                color: 'white',
+                display: 'block',
+                textDecoration: 'none', // Remove underline
+                '&:hover': {
+                    textDecoration: 'none', // Remove underline on hover as well
+                },
+                }}
+            component={Link}
+            to="/help"
+            >
+                Help
+            </Button>
+          </Box>
+
+          <Box sx={{ flexGrow: 0 }}>
+            <Paper
+                component="form"
+                onSubmit={handleSubmit}
+                
+                >
+               <Search>
+                <SearchIconWrapper>
+                <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  onChange={(e) => setSearchString(e.target.value)}
+                  placeholder="Search..."
+                  inputProps={{ 'aria-label': 'search' }}
+                  />
+            </Search>
+                
+            </Paper>
+            
+            
+          </Box>
+        </Toolbar>
+        </div>
+      </Container>
+      
+    </AppBar>
+  );
 }
-export default NavBar;
+export default ResponsiveAppBar;

@@ -1,10 +1,11 @@
 import Footer from "./footer";
-import NavBar from "./navbar";
+import NavBar from "./oldNavbar";
+import SearchAppBar from "./navbar";
 
 const BaseLayout = ({children}) => {
     return (
         <>
-            <NavBar></NavBar>
+            <SearchAppBar></SearchAppBar>
             {children}
             <Footer></Footer>
         </>

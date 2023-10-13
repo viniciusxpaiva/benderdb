@@ -194,7 +194,7 @@ const Results = () => {
 														</div>
 														<UpsetPlot upsetOnClick={upsetOnClick} data={upsetPlotData}/>	
 											</Summary>
-											<Summary title={"Residues found on binding site"}>
+											<Summary title={"Residues found on binding sites"}>
 											<div className="row p-2">
 											{summaryTableData ? (
 												<div>
