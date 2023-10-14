@@ -17,9 +17,22 @@ def get_time():
         "programming": "python"
     }
 
+@app.route('/prot_found', methods=['POST'])
+def prot_found():
+    print("testando")
+
+    data = request.get_json()
+    search_string = data.get('searchString', '')
+
+    prot_found = search_PDB(search_string)
+
+    return jsonify({'prot_found': prot_found})
+
 @app.route('/process', methods=['POST'])
 def process_string():
     print("testando")
+
+    prot_found = True
 
     data = request.get_json()
     input_string = data.get('inputString', '')
@@ -35,7 +48,8 @@ def process_string():
 
     create_download_files(input_string, bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank)
 
-    return jsonify({'grasp': bsites_grasp,
+    return jsonify({'prot_found': prot_found,
+                    'grasp': bsites_grasp,
                     'puresnet': bsites_puresnet,
                     'gass': bsites_gass, 
                     'deeppocket': bsites_deeppocket, 

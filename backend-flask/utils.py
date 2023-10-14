@@ -2,6 +2,17 @@ import pandas as pd
 import os
 import glob
 
+
+def search_PDB(search_string):
+	pdb_folder = '../frontend-react/public/pdbs/'
+
+	pdb_name = search_string.upper() + '.pdb'
+	
+	if pdb_name in os.listdir(pdb_folder):
+		return True
+
+	return False
+
 def format_bsite_string(bsite_string):
 	items = bsite_string.split(',')
 	processed_result = [item.split('_') for item in items]

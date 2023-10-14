@@ -167,7 +167,7 @@ const MolecularViewer = (props) => {
         <>
         <div className="col-md-4">
             {/* BindSite card div*/}
-            <div className="card mx-0 p-1" id="card-results">
+            <div className="card mx-0 p-0" id="card-results">
                 <div className="card-header">
                     <div className="row">    
                         <div className="col-md-6 d-flex align-items-center">
@@ -243,7 +243,7 @@ const MolecularViewer = (props) => {
         </div>
         <div className="col-md-8">
             <div className="card mx-0" id="card-results">
-                <div className="card-header color-white text-black">
+                <div className="card-header color-dark text-white">
                     <div className="row">
                         <div className="col-md-6 d-flex align-items-center">
                             Molecular Visualization

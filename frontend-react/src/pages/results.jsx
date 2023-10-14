@@ -61,7 +61,7 @@ const Results = () => {
 		} catch (error) {
 			console.error('Error:', error);
 		}
-		};
+	};
   
 	  fetchProcessedString();
 	}, [inputString]);
@@ -105,156 +105,157 @@ const Results = () => {
 	return (
 	<>
 		<BaseLayout>
-		<div class="container-lg mt-3">
-        	<div class="card mx-0" id="card-results">
-				{/* Card on top of the page*/}
-				<div class="card-header color-dark text-white">
-					<div class="row">
-						<div class="col-md-6">
-							<span class="align-middle">Predicted Binding Sites for Protein {decodeURIComponent(inputString)} </span>
-						</div>
-						<div class="col-md-6 ">
-						</div>
+			<div className="container-fluid bg-light-dark text-white mt-0 py-4"  id="help-submit">
+				<div className="row justify-content-center" >
+					<div class="col-md-12 text-center">
+						<h6 className="display-6 text-light">Predicted binding sites for protein <strong>{decodeURIComponent(inputString)}</strong></h6>
 					</div>
-				</div>
-				<div class="card-body p-0 b-0" style={{ height: "815px", overflowY: "auto", overflowX: "hidden" }}>
-					<div class="container d-block p-0" id="cl-tab">
-						<div class="row d-block m-0">
-							<nav>
-								{/* Tab for each predictor*/}
-								<div class="nav nav-tabs nav-fill bg-light" role="tablist">
-									<a className={"nav-item nav-link" + (predictorTab === -1 ? " active" : "")} href="#" onClick={() => handlePredictorTab(-1)} id="predictor-Summary" data-toggle="tab" role="tab" aria-controls="nav-Summary" aria-selected={predictorTab === -1 ? " true" : "false"}>Summary</a>
-									{predictors.map((pred, i) =>(
-										<a className={"nav-item nav-link" + (predictorTab === i ? " active" : "")} href="#" onClick={() => handlePredictorTab(i)} id={"predictor-" + pred} data-toggle="tab" role="tab" aria-controls={"nav-" + pred} aria-selected={predictorTab === i ? " true" : "false"} >{pred}</a>
-									))
-								}</div>
+					</div>
+			</div>
+			<div class="container-lg">
+			
+			<div className="container-fluid bg-light mt-0 pt-2 pb-2 shadow rounded">
+						<ul className="nav nav-pills nav-fill">
+							<li className="nav-item">
+								<a className={"nav-item nav-link" + (predictorTab === -1 ? " active" : "")} href="#" onClick={() => handlePredictorTab(-1)} id="predictor-Summary" data-toggle="tab" role="tab" aria-controls="nav-Summary" aria-selected={predictorTab === -1 ? " true" : "false"}>
+								<span className="mx-1">Summary</span>
+							</a>
+							</li>
+							{predictors.map((pred, i) =>(
+							<li className="nav-item">
+								<a className={"nav-item nav-link" + (predictorTab === i ? " active" : "")} href="#" onClick={() => handlePredictorTab(i)} id={"predictor-" + pred} data-toggle="tab" role="tab" aria-controls={"nav-" + pred} aria-selected={predictorTab === i ? " true" : "false"} >
+								<span className="mx-1" >{pred}</span></a>
+							</li>
+							))}
+						</ul>
+			</div>
+			<div class="card-body p-0 b-0" style={{ height: "815px", overflowY: "auto", overflowX: "hidden" }}>
 
-							</nav>
-							<div class="tab-content">
-									{/* Content for each predictor*/}
-									<div className={"tab-pane fade" + (predictorTab === -1 ? " active show" : "")} id="nav-Summary" role="tabpanel" aria-labelledby="predictor-Summary">
-										{upsetPlotData ? (
+				<div class="tab-content">
+					{/* Content for each predictor*/}
+					<div className={"tab-pane fade" + (predictorTab === -1 ? " active show" : "")} id="nav-Summary" role="tabpanel" aria-labelledby="predictor-Summary">
+						{upsetPlotData ? (
+						<>
+							<Summary title={"Binding site intersections"}>
+								
+								<div className="row p-2">
+									<div className="col-md-12">
+									{upsetClickResidues.length > 0 ? (
 										<>
-											<Summary title={"Binding site intersections"}>
-												
-														<div className="row p-2">
-															<div className="col-md-12">
-															{upsetClickResidues.length > 0 ? (
-																<>
-																	<Stack sx={{ width: '100%' }} spacing={2}>
-																		<Alert variant="outlined" severity="success">
-																			<AlertTitle>
-																					<div className="col">
-																						{upsetClickName.map((str, index) => (
-																							<React.Fragment key={index}>
-																							<strong>{str}</strong>
-																							{index < upsetClickName.length - 1 && ' | '}
-																							</React.Fragment>
-																						))}
-																					</div>
-																					<div className="col">
-																						<Popup trigger={<Button variant="contained" color="success">
-																											View on protein
-																										</Button>} 
-																										position="right center"
-																										modal
-																										nested>
-																							<SummaryPopup 
-																								pdb={inputString}
-																								bindSites={upsetClickResidues}
-																								graspSites={graspSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
-																								puresnetSites={puresnetSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
-																								gassSites={gassSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
-																								deeppocketSites={deeppocketSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
-																								pointsiteSites={pointsiteSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
-																								p2rankSites={p2rankSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
-																								predsToShow={upsetClickName}
-																								upsetClickResidues={upsetClickResidues}
-																							/>
-																						</Popup>
-																					</div>
-																				
-																			</AlertTitle>
-																			<div>
-																				Click on button to view list of residues for selected intersection 
-																			</div>
-																		</Alert>
-																	</Stack>
-																	
-																</>
-																) : (
-																<Stack sx={{ width: '100%' }} spacing={2}>
-																	<Alert variant="outlined" severity="warning">
-																		<AlertTitle><strong>Select an intersection</strong></AlertTitle>
-																		Click on graph to show residues found by predictors
-																	</Alert>
-																</Stack>
-															)}
+											<Stack sx={{ width: '100%' }} spacing={2}>
+												<Alert variant="outlined" severity="success">
+													<AlertTitle>
+															<div className="col">
+																{upsetClickName.map((str, index) => (
+																	<React.Fragment key={index}>
+																	<strong>{str}</strong>
+																	{index < upsetClickName.length - 1 && ' | '}
+																	</React.Fragment>
+																))}
 															</div>
-														</div>
-														<UpsetPlot upsetOnClick={upsetOnClick} data={upsetPlotData}/>	
-											</Summary>
-											<Summary title={"Residues found on binding sites"}>
-											<div className="row p-2">
-											{summaryTableData ? (
-												<div>
-													<br></br>
-													<h6>{summaryContent[0]} binding sites/pockets were predicted for protein {decodeURIComponent(inputString)} in {summaryContent[3]} different predictors</h6>
-													<br></br>
-													<h6>{summaryContent[1]} different residues were found in those predicted binding sites</h6>
-													<br></br>
-													<h6>Most common residues found:</h6>
-													<MDBDataTable 
-														striped
-														bordered
-														small
-														displayEntries={false}
-														data={summaryTableData}
-														fixed={"bottom"}
-														/>
-												</div>
-													) : (
-													<div>Loading...</div>
-												)}
-												
-												</div>
-											</Summary>
+															<div className="col">
+																<Popup trigger={<Button variant="contained" color="success">
+																					View on protein
+																				</Button>} 
+																				position="right center"
+																				modal
+																				nested>
+																	<SummaryPopup 
+																		pdb={inputString}
+																		bindSites={upsetClickResidues}
+																		graspSites={graspSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
+																		puresnetSites={puresnetSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
+																		gassSites={gassSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
+																		deeppocketSites={deeppocketSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
+																		pointsiteSites={pointsiteSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
+																		p2rankSites={p2rankSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
+																		predsToShow={upsetClickName}
+																		upsetClickResidues={upsetClickResidues}
+																	/>
+																</Popup>
+															</div>
+														
+													</AlertTitle>
+													<div>
+														Click on button to view list of residues for selected intersection 
+													</div>
+												</Alert>
+											</Stack>
+											
 										</>
 										) : (
-										<div className="row mt-4">
-
 										<Stack sx={{ width: '100%' }} spacing={2}>
-											<Alert variant="outlined" severity="info">
-												<AlertTitle><strong>Please wait</strong></AlertTitle>
-												Loading data...
+											<Alert variant="outlined" severity="warning">
+												<AlertTitle><strong>Select an intersection</strong></AlertTitle>
+												Click on graph to show residues found by predictors
 											</Alert>
 										</Stack>
-										</div>
 									)}
 									</div>
-									<PredictorContent
-										pred={predictors[0]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
-										bindSites={graspSites}/>
-									<PredictorContent
-										pred={predictors[1]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
-										bindSites={puresnetSites}/>
-									<PredictorContent
-										pred={predictors[2]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
-										bindSites={gassSites}/>
-									<PredictorContent
-										pred={predictors[3]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
-										bindSites={deeppocketSites}/>
-									<PredictorContent
-										pred={predictors[4]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
-										bindSites={pointsiteSites}/>
-									<PredictorContent
-										pred={predictors[5]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
-										bindSites={p2rankSites}/>							
-							</div>
+								</div>
+								<UpsetPlot upsetOnClick={upsetOnClick} data={upsetPlotData}/>	
+							</Summary>
+							<Summary title={"Residues found on binding sites"}>
+							<div className="row p-2">
+							{summaryTableData ? (
+								<div>
+									<br></br>
+									<h6>{summaryContent[0]} binding sites/pockets were predicted for protein {decodeURIComponent(inputString)} in {summaryContent[3]} different predictors</h6>
+									<br></br>
+									<h6>{summaryContent[1]} different residues were found in those predicted binding sites</h6>
+									<br></br>
+									<h6>Most common residues found:</h6>
+									<MDBDataTable 
+										striped
+										bordered
+										small
+										displayEntries={false}
+										data={summaryTableData}
+										fixed={"bottom"}
+										/>
+								</div>
+									) : (
+									<div>Loading...</div>
+								)}
+								
+								</div>
+							</Summary>
+						</>
+						) : (
+						<div className="row mt-4">
+
+						<Stack sx={{ width: '100%' }} spacing={2}>
+							<Alert variant="outlined" severity="info">
+								<AlertTitle><strong>Please wait</strong></AlertTitle>
+								Loading data...
+							</Alert>
+						</Stack>
 						</div>
+					)}
 					</div>
+					<PredictorContent
+						pred={predictors[0]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
+						bindSites={graspSites}/>
+					<PredictorContent
+						pred={predictors[1]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
+						bindSites={puresnetSites}/>
+					<PredictorContent
+						pred={predictors[2]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
+						bindSites={gassSites}/>
+					<PredictorContent
+						pred={predictors[3]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
+						bindSites={deeppocketSites}/>
+					<PredictorContent
+						pred={predictors[4]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
+						bindSites={pointsiteSites}/>
+					<PredictorContent
+						pred={predictors[5]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
+						bindSites={p2rankSites}/>							
 				</div>
+			
+
 			</div>
+
 		</div>
 		</BaseLayout>
 	</>

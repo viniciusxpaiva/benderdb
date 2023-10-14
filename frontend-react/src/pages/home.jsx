@@ -11,15 +11,43 @@ import Button from '@mui/material/Button';
 const Home = () => {
 	
 	const [searchString, setSearchString] = useState('');
+	
 	const navigate = useNavigate();
   
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		// Navigate to the "results" page with the input string
-		navigate(`/results/${encodeURIComponent(searchString)}`);
+		// Fetch the processed string from the Flask backend
+		const fetchProcessedString = async () => {
+			try {
+				const response = await fetch('/prot_found', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ searchString }),
+				});
+	
+				const data = await response.json();
+				if(data.prot_found === true){
+					// Navigate to the "results" page with the input string
+					navigate(`/results/${encodeURIComponent(searchString)}`);
+				}
+				else{
+					// Navigate to the "results" page with the input string
+					navigate(`/notfound`);
+				}
+				
+			} catch (error) {
+				console.error('Error:', error);
+			}
+		};
+		
+		fetchProcessedString();
 	};
 
+	
 	return (
 		<>
 			<BaseLayout>
@@ -114,8 +142,8 @@ const Home = () => {
 							<br /><br />
 							<h2 style={{marginBottom: "25px"}}>Data visualization</h2>
 							<p>SERVERDB uses two main visual representations: NGL Viewer and UpSet Plot.</p>
-							<p>NGL Viewer is a molecule viewer and allows binding sites and residues found by predictors to be analyzed in the protein structure itself.</p>
-							<p>The UpSet Plot is a focused plot for visualizing multiple intersections between sets. From there, it is possible to verify the convergence of results in all combinations of binding site predictions.</p>
+							<p>NGL Viewer allows binding sites and residues found by predictors to be analyzed in the protein structure itself.</p>
+							<p>With the UpSet Plot it is possible to verify the convergence of results in all combinations of binding site predictions.</p>
 						</div>
 						<div class="col-md-6">
 							<div class="bordered">
@@ -127,12 +155,6 @@ const Home = () => {
 								/>
 							</div>
 						</div>
-					</div>
-					<div class="row mt-4">
-						<h3>References</h3>
-						<a href="http://dx.doi.org/10.1093/bioinformatics/btaa805"> Charles A. Santana, Sabrina de A. Silveira, João P. A. Moraes, Sandro C. Izidoro,
-						Raquel C. de Melo-Minardi, António J. M. Ribeiro, Jonathan D. Tyzack, Neera Borkakoti and Janet M. Thornton.
-						GRaSP: a graph-based residue neighborhood strategy to predict binding sites. Bioinformatics (2020). </a>
 					</div>
 				</div>
 			</BaseLayout>
