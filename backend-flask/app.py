@@ -17,23 +17,19 @@ def get_time():
         "programming": "python"
     }
 
-@app.route('/prot_found', methods=['POST'])
-def prot_found():
-    print("testando")
-
+@app.route('/prot_folder', methods=['POST'])
+def prot_folder():
     data = request.get_json()
     search_string = data.get('searchString', '')
 
-    prot_found = search_PDB(search_string)
+    prot_folder = search_PDB(search_string)
 
-    return jsonify({'prot_found': prot_found})
+    print('protfolder', prot_folder)
+
+    return jsonify({'prot_folder': prot_folder})
 
 @app.route('/process', methods=['POST'])
 def process_string():
-    print("testando")
-
-    prot_found = True
-
     data = request.get_json()
     input_string = data.get('inputString', '')
     
@@ -44,18 +40,20 @@ def process_string():
     bsites_pointsite = pointsite_search(input_string)
     bsites_p2rank = p2rank_search(input_string)
 
+    prot_folder = search_PDB(input_string)
+
     summary_content = build_summary(bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank)
 
     create_download_files(input_string, bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank)
 
-    return jsonify({'prot_found': prot_found,
-                    'grasp': bsites_grasp,
+    return jsonify({'grasp': bsites_grasp,
                     'puresnet': bsites_puresnet,
                     'gass': bsites_gass, 
                     'deeppocket': bsites_deeppocket, 
                     'pointsite': bsites_pointsite,
                     'p2rank': bsites_p2rank,
-                    'summary': summary_content})
+                    'summary': summary_content,
+                    'prot_folder': prot_folder})
 
 # Run the app
 if __name__ == '__main__':

@@ -14,7 +14,7 @@ const PredictorContent = (props) => {
                 {(props.predictors[props.activeTab] === props.pred && props.bindSites.length !== 0 ?
                     <MolecularViewer 
                         pred={props.pred} predictors={props.predictors} activeTab={props.predictorTab} pdb={props.pdb} 
-                        bindSites={props.bindSites}/>
+                        bindSites={props.bindSites} pdbFolder={props.pdbFolder}/>
                     : 
 
                     <Stack sx={{ width: '100%' }} spacing={2}>

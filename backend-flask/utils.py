@@ -6,12 +6,16 @@ import glob
 def search_PDB(search_string):
 	pdb_folder = '../frontend-react/public/pdbs/'
 
-	pdb_name = search_string.upper() + '.pdb'
+	pdb_name = 'AF-' + search_string.upper() + '-F1-model_v4.pdb'
 	
-	if pdb_name in os.listdir(pdb_folder):
-		return True
+	proteom_folders = os.listdir(pdb_folder)
 
-	return False
+	for proteom in proteom_folders:
+		if pdb_name in os.listdir(pdb_folder + proteom):
+			return proteom
+
+	return ''
+	
 
 def format_bsite_string(bsite_string):
 	items = bsite_string.split(',')

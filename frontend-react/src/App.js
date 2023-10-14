@@ -8,6 +8,7 @@ import About from './pages/about';
 import Contact from './pages/contact';
 import Help from './pages/help';
 import NotFound from './pages/notFound';
+import DataTable from './pages/dataTable';
 
 function App() {
 	return (
@@ -19,6 +20,7 @@ function App() {
 				<Route path='/contact' element={<Contact />} />
 				<Route path='/help' element={<Help />} />
 				<Route path='/notfound' element={<NotFound />} />
+				<Route path='/datatable' element={<DataTable />} />
 			</Routes>
 		</Router>
 	);

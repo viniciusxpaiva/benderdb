@@ -28,6 +28,8 @@ const Results = () => {
 	const [pointsiteSites, setPointsiteSites] = useState([]);
 	const [p2rankSites, setP2rankSites] = useState([]);
 
+	const [pdbFolder, setPdbFolder] = useState('');
+
 	const [summaryContent, setSummaryContent] = useState([]);
 
 	const[upsetClickName, setUpsetClickName] = useState([]);
@@ -56,6 +58,7 @@ const Results = () => {
 			setPointsiteSites(data.pointsite);
 			setP2rankSites(data.p2rank);
 			setSummaryContent(data.summary);
+			setPdbFolder(data.prot_folder);
 
 			
 		} catch (error) {
@@ -171,6 +174,7 @@ const Results = () => {
 																		p2rankSites={p2rankSites.map((site) => (site.map(([chain, res, number, occ]) => (res + '-' + number + '-' + chain))))}
 																		predsToShow={upsetClickName}
 																		upsetClickResidues={upsetClickResidues}
+																		pdbFolder={pdbFolder}
 																	/>
 																</Popup>
 															</div>
@@ -199,7 +203,6 @@ const Results = () => {
 							<div className="row p-2">
 							{summaryTableData ? (
 								<div>
-									<br></br>
 									<h6>{summaryContent[0]} binding sites/pockets were predicted for protein {decodeURIComponent(inputString)} in {summaryContent[3]} different predictors</h6>
 									<br></br>
 									<h6>{summaryContent[1]} different residues were found in those predicted binding sites</h6>
@@ -212,6 +215,7 @@ const Results = () => {
 										displayEntries={false}
 										data={summaryTableData}
 										fixed={"bottom"}
+										noBottomColumns={true}
 										/>
 								</div>
 									) : (
@@ -235,22 +239,22 @@ const Results = () => {
 					</div>
 					<PredictorContent
 						pred={predictors[0]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
-						bindSites={graspSites}/>
+						bindSites={graspSites} pdbFolder={pdbFolder}/>
 					<PredictorContent
 						pred={predictors[1]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
-						bindSites={puresnetSites}/>
+						bindSites={puresnetSites} pdbFolder={pdbFolder}/>
 					<PredictorContent
 						pred={predictors[2]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
-						bindSites={gassSites}/>
+						bindSites={gassSites} pdbFolder={pdbFolder}/>
 					<PredictorContent
 						pred={predictors[3]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
-						bindSites={deeppocketSites}/>
+						bindSites={deeppocketSites} pdbFolder={pdbFolder}/>
 					<PredictorContent
 						pred={predictors[4]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
-						bindSites={pointsiteSites}/>
+						bindSites={pointsiteSites} pdbFolder={pdbFolder}/>
 					<PredictorContent
 						pred={predictors[5]} predictors={predictors} activeTab={predictorTab} pdb={inputString} 
-						bindSites={p2rankSites}/>							
+						bindSites={p2rankSites} pdbFolder={pdbFolder}/>							
 				</div>
 			
 

@@ -66,7 +66,7 @@
             // Fetch the processed string from the Flask backend
             const fetchProcessedString = async () => {
                 try {
-                    const response = await fetch('/prot_found', {
+                    const response = await fetch('/prot_folder', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -75,7 +75,7 @@
                     });
         
                     const data = await response.json();
-                    if(data.prot_found === true){
+                    if(data.prot_folder !== ''){
                         // Navigate to the "results" page with the input string
                         navigate(`/results/${encodeURIComponent(searchString)}`);
                     }
@@ -128,9 +128,9 @@
                     },
                     }}
                 component={Link}
-                to="/results/X8FIS2"
+                to="/results/X8EYD1"
                 >
-                    Results
+                    Example
                 </Button>
                 <Button
                     key={'about'}
@@ -144,9 +144,9 @@
                     },
                     }}
                 component={Link}
-                to="/about"
+                to="/datatable"
                 >
-                    About
+                    Data table
                 </Button>
                 <Button
                     key={'contact'}

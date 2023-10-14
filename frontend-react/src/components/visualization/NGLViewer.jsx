@@ -24,7 +24,6 @@ function ColorfulText({color, children}) {
 
 
 const MolecularViewer = (props) => {
-    console.log("page rendering")
 
     const [stage, setStage] = useState(null);
     const [bindSiteTab, setBindSiteTab] = useState(0);
@@ -35,7 +34,7 @@ const MolecularViewer = (props) => {
     useEffect(() => {
         const newStage = new NGL.Stage("viewport");
         newStage.removeAllComponents(); // Remove previous components
-        newStage.loadFile('/pdbs/' + props.pdb + '.pdb').then((component) => { 
+        newStage.loadFile('/pdbs/' + props.pdbFolder + '/AF-' + props.pdb + '-F1-model_v4.pdb').then((component) => { 
             component.addRepresentation("cartoon", {color: "grey"});
             component.autoView();
             changeColorBindSites(component, props.bindSites)
@@ -59,7 +58,7 @@ const MolecularViewer = (props) => {
 
     function resetNGLViewer(stage) {
         stage.removeAllComponents();
-        stage.loadFile('/pdbs/' + props.pdb + '.pdb').then((component) => { 
+        stage.loadFile('/pdbs/' + props.pdbFolder + '/AF-' + props.pdb + '-F1-model_v4.pdb').then((component) => { 
             component.addRepresentation("cartoon", {color: "grey"});
             component.autoView();
             changeColorBindSites(component, props.bindSites)
@@ -81,7 +80,7 @@ const MolecularViewer = (props) => {
 
     function handleMoleculeColor(stage, colorType){
         const current_repr = stage.compList[0].reprList[0].repr.type
-        const current_pdb = props.pdb + ".pdb"
+        const current_pdb = 'AF-' + props.pdb + '-F1-model_v4.pdb'
         setReprColorButton(colorType)
         if (colorType === "chain"){
             stage.getComponentsByName(current_pdb).addRepresentation(current_repr, {colorScheme: "chainname"})
@@ -91,8 +90,7 @@ const MolecularViewer = (props) => {
     }
 
     function handleRepresentation(stage, repr){
-        const current_pdb = props.pdb + ".pdb"
-        console.log("handle")
+        const current_pdb = 'AF-' + props.pdb + '-F1-model_v4.pdb'
         setReprButton(repr);
         if (repr === "surface"){
             stage.getRepresentationsByName("cartoon").dispose()
@@ -115,8 +113,9 @@ const MolecularViewer = (props) => {
     }
 
     function focusResidue(stage, resNum, chain){
+        console.log(stage)
         const sele = resNum + ":" + chain
-        const pdb_id = props.pdb + ".pdb"
+        const pdb_id = 'AF-' + props.pdb + '-F1-model_v4.pdb'
         stage.getRepresentationsByName("surface").dispose()
         stage.getComponentsByName(pdb_id).addRepresentation("surface", {
             sele:sele, opacity: 0.5, side: "front"
@@ -127,8 +126,7 @@ const MolecularViewer = (props) => {
     
    
     const handleBindSiteTab = (stage, tabNum, site) => {
-        const pdb_id = props.pdb + ".pdb"
-        console.log("tab:" + tabNum)
+        const pdb_id = 'AF-' + props.pdb + '-F1-model_v4.pdb'
         setBindSiteTab(tabNum);
 
         // Construct an array of selection strings from the residue list
@@ -243,7 +241,7 @@ const MolecularViewer = (props) => {
         </div>
         <div className="col-md-8">
             <div className="card mx-0" id="card-results">
-                <div className="card-header color-dark text-white">
+                <div className="card-header">
                     <div className="row">
                         <div className="col-md-6 d-flex align-items-center">
                             Molecular Visualization

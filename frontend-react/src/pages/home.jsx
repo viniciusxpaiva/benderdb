@@ -21,7 +21,7 @@ const Home = () => {
 		// Fetch the processed string from the Flask backend
 		const fetchProcessedString = async () => {
 			try {
-				const response = await fetch('/prot_found', {
+				const response = await fetch('/prot_folder', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ const Home = () => {
 				});
 	
 				const data = await response.json();
-				if(data.prot_found === true){
+				if(data.prot_folder !== ''){
 					// Navigate to the "results" page with the input string
 					navigate(`/results/${encodeURIComponent(searchString)}`);
 				}
@@ -55,9 +55,9 @@ const Home = () => {
 					<div class="container">
 					<div class="row mt-6">
 						<div class="col-md-12 text-center">
-							<h1 class="display-1 text-light mt-4">SERVERDB</h1>
-							<h3 className="display-4 text-light">Database of protein binding sites of neglected diseases proteoms</h3>
-							<div class="container p-0 mb-3 justify-content-center" style={{display: "flex"}}>
+							<h1 class="display-1 text-light mt-5"><strong>SERVERDB</strong></h1>
+							<h3 className="display-4 text-light">A protein binding sites database of neglected diseases proteoms</h3>
+							<div class="container p-0 mb-5 mt-5 justify-content-center" style={{display: "flex"}}>
 									<Paper
 										component="form"
 										sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 800 }}
@@ -85,7 +85,7 @@ const Home = () => {
 					</div>
 				</div>
 				<div class="container">
-					<div>X8FIS2 C6KSS7 A0A0N4UM35</div>
+					<div>X8EYD1 X8FHG0 O32988 Q7AQN7</div>
 					<div class="row">
 						<div class="col-md-6" style={{display: "flex", flexDirection:"column", justifyContent:"center"}}>
 							<p>

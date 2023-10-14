@@ -49,14 +49,12 @@ const SummaryPopup = (props) => {
     const [reprButton, setReprButton] = useState('');
     const [reprColorButton, setReprColorButton] = useState('');
 
-
-    console.log(props.upsetClickResidues)
     useEffect(() => {
         
         
         const newStage = new NGL.Stage("viewport");
         newStage.removeAllComponents(); // Remove previous components
-        newStage.loadFile('/pdbs/' + props.pdb + '.pdb').then((component) => { 
+        newStage.loadFile('/pdbs/' + props.pdbFolder + '/AF-' + props.pdb + '-F1-model_v4.pdb').then((component) => { 
             component.addRepresentation("cartoon", {color: "grey"});
             component.autoView();
             colorAllSites(component);
@@ -84,7 +82,7 @@ const SummaryPopup = (props) => {
 
     function resetNGLViewer(stage) {
         stage.removeAllComponents();
-        stage.loadFile('/pdbs/' + props.pdb + '.pdb').then((component) => { 
+        stage.loadFile('/pdbs/' + props.pdbFolder + '/AF-' + props.pdb + '-F1-model_v4.pdb').then((component) => { 
             component.addRepresentation("cartoon", {color: "grey"});
             component.autoView();
             changeColorBindSites(component, props.bindSites)
@@ -119,7 +117,7 @@ const SummaryPopup = (props) => {
 
     function handleMoleculeColor(stage, colorType){
         const current_repr = stage.compList[0].reprList[0].repr.type
-        const current_pdb = props.pdb + ".pdb"
+        const current_pdb = 'AF-' + props.pdb + '-F1-model_v4.pdb'
         setReprColorButton(colorType)
         if (colorType === "chain"){
             stage.getComponentsByName(current_pdb).addRepresentation(current_repr, {colorScheme: "chainname"})
@@ -129,7 +127,7 @@ const SummaryPopup = (props) => {
     }
 
     function handleRepresentation(stage, repr){
-        const current_pdb = props.pdb + ".pdb"
+        const current_pdb = 'AF-' + props.pdb + '-F1-model_v4.pdb'
         setReprButton(repr);
         if (repr === "surface"){
             stage.getRepresentationsByName("cartoon").dispose()
@@ -153,7 +151,7 @@ const SummaryPopup = (props) => {
 
     function focusResidue(stage, resNum, chain){
         const sele = resNum + ":" + chain
-        const pdb_id = props.pdb + ".pdb"
+        const pdb_id = 'AF-' + props.pdb + '-F1-model_v4.pdb'
         stage.getRepresentationsByName("surface").dispose()
         stage.getComponentsByName(pdb_id).addRepresentation("surface", {
             sele:sele, opacity: 0.5, side: "front"
