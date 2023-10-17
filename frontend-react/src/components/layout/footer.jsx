@@ -16,7 +16,7 @@ const Footer = () => {
         <MDBFooter className='text-center text-white' style={{ backgroundColor: '#f1f1f1' }}>
         <MDBContainer className='pt-4'>
         <section className='mb-4 text-dark'>
-        <a href="https://homepages.dcc.ufmg.br/~sabrinas" target="_blank" rel="noopener noreferrer">LaBio Laboratory of Bioinformatics, Visualization and Systems</a>
+        <a className="text-decoration-none" href="https://homepages.dcc.ufmg.br/~sabrinas" target="_blank" rel="noopener noreferrer">LaBio Laboratory of Bioinformatics, Visualization and Systems</a>
           
         </section>
       </MDBContainer>

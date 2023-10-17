@@ -4,7 +4,6 @@ import './styles/Base.css';
 import { BrowserRouter as Router, Routes, Route }	from 'react-router-dom';
 import Home from './pages/home';
 import Results from './pages/results';
-import About from './pages/about';
 import Contact from './pages/contact';
 import Help from './pages/help';
 import NotFound from './pages/notFound';
@@ -16,7 +15,6 @@ function App() {
 			<Routes>
 				<Route path='/' element={<Home />} />
 				<Route path='/results/:inputString' element={<Results />} />
-				<Route path='/about' element={<About />} />
 				<Route path='/contact' element={<Contact />} />
 				<Route path='/help' element={<Help />} />
 				<Route path='/notfound' element={<NotFound />} />

@@ -12,7 +12,7 @@ const NotFound = () => {
         <div className="container-fluid bg-light-dark text-white mt-0 py-4"  id="help-submit">
             <div className="row justify-content-center" >
                 <div className="col-md-12 text-center">
-                    <h6 className="display-6 text-light">Searched protein is not available in database</h6>
+                    <h6 className="display-6 text-light">Searched protein is not available in DATABASE</h6>
                 </div>
             </div>
         </div>

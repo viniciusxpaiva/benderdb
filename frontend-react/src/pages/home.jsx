@@ -84,6 +84,7 @@ const Home = () => {
 					</div>
 					</div>
 				</div>
+				
 				<div class="container">
 					<div class="row">
 						<div class="col-md-6" style={{display: "flex", flexDirection:"column", justifyContent:"center"}}>
@@ -113,32 +114,35 @@ const Home = () => {
 							</div>
 						</div>
 					</div>
+					<hr />
 					<div class="row mb">
+					<div class="col-md-6">
+							<div class="bordered">
+								<img src="img/workflow.png" class=" img-fluid"/>
+							</div>
+						</div>
 						<div class="col-md-6" style={{display: "flex", flexDirection:"column", justifyContent:"center"}}>
-						<p>
+							<p>
 
-						<h2>Data collection and experiments</h2>
-						</p>
-						
-						<p>
-						Proteomes related to neglected disease pathogens (listed by WHO and PAHO) were collected from the AlphaFold database.
+							<h2>Data collection and experiments</h2>
+							</p>
+							
+							<p>
+							Proteomes related to neglected disease pathogens (listed by WHO and PAHO) were collected from the AlphaFold database.
 
 
-						</p>
-						<p>
-						Six different predictors were used to search for pockets/binding sites in all proteins in the proteomes.
-						</p>
+							</p>
+							<p>
+							Six different predictors were used to search for pockets/binding sites in all proteins in the proteomes.
+							</p>
 
-						<p>
-						A web server was created to make the results available to the entire community. X8EYD1 X8FHG0 O32988 Q7AQN7
-						</p>
+							<p>
+							A web server was created to make the results available to the entire community. X8EYD1 X8FHG0 O32988 Q7AQN7
+							</p>
 						</div>
-						<div class="col-md-6">
-						<div class="bordered">
-							<img src="img/workflow.png" class=" img-fluid"/>
-						</div>
-						</div>
+
 					</div>
+					<hr />
 					<div class="row mt-1">
 						<div class="col-md-6" style={{display: "flex", flexDirection:"column", justifyContent:"center"}}>
 							<br /><br />

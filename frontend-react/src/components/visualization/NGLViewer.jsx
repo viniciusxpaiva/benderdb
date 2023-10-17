@@ -89,6 +89,7 @@ const MolecularViewer = (props) => {
         } else if (colorType === "uniform") {
             stage.getComponentsByName(current_pdb).addRepresentation(current_repr, {colorScheme: "uniform", color: "papayawhip"})
         }
+        changeColorBindSites(stage.getComponentsByName(current_pdb), props.bindSites)
     }
 
     function handleRepresentation(stage, repr){
@@ -167,7 +168,7 @@ const MolecularViewer = (props) => {
         <>
         <div className="col-md-4">
         <div className="card mx-0 p-0" id="card-results">
-            <div className="card-header" style={{height:"3.6rem"}}>
+            <div className="card-header b-0" style={{height:"3.6rem"}}>
                 <div className="row">
                     <div className="col-md-6 d-flex align-items-center">
                     <span className="align-middle">{props.pred + " sites"}</span>

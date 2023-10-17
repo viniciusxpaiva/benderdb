@@ -12,9 +12,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import Button from '@mui/material/Button';
-import Popup from 'reactjs-popup';
-
 
 const LegendItem = ({ itemName, color }) => {
     const containerStyle = {
@@ -49,6 +46,9 @@ const SummaryPopup = (props) => {
     const [reprButton, setReprButton] = useState('');
     const [reprColorButton, setReprColorButton] = useState('');
 
+
+    console.log(props.upsetClickResidues)
+
     useEffect(() => {
         
         
@@ -58,7 +58,7 @@ const SummaryPopup = (props) => {
             component.addRepresentation("cartoon", {color: "grey"});
             component.autoView();
             colorAllSites(component);
-            changeColorBindSites(component, props.bindSites, "cyan")
+            changeColorBindSites(component, props.upsetClickResidues, "cyan")
         });
         newStage.setParameters({ backgroundColor: "white" });
         setStage(newStage)
@@ -85,7 +85,7 @@ const SummaryPopup = (props) => {
         stage.loadFile('/pdbs/' + props.pdbFolder + '/AF-' + props.pdb + '-F1-model_v4.pdb').then((component) => { 
             component.addRepresentation("cartoon", {color: "grey"});
             component.autoView();
-            changeColorBindSites(component, props.bindSites)
+            changeColorBindSites(component, props.upsetClickResidues)
         });
         stage.setParameters({ backgroundColor: "white" });
         setStage(stage) // Remove previous components
@@ -124,6 +124,8 @@ const SummaryPopup = (props) => {
         } else if (colorType === "uniform") {
             stage.getComponentsByName(current_pdb).addRepresentation(current_repr, {colorScheme: "uniform", color: "papayawhip"})
         }
+        colorAllSites(stage.getComponentsByName(current_pdb));
+        changeColorBindSites(stage.getComponentsByName(current_pdb), props.upsetClickResidues, "cyan")
     }
 
     function handleRepresentation(stage, repr){
@@ -166,10 +168,16 @@ const SummaryPopup = (props) => {
                     <div className="card mx-0" id="card-results">
                         <div className="card-header color-white text-black">
                             <div className="row">
-                                <div className="col-md-6 d-flex align-items-center">
+                                <div className="col-md-4 d-flex align-items-center">
                                     Molecular Visualization
                                 </div>
-                                <div className="col-md-6 ">
+                                <div className="col-md-8" style={{
+      display: 'flex',
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+      flexDirection: window.innerWidth <= 768 ? 'column' : 'row',
+      // Add other styles as needed
+    }}>
                                     <div style={{display: "flex", justifyContent: "flex-end", alignItems: "center"}}>
                                         <Stack direction="row" spacing={1}>
                                             <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
@@ -247,7 +255,7 @@ const SummaryPopup = (props) => {
                                     <div className="col-md-12">
                                         <nav>
                                             <div className="nav nav-tabs nav-fill bg-light mt-1" role="tablist">
-                                                <a className={"nav-item nav-link active"} href="#" id={"bindSite-inters"} data-toggle="tab" role="tab" aria-controls={"nav-inters"} aria-selected={true}> Intersection Residues</a>
+                                                <a className={"nav-item nav-link active"} href="#" id={"bindSite-inters"} data-toggle="tab" role="tab" aria-controls={"nav-inters"} aria-selected={true} style={{backgroundColor: "#D3D3D3"}}> Intersection Residues</a>
                                             </div>
                                         </nav>
                                         <div className="tab-content">
