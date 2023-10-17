@@ -55,8 +55,8 @@ const Home = () => {
 					<div class="container">
 					<div class="row mt-6">
 						<div class="col-md-12 text-center">
-							<h1 class="display-1 text-light mt-5"><strong>SERVERDB</strong></h1>
-							<h3 className="display-4 text-light">A protein binding sites database of neglected diseases proteoms</h3>
+							<h1 class="display-1 text-light mt-5"><strong>DATABASE</strong></h1>
+							<h3 className="display-5 text-light">Protein binding sites database for <br></br>  proteomes of neglected disease pathogens</h3>
 							<div class="container p-0 mb-5 mt-5 justify-content-center" style={{display: "flex"}}>
 									<Paper
 										component="form"
@@ -71,7 +71,7 @@ const Home = () => {
 										<InputBase
 											onChange={(e) => setSearchString(e.target.value)}
 											sx={{ ml: 1, flex: 1 }}
-											placeholder="Search for protein"
+											placeholder="Search for protein UniProt code"
 											inputProps={{ 'aria-label': 'search for protein' }}
 										/>
 										<IconButton sx={{ p: '10px' }} aria-label="menu">
@@ -85,21 +85,19 @@ const Home = () => {
 					</div>
 				</div>
 				<div class="container">
-					<div>X8EYD1 X8FHG0 O32988 Q7AQN7</div>
 					<div class="row">
 						<div class="col-md-6" style={{display: "flex", flexDirection:"column", justifyContent:"center"}}>
 							<p>
 								<h2>Binding sites in Database</h2>
 							</p>
 							<p>
-								Dizer que os binding sites são predições feitas a partir de N proteomas, em X proteínas a partir do AlphaFold. 
-								Cada pretidor tem Y binding sites.
+								DATABASE is a database that contains protein binding sites of pathogens from neglected disease proteomes
 							</p>
 							<p>
-								For each residue, physicochemical and topological properties of its
-								atoms and non-covalent interactions are modeled as a graph which,
-								in turn, is encoded as a feature vector. A set of feature vectors is
-								the input for the machine learning predictor.
+								In total, 10 different proteomes were selected, totaling 101.813 proteins and XYZ binding sites.
+							</p>
+							<p>
+								A complete list of all proteoms and available binding sites in DATABASE can be found at Available Data menu.
 							</p>
 
 
@@ -109,17 +107,17 @@ const Home = () => {
 							<img
 								src="img/ngl_example.png"
 								className="img-fluid"
-								style={{ maxWidth: '100%', maxHeight: '400px', width: 'auto', height: 'auto' }}
+								style={{ maxWidth: '100%', maxHeight: '320px', width: 'auto', height: 'auto' }}
 								alt="ngl"
 								/>
 							</div>
 						</div>
 					</div>
-					<div class="row mb-5">
+					<div class="row mb">
 						<div class="col-md-6" style={{display: "flex", flexDirection:"column", justifyContent:"center"}}>
 						<p>
 
-						<h2>Data collection and experiements</h2>
+						<h2>Data collection and experiments</h2>
 						</p>
 						
 						<p>
@@ -128,7 +126,11 @@ const Home = () => {
 
 						</p>
 						<p>
-						Six different predictors were used to predict pockets/binding sites in all proteins in the proteomes.
+						Six different predictors were used to search for pockets/binding sites in all proteins in the proteomes.
+						</p>
+
+						<p>
+						A web server was created to make the results available to the entire community. X8EYD1 X8FHG0 O32988 Q7AQN7
 						</p>
 						</div>
 						<div class="col-md-6">
@@ -141,7 +143,7 @@ const Home = () => {
 						<div class="col-md-6" style={{display: "flex", flexDirection:"column", justifyContent:"center"}}>
 							<br /><br />
 							<h2 style={{marginBottom: "25px"}}>Data visualization</h2>
-							<p>SERVERDB uses two main visual representations: NGL Viewer and UpSet Plot.</p>
+							<p>DATABASE uses two main visual representations: NGL Viewer and UpSet Plot.</p>
 							<p>NGL Viewer allows binding sites and residues found by predictors to be analyzed in the protein structure itself.</p>
 							<p>With the UpSet Plot it is possible to verify the convergence of results in all combinations of binding site predictions.</p>
 						</div>

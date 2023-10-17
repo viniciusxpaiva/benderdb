@@ -160,144 +160,131 @@ const SummaryPopup = (props) => {
     }
 
     return(
-        <div className="row">
-            <div className="col-md-8">
-                <div className="card mx-0" id="card-results">
-                    <div className="card-header color-white text-black">
-                        <div className="row">
-                            <div className="col-md-6 d-flex align-items-center">
-                                Molecular Visualization
-                            </div>
-                            <div className="col-md-6 ">
-                                <div style={{display: "flex", justifyContent: "flex-end", alignItems: "center"}}>
-                                    <Stack direction="row" spacing={1}>
-                                        <Popup className='custom-popup' trigger={<Button variant="outlined" color="primary" style={{textTransform: 'none'}}>Labels</Button>} position="bottom center">
-                                            <div className="container text-center mt-3">
-                                            <div className="mb-4 pb-2 border-bottom">Residues from intersection and binding sites are distinguished by following colors:</div>
-                                                <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-                                                    <LegendItem itemName="Intersection" color="#00FFFF	" />
-                                                    <LegendItem itemName="GRaSP" color="#FF0000" />
-                                                    <LegendItem itemName="PUResNet" color="#008000" />
-                                                    <LegendItem itemName="GASS" color="#FFFF00" />
-                                                    <LegendItem itemName="DeepPocket" color="#FFA500" />
-                                                    <LegendItem itemName="PointSite" color="#800080" />
-                                                    <LegendItem itemName="P2Rank" color="#FFB6C1" />
-
-                                                </div>
-                                            </div>
-                                        </Popup>
-                                        <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
-                                            <InputLabel id="demo-select-small-label">Representation</InputLabel>
-                                            <Select
-                                                labelId="demo-select-small-label"
-                                                id="demo-select-small"
-                                                value={reprButton}
-                                                label="Representation"
-                                                onChange={(e) => handleRepresentation(stage, e.target.value)}
-                                            >
-                                                <MenuItem value="cartoon">Cartoon</MenuItem>
-                                                <MenuItem value="licorice">Licorice</MenuItem>
-                                                <MenuItem value="surface">Surface 1</MenuItem>
-                                                <MenuItem value="surface+cartoon">Surface 2</MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                        <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
-                                            <InputLabel id="demo-select-small-label">Color</InputLabel>
-                                            <Select
-                                                labelId="demo-select-small-label"
-                                                id="demo-select-small"
-                                                value={reprColorButton}
-                                                label="Color"
-                                                onChange={(e) => handleMoleculeColor(stage, e.target.value)}
-                                            >
-                                                <MenuItem value="uniform">Uniform</MenuItem>
-                                                <MenuItem value="chain">By Chain</MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                        <IconButton aria-label="fill" title="Background color"  onClick={() => handleBackgroundColor(stage)}>
-                                            <FormatColorFillIcon />
-                                        </IconButton>
-                                        <MousePopup>
-                                            <IconButton aria-label="mouse" title="Mouse controls">
-                                                <MouseIcon />
+        <>
+            <div className="row">
+                <div className="col-md-8">
+                    <div className="card mx-0" id="card-results">
+                        <div className="card-header color-white text-black">
+                            <div className="row">
+                                <div className="col-md-6 d-flex align-items-center">
+                                    Molecular Visualization
+                                </div>
+                                <div className="col-md-6 ">
+                                    <div style={{display: "flex", justifyContent: "flex-end", alignItems: "center"}}>
+                                        <Stack direction="row" spacing={1}>
+                                            <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
+                                                <InputLabel id="demo-select-small-label">Representation</InputLabel>
+                                                <Select
+                                                    labelId="demo-select-small-label"
+                                                    id="demo-select-small"
+                                                    value={reprButton}
+                                                    label="Representation"
+                                                    onChange={(e) => handleRepresentation(stage, e.target.value)}
+                                                >
+                                                    <MenuItem value="cartoon">Cartoon</MenuItem>
+                                                    <MenuItem value="licorice">Licorice</MenuItem>
+                                                    <MenuItem value="surface">Surface 1</MenuItem>
+                                                    <MenuItem value="surface+cartoon">Surface 2</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                            <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
+                                                <InputLabel id="demo-select-small-label">Color</InputLabel>
+                                                <Select
+                                                    labelId="demo-select-small-label"
+                                                    id="demo-select-small"
+                                                    value={reprColorButton}
+                                                    label="Color"
+                                                    onChange={(e) => handleMoleculeColor(stage, e.target.value)}
+                                                >
+                                                    <MenuItem value="uniform">Uniform</MenuItem>
+                                                    <MenuItem value="chain">By Chain</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                            <IconButton aria-label="fill" title="Background color"  onClick={() => handleBackgroundColor(stage)}>
+                                                <FormatColorFillIcon />
                                             </IconButton>
-                                        </MousePopup>
-                                        <IconButton aria-label="restart" title="Reset visualization" onClick={() => resetNGLViewer(stage)}>
-                                            <RestartAltIcon />
-                                        </IconButton>
-                                    </Stack>
+                                            <MousePopup>
+                                                <IconButton aria-label="mouse" title="Mouse controls">
+                                                    <MouseIcon />
+                                                </IconButton>
+                                            </MousePopup>
+                                            <IconButton aria-label="restart" title="Reset visualization" onClick={() => resetNGLViewer(stage)}>
+                                                <RestartAltIcon />
+                                            </IconButton>
+                                        </Stack>
 
-                                    
+                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="card-body p-0 b-0" style={{height: "676px"}}> 
-                        <div className="container d-block p-0" id="cl-tab">
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <div id="viewport" style={{width:"100%", height:"673px"}}></div>
+                        <div className="card-body p-0 b-0" style={{height: "683px"}}> 
+                            <div className="container d-block p-0" id="cl-tab">
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <div id="viewport" style={{width:"100%", height:"676px"}}></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="col-md-4">
-                <div className="card mx-0 p-1" id="card-results">
-                    <div className="card-header color-white text-black text-center">
-                        <span className="align-middle"> {props.predsToShow.map((str, index) => (
-                            <React.Fragment key={index}>
-                            <strong>{str}</strong>
-                            {index < props.predsToShow.length - 1 && ' | '}
-                            </React.Fragment>
-                        ))}</span>
-                    
-                    </div>
-                    <div className="card-body p-0 b-0" style={{height: "690px"}}>
-                        <div className="container d-block p-0" id="cl-tab">
-                            <div className="row">
-                                {/* List of BindSites div*/}
-                                <div className="col-md-12">
-                                    <nav>
-                                        <div className="nav nav-tabs nav-fill bg-light mt-1" role="tablist">
-                                            <a className={"nav-item nav-link active"} href="#" id={"bindSite-inters"} data-toggle="tab" role="tab" aria-controls={"nav-inters"} aria-selected={true}> Intersection Residues</a>
-                                        </div>
-                                    </nav>
-                                    <div className="tab-content">
-                                        <div className={"tab-pane fade active show"}  id={"nav-inters"} role="tabpanel" aria-labelledby={"bindSite-inters"}>
-                                            <div className="table-container" style={{ maxHeight: "642px", overflowY: "auto", overflowX: "hidden" }}>
-                                            <div class="table">
-                                                <table class="table table-sm table-hover">
-                                                    <thead class="bg-light" style={{ position: "sticky", top: 0, zIndex: 1 }}>
-                                                    <tr>
-                                                        <th class="text-center">Residue</th>
-                                                        <th class="text-center">Number</th>
-                                                        <th class="text-center">Chain</th>
-                                                        <th class="text-center">Look at</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {props.upsetClickResidues.map((res, j) => (
-                                                            <tr>
-                                                                <td class="text-center">{res.split('-')[0]}</td>
-                                                                <td class="text-center">{res.split('-')[1]}</td>
-                                                                <td class="text-center">{res.split('-')[2]}</td>
-                                                            
-                                                                <td  class="text-center">
-                                                                    <div class="row justify-content-center" style={{display: "flex"}}>
-                                                                        <div>
-                                                                        <IconButton aria-label="focus-res" title="Focus on this residue" onClick={() => focusResidue(stage, res.split('-')[1], res.split('-')[2])}>
-                                                                            <RemoveRedEyeOutlinedIcon />
-                                                                        </IconButton>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        ))}
-                                                    </tbody>
-                                                </table>
+                <div className="col-md-4">
+                    <div className="card mx-0 p-1" id="card-results">
+                        <div className="card-header color-white text-black text-center">
+                            <span className="align-middle"> {props.predsToShow.map((str, index) => (
+                                <React.Fragment key={index}>
+                                <strong>{str}</strong>
+                                {index < props.predsToShow.length - 1 && ' | '}
+                                </React.Fragment>
+                            ))}</span>
+                        
+                        </div>
+                        <div className="card-body p-0 b-0" style={{height: "690px"}}>
+                            <div className="container d-block p-0" id="cl-tab">
+                                <div className="row">
+                                    {/* List of BindSites div*/}
+                                    <div className="col-md-12">
+                                        <nav>
+                                            <div className="nav nav-tabs nav-fill bg-light mt-1" role="tablist">
+                                                <a className={"nav-item nav-link active"} href="#" id={"bindSite-inters"} data-toggle="tab" role="tab" aria-controls={"nav-inters"} aria-selected={true}> Intersection Residues</a>
                                             </div>
+                                        </nav>
+                                        <div className="tab-content">
+                                            <div className={"tab-pane fade active show"}  id={"nav-inters"} role="tabpanel" aria-labelledby={"bindSite-inters"}>
+                                                <div className="table-container" style={{ maxHeight: "642px", overflowY: "auto", overflowX: "hidden" }}>
+                                                <div class="table">
+                                                    <table class="table table-sm table-hover">
+                                                        <thead class="bg-light" style={{ position: "sticky", top: 0, zIndex: 1 }}>
+                                                        <tr>
+                                                            <th class="text-center">Residue</th>
+                                                            <th class="text-center">Number</th>
+                                                            <th class="text-center">Chain</th>
+                                                            <th class="text-center">Look at</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {props.upsetClickResidues.map((res, j) => (
+                                                                <tr>
+                                                                    <td class="text-center p-2">{res.split('-')[0]}</td>
+                                                                    <td class="text-center p-2">{res.split('-')[1]}</td>
+                                                                    <td class="text-center p-2">{res.split('-')[2]}</td>
+                                                                
+                                                                    <td  class="text-center">
+                                                                        <div class="row justify-content-center" style={{display: "flex"}}>
+                                                                            <div>
+                                                                            <IconButton className="p-1" aria-label="focus-res" title="Focus on this residue" onClick={() => focusResidue(stage, res.split('-')[1], res.split('-')[2])}>
+                                                                                <RemoveRedEyeOutlinedIcon />
+                                                                            </IconButton>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -307,7 +294,25 @@ const SummaryPopup = (props) => {
                     </div>
                 </div>
             </div>
-        </div>
+            <div className="row">
+                <div className="container text-center mt-3">
+                    <div className="card mx-0" id="card-results">
+                        <p className="mt-3">
+                        Intersection and other residues from predicted binding sites are distinguished by following colors:
+                        </p>
+                        <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                            <LegendItem itemName="Intersection" color="#00FFFF	" />
+                            <LegendItem itemName="GRaSP" color="#FF0000" />
+                            <LegendItem itemName="PUResNet" color="#008000" />
+                            <LegendItem itemName="GASS" color="#FFFF00" />
+                            <LegendItem itemName="DeepPocket" color="#FFA500" />
+                            <LegendItem itemName="PointSite" color="#800080" />
+                            <LegendItem itemName="P2Rank" color="#FFB6C1" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
     )
 }
 export default SummaryPopup

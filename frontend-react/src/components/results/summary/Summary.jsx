@@ -3,7 +3,7 @@ const Summary = (props) => {
     <div className="card mt-4" id="card-results">
         <div className="card-header color-dark text-white">
             <div className="row">
-                <div className="col-md-12">
+                <div className="col-md-12  text-center">
                     <span className="align-middle">{props.title}</span>
                 </div>
             </div>

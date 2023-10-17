@@ -16,7 +16,7 @@ import Button from '@mui/material/Button';
 
 
 
-const bSiteColors = ["red", "cyan", "green", "magenta", "blue", "gold", "orange", "purple", "papayawhip", "brown"];
+const bSiteColors = ["blue", "green", "magenta", "red", "gold", "orange", "purple", "papayawhip", "brown"];
 
 function ColorfulText({color, children}) {
     return <span style={{color: color}}>{children}</span>;
@@ -30,6 +30,8 @@ const MolecularViewer = (props) => {
     const [reprButton, setReprButton] = useState('');
     const [reprColorButton, setReprColorButton] = useState('');
 
+
+    console.log(props.bindSites)
 
     useEffect(() => {
         const newStage = new NGL.Stage("viewport");
@@ -164,84 +166,95 @@ const MolecularViewer = (props) => {
     return (
         <>
         <div className="col-md-4">
-            {/* BindSite card div*/}
-            <div className="card mx-0 p-0" id="card-results">
-                <div className="card-header">
-                    <div className="row">    
-                        <div className="col-md-6 d-flex align-items-center">
-                            <span className="align-middle">{props.pred + " sites"}</span>
-                        </div>
-                        <div className="col-md-6 d-flex justify-content-end">
-                        <Button size="small" aria-label="download" title="Download results" onClick={() => handleDownload(props.pred, props.pdb)} variant="outlined" startIcon={<DownloadingIcon />}>
-                            Download
-                        </Button>
-                            
-                        </div>
+        <div className="card mx-0 p-0" id="card-results">
+            <div className="card-header" style={{height:"3.6rem"}}>
+                <div className="row">
+                    <div className="col-md-6 d-flex align-items-center">
+                    <span className="align-middle">{props.pred + " sites"}</span>
+                    </div>
+                    <div className="col-md-6 d-flex justify-content-end">
+                    <Button
+                        size="small"
+                        aria-label="download"
+                        title="Download results"
+                        onClick={() => handleDownload(props.pred, props.pdb)}
+                        variant="outlined"
+                        startIcon={<DownloadingIcon />}
+                    >
+                        Download
+                    </Button>
                     </div>
                 </div>
-                <div className="card-body p-0 b-0" style={{height: "673px"}}>                                   
-                    <div className="container d-block p-0" id="cl-tab">
-                    <div className="row">
-                {/* List of BindSites div*/}
+            </div>
+            <div className="card-body p-1 b-0" style={{ height: "677px" }}>
+            <div className="container d-block p-0" id="cl-tab">
+                <div className="row">
                 <div className="col-md-12">
-                    
-                    <nav>
-                        <div className="nav nav-tabs nav-fill bg-light mt-1" role="tablist">
-                            {props.bindSites.map((site, i) =>(
-                                <a className={"nav-item nav-link" + (bindSiteTab === i ? " active" : "")} href="#" onClick={() => handleBindSiteTab(stage, i, site)} id={"bindSite-" + i} data-toggle="tab" role="tab" aria-controls={"nav-" + i} aria-selected={bindSiteTab === i ? " true" : "false"} > <ColorfulText color={bSiteColors[i]}>{"Site " + i}</ColorfulText></a>
-                            ))}</div>
-                    </nav>
-                    <div className="tab-content">
-                        {props.bindSites.map((p, i) =>(
-                            <>
-
-                            <div className={"tab-pane fade" + (bindSiteTab === i ? " active show" : "")}  id={"nav-" + i} role="tabpanel" aria-labelledby={"bindSite-" + i}>
-                                <div className="table-container" style={{ maxHeight: "590px", overflowY: "auto", overflowX: "hidden" }}>
-                                <div class="table">
-                                    <table class="table table-sm table-hover">
-                                        <thead class="bg-light" style={{ position: "sticky", top: 0, zIndex: 1 }}>
-                                        <tr>
-                                            <th class="text-center">Residue</th>
-                                            <th class="text-center">Number</th>
-                                            <th class="text-center">Chain</th>
-                                            <th class="text-center">Look at</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                            {p.map((res, j) => (
-                                                <tr>
-                                                    <td class="text-center">{res[1]}</td>
-                                                    <td class="text-center">{res[2]}</td>
-                                                    <td class="text-center">{res[0]}</td>
-                                                
-                                                    <td  class="text-center">
-                                                        <div class="row justify-content-center" style={{display: "flex"}}>
-                                                            <div>
-                                                            <IconButton aria-label="focus-res" title="Focus on this residue" onClick={() => focusResidue(stage, res[2], res[0])}>
-                                                                <RemoveRedEyeOutlinedIcon />
-                                                            </IconButton>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                </div>
-                            </div>
-                            </>
+                    <nav style={{ overflowY: 'auto' }}>
+                    <div className="nav nav-pills nav-fill mt-0 flex-nowrap" role="tablist">
+                        {props.bindSites.map((site, i) => (
+                        <a
+                            key={i}
+                            className={"nav-item nav-link" + (bindSiteTab === i ? " active" : "")}
+                            href="#"
+                            onClick={() => handleBindSiteTab(stage, i, site)}
+                            id={"bindSite-" + i}
+                            data-toggle="tab"
+                            role="tab"
+                            aria-controls={"nav-" + i}
+                            aria-selected={bindSiteTab === i ? " true" : "false"}
+                            style={{ minWidth: '100px',
+                                     backgroundColor: bindSiteTab === i ? "#D3D3D3" : ""}}
+                        >
+                            <ColorfulText color={bSiteColors[i % bSiteColors.length]}>{"Site " + i}</ColorfulText>
+                        </a>
                         ))}
                     </div>
-                </div>
-            </div>
+                    </nav>
+                    <div className="tab-content">
+                    {props.bindSites.map((p, i) => (
+                        <div key={i} className={"tab-pane fade" + (bindSiteTab === i ? " active show" : "")} id={"nav-" + i} role="tabpanel" aria-labelledby={"bindSite-" + i}>
+                        <div className="table-container" style={{ maxHeight: "620px", overflowY: "auto", overflowX: "hidden" }}>
+                            <div className="table">
+                            <table className="table table-sm table-hover">
+                                <thead className="bg-light" style={{ position: "sticky", top: 0, zIndex: 1 }}>
+                                <tr>
+                                    <th className="text-center">Residue</th>
+                                    <th className="text-center">Number</th>
+                                    <th className="text-center">Chain</th>
+                                    <th className="text-center">Look at</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {p.map((res, j) => (
+                                    <tr key={j}>
+                                    <td className="text-center p-2">{res[1]}</td>
+                                    <td className="text-center p-2">{res[2]}</td>
+                                    <td className="text-center p-2">{res[0]}</td>
+                                    <td className="text-center">
+                                        <IconButton className="p-1" aria-label="focus-res" title="Focus on this residue" onClick={() => focusResidue(stage, res[2], res[0])}>
+                                            <RemoveRedEyeOutlinedIcon />
+                                        </IconButton>
+                                    </td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                        </div>
+                    ))}
                     </div>
                 </div>
+                </div>
+            </div>
             </div>
         </div>
+        </div>
+
         <div className="col-md-8">
             <div className="card mx-0" id="card-results">
-                <div className="card-header">
+                <div className="card-header" style={{height:"3.6rem"}}>
                     <div className="row">
                         <div className="col-md-6 d-flex align-items-center">
                             Molecular Visualization

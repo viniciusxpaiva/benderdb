@@ -113,7 +113,7 @@
                 textDecoration: 'none',
                 }}
             >
-                SERVERDB
+                DATABASE
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 <Button
@@ -128,7 +128,7 @@
                     },
                     }}
                 component={Link}
-                to="/results/X8EYD1"
+                to="/results/X8FIS2"
                 >
                     Example
                 </Button>
@@ -146,7 +146,7 @@
                 component={Link}
                 to="/datatable"
                 >
-                    Data table
+                    Available Data
                 </Button>
                 <Button
                     key={'contact'}

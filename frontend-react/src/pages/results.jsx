@@ -132,7 +132,9 @@ const Results = () => {
 							))}
 						</ul>
 			</div>
-			<div class="card-body p-0 b-0" style={{ height: "815px", overflowY: "auto", overflowX: "hidden" }}>
+			
+			{/* <div class="card-body p-0 b-0" style={{ height: "815px", overflowY: "auto", overflowX: "hidden" }}> */}
+			<div class="card-body p-0 b-0">
 
 				<div class="tab-content">
 					{/* Content for each predictor*/}
@@ -149,12 +151,14 @@ const Results = () => {
 												<Alert variant="outlined" severity="success">
 													<AlertTitle>
 															<div className="col">
+															<h6>
 																{upsetClickName.map((str, index) => (
 																	<React.Fragment key={index}>
 																	<strong>{str}</strong>
 																	{index < upsetClickName.length - 1 && ' | '}
 																	</React.Fragment>
 																))}
+															</h6>
 															</div>
 															<div className="col">
 																<Popup trigger={<Button variant="contained" color="success">
@@ -181,7 +185,7 @@ const Results = () => {
 														
 													</AlertTitle>
 													<div>
-														Click on button to view list of residues for selected intersection 
+														<h6>Click on button to view list of residues for selected intersection </h6>
 													</div>
 												</Alert>
 											</Stack>
@@ -190,8 +194,8 @@ const Results = () => {
 										) : (
 										<Stack sx={{ width: '100%' }} spacing={2}>
 											<Alert variant="outlined" severity="warning">
-												<AlertTitle><strong>Select an intersection</strong></AlertTitle>
-												Click on graph to show residues found by predictors
+												<AlertTitle><h6><strong>Select an intersection</strong></h6></AlertTitle>
+												<h6>Click on graph to show residues found by predictors</h6>
 											</Alert>
 										</Stack>
 									)}
@@ -203,11 +207,16 @@ const Results = () => {
 							<div className="row p-2">
 							{summaryTableData ? (
 								<div>
-									<h6>{summaryContent[0]} binding sites/pockets were predicted for protein {decodeURIComponent(inputString)} in {summaryContent[3]} different predictors</h6>
-									<br></br>
-									<h6>{summaryContent[1]} different residues were found in those predicted binding sites</h6>
-									<br></br>
-									<h6>Most common residues found:</h6>
+
+									<Stack sx={{ width: '100%' }} spacing={2}>
+										<Alert variant="outlined" severity="info">
+											<AlertTitle><h6><strong>Overall prediction results for protein {decodeURIComponent(inputString)} </strong></h6></AlertTitle>
+											<h6>{summaryContent[0]} binding sites/pockets were predicted in {summaryContent[3]} different predictors</h6>
+
+											<h6>{summaryContent[1]} different residues were found in those predicted binding sites</h6>
+											<h6>Most common residues can be found at table bellow</h6>
+										</Alert>
+									</Stack>
 									<MDBDataTable 
 										striped
 										bordered
@@ -230,8 +239,8 @@ const Results = () => {
 
 						<Stack sx={{ width: '100%' }} spacing={2}>
 							<Alert variant="outlined" severity="info">
-								<AlertTitle><strong>Please wait</strong></AlertTitle>
-								Loading data...
+								<AlertTitle><h6><strong>Please wait</strong></h6></AlertTitle>
+								<h6>Loading data...</h6>
 							</Alert>
 						</Stack>
 						</div>

@@ -19,8 +19,8 @@ const PredictorContent = (props) => {
 
                     <Stack sx={{ width: '100%' }} spacing={2}>
                         <Alert variant="outlined" severity="info">
-                            <AlertTitle><strong>Info</strong></AlertTitle>
-                            {props.pred} did not find any binding site for protein {props.pdb}
+                            <AlertTitle><h6><strong>Info</strong></h6></AlertTitle>
+                            <h6>{props.pred} did not find any binding site for protein {props.pdb}</h6>
                         </Alert>
                     </Stack>
                 )}

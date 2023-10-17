@@ -1,47 +1,61 @@
-import React, { useState, useEffect } from "react";
-import BaseLayout from "../components/layout/base";
+import React from 'react';
+import BaseLayout from '../components/layout/base';
 
 const Contact = () => {
-	
-	// usestate for setting a javascript
-    // object for storing and using data
-    const [data, setdata] = useState({
-        name: "",
-        age: 0,
-        date: "",
-        programming: "",
-    });
- 
-    // Using useEffect for single rendering
-    useEffect(() => {
-        // Using fetch to fetch the api from
-        // flask server it will be redirected to proxy
-        fetch("/data1").then((res) =>
-            res.json().then((data) => {
-                // Setting a data from api
-                setdata({
-                    name: data.Name,
-                    age: data.Age,
-                    date: data.Date,
-                    programming: data.programming,
-                });
-            })
-        );
-    }, []);
- 
-    return (
+	return (
 		<BaseLayout>
-			<div className="App">
-				<header className="App-header">
-					<h1>React and flask</h1>
-					{/* Calling a data from setdata for showing */}
-					<p>{data.name}</p>
-					<p>{data.age}</p>
-					<p>{data.date}</p>
-					<p>{data.programming}</p>
-				</header>
-			</div>
+			<div className="container-fluid bg-light-dark text-white mt-0 py-4"  id="help-submit">
+				<div className="row justify-content-center" >
+					<div class="col-md-12 text-center">
+						<h6 className="display-6 text-light">Contact</h6>
+					</div>
+					</div>
+				</div>
+
+
+					<div class="container mt-4">
+						<div class="row">
+						    <h3>Contact details</h3>
+						</div>
+						<hr/>
+						<div class="row ">
+						<div class="col-md-5" style={{fontSize:"18px"}}>
+							<div class="crad border-light bg-light">
+							<div class="card-body">
+								<h5 class="card-title"><a href="http://lattes.cnpq.br/0899817111748167" title="Lattes curriculum" target="_blank" rel="noopener noreferrer"><b>Sabrina Silveira</b></a></h5>
+                                <br></br>
+                                <p>sabrina@ufv.br<br />ORCID: <a href="https://orcid.org/0000-0002-4723-2349" target="_blank" rel="noopener noreferrer">0000-0002-4723-2349</a></p>
+                                <p></p>
+								<br />
+								<h5 class="card-title"><a href="http://lattes.cnpq.br/2889736880174687" title="Lattes curriculum" target="_blank" rel="noopener noreferrer"><b>Vinícius Paiva</b></a></h5>
+                                <br></br>
+                                <p>vinicius.d.paiva@ufv.br<br />ORCID: <a href="https://orcid.org/0000-0002-4411-1875" target="_blank" rel="noopener noreferrer">0000-0002-4411-1875</a></p>
+                                <p></p>
+								<br />
+							</div>
+							</div>
+						</div>
+						<div class="col-md-7" style={{fontSize:"18px"}}>
+							<div class="crad border-light bg-light">
+							<div class="card-body">
+								<h5 class="card-title"><a href="https://homepages.dcc.ufmg.br/~sabrinas" target="_blank" rel="noopener noreferrer"><b>LaBio Laboratory of Bioinformatics, Visualization and Systems</b></a></h5>
+                                <br></br>
+                                <p>Department of Computer Science
+                                    <br />Universidade Federal de Viçosa
+                                    <br />Viçosa - Minas Gerais - Brazil
+                                    <br />36570-900
+                                    <br />+55 (31) 3612-6359
+                                </p>
+							</div>
+							</div>
+						</div>
+                        <hr />
+						</div>
+						
+					</div>
+					
+
 		</BaseLayout>
-    );
+	);
 };
 export default Contact;
