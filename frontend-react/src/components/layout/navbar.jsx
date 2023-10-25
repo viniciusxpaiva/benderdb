@@ -10,7 +10,7 @@
     import SearchIcon from '@mui/icons-material/Search';
     import InputBase from '@mui/material/InputBase';
     import { styled, alpha } from '@mui/material/styles';
-    import { Link } from "react-router-dom";
+    import { Link, useLocation } from "react-router-dom";
     import Paper from '@mui/material/Paper';
 
     const Search = styled('div')(({ theme }) => ({
@@ -60,39 +60,42 @@
     const [searchString, setSearchString] = useState('');
         const navigate = useNavigate();
     
-        const handleSubmit = (e) => {
-            e.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-            // Fetch the processed string from the Flask backend
-            const fetchProcessedString = async () => {
-                try {
-                    const response = await fetch('/prot_folder', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ searchString }),
-                    });
-        
-                    const data = await response.json();
-                    if(data.prot_folder !== ''){
-                        // Navigate to the "results" page with the input string
-                        navigate(`/results/${encodeURIComponent(searchString)}`);
-                    }
-                    else{
-                        // Navigate to the "results" page with the input string
-                        navigate(`/notfound`);
-                    }
-                    
-                } catch (error) {
-                    console.error('Error:', error);
+        // Fetch the processed string from the Flask backend
+        const fetchProcessedString = async () => {
+            try {
+                const response = await fetch('/prot_folder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ searchString }),
+                });
+    
+                const data = await response.json();
+                if(data.prot_folder !== ''){
+                    // Navigate to the "results" page with the input string
+                    navigate(`/results/${encodeURIComponent(searchString)}`);
                 }
-            };
-            
-            fetchProcessedString();
+                else{
+                    // Navigate to the "results" page with the input string
+                    navigate(`/notfound`);
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
         };
+        
+        fetchProcessedString();
+    };
 
-
+    const location = useLocation();
+    const currentPage = location.pathname;
+    console.log(currentPage)
+    
     return (
         <AppBar position="static">
         <Container maxWidth="xl">
@@ -115,20 +118,22 @@
             >
                 DATABASE
             </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            <Box sx={{flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 <Button
                     key={'results'}
                     sx={{
                     my: 2,
                     color: 'white',
                     display: 'block',
+                    textAlign: 'center',
                     textDecoration: 'none', // Remove underline
                     '&:hover': {
                         textDecoration: 'none', // Remove underline on hover as well
                     },
                     }}
                 component={Link}
-                to="/results/X8FIS2"
+                to="/results/A4HXH5"
+                style={{backgroundColor: currentPage.startsWith('/results/') ? "white" : "#1976d2", color: currentPage.startsWith('/results/') ? "#1976d2" : "white"}}
                 >
                     Example
                 </Button>
@@ -138,6 +143,7 @@
                     my: 2,
                     color: 'white',
                     display: 'block',
+                    textAlign: 'center',
                     textDecoration: 'none', // Remove underline
                     '&:hover': {
                         textDecoration: 'none', // Remove underline on hover as well
@@ -145,6 +151,7 @@
                     }}
                 component={Link}
                 to="/datatable"
+                style={{backgroundColor: currentPage === "/datatable" ? "white" : "#1976d2", color: currentPage  === "/datatable" ? "#1976d2" : "white"}}
                 >
                     Available Data
                 </Button>
@@ -154,6 +161,7 @@
                     my: 2,
                     color: 'white',
                     display: 'block',
+                    textAlign: 'center',
                     textDecoration: 'none', // Remove underline
                     '&:hover': {
                         textDecoration: 'none', // Remove underline on hover as well
@@ -161,6 +169,7 @@
                     }}
                 component={Link}
                 to="/contact"
+                style={{backgroundColor: currentPage === "/contact" ? "white" : "#1976d2", color: currentPage  === "/contact" ? "#1976d2" : "white"}}
                 >
                     Contact
                 </Button>
@@ -170,6 +179,7 @@
                     my: 2,
                     color: 'white',
                     display: 'block',
+                    textAlign: 'center',
                     textDecoration: 'none', // Remove underline
                     '&:hover': {
                         textDecoration: 'none', // Remove underline on hover as well
@@ -177,8 +187,27 @@
                     }}
                 component={Link}
                 to="/help"
+                style={{backgroundColor: currentPage === "/help" ? "white" : "#1976d2", color: currentPage  === "/help" ? "#1976d2" : "white"}}
                 >
                     Help
+                </Button>
+                <Button
+                    key={'molstar'}
+                    sx={{
+                    my: 2,
+                    color: 'white',
+                    display: 'block',
+                    textAlign: 'center',
+                    textDecoration: 'none', // Remove underline
+                    '&:hover': {
+                        textDecoration: 'none', // Remove underline on hover as well
+                    },
+                    }}
+                component={Link}
+                to="/molstar"
+                style={{backgroundColor: currentPage === "/molstar" ? "white" : "#1976d2", color: currentPage  === "/molstar" ? "#1976d2" : "white"}}
+                >
+                    molstar
                 </Button>
             </Box>
 
@@ -193,7 +222,7 @@
                     <SearchIcon />
                     </SearchIconWrapper>
                     <StyledInputBase
-                    onChange={(e) => setSearchString(e.target.value)}
+                    onChange={(e) => setSearchString(e.target.value.toUpperCase())}
                     placeholder="Search..."
                     inputProps={{ 'aria-label': 'search' }}
                     />

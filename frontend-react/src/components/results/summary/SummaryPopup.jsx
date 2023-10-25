@@ -172,12 +172,12 @@ const SummaryPopup = (props) => {
                                     Molecular Visualization
                                 </div>
                                 <div className="col-md-8" style={{
-      display: 'flex',
-      justifyContent: 'flex-end',
-      alignItems: 'center',
-      flexDirection: window.innerWidth <= 768 ? 'column' : 'row',
-      // Add other styles as needed
-    }}>
+                                    display: 'flex',
+                                    justifyContent: 'flex-end',
+                                    alignItems: 'center',
+                                    flexDirection: window.innerWidth <= 768 ? 'column' : 'row',
+                                    // Add other styles as needed
+                                    }}>
                                     <div style={{display: "flex", justifyContent: "flex-end", alignItems: "center"}}>
                                         <Stack direction="row" spacing={1}>
                                             <FormControl sx={{ m: 1, minWidth: 155 }} size="small">

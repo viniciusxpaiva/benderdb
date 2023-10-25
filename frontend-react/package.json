@@ -17,6 +17,7 @@
     "framer-motion": "^10.16.4",
     "mdb-react-ui-kit": "^6.3.0",
     "mdbreact": "^5.2.0",
+    "molstar": "^3.41.0",
     "ngl": "github:nglviewer/ngl",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

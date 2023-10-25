@@ -7,7 +7,6 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
 
-
 const Home = () => {
 	
 	const [searchString, setSearchString] = useState('');
@@ -55,8 +54,8 @@ const Home = () => {
 					<div class="container">
 					<div class="row mt-6">
 						<div class="col-md-12 text-center">
-							<h1 class="display-1 text-light mt-5"><strong>DATABASE</strong></h1>
-							<h3 className="display-5 text-light">Protein binding sites database for <br></br>  proteomes of neglected disease pathogens</h3>
+							<h1 class="display-4 text-light mt-5"><strong>DATABASE</strong></h1>
+							<p className="display-7 text-light mt-3" style={{fontSize:"22px"}}>Protein binding sites database for proteomes of neglected disease pathogens</p>
 							<div class="container p-0 mb-5 mt-5 justify-content-center" style={{display: "flex"}}>
 									<Paper
 										component="form"
@@ -69,7 +68,7 @@ const Home = () => {
 										</IconButton>
 										
 										<InputBase
-											onChange={(e) => setSearchString(e.target.value)}
+											onChange={(e) => setSearchString(e.target.value.toUpperCase())}
 											sx={{ ml: 1, flex: 1 }}
 											placeholder="Search for protein UniProt code"
 											inputProps={{ 'aria-label': 'search for protein' }}
@@ -95,7 +94,7 @@ const Home = () => {
 								DATABASE is a database that contains protein binding sites of pathogens from neglected disease proteomes
 							</p>
 							<p>
-								In total, 10 different proteomes were selected, totaling 101.813 proteins and XYZ binding sites.
+								In total, 10 different proteomes were selected, totaling 101.813 proteins and 1.172.743 binding sites.
 							</p>
 							<p>
 								A complete list of all proteoms and available binding sites in DATABASE can be found at Available Data menu.

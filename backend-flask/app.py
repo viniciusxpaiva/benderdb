@@ -24,7 +24,7 @@ def prot_folder():
 
     prot_folder = search_PDB(search_string)
 
-    print('protfolder', prot_folder)
+    print('protfolder+', search_string, prot_folder)
 
     return jsonify({'prot_folder': prot_folder})
 
@@ -58,3 +58,5 @@ def process_string():
 # Run the app
 if __name__ == '__main__':
     app.run(debug=True)
+
+

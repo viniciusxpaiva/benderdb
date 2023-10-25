@@ -22,7 +22,8 @@ const CustomIcon = (props) => (
 
 
 const convertedRows = pythonStyleRows.map(row => ({
-    uniprot: <a className="text-decoration-none" href={"https://www.uniprot.org/uniprotkb/" + row.uniprot} title="Go to UniProt" target="_blank" rel="noopener noreferrer" >{row.uniprot} </a>,
+    //uniprot: <a className="text-decoration-none" href={"https://www.uniprot.org/uniprotkb/" + row.uniprot} title="Go to UniProt" target="_blank" rel="noopener noreferrer" >{row.uniprot} </a>,
+    uniprot: row.uniprot,
     species: row.species,
     disease: row.disease,
     results: <CustomIcon link={row.results} name={row.uniprot} />,
