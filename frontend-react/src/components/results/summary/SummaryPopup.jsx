@@ -13,6 +13,15 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 
+const mousePopupStyle = {
+    width: '80%',
+    maxWidth: '600px',
+    height: '40vh',
+    overflowY: 'auto',
+    overflowX: 'auto', // Add this line to enable horizontal scrollbar when needed
+};
+
+
 const LegendItem = ({ itemName, color }) => {
     const containerStyle = {
       marginBottom: '10px',
@@ -164,6 +173,24 @@ const SummaryPopup = (props) => {
     return(
         <>
             <div className="row">
+                <div className="container text-center">
+                    <div className="card mx-0" id="card-results">
+                        <p className="mt-3">
+                        Intersection and other residues from predicted binding sites are distinguished by following colors:
+                        </p>
+                        <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                            <LegendItem itemName="Intersection" color="#00FFFF	" />
+                            <LegendItem itemName="GRaSP" color="#FF0000" />
+                            <LegendItem itemName="PUResNet" color="#008000" />
+                            <LegendItem itemName="GASS" color="#FFFF00" />
+                            <LegendItem itemName="DeepPocket" color="#FFA500" />
+                            <LegendItem itemName="PointSite" color="#800080" />
+                            <LegendItem itemName="P2Rank" color="#FFB6C1" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="row mt-2">
                 <div className="col-md-8">
                     <div className="card mx-0" id="card-results">
                         <div className="card-header color-white text-black">
@@ -238,8 +265,8 @@ const SummaryPopup = (props) => {
                     </div>
                 </div>
                 <div className="col-md-4">
-                    <div className="card mx-0 p-1" id="card-results">
-                        <div className="card-header color-white text-black text-center">
+                    <div className="card mx-0" id="card-results">
+                        <div className="card-header color-white text-black text-center" style={{height:"3.5rem"}}>
                             <span className="align-middle"> {props.predsToShow.map((str, index) => (
                                 <React.Fragment key={index}>
                                 <strong>{str}</strong>
@@ -302,24 +329,7 @@ const SummaryPopup = (props) => {
                     </div>
                 </div>
             </div>
-            <div className="row">
-                <div className="container text-center mt-3">
-                    <div className="card mx-0" id="card-results">
-                        <p className="mt-3">
-                        Intersection and other residues from predicted binding sites are distinguished by following colors:
-                        </p>
-                        <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-                            <LegendItem itemName="Intersection" color="#00FFFF	" />
-                            <LegendItem itemName="GRaSP" color="#FF0000" />
-                            <LegendItem itemName="PUResNet" color="#008000" />
-                            <LegendItem itemName="GASS" color="#FFFF00" />
-                            <LegendItem itemName="DeepPocket" color="#FFA500" />
-                            <LegendItem itemName="PointSite" color="#800080" />
-                            <LegendItem itemName="P2Rank" color="#FFB6C1" />
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
         </>
     )
 }

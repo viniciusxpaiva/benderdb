@@ -203,7 +203,7 @@ const Help = () => {
 							<div class="col-md-6">
 								<div style={{fontSize:"16px"}}>
 									<div class="card-body" >
-										<h5 class="card-title"> SERVERDB uses NGL Viewer and UpSet Plot</h5>
+										<h5 class="card-title"> DATABASE uses NGL Viewer and UpSet Plot</h5>
 										<br />
 										<h5 class="card-title"> NGL Viewer</h5>
 										<ol start="20">

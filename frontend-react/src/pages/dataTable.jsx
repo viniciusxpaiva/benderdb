@@ -77,7 +77,7 @@ const DataTable = () => {
                 <ul className="nav nav-pills nav-fill">
                     <li className="nav-item">
                     <a className="nav-link">
-                        <span className="mx-1">Proteoms</span>
+                        <span className="mx-1">Proteomes</span>
                     </a>
                     </li>
                 </ul>
@@ -89,7 +89,7 @@ const DataTable = () => {
                             <div className="col-md-12 text-left">
                             <Stack sx={{ width: '100%' }} spacing={2}>
                               <Alert variant="outlined" severity="info">
-                                <AlertTitle><h6><strong>List of all available proteoms:</strong></h6></AlertTitle>
+                                <AlertTitle><h6><strong>List of all available proteomes:</strong></h6></AlertTitle>
 
                                     <ul>
                                       <li><h6>Mycobacterium ulcerans</h6></li>
@@ -104,7 +104,7 @@ const DataTable = () => {
                                       <li><h6>Trichuris trichiura</h6></li>
                                     </ul>
 
-                                <h6>More info can be found at table below and at <a className="text-decoration-none" href={"https://alphafold.ebi.ac.uk/"} title="Go to UniProt" target="_blank" rel="noopener noreferrer">AlphaFold</a> webpage.</h6>
+                                <h6>More info can be found at table below and at <a className="text-decoration-none" href={"https://alphafold.ebi.ac.uk/"} title="Go to UniProt" target="_blank" rel="noopener noreferrer">AlphaFold</a> webpage</h6>
                               </Alert>
                             </Stack>
                             </div>

@@ -7,17 +7,17 @@ dict_diseases = {'Mycobacterium ulcerans':'Buruli ulcer', 'Trypanosoma cruzi':'C
 
 folder_path = '../frontend-react/public/pdbs/'
 
-proteoms = os.listdir(folder_path)
+proteomes = os.listdir(folder_path)
 
 file_path = 'output.json'
 
 total_list = []
 
-for proteom in proteoms:
-	prot_list = os.listdir(folder_path + proteom)
+for proteome in proteomes:
+	prot_list = os.listdir(folder_path + proteome)
 	for prot in prot_list:
 		uniprot = prot.split('-')[1]
-		species = proteom.replace('_', ' ')
+		species = proteome.replace('_', ' ')
 		disease = dict_diseases[species]
 		link = '/results/' + uniprot
 

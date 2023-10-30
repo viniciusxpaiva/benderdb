@@ -3,6 +3,7 @@
   margin: auto;
   background: rgb(255, 255, 255);
   padding: 5px;
+  height: 5vh;
 }
 
 .custom-popup.popup-arrow {

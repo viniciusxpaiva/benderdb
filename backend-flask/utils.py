@@ -8,11 +8,11 @@ def search_PDB(search_string):
 
 	pdb_name = 'AF-' + search_string.upper() + '-F1-model_v4.pdb'
 	
-	proteom_folders = os.listdir(pdb_folder)
+	proteome_folders = os.listdir(pdb_folder)
 
-	for proteom in proteom_folders:
-		if pdb_name in os.listdir(pdb_folder + proteom):
-			return proteom
+	for proteome in proteome_folders:
+		if pdb_name in os.listdir(pdb_folder + proteome):
+			return proteome
 
 	return ''
 	

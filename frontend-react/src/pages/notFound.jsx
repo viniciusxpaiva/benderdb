@@ -21,7 +21,7 @@ const NotFound = () => {
             <Stack sx={{ width: '100%' }} spacing={2}>
                 <Alert variant="outlined" severity="error">
                     <AlertTitle><strong>DATABASE could not find input protein</strong></AlertTitle>
-                    Please inform a valid UniProt code from neglected disease proteom.
+                    Please inform a valid UniProt code from neglected disease proteome.
                     <br></br>
                     <br></br>
                     Following table brings all available proteins in DATABASE. Use search bar to find out if protein is available.

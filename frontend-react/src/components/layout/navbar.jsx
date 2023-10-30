@@ -191,24 +191,6 @@
                 >
                     Help
                 </Button>
-                <Button
-                    key={'molstar'}
-                    sx={{
-                    my: 2,
-                    color: 'white',
-                    display: 'block',
-                    textAlign: 'center',
-                    textDecoration: 'none', // Remove underline
-                    '&:hover': {
-                        textDecoration: 'none', // Remove underline on hover as well
-                    },
-                    }}
-                component={Link}
-                to="/molstar"
-                style={{backgroundColor: currentPage === "/molstar" ? "white" : "#1976d2", color: currentPage  === "/molstar" ? "#1976d2" : "white"}}
-                >
-                    molstar
-                </Button>
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
