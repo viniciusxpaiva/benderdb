@@ -88,16 +88,16 @@ const Home = () => {
 					<div class="row">
 						<div class="col-md-6" style={{display: "flex", flexDirection:"column", justifyContent:"center"}}>
 							<p>
-								<h2>Binding sites in Database</h2>
+								<h2>Binding sites in database</h2>
 							</p>
 							<p>
-								DATABASE is a database that contains protein binding sites of pathogens from neglected disease proteomes
+								DATABASE is a database that contains protein binding sites for proteomes of neglected disease pathogens.
 							</p>
 							<p>
-								In total, 10 different proteomes were selected, totaling 101.813 proteins and 1.172.743 binding sites.
+								10 different proteomes are available, totaling 101.813 proteins and 1.172.743 binding sites.
 							</p>
 							<p>
-								A complete list of all proteoms and available binding sites in DATABASE can be found at Available Data menu.
+								A complete list of all proteomes and available binding sites in DATABASE can be found at Available Data menu.
 							</p>
 
 
@@ -127,16 +127,16 @@ const Home = () => {
 							</p>
 							
 							<p>
-							Proteomes related to neglected disease pathogens (listed by WHO and PAHO) were collected from the AlphaFold database.
+							Proteomes related to neglected disease pathogens (listed by <a className="text-decoration-none" href="https://www.who.int/health-topics/neglected-tropical-diseases#tab=tab_1" target="_blank" rel="noopener noreferrer">WHO</a> and <a className="text-decoration-none" href="https://www.paho.org/en/topics/neglected-tropical-and-vector-borne-diseases" target="_blank" rel="noopener noreferrer">PAHO</a>) were collected from the AlphaFold database.
 
 
 							</p>
 							<p>
-							Six different predictors were used to search for pockets/binding sites in all proteins in the proteomes.
+							Six different predictors were used to search for pockets/binding sites in every single protein.
 							</p>
 
 							<p>
-							A web server was created to make the results available to the entire community. X8EYD1 X8FHG0 O32988 Q7AQN7
+							A web server was created to make the results available to the entire community.
 							</p>
 						</div>
 
