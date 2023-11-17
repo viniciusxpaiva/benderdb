@@ -111,12 +111,12 @@
                 display: { xs: 'none', md: 'flex' },
                 fontFamily: 'monospace',
                 fontWeight: 700,
-                letterSpacing: '.3rem',
+                letterSpacing: '.01rem',
                 color: 'inherit',
                 textDecoration: 'none',
                 }}
             >
-                DATABASE
+                BENDER DB
             </Typography>
             <Box sx={{flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 <Button

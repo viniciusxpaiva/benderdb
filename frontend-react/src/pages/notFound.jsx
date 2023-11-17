@@ -12,7 +12,7 @@ const NotFound = () => {
         <div className="container-fluid bg-light-dark text-white mt-0 py-4"  id="help-submit">
             <div className="row justify-content-center" >
                 <div className="col-md-12 text-center">
-                    <h6 className="display-6 text-light">Searched protein is not available in DATABASE</h6>
+                    <h6 className="display-6 text-light">Searched protein is not available in BENDER DB</h6>
                 </div>
             </div>
         </div>
@@ -20,11 +20,11 @@ const NotFound = () => {
             
             <Stack sx={{ width: '100%' }} spacing={2}>
                 <Alert variant="outlined" severity="error">
-                    <AlertTitle><strong>DATABASE could not find input protein</strong></AlertTitle>
+                    <AlertTitle><strong>BENDER DB could not find input protein</strong></AlertTitle>
                     Please inform a valid UniProt code from neglected disease proteome.
                     <br></br>
                     <br></br>
-                    Following table brings all available proteins in DATABASE. Use search bar to find out if protein is available.
+                    Following table brings all available proteins in BENDER DB. Use search bar to find out if protein is available.
                     <br></br>
                     <br></br>
                     <Link to={'/datatable'}>

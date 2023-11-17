@@ -54,8 +54,8 @@ const Home = () => {
 					<div class="container">
 					<div class="row mt-6">
 						<div class="col-md-12 text-center">
-							<h1 class="display-4 text-light mt-5"><strong>DATABASE</strong></h1>
-							<p className="display-7 text-light mt-3" style={{fontSize:"22px"}}>Protein binding sites database for proteomes of neglected disease pathogens</p>
+							<h1 class="display-4 text-light mt-5"><strong>BENDER DB</strong></h1>
+							<p className="display-7 text-light mt-3" style={{fontSize:"22px"}}>a database for Binding sitE identification in Neglected DiseasE pRoteomes</p>
 							<div class="container p-0 mb-5 mt-5 justify-content-center" style={{display: "flex"}}>
 									<Paper
 										component="form"
@@ -91,13 +91,13 @@ const Home = () => {
 								<h2>Binding sites in database</h2>
 							</p>
 							<p>
-								DATABASE is a database that contains protein binding sites for proteomes of neglected disease pathogens.
+								BENDER DB is a database that contains protein binding sites for proteomes of neglected disease pathogens.
 							</p>
 							<p>
 								10 different proteomes are available, totaling 101.813 proteins and 1.172.743 binding sites.
 							</p>
 							<p>
-								A complete list of all proteomes and available binding sites in DATABASE can be found at Available Data menu.
+								A complete list of all proteomes and available binding sites in BENDER DB can be found at Available Data menu.
 							</p>
 
 
@@ -146,7 +146,7 @@ const Home = () => {
 						<div class="col-md-6" style={{display: "flex", flexDirection:"column", justifyContent:"center"}}>
 							<br /><br />
 							<h2 style={{marginBottom: "25px"}}>Data visualization</h2>
-							<p>DATABASE uses two main visual representations: NGL Viewer and UpSet Plot.</p>
+							<p>BENDER DB uses two main visual representations: NGL Viewer and UpSet Plot.</p>
 							<p>NGL Viewer allows binding sites and residues found by predictors to be analyzed in the protein structure itself.</p>
 							<p>With the UpSet Plot it is possible to verify the convergence of results in all combinations of binding site predictions.</p>
 						</div>

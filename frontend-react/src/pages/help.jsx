@@ -7,7 +7,7 @@ const Help = () => {
 			<div className="container-fluid bg-light-dark text-white mt-0 py-4"  id="help-submit">
 				<div className="row justify-content-center" >
 					<div class="col-md-12 text-center">
-						<h6 className="display-6 text-light">How to use DATABASE</h6>
+						<h6 className="display-6 text-light">How to use BENDER DB</h6>
 					</div>
 					</div>
 				</div>
@@ -67,7 +67,7 @@ const Help = () => {
 										<br />
 										<ol start="1" id="help-submit">
 											<li>The search must be done by inserting a valid UniProt code from a protein of one of those proteomes of neglected diseases pathogens</li>
-											<li>A complete list of all proteins and proteomes available in DATABASE can be found at Available Data menu</li>
+											<li>A complete list of all proteins and proteomes available in BENDER DB can be found at Available Data menu</li>
 										</ol>
 									</div>
 								</div>
@@ -89,11 +89,11 @@ const Help = () => {
 							<div class="col-md-6" style={{fontSize:"16px"}}>
 								<div>
 									<div class="card-body" >
-										<h5 class="card-title">All available data in DATABASE can be found at Available Data menu</h5>
+										<h5 class="card-title">All available data in BENDER DB can be found at Available Data menu</h5>
 										<br />
 										<ol start="3">
 										<li>This menu includes a list of 10 proteomes present in database </li>
-										<li>A seach table shows all 101.813 proteins catalogued by DATABASE, including a link to protein results page </li>
+										<li>A seach table shows all 101.813 proteins catalogued by BENDER DB, including a link to protein results page </li>
 										</ol>
 									</div>
 								</div>
@@ -203,7 +203,7 @@ const Help = () => {
 							<div class="col-md-6">
 								<div style={{fontSize:"16px"}}>
 									<div class="card-body" >
-										<h5 class="card-title"> DATABASE uses NGL Viewer and UpSet Plot</h5>
+										<h5 class="card-title"> BENDER DB uses NGL Viewer and UpSet Plot</h5>
 										<br />
 										<h5 class="card-title"> NGL Viewer</h5>
 										<ol start="20">
