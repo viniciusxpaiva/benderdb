@@ -1,0 +1,383 @@
+import React, { useEffect, useState } from "react";
+import * as NGL from "ngl/dist/ngl";
+import MousePopup from "../results/predictors/MousePopup";
+import "../../styles/SummaryPopup.css";
+import Stack from "@mui/material/Stack";
+import MouseIcon from "@mui/icons-material/Mouse";
+import IconButton from "@mui/material/IconButton";
+import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+
+const mousePopupStyle = {
+  width: "80%",
+  maxWidth: "600px",
+  height: "40vh",
+  overflowY: "auto",
+  overflowX: "auto", // Add this line to enable horizontal scrollbar when needed
+};
+
+const LegendItem = ({ itemName, color }) => {
+  const containerStyle = {
+    marginBottom: "10px",
+    marginLeft: "10px",
+    display: "inline-block", // Ensure the container only takes the space it needs
+  };
+
+  const itemStyle = {
+    color: "black",
+  };
+
+  const backgroundColorStyle = {
+    backgroundColor: color,
+    padding: "0 10px",
+    borderRadius: "5px",
+    display: "inline-block", // Allow the background to expand beyond the text
+  };
+
+  return (
+    <div style={containerStyle}>
+      <span style={itemStyle}>
+        <span style={backgroundColorStyle}>{itemName}</span>
+      </span>
+    </div>
+  );
+};
+
+const MolViewer = (props) => {
+  const [stage, setStage] = useState(null);
+  const [reprButton, setReprButton] = useState("");
+  const [reprColorButton, setReprColorButton] = useState("");
+
+  useEffect(() => {
+    startNGLViewer();
+  }, []);
+
+  function startNGLViewer() {
+    const newStage = new NGL.Stage("viewport-summ");
+        newStage.removeAllComponents(); // Remove previous components
+        newStage.loadFile('/pdbs/' + props.pdbFolder + '/AF-' + props.pdb + '-F1-model_v4.pdb').then((component) => { 
+            component.addRepresentation("cartoon", {color: "grey"});
+            component.autoView();
+            //colorAllSites(component);
+            //changeColorBindSites(component, props.upsetClickResidues, "cyan")
+        });
+        newStage.setParameters({ backgroundColor: "white" });
+        setStage(newStage)
+  }
+  /*
+  function colorProteinAsHeatmap(component){
+    console.log(props.numPreds)
+    const upsetPlotData =
+    props.resOccurrenceList &&
+    props.resOccurrenceList.map(([residue, predictors, occurrence]) => ({
+      residue: `${residue[1]}-${residue[2]}-${residue[0]}`,
+      sets: (100/props.numPreds)*occurrence,
+    }));
+    console.log(upsetPlotData)
+    upsetPlotData.filter(data => data.sets === 100).forEach(data => console.log(data));
+    //var stringTeste = generateBindSiteString(upsetPlotData)
+    //console.log(stringTeste)
+        
+
+  }
+  */
+  /*
+    function colorAllSites(component) {
+        if (props.predsToShow.includes("GRaSP"))
+            changeColorBindSites(component, props.graspSites[0], "red")
+        if (props.predsToShow.includes("PUResNet"))
+            changeColorBindSites(component, props.puresnetSites[0], "green")
+        if (props.predsToShow.includes("GASS"))
+            changeColorBindSites(component, props.gassSites[0], "yellow")
+        if (props.predsToShow.includes("DeepPocket"))
+            changeColorBindSites(component, props.deeppocketSites[0], "orange")
+        if (props.predsToShow.includes("PointSite"))
+            changeColorBindSites(component, props.pointsiteSites[0], "purple")
+        if (props.predsToShow.includes("P2Rank"))
+            changeColorBindSites(component, props.p2rankSites[0], "pink")
+    }*/
+  
+  function resetNGLViewer(stage) {
+    stage.removeAllComponents();
+    stage
+      .loadFile(
+        "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
+      )
+      .then((component) => {
+        component.addRepresentation("cartoon", { color: "grey" });
+        component.autoView();
+        //changeColorBindSites(component, props.upsetClickResidues)
+      });
+    stage.setParameters({ backgroundColor: "white" });
+    setStage(stage); // Remove previous components
+  }
+
+  function changeColorBindSites(component, BindSites, color) {
+        // Generate strings for each list inside bindSites
+        const transformedArray = BindSites.map((item) => {
+            const parts = item.split('-');
+            return `${parts[1]}:${parts[2]}`;
+          });
+          
+        //const bindSitesToShow = transformedArray.join(' or ');
+        const bindSitesToShow = [transformedArray.join(' or ')];
+        // Log the result strings
+        bindSitesToShow.forEach((site, index) => {
+            component.addRepresentation("ball+stick", {
+                color: color,
+                sele: site
+            });
+
+        });
+    }
+  
+  function handleBackgroundColor(stage) {
+    const stageBackgroundColor = stage.getParameters().backgroundColor;
+    stageBackgroundColor === "white"
+      ? stage.setParameters({ backgroundColor: "black" })
+      : stage.setParameters({ backgroundColor: "white" });
+  }
+
+  function handleMoleculeColor(stage, colorType) {
+    const current_repr = stage.compList[0].reprList[0].repr.type;
+    const current_pdb = "AF-" + props.pdb + "-F1-model_v4.pdb";
+    setReprColorButton(colorType);
+    if (colorType === "chain") {
+      stage
+        .getComponentsByName(current_pdb)
+        .addRepresentation(current_repr, { colorScheme: "chainname" });
+    } else if (colorType === "uniform") {
+      stage.getComponentsByName(current_pdb).addRepresentation(current_repr, {
+        colorScheme: "uniform",
+        color: "papayawhip",
+      });
+    }
+    //colorAllSites(stage.getComponentsByName(current_pdb));
+    //changeColorBindSites(stage.getComponentsByName(current_pdb), props.upsetClickResidues, "cyan")
+  }
+
+  function handleRepresentation(stage, repr) {
+    const current_pdb = "AF-" + props.pdb + "-F1-model_v4.pdb";
+    setReprButton(repr);
+    if (repr === "surface") {
+      stage.getRepresentationsByName("cartoon").dispose();
+      stage.getRepresentationsByName("licorice").dispose();
+      stage
+        .getComponentsByName(current_pdb)
+        .addRepresentation(repr, { opacity: 0.3, color: "papayawhip" });
+    } else if (repr === "cartoon") {
+      stage.getRepresentationsByName("surface").dispose();
+      stage.getRepresentationsByName("licorice").dispose();
+      stage.getComponentsByName(current_pdb).addRepresentation(repr);
+    } else if (repr === "licorice") {
+      stage.getRepresentationsByName("cartoon").dispose();
+      stage.getRepresentationsByName("surface").dispose();
+      stage.getComponentsByName(current_pdb).addRepresentation(repr);
+    } else if (repr === "surface+cartoon") {
+      stage.getRepresentationsByName("surface").dispose();
+      stage.getRepresentationsByName("licorice").dispose();
+      stage.getComponentsByName(current_pdb).addRepresentation("cartoon");
+      stage
+        .getComponentsByName(current_pdb)
+        .addRepresentation("surface", { opacity: 0.3, color: "papayawhip" });
+    }
+  }
+
+  function focusResidue(stage, resNum, chain) {
+    const sele = resNum + ":" + chain;
+    const pdb_id = "AF-" + props.pdb + "-F1-model_v4.pdb";
+    stage.getRepresentationsByName("surface").dispose();
+    stage.getComponentsByName(pdb_id).addRepresentation("surface", {
+      sele: sele,
+      opacity: 0.5,
+      side: "front",
+    });
+    stage.getComponentsByName(pdb_id).autoView(sele);
+  }
+
+  return (
+    <div className="row mt-4">
+      
+      <div className="col-md-8">
+        <div className="card mx-0" id="card-results">
+          <div className="card-header" style={{ height: "3.6rem" }}>
+            <div className="row">
+              <div className="col-md-6 d-flex align-items-center">
+                Molecular Visualization
+              </div>
+              <div className="col-md-6 ">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                  }}
+                >
+                  <Stack direction="row" spacing={1}>
+                    <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
+                      <InputLabel id="demo-select-small-label">
+                        Representation
+                      </InputLabel>
+                      <Select
+                        labelId="demo-select-small-label"
+                        id="demo-select-small"
+                        value={reprButton}
+                        label="Representation"
+                        onChange={(e) =>
+                          handleRepresentation(stage, e.target.value)
+                        }
+                      >
+                        <MenuItem value="cartoon">Cartoon</MenuItem>
+                        <MenuItem value="licorice">Licorice</MenuItem>
+                        <MenuItem value="surface">Surface 1</MenuItem>
+                        <MenuItem value="surface+cartoon">Surface 2</MenuItem>
+                      </Select>
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
+                      <InputLabel id="demo-select-small-label">
+                        Color
+                      </InputLabel>
+                      <Select
+                        labelId="demo-select-small-label"
+                        id="demo-select-small"
+                        value={reprColorButton}
+                        label="Color"
+                        onChange={(e) =>
+                          handleMoleculeColor(stage, e.target.value)
+                        }
+                      >
+                        <MenuItem value="uniform">Uniform</MenuItem>
+                        <MenuItem value="chain">By Chain</MenuItem>
+                      </Select>
+                    </FormControl>
+                    <IconButton
+                      aria-label="fill"
+                      title="Background color"
+                      onClick={() => handleBackgroundColor(stage)}
+                    >
+                      <FormatColorFillIcon />
+                    </IconButton>
+                    <MousePopup>
+                      <IconButton aria-label="mouse" title="Mouse controls">
+                        <MouseIcon />
+                      </IconButton>
+                    </MousePopup>
+                    <IconButton
+                      aria-label="restart"
+                      title="Reset visualization"
+                      onClick={() => resetNGLViewer(stage)}
+                    >
+                      <RestartAltIcon />
+                    </IconButton>
+                  </Stack>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="card-body p-0 b-0" style={{ height: "676px" }}>
+            <div className="container d-block p-0" id="cl-tab">
+              <div className="row">
+                <div className="col-md-12">
+                  <div
+                    id="viewport-summ"
+                    style={{ width: "100%", height: "673px" }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="col-md-4">
+        <div className="card mx-0 p-0" id="card-results">
+          <div
+            className="card-header color-white text-black text-center"
+            style={{ height: "3.5rem" }}
+          >
+            <span className="align-middle"> List of residues on protein</span>
+          </div>
+          <div className="card-body p-1 b-0" style={{ height: "677px" }}>
+            <div className="container d-block p-0" id="cl-tab">
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="tab-content">
+                    {props.bindSites.map((p, i) => (
+                      <div
+                        className={"tab-pane fade active show"}
+                        id={"nav-inters"}
+                        role="tabpanel"
+                        aria-labelledby={"bindSite-inters"}
+                      >
+                        <div
+                          className="table-container"
+                          style={{
+                            maxHeight: "620px",
+                            overflowY: "auto",
+                            overflowX: "hidden",
+                          }}
+                        >
+                          <div className="table">
+                            <table className="table table-sm table-hover">
+                              <thead
+                                className="bg-light"
+                                style={{
+                                  position: "sticky",
+                                  top: 0,
+                                  zIndex: 1,
+                                }}
+                              >
+                                <tr>
+                                  <th className="text-center">Residue</th>
+                                  <th className="text-center">Number</th>
+                                  <th className="text-center">Chain</th>
+                                  <th className="text-center">Look at</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {p.map((res, j) => (
+                                  <tr key={j}>
+                                    <td className="text-center p-2">
+                                      {res[1]}
+                                    </td>
+                                    <td className="text-center p-2">
+                                      {res[2]}
+                                    </td>
+                                    <td className="text-center p-2">
+                                      {res[0]}
+                                    </td>
+                                    <td className="text-center">
+                                      <IconButton
+                                        className="p-1"
+                                        aria-label="focus-res"
+                                        title="Focus on this residue"
+                                        onClick={() =>
+                                          focusResidue(stage, res[2], res[0])
+                                        }
+                                      >
+                                        <RemoveRedEyeOutlinedIcon />
+                                      </IconButton>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+export default MolViewer;

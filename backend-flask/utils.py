@@ -233,6 +233,9 @@ def build_summary(bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket,
 
 	intersection_list = sorted(intersection_list, key=lambda x: int(x[2]), reverse=True)
 
+	print([num_total_sites, num_unique_res, intersection_list, num_pred_found])
+	print(num_pred_found)
+
 	return [num_total_sites, num_unique_res, intersection_list, num_pred_found]
 
 

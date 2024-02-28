@@ -131,7 +131,6 @@ const MolecularViewer = (props) => {
     const handleBindSiteTab = (stage, tabNum, site) => {
         const pdb_id = 'AF-' + props.pdb + '-F1-model_v4.pdb'
         setBindSiteTab(tabNum);
-
         // Construct an array of selection strings from the residue list
         var selectionStrings = site.map(function(residue){
             return residue[2] + ":" + residue[0] + " and " + residue[1];
