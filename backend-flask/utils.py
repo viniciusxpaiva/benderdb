@@ -73,7 +73,6 @@ def create_download_files(prot_name, bsites_grasp, bsites_puresnet, bsites_gass,
 		os.system(cmd)
 	else:
 		print("Results already done")
-
 	
 
 def count_common_residues(total_res, unique_total_res):

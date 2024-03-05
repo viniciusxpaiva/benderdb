@@ -46,6 +46,8 @@ def process_string():
 
     create_download_files(input_string, bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank)
 
+    create_pymol_session(input_string)
+
     return jsonify({'grasp': bsites_grasp,
                     'puresnet': bsites_puresnet,
                     'gass': bsites_gass, 
