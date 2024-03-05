@@ -34,6 +34,7 @@ def process_string():
     input_string = data.get('inputString', '')
     
     bsites_grasp = grasp_search(input_string)
+    print(bsites_grasp)
     bsites_puresnet = puresnet_search(input_string)
     bsites_gass = []
     bsites_deeppocket = deeppocket_search(input_string)
@@ -44,9 +45,11 @@ def process_string():
 
     summary_content = build_summary(bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank)
 
+    print(summary_content)
+
     create_download_files(input_string, bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank)
 
-    create_pymol_session(input_string)
+    protein_residues = get_all_protein_residues(input_string, prot_folder)
 
     return jsonify({'grasp': bsites_grasp,
                     'puresnet': bsites_puresnet,
@@ -55,7 +58,8 @@ def process_string():
                     'pointsite': bsites_pointsite,
                     'p2rank': bsites_p2rank,
                     'summary': summary_content,
-                    'prot_folder': prot_folder})
+                    'prot_folder': prot_folder,
+                    'all_residues': protein_residues})
 
 # Run the app
 if __name__ == '__main__':

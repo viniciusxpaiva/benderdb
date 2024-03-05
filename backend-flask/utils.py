@@ -75,6 +75,26 @@ def create_download_files(prot_name, bsites_grasp, bsites_puresnet, bsites_gass,
 		print("Results already done")
 	
 
+def get_all_protein_residues(prot_name, prot_folder):
+	pdb_folder = '../frontend-react/public/pdbs/' + prot_folder + '/'
+	pdb_name = 'AF-' + prot_name.upper() + '-F1-model_v4.pdb'
+	protein_file = open(pdb_folder + "AF-" + prot_name + "-F1-model_v4.pdb", "r")
+	pdb_lines = protein_file.readlines()
+
+	residues_list = []
+
+	for line in pdb_lines:
+		if line[:4] == 'ATOM':
+			new_res = []
+			new_res.append(line[21])
+			new_res.append(line[17:20])
+			new_res.append(line[22:26].replace(' ',''))
+			residues_list.append(new_res)
+
+	unique_lists = list(map(list, set(map(tuple, residues_list))))
+	sorted_list = sorted(unique_lists, key=lambda x: int(x[2]))
+	return sorted_list
+
 def count_common_residues(total_res, unique_total_res):
 	'''
 	Function to count occurrence of unique residues in a list.
@@ -231,9 +251,6 @@ def build_summary(bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket,
 	intersection_list = process_intersection_data([bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank], sorted_list_by_seq)
 
 	intersection_list = sorted(intersection_list, key=lambda x: int(x[2]), reverse=True)
-
-	print([num_total_sites, num_unique_res, intersection_list, num_pred_found])
-	print(num_pred_found)
 
 	return [num_total_sites, num_unique_res, intersection_list, num_pred_found]
 

@@ -12,41 +12,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-
-const mousePopupStyle = {
-  width: "80%",
-  maxWidth: "600px",
-  height: "40vh",
-  overflowY: "auto",
-  overflowX: "auto", // Add this line to enable horizontal scrollbar when needed
-};
-
-const LegendItem = ({ itemName, color }) => {
-  const containerStyle = {
-    marginBottom: "10px",
-    marginLeft: "10px",
-    display: "inline-block", // Ensure the container only takes the space it needs
-  };
-
-  const itemStyle = {
-    color: "black",
-  };
-
-  const backgroundColorStyle = {
-    backgroundColor: color,
-    padding: "0 10px",
-    borderRadius: "5px",
-    display: "inline-block", // Allow the background to expand beyond the text
-  };
-
-  return (
-    <div style={containerStyle}>
-      <span style={itemStyle}>
-        <span style={backgroundColorStyle}>{itemName}</span>
-      </span>
-    </div>
-  );
-};
+import Button from "@mui/material/Button";
+import DownloadingIcon from "@mui/icons-material/Downloading";
 
 const MolViewer = (props) => {
   const [stage, setStage] = useState(null);
@@ -54,54 +21,28 @@ const MolViewer = (props) => {
   const [reprColorButton, setReprColorButton] = useState("");
 
   useEffect(() => {
-    startNGLViewer();
+    props.allResidues.map((p, i) => (console.log(p)))
+
+    const newStage = new NGL.Stage("viewport-summ");
+    newStage.removeAllComponents(); // Remove previous components
+    newStage
+      .loadFile(
+        "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
+      )
+      .then((component) => {
+        component.addRepresentation("cartoon", {
+          colorScheme: "bfactor",
+          colorScale: "RdYlBu", // Defines a color scale from red to blue
+          colorReverse: true, // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
+        });
+        component.autoView();
+        //colorAllSites(component);
+        //changeColorBindSites(component, props.upsetClickResidues, "cyan")
+      });
+    newStage.setParameters({ backgroundColor: "white" });
+    setStage(newStage);
   }, []);
 
-  function startNGLViewer() {
-    const newStage = new NGL.Stage("viewport-summ");
-        newStage.removeAllComponents(); // Remove previous components
-        newStage.loadFile('/pdbs/' + props.pdbFolder + '/AF-' + props.pdb + '-F1-model_v4.pdb').then((component) => { 
-            component.addRepresentation("cartoon", {color: "grey"});
-            component.autoView();
-            //colorAllSites(component);
-            //changeColorBindSites(component, props.upsetClickResidues, "cyan")
-        });
-        newStage.setParameters({ backgroundColor: "white" });
-        setStage(newStage)
-  }
-  /*
-  function colorProteinAsHeatmap(component){
-    console.log(props.numPreds)
-    const upsetPlotData =
-    props.resOccurrenceList &&
-    props.resOccurrenceList.map(([residue, predictors, occurrence]) => ({
-      residue: `${residue[1]}-${residue[2]}-${residue[0]}`,
-      sets: (100/props.numPreds)*occurrence,
-    }));
-    console.log(upsetPlotData)
-    upsetPlotData.filter(data => data.sets === 100).forEach(data => console.log(data));
-    //var stringTeste = generateBindSiteString(upsetPlotData)
-    //console.log(stringTeste)
-        
-
-  }
-  */
-  /*
-    function colorAllSites(component) {
-        if (props.predsToShow.includes("GRaSP"))
-            changeColorBindSites(component, props.graspSites[0], "red")
-        if (props.predsToShow.includes("PUResNet"))
-            changeColorBindSites(component, props.puresnetSites[0], "green")
-        if (props.predsToShow.includes("GASS"))
-            changeColorBindSites(component, props.gassSites[0], "yellow")
-        if (props.predsToShow.includes("DeepPocket"))
-            changeColorBindSites(component, props.deeppocketSites[0], "orange")
-        if (props.predsToShow.includes("PointSite"))
-            changeColorBindSites(component, props.pointsiteSites[0], "purple")
-        if (props.predsToShow.includes("P2Rank"))
-            changeColorBindSites(component, props.p2rankSites[0], "pink")
-    }*/
-  
   function resetNGLViewer(stage) {
     stage.removeAllComponents();
     stage
@@ -109,7 +50,11 @@ const MolViewer = (props) => {
         "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
       )
       .then((component) => {
-        component.addRepresentation("cartoon", { color: "grey" });
+        component.addRepresentation("cartoon", {
+          colorScheme: "bfactor",
+          colorScale: "RdYlBu", // Defines a color scale from red to blue
+          colorReverse: true, // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
+        });
         component.autoView();
         //changeColorBindSites(component, props.upsetClickResidues)
       });
@@ -117,25 +62,6 @@ const MolViewer = (props) => {
     setStage(stage); // Remove previous components
   }
 
-  function changeColorBindSites(component, BindSites, color) {
-        // Generate strings for each list inside bindSites
-        const transformedArray = BindSites.map((item) => {
-            const parts = item.split('-');
-            return `${parts[1]}:${parts[2]}`;
-          });
-          
-        //const bindSitesToShow = transformedArray.join(' or ');
-        const bindSitesToShow = [transformedArray.join(' or ')];
-        // Log the result strings
-        bindSitesToShow.forEach((site, index) => {
-            component.addRepresentation("ball+stick", {
-                color: color,
-                sele: site
-            });
-
-        });
-    }
-  
   function handleBackgroundColor(stage) {
     const stageBackgroundColor = stage.getParameters().backgroundColor;
     stageBackgroundColor === "white"
@@ -157,8 +83,6 @@ const MolViewer = (props) => {
         color: "papayawhip",
       });
     }
-    //colorAllSites(stage.getComponentsByName(current_pdb));
-    //changeColorBindSites(stage.getComponentsByName(current_pdb), props.upsetClickResidues, "cyan")
   }
 
   function handleRepresentation(stage, repr) {
@@ -169,19 +93,36 @@ const MolViewer = (props) => {
       stage.getRepresentationsByName("licorice").dispose();
       stage
         .getComponentsByName(current_pdb)
-        .addRepresentation(repr, { opacity: 0.3, color: "papayawhip" });
+        .addRepresentation(repr, { opacity: 0.3, colorScheme: "bfactor",
+        colorScale: 'RdYlBu',  // Defines a color scale from red to blue
+        colorReverse: true });
     } else if (repr === "cartoon") {
       stage.getRepresentationsByName("surface").dispose();
       stage.getRepresentationsByName("licorice").dispose();
-      stage.getComponentsByName(current_pdb).addRepresentation(repr);
+      stage.getComponentsByName(current_pdb).addRepresentation(repr, {
+        colorScheme: "bfactor",
+        colorScale: 'RdYlBu',  // Defines a color scale from red to blue
+        colorReverse: true      // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
+      });
+      
     } else if (repr === "licorice") {
       stage.getRepresentationsByName("cartoon").dispose();
       stage.getRepresentationsByName("surface").dispose();
-      stage.getComponentsByName(current_pdb).addRepresentation(repr);
+      stage.getComponentsByName(current_pdb).addRepresentation(repr, {
+        colorScheme: "bfactor",
+        colorScale: 'RdYlBu',  // Defines a color scale from red to blue
+        colorReverse: true      // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
+      });
     } else if (repr === "surface+cartoon") {
       stage.getRepresentationsByName("surface").dispose();
       stage.getRepresentationsByName("licorice").dispose();
-      stage.getComponentsByName(current_pdb).addRepresentation("cartoon");
+      stage
+        .getComponentsByName(current_pdb)
+        .addRepresentation("cartoon", {
+          colorScheme: "bfactor",
+          colorScale: 'RdYlBu',  // Defines a color scale from red to blue
+          colorReverse: true      // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
+        });
       stage
         .getComponentsByName(current_pdb)
         .addRepresentation("surface", { opacity: 0.3, color: "papayawhip" });
@@ -200,9 +141,28 @@ const MolViewer = (props) => {
     stage.getComponentsByName(pdb_id).autoView(sele);
   }
 
+  function handleDownloadPymol(protName) {
+    const fileUrl =
+      process.env.PUBLIC_URL + "/pymol/" + protName + "_pymol_session.pse";
+    const link = document.createElement("a");
+    // Setting the href attribute to the file URL
+    link.href = fileUrl;
+
+    // Setting the filename for the download
+    link.download = protName + "_pymol_session.pse";
+
+    // Appending the link to the document
+    document.body.appendChild(link);
+
+    // Triggering a click event on the link to start the download
+    link.click();
+
+    // Removing the link from the document
+    document.body.removeChild(link);
+  }
+
   return (
     <div className="row mt-4">
-      
       <div className="col-md-8">
         <div className="card mx-0" id="card-results">
           <div className="card-header" style={{ height: "3.6rem" }}>
@@ -219,6 +179,16 @@ const MolViewer = (props) => {
                   }}
                 >
                   <Stack direction="row" spacing={1}>
+                    <Button
+                      size="small"
+                      aria-label="download"
+                      title="Download PyMol session"
+                      onClick={() => handleDownloadPymol(props.pdb)}
+                      variant="outlined"
+                      startIcon={<DownloadingIcon />}
+                    >
+                      PyMol
+                    </Button>
                     <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
                       <InputLabel id="demo-select-small-label">
                         Representation
@@ -306,7 +276,7 @@ const MolViewer = (props) => {
               <div className="row">
                 <div className="col-md-12">
                   <div className="tab-content">
-                    {props.bindSites.map((p, i) => (
+                    
                       <div
                         className={"tab-pane fade active show"}
                         id={"nav-inters"}
@@ -316,7 +286,7 @@ const MolViewer = (props) => {
                         <div
                           className="table-container"
                           style={{
-                            maxHeight: "620px",
+                            maxHeight: "670px",
                             overflowY: "auto",
                             overflowX: "hidden",
                           }}
@@ -339,16 +309,16 @@ const MolViewer = (props) => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {p.map((res, j) => (
-                                  <tr key={j}>
+                              {props.allResidues.map((p, i) => (
+                                  <tr>
                                     <td className="text-center p-2">
-                                      {res[1]}
+                                      {p[1]}
                                     </td>
                                     <td className="text-center p-2">
-                                      {res[2]}
+                                      {p[2]}
                                     </td>
                                     <td className="text-center p-2">
-                                      {res[0]}
+                                      {p[0]}
                                     </td>
                                     <td className="text-center">
                                       <IconButton
@@ -356,20 +326,20 @@ const MolViewer = (props) => {
                                         aria-label="focus-res"
                                         title="Focus on this residue"
                                         onClick={() =>
-                                          focusResidue(stage, res[2], res[0])
+                                          focusResidue(stage, p[2], p[0])
                                         }
                                       >
                                         <RemoveRedEyeOutlinedIcon />
                                       </IconButton>
                                     </td>
                                   </tr>
-                                ))}
+                                  ))}
                               </tbody>
                             </table>
                           </div>
                         </div>
                       </div>
-                    ))}
+                    
                   </div>
                 </div>
               </div>

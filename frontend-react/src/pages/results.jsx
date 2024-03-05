@@ -59,6 +59,7 @@ const Results = () => {
   const [pdbFolder, setPdbFolder] = useState("");
 
   const [summaryContent, setSummaryContent] = useState([]);
+  const [allResidues, setAllResidues] = useState([]);
 
   const [upsetClickName, setUpsetClickName] = useState([]);
   const [upsetClickResidues, setUpsetClickResidues] = useState([]);
@@ -85,6 +86,7 @@ const Results = () => {
         setPointsiteSites(data.pointsite);
         setP2rankSites(data.p2rank);
         setSummaryContent(data.summary);
+        setAllResidues(data.all_residues);
         setPdbFolder(data.prot_folder);
       } catch (error) {
         console.error("Error:", error);
@@ -211,6 +213,7 @@ const Results = () => {
                         pdb={inputString}
                         pdbFolder={pdbFolder}
                         bindSites={graspSites}
+                        allResidues={allResidues}
 						//numPreds={summaryContent[3]}
 						//resOccurrenceList={summaryContent[2]}
                       />
