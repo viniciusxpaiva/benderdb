@@ -13,8 +13,7 @@ import Select from "@mui/material/Select";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import DownloadingIcon from "@mui/icons-material/Downloading";
 import Button from "@mui/material/Button";
-import Box from '@mui/material/Box';
-
+import Box from "@mui/material/Box";
 
 const bSiteColors = [
   "blue",
@@ -196,18 +195,15 @@ const MolecularViewer = (props) => {
     document.body.removeChild(link);
   }
 
-  function handleDownloadPymol(protName) {
+  function handleDownloadPymol(predictor, protName) {
     const fileUrl =
-      process.env.PUBLIC_URL +
-      "/pymol/" +
-      protName +
-      "_pymol_session.pse";
+      process.env.PUBLIC_URL + "/pymol/" + protName + "_" + predictor + "_sites_pymol_session.pse";
     const link = document.createElement("a");
     // Setting the href attribute to the file URL
     link.href = fileUrl;
 
     // Setting the filename for the download
-    link.download = protName + "_pymol_session.pse";
+    link.download = protName + "_" + predictor + "_sites_pymol_session.pse";
 
     // Appending the link to the document
     document.body.appendChild(link);
@@ -224,37 +220,36 @@ const MolecularViewer = (props) => {
       <div className="col-md-4">
         <div className="card mx-0 p-0" id="card-results">
           <div className="card-header b-0" style={{ height: "3.6rem" }}>
-          <div className="row">
+            <div className="row">
               <div className="col-md-6 d-flex align-items-center">
-              <span className="align-middle">{props.pred + " sites"}</span>
+                <span className="align-middle">{props.pred + " sites"}</span>
               </div>
               <div className="col-md-6 ">
-              <div
-  style={{
-    display: "flex",
-    justifyContent: "flex-end",
-    alignItems: "center",
-  }}
->
-  <Stack direction="row" spacing={1}>
-    <Button
-      size="small"
-      aria-label="download"
-      title="Download results"
-      onClick={() => handleDownloadResults(props.pred, props.pdb)}
-      variant="outlined"
-      startIcon={<DownloadingIcon />}
-      sx={{
-        height: "40px", // Set the height to match the IconButton's height
-      }}
-    >
-      Results
-    </Button>
-  </Stack>
-</div>
-
-
-
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                  }}
+                >
+                  <Stack direction="row" spacing={1}>
+                    <Button
+                      size="small"
+                      aria-label="download"
+                      title="Download results"
+                      onClick={() =>
+                        handleDownloadResults(props.pred, props.pdb)
+                      }
+                      variant="outlined"
+                      startIcon={<DownloadingIcon />}
+                      sx={{
+                        height: "40px", // Set the height to match the IconButton's height
+                      }}
+                    >
+                      Results
+                    </Button>
+                  </Stack>
+                </div>
               </div>
             </div>
           </div>
@@ -375,7 +370,7 @@ const MolecularViewer = (props) => {
       <div className="col-md-8">
         <div className="card mx-0" id="card-results">
           <div className="card-header" style={{ height: "3.6rem" }}>
-          <div className="row">
+            <div className="row">
               <div className="col-md-6 d-flex align-items-center">
                 Molecular Visualization
               </div>
@@ -392,7 +387,7 @@ const MolecularViewer = (props) => {
                       size="small"
                       aria-label="download"
                       title="Download PyMol session"
-                      onClick={() => handleDownloadPymol(props.pdb)}
+                      onClick={() => handleDownloadPymol(props.pred, props.pdb)}
                       variant="outlined"
                       startIcon={<DownloadingIcon />}
                     >
