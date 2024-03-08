@@ -19,10 +19,11 @@ const MolViewer = (props) => {
   const [stage, setStage] = useState(null);
   const [reprButton, setReprButton] = useState("");
   const [reprColorButton, setReprColorButton] = useState("");
+  const [previousFocusRes, setPreviousFocusRes] = useState("");
+
+  console.log(props.bindingResidues.rows)
 
   useEffect(() => {
-    props.allResidues.map((p, i) => (console.log(p)))
-
     const newStage = new NGL.Stage("viewport-summ");
     newStage.removeAllComponents(); // Remove previous components
     newStage
@@ -131,6 +132,11 @@ const MolViewer = (props) => {
 
   function focusResidue(stage, resNum, chain) {
     const sele = resNum + ":" + chain;
+    if(previousFocusRes === sele){
+      stage.getRepresentationsByName("surface").dispose();
+      setPreviousFocusRes("")
+      return
+    }
     const pdb_id = "AF-" + props.pdb + "-F1-model_v4.pdb";
     stage.getRepresentationsByName("surface").dispose();
     stage.getComponentsByName(pdb_id).addRepresentation("surface", {
@@ -139,6 +145,7 @@ const MolViewer = (props) => {
       side: "front",
     });
     stage.getComponentsByName(pdb_id).autoView(sele);
+    setPreviousFocusRes(sele)
   }
 
   function handleDownloadPymol(protName) {
@@ -269,7 +276,7 @@ const MolViewer = (props) => {
             className="card-header color-white text-black text-center"
             style={{ height: "3.5rem" }}
           >
-            <span className="align-middle"> List of residues on protein</span>
+            <span className="align-middle"> Binding site residues</span>
           </div>
           <div className="card-body p-1 b-0" style={{ height: "677px" }}>
             <div className="container d-block p-0" id="cl-tab">
@@ -309,16 +316,16 @@ const MolViewer = (props) => {
                                 </tr>
                               </thead>
                               <tbody>
-                              {props.allResidues.map((p, i) => (
+                              {props.bindingResidues.map((p, i) => (
                                   <tr>
                                     <td className="text-center p-2">
-                                      {p[1]}
+                                      {p.residue}
                                     </td>
                                     <td className="text-center p-2">
-                                      {p[2]}
+                                      {p.number}
                                     </td>
                                     <td className="text-center p-2">
-                                      {p[0]}
+                                      {p.chain}
                                     </td>
                                     <td className="text-center">
                                       <IconButton
@@ -326,7 +333,7 @@ const MolViewer = (props) => {
                                         aria-label="focus-res"
                                         title="Focus on this residue"
                                         onClick={() =>
-                                          focusResidue(stage, p[2], p[0])
+                                          focusResidue(stage, p.number, p.chain)
                                         }
                                       >
                                         <RemoveRedEyeOutlinedIcon />

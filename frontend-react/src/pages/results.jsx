@@ -208,12 +208,13 @@ const Results = () => {
               >
                 {upsetPlotData ? (
                   <>
-                    {pdbFolder && upsetClickResidues && (
+                    {pdbFolder && upsetClickResidues && summaryTableData &&(
                       <MolViewer
                         pdb={inputString}
                         pdbFolder={pdbFolder}
                         bindSites={graspSites}
                         allResidues={allResidues}
+                        bindingResidues={summaryTableData.rows.sort((a, b) => parseInt(a.number) - parseInt(b.number))}
 						//numPreds={summaryContent[3]}
 						//resOccurrenceList={summaryContent[2]}
                       />

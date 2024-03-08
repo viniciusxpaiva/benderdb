@@ -13,18 +13,18 @@ import Select from "@mui/material/Select";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import DownloadingIcon from "@mui/icons-material/Downloading";
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
 
 const bSiteColors = [
-  "blue",
-  "green",
-  "magenta",
-  "red",
-  "gold",
-  "orange",
-  "purple",
-  "papayawhip",
-  "brown",
+  "#167288",
+  "#a89a49",
+  "#b45248",
+  "#3cb464",
+  "#643c6a",
+  "#8cdaec",
+  "#d48c84",
+  "#d6cfa2",
+  "#9bddb1",
+  "#836394"
 ];
 
 function ColorfulText({ color, children }) {
@@ -36,8 +36,7 @@ const MolecularViewer = (props) => {
   const [bindSiteTab, setBindSiteTab] = useState(0);
   const [reprButton, setReprButton] = useState("");
   const [reprColorButton, setReprColorButton] = useState("");
-
-  console.log(props.bindSites);
+  const [previousFocusRes, setPreviousFocusRes] = useState("");
 
   useEffect(() => {
     const newStage = new NGL.Stage("viewport");
@@ -47,7 +46,7 @@ const MolecularViewer = (props) => {
         "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
       )
       .then((component) => {
-        component.addRepresentation("cartoon", { color: "grey" });
+        component.addRepresentation("cartoon", { color: "lightgrey" });
         component.autoView();
         changeColorBindSites(component, props.bindSites);
       });
@@ -73,7 +72,7 @@ const MolecularViewer = (props) => {
         "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
       )
       .then((component) => {
-        component.addRepresentation("cartoon", { color: "grey" });
+        component.addRepresentation("cartoon", { color: "lightgrey" });
         component.autoView();
         changeColorBindSites(component, props.bindSites);
       });
@@ -127,7 +126,7 @@ const MolecularViewer = (props) => {
     } else if (repr === "cartoon") {
       stage.getRepresentationsByName("surface").dispose();
       stage.getRepresentationsByName("licorice").dispose();
-      stage.getComponentsByName(current_pdb).addRepresentation(repr);
+      stage.getComponentsByName(current_pdb).addRepresentation(repr, { color: "lightgrey" });
     } else if (repr === "licorice") {
       stage.getRepresentationsByName("cartoon").dispose();
       stage.getRepresentationsByName("surface").dispose();
@@ -135,7 +134,7 @@ const MolecularViewer = (props) => {
     } else if (repr === "surface+cartoon") {
       stage.getRepresentationsByName("surface").dispose();
       stage.getRepresentationsByName("licorice").dispose();
-      stage.getComponentsByName(current_pdb).addRepresentation("cartoon");
+      stage.getComponentsByName(current_pdb).addRepresentation("cartoon", { color: "lightgrey" });
       stage
         .getComponentsByName(current_pdb)
         .addRepresentation("surface", { opacity: 0.3, color: "papayawhip" });
@@ -143,8 +142,12 @@ const MolecularViewer = (props) => {
   }
 
   function focusResidue(stage, resNum, chain) {
-    console.log(stage);
     const sele = resNum + ":" + chain;
+    if(previousFocusRes === sele){
+      stage.getRepresentationsByName("surface").dispose();
+      setPreviousFocusRes("")
+      return
+    }
     const pdb_id = "AF-" + props.pdb + "-F1-model_v4.pdb";
     stage.getRepresentationsByName("surface").dispose();
     stage.getComponentsByName(pdb_id).addRepresentation("surface", {
@@ -153,6 +156,7 @@ const MolecularViewer = (props) => {
       side: "front",
     });
     stage.getComponentsByName(pdb_id).autoView(sele);
+    setPreviousFocusRes(sele)
   }
 
   const handleBindSiteTab = (stage, tabNum, site) => {
