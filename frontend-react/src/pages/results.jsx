@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { MDBDataTable } from "mdbreact";
 import BaseLayout from "../components/layout/base";
 import PredictorContent from "../components/results/predictors/PredictorContent";
+import ConsensusContent from"../components/results/predictors/ConsensusContent";
 import UpsetPlot from "../components/visualization/UpsetPlot";
 import Summary from "../components/results/summary/Summary";
 import SummaryPopup from "../components/results/summary/SummaryPopup";
@@ -56,6 +57,8 @@ const Results = () => {
   const [pointsiteSites, setPointsiteSites] = useState([]);
   const [p2rankSites, setP2rankSites] = useState([]);
 
+  const[meanConsensus, setMeanConsensus] = useState([]);
+
   const [pdbFolder, setPdbFolder] = useState("");
 
   const [summaryContent, setSummaryContent] = useState([]);
@@ -88,6 +91,7 @@ const Results = () => {
         setSummaryContent(data.summary);
         setAllResidues(data.all_residues);
         setPdbFolder(data.prot_folder);
+        setMeanConsensus(data.mean_consensus);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -170,6 +174,22 @@ const Results = () => {
                   aria-selected={predictorTab === -1 ? " true" : "false"}
                 >
                   <span className="mx-1">Summary</span>
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className={
+                    "nav-item nav-link" + (predictorTab === -2 ? " active" : "")
+                  }
+                  href="#"
+                  onClick={() => handlePredictorTab(-2)}
+                  id="predictor-Consensus"
+                  data-toggle="tab"
+                  role="tab"
+                  aria-controls="nav-Consensus"
+                  aria-selected={predictorTab === -2 ? " true" : "false"}
+                >
+                  <span className="mx-1">BENDER Consensus</span>
                 </a>
               </li>
               {predictors.map((pred, i) => (
@@ -419,6 +439,14 @@ const Results = () => {
                   </div>
                 )}
               </div>
+              <ConsensusContent
+                pred={"Consensus"}
+                predictors={predictors}
+                activeTab={predictorTab}
+                pdb={inputString}
+                bindSites={graspSites}
+                pdbFolder={pdbFolder}
+              />
               <PredictorContent
                 pred={predictors[0]}
                 predictors={predictors}

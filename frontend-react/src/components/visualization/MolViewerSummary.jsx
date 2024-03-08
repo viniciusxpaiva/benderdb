@@ -21,8 +21,6 @@ const MolViewer = (props) => {
   const [reprColorButton, setReprColorButton] = useState("");
   const [previousFocusRes, setPreviousFocusRes] = useState("");
 
-  console.log(props.bindingResidues.rows)
-
   useEffect(() => {
     const newStage = new NGL.Stage("viewport-summ");
     newStage.removeAllComponents(); // Remove previous components

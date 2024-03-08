@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from utils import *
+from consensus_methods import mean_consensus
 
 app = Flask(__name__)
 CORS(app)
@@ -24,8 +25,6 @@ def prot_folder():
 
     prot_folder = search_PDB(search_string)
 
-    print('protfolder+', search_string, prot_folder)
-
     return jsonify({'prot_folder': prot_folder})
 
 @app.route('/process', methods=['POST'])
@@ -34,7 +33,6 @@ def process_string():
     input_string = data.get('inputString', '')
     
     bsites_grasp = grasp_search(input_string)
-    print(bsites_grasp)
     bsites_puresnet = puresnet_search(input_string)
     bsites_gass = []
     bsites_deeppocket = deeppocket_search(input_string)
@@ -45,11 +43,11 @@ def process_string():
 
     summary_content = build_summary(bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank)
 
-    print(summary_content)
-
     create_download_files(input_string, bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank)
 
     protein_residues = get_all_protein_residues(input_string, prot_folder)
+
+    mean_consensus_data = mean_consensus(summary_content[2], summary_content[3])
 
     return jsonify({'grasp': bsites_grasp,
                     'puresnet': bsites_puresnet,
@@ -59,7 +57,8 @@ def process_string():
                     'p2rank': bsites_p2rank,
                     'summary': summary_content,
                     'prot_folder': prot_folder,
-                    'all_residues': protein_residues})
+                    'all_residues': protein_residues,
+                    'mean_consensus' : mean_consensus_data})
 
 # Run the app
 if __name__ == '__main__':
