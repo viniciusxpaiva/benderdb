@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as NGL from "ngl/dist/ngl";
-import MousePopup from "../results/predictors/MousePopup";
+import MouseHelpPopup from "../items/MouseHelpPopup";
 import Stack from "@mui/material/Stack";
 import MouseIcon from "@mui/icons-material/Mouse";
 import IconButton from "@mui/material/IconButton";
@@ -320,8 +320,7 @@ const MolecularViewer = (props) => {
                                 className="bg-light"
                                 style={{
                                   position: "sticky",
-                                  top: 0,
-                                  zIndex: 1,
+                                  top: 0
                                 }}
                               >
                                 <tr>
@@ -440,11 +439,8 @@ const MolecularViewer = (props) => {
                     >
                       <FormatColorFillIcon />
                     </IconButton>
-                    <MousePopup>
-                      <IconButton aria-label="mouse" title="Mouse controls">
-                        <MouseIcon />
-                      </IconButton>
-                    </MousePopup>
+                    <MouseHelpPopup />
+
                     <IconButton
                       aria-label="restart"
                       title="Reset visualization"

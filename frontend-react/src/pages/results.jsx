@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { MDBDataTable } from "mdbreact";
 import BaseLayout from "../components/layout/base";
 import PredictorContent from "../components/results/predictors/PredictorContent";
-import ConsensusContent from"../components/results/predictors/ConsensusContent";
+import ConsensusContent from "../components/results/predictors/ConsensusContent";
 import UpsetPlot from "../components/visualization/UpsetPlot";
 import Summary from "../components/results/summary/Summary";
 import SummaryPopup from "../components/results/summary/SummaryPopup";
@@ -14,6 +14,7 @@ import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import MolViewer from "../components/visualization/MolViewerSummary";
+import SummaryIntersectionsPopup from "../components/items/SummaryIntersectionsPopup";
 
 const predictors = [
   "GRaSP",
@@ -57,7 +58,7 @@ const Results = () => {
   const [pointsiteSites, setPointsiteSites] = useState([]);
   const [p2rankSites, setP2rankSites] = useState([]);
 
-  const[meanConsensus, setMeanConsensus] = useState([]);
+  const [meanConsensus, setMeanConsensus] = useState([]);
 
   const [pdbFolder, setPdbFolder] = useState("");
 
@@ -228,15 +229,17 @@ const Results = () => {
               >
                 {upsetPlotData ? (
                   <>
-                    {pdbFolder && upsetClickResidues && summaryTableData &&(
+                    {pdbFolder && upsetClickResidues && summaryTableData && (
                       <MolViewer
                         pdb={inputString}
                         pdbFolder={pdbFolder}
                         bindSites={graspSites}
                         allResidues={allResidues}
-                        bindingResidues={summaryTableData.rows.sort((a, b) => parseInt(a.number) - parseInt(b.number))}
-						//numPreds={summaryContent[3]}
-						//resOccurrenceList={summaryContent[2]}
+                        bindingResidues={summaryTableData.rows.sort(
+                          (a, b) => parseInt(a.number) - parseInt(b.number)
+                        )}
+                        //numPreds={summaryContent[3]}
+                        //resOccurrenceList={summaryContent[2]}
                       />
                     )}
 
@@ -261,6 +264,65 @@ const Results = () => {
                                       </h6>
                                     </div>
                                     <div className="col">
+                                      <SummaryIntersectionsPopup
+                                        pdb={inputString}
+                                        bindSites={upsetClickResidues}
+                                        graspSites={graspSites.map((site) =>
+                                          site.map(
+                                            ([chain, res, number, occ]) =>
+                                              res + "-" + number + "-" + chain
+                                          )
+                                        )}
+                                        puresnetSites={puresnetSites.map(
+                                          (site) =>
+                                            site.map(
+                                              ([chain, res, number, occ]) =>
+                                                res + "-" + number + "-" + chain
+                                            )
+                                        )}
+                                        gassSites={gassSites.map((site) =>
+                                          site.map(
+                                            ([chain, res, number, occ]) =>
+                                              res + "-" + number + "-" + chain
+                                          )
+                                        )}
+                                        deeppocketSites={deeppocketSites.map(
+                                          (site) =>
+                                            site.map(
+                                              ([chain, res, number, occ]) =>
+                                                res + "-" + number + "-" + chain
+                                            )
+                                        )}
+                                        pointsiteSites={pointsiteSites.map(
+                                          (site) =>
+                                            site.map(
+                                              ([chain, res, number, occ]) =>
+                                                res + "-" + number + "-" + chain
+                                            )
+                                        )}
+                                        p2rankSites={p2rankSites.map((site) =>
+                                          site.map(
+                                            ([chain, res, number, occ]) =>
+                                              res + "-" + number + "-" + chain
+                                          )
+                                        )}
+                                        predsToShow={upsetClickName}
+                                        upsetClickResidues={upsetClickResidues
+                                          .slice() // Create a shallow copy to avoid modifying the original array
+                                          .sort((a, b) => {
+                                            const numA = parseInt(
+                                              a.split("-")[1],
+                                              10
+                                            );
+                                            const numB = parseInt(
+                                              b.split("-")[1],
+                                              10
+                                            );
+
+                                            return numA - numB;
+                                          })}
+                                        pdbFolder={pdbFolder}
+                                      />
                                       <Popup
                                         trigger={
                                           <Button

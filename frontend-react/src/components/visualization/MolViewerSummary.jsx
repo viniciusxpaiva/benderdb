@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as NGL from "ngl/dist/ngl";
-import MousePopup from "../results/predictors/MousePopup";
 import "../../styles/SummaryPopup.css";
 import Stack from "@mui/material/Stack";
-import MouseIcon from "@mui/icons-material/Mouse";
 import IconButton from "@mui/material/IconButton";
 import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
@@ -14,6 +12,7 @@ import Select from "@mui/material/Select";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import Button from "@mui/material/Button";
 import DownloadingIcon from "@mui/icons-material/Downloading";
+import MouseHelpPopup from "../items/MouseHelpPopup";
 
 const MolViewer = (props) => {
   const [stage, setStage] = useState(null);
@@ -175,6 +174,7 @@ const MolViewer = (props) => {
               <div className="col-md-6 d-flex align-items-center">
                 Molecular Visualization
               </div>
+              
               <div className="col-md-6 ">
                 <div
                   style={{
@@ -237,11 +237,7 @@ const MolViewer = (props) => {
                     >
                       <FormatColorFillIcon />
                     </IconButton>
-                    <MousePopup>
-                      <IconButton aria-label="mouse" title="Mouse controls">
-                        <MouseIcon />
-                      </IconButton>
-                    </MousePopup>
+                    <MouseHelpPopup />
                     <IconButton
                       aria-label="restart"
                       title="Reset visualization"
@@ -302,8 +298,7 @@ const MolViewer = (props) => {
                                 className="bg-light"
                                 style={{
                                   position: "sticky",
-                                  top: 0,
-                                  zIndex: 1,
+                                  top: 0
                                 }}
                               >
                                 <tr>

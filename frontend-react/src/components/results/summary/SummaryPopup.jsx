@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from 'react';
 import * as NGL from 'ngl/dist/ngl'
-import MousePopup from '../predictors/MousePopup';
+import MouseHelpPopup from '../../items/MouseHelpPopup';
 import '../../../styles/SummaryPopup.css';
 import Stack from '@mui/material/Stack';
 import MouseIcon from '@mui/icons-material/Mouse';
@@ -55,8 +55,6 @@ const SummaryPopup = (props) => {
     const [reprButton, setReprButton] = useState('');
     const [reprColorButton, setReprColorButton] = useState('');
 
-
-    console.log(props.upsetClickResidues)
 
     useEffect(() => {
         
@@ -238,11 +236,7 @@ const SummaryPopup = (props) => {
                                             <IconButton aria-label="fill" title="Background color"  onClick={() => handleBackgroundColor(stage)}>
                                                 <FormatColorFillIcon />
                                             </IconButton>
-                                            <MousePopup>
-                                                <IconButton aria-label="mouse" title="Mouse controls">
-                                                    <MouseIcon />
-                                                </IconButton>
-                                            </MousePopup>
+                                            <MouseHelpPopup />
                                             <IconButton aria-label="restart" title="Reset visualization" onClick={() => resetNGLViewer(stage)}>
                                                 <RestartAltIcon />
                                             </IconButton>
