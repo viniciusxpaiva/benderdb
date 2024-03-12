@@ -2,19 +2,21 @@ import * as React from 'react';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
-import MolecularViewer from "../../visualization/NGLViewer";
+import MolViewerConsensus from '../../visualization/MolViewerConsensus';
 
 const ConsensusContent = (props) => {
-
-
     return (
         <div className={"tab-pane fade p" + (props.activeTab === -2 ? " active show" : "")} id={"nav-" + props.pred} role="tabpanel" aria-labelledby={"predictor-" + props.pred}>
             <div className="row mt-4">
                 {/* Viewer div*/}
-                {(props.activeTab === -2 && props.bindSites.length !== 0 ?
-                    <MolecularViewer 
-                        pred={props.pred} predictors={props.predictors} activeTab={props.predictorTab} pdb={props.pdb} 
-                        bindSites={props.bindSites} pdbFolder={props.pdbFolder}/>
+                {(props.activeTab === -2 ?
+                    <MolViewerConsensus
+                    pdb={props.pdb}
+                    pdbFolder={props.pdbFolder}
+                    bindingResidues={props.bindingResidues}
+                    numPreds={props.numPreds}
+                    consensusData={props.consensusData}
+                  />
                     : 
 
                     <Stack sx={{ width: '100%' }} spacing={2}>

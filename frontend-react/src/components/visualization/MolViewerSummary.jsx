@@ -17,7 +17,6 @@ import MouseHelpPopup from "../items/MouseHelpPopup";
 const MolViewer = (props) => {
   const [stage, setStage] = useState(null);
   const [reprButton, setReprButton] = useState("");
-  const [reprColorButton, setReprColorButton] = useState("");
   const [previousFocusRes, setPreviousFocusRes] = useState("");
 
   useEffect(() => {
@@ -67,60 +66,42 @@ const MolViewer = (props) => {
       : stage.setParameters({ backgroundColor: "white" });
   }
 
-  function handleMoleculeColor(stage, colorType) {
-    const current_repr = stage.compList[0].reprList[0].repr.type;
-    const current_pdb = "AF-" + props.pdb + "-F1-model_v4.pdb";
-    setReprColorButton(colorType);
-    if (colorType === "chain") {
-      stage
-        .getComponentsByName(current_pdb)
-        .addRepresentation(current_repr, { colorScheme: "chainname" });
-    } else if (colorType === "uniform") {
-      stage.getComponentsByName(current_pdb).addRepresentation(current_repr, {
-        colorScheme: "uniform",
-        color: "papayawhip",
-      });
-    }
-  }
-
   function handleRepresentation(stage, repr) {
     const current_pdb = "AF-" + props.pdb + "-F1-model_v4.pdb";
     setReprButton(repr);
     if (repr === "surface") {
       stage.getRepresentationsByName("cartoon").dispose();
       stage.getRepresentationsByName("licorice").dispose();
-      stage
-        .getComponentsByName(current_pdb)
-        .addRepresentation(repr, { opacity: 0.3, colorScheme: "bfactor",
-        colorScale: 'RdYlBu',  // Defines a color scale from red to blue
-        colorReverse: true });
+      stage.getComponentsByName(current_pdb).addRepresentation(repr, {
+        opacity: 0.3,
+        colorScheme: "bfactor",
+        colorScale: "RdYlBu", // Defines a color scale from red to blue
+        colorReverse: true,
+      });
     } else if (repr === "cartoon") {
       stage.getRepresentationsByName("surface").dispose();
       stage.getRepresentationsByName("licorice").dispose();
       stage.getComponentsByName(current_pdb).addRepresentation(repr, {
         colorScheme: "bfactor",
-        colorScale: 'RdYlBu',  // Defines a color scale from red to blue
-        colorReverse: true      // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
+        colorScale: "RdYlBu", // Defines a color scale from red to blue
+        colorReverse: true, // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
       });
-      
     } else if (repr === "licorice") {
       stage.getRepresentationsByName("cartoon").dispose();
       stage.getRepresentationsByName("surface").dispose();
       stage.getComponentsByName(current_pdb).addRepresentation(repr, {
         colorScheme: "bfactor",
-        colorScale: 'RdYlBu',  // Defines a color scale from red to blue
-        colorReverse: true      // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
+        colorScale: "RdYlBu", // Defines a color scale from red to blue
+        colorReverse: true, // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
       });
     } else if (repr === "surface+cartoon") {
       stage.getRepresentationsByName("surface").dispose();
       stage.getRepresentationsByName("licorice").dispose();
-      stage
-        .getComponentsByName(current_pdb)
-        .addRepresentation("cartoon", {
-          colorScheme: "bfactor",
-          colorScale: 'RdYlBu',  // Defines a color scale from red to blue
-          colorReverse: true      // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
-        });
+      stage.getComponentsByName(current_pdb).addRepresentation("cartoon", {
+        colorScheme: "bfactor",
+        colorScale: "RdYlBu", // Defines a color scale from red to blue
+        colorReverse: true, // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
+      });
       stage
         .getComponentsByName(current_pdb)
         .addRepresentation("surface", { opacity: 0.3, color: "papayawhip" });
@@ -129,10 +110,10 @@ const MolViewer = (props) => {
 
   function focusResidue(stage, resNum, chain) {
     const sele = resNum + ":" + chain;
-    if(previousFocusRes === sele){
+    if (previousFocusRes === sele) {
       stage.getRepresentationsByName("surface").dispose();
-      setPreviousFocusRes("")
-      return
+      setPreviousFocusRes("");
+      return;
     }
     const pdb_id = "AF-" + props.pdb + "-F1-model_v4.pdb";
     stage.getRepresentationsByName("surface").dispose();
@@ -142,7 +123,7 @@ const MolViewer = (props) => {
       side: "front",
     });
     stage.getComponentsByName(pdb_id).autoView(sele);
-    setPreviousFocusRes(sele)
+    setPreviousFocusRes(sele);
   }
 
   function handleDownloadPymol(protName) {
@@ -174,7 +155,7 @@ const MolViewer = (props) => {
               <div className="col-md-6 d-flex align-items-center">
                 Molecular Visualization
               </div>
-              
+
               <div className="col-md-6 ">
                 <div
                   style={{
@@ -211,23 +192,6 @@ const MolViewer = (props) => {
                         <MenuItem value="licorice">Licorice</MenuItem>
                         <MenuItem value="surface">Surface 1</MenuItem>
                         <MenuItem value="surface+cartoon">Surface 2</MenuItem>
-                      </Select>
-                    </FormControl>
-                    <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
-                      <InputLabel id="demo-select-small-label">
-                        Color
-                      </InputLabel>
-                      <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        value={reprColorButton}
-                        label="Color"
-                        onChange={(e) =>
-                          handleMoleculeColor(stage, e.target.value)
-                        }
-                      >
-                        <MenuItem value="uniform">Uniform</MenuItem>
-                        <MenuItem value="chain">By Chain</MenuItem>
                       </Select>
                     </FormControl>
                     <IconButton
@@ -267,79 +231,75 @@ const MolViewer = (props) => {
       <div className="col-md-4">
         <div className="card mx-0 p-0" id="card-results">
           <div
-            className="card-header color-white text-black text-center"
+            className="card-header color-white text-black d-flex justify-content-center align-items-center"
             style={{ height: "3.5rem" }}
           >
-            <span className="align-middle"> Binding site residues</span>
+            <span className="align-middle">Binding site residues</span>
           </div>
           <div className="card-body p-1 b-0" style={{ height: "677px" }}>
             <div className="container d-block p-0" id="cl-tab">
               <div className="row">
                 <div className="col-md-12">
                   <div className="tab-content">
-                    
+                    <div
+                      className={"tab-pane fade active show"}
+                      id={"nav-inters"}
+                      role="tabpanel"
+                      aria-labelledby={"bindSite-inters"}
+                    >
                       <div
-                        className={"tab-pane fade active show"}
-                        id={"nav-inters"}
-                        role="tabpanel"
-                        aria-labelledby={"bindSite-inters"}
+                        className="table-container"
+                        style={{
+                          maxHeight: "670px",
+                          overflowY: "auto",
+                          overflowX: "hidden",
+                        }}
                       >
-                        <div
-                          className="table-container"
-                          style={{
-                            maxHeight: "670px",
-                            overflowY: "auto",
-                            overflowX: "hidden",
-                          }}
-                        >
-                          <div className="table">
-                            <table className="table table-sm table-hover">
-                              <thead
-                                className="bg-light"
-                                style={{
-                                  position: "sticky",
-                                  top: 0
-                                }}
-                              >
-                                <tr>
-                                  <th className="text-center">Residue</th>
-                                  <th className="text-center">Number</th>
-                                  <th className="text-center">Chain</th>
-                                  <th className="text-center">Look at</th>
-                                </tr>
-                              </thead>
-                              <tbody>
+                        <div className="table">
+                          <table className="table table-sm table-hover">
+                            <thead
+                              className="bg-light"
+                              style={{
+                                position: "sticky",
+                                top: 0,
+                              }}
+                            >
+                              <tr>
+                                <th className="text-center">Residue</th>
+                                <th className="text-center">Number</th>
+                                <th className="text-center">Chain</th>
+                                <th className="text-center">Look at</th>
+                              </tr>
+                            </thead>
+                            <tbody>
                               {props.bindingResidues.map((p, i) => (
-                                  <tr>
-                                    <td className="text-center p-2">
-                                      {p.residue}
-                                    </td>
-                                    <td className="text-center p-2">
-                                      {p.number}
-                                    </td>
-                                    <td className="text-center p-2">
-                                      {p.chain}
-                                    </td>
-                                    <td className="text-center">
-                                      <IconButton
-                                        className="p-1"
-                                        aria-label="focus-res"
-                                        title="Focus on this residue"
-                                        onClick={() =>
-                                          focusResidue(stage, p.number, p.chain)
-                                        }
-                                      >
-                                        <RemoveRedEyeOutlinedIcon />
-                                      </IconButton>
-                                    </td>
-                                  </tr>
-                                  ))}
-                              </tbody>
-                            </table>
-                          </div>
+                                <tr>
+                                  <td className="text-center p-2">
+                                    {p.residue}
+                                  </td>
+                                  <td className="text-center p-2">
+                                    {p.number}
+                                  </td>
+                                  <td className="text-center p-2">{p.chain}</td>
+                                  <td className="text-center">
+                                    <IconButton
+                                      className="p-1"
+                                      aria-label="focus-res"
+                                      title="Focus on this residue"
+                                      onClick={() =>
+                                        focusResidue(stage, p.number, p.chain)
+                                      }
+                                    >
+                                      <RemoveRedEyeOutlinedIcon />
+                                    </IconButton>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
                         </div>
                       </div>
-                    
+                    </div>
                   </div>
                 </div>
               </div>

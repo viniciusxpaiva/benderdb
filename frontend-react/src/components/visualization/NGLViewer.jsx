@@ -35,7 +35,6 @@ const MolecularViewer = (props) => {
   const [stage, setStage] = useState(null);
   const [bindSiteTab, setBindSiteTab] = useState(0);
   const [reprButton, setReprButton] = useState("");
-  const [reprColorButton, setReprColorButton] = useState("");
   const [previousFocusRes, setPreviousFocusRes] = useState("");
 
   useEffect(() => {
@@ -92,26 +91,6 @@ const MolecularViewer = (props) => {
     stageBackgroundColor === "white"
       ? stage.setParameters({ backgroundColor: "black" })
       : stage.setParameters({ backgroundColor: "white" });
-  }
-
-  function handleMoleculeColor(stage, colorType) {
-    const current_repr = stage.compList[0].reprList[0].repr.type;
-    const current_pdb = "AF-" + props.pdb + "-F1-model_v4.pdb";
-    setReprColorButton(colorType);
-    if (colorType === "chain") {
-      stage
-        .getComponentsByName(current_pdb)
-        .addRepresentation(current_repr, { colorScheme: "chainname" });
-    } else if (colorType === "uniform") {
-      stage.getComponentsByName(current_pdb).addRepresentation(current_repr, {
-        colorScheme: "uniform",
-        color: "papayawhip",
-      });
-    }
-    changeColorBindSites(
-      stage.getComponentsByName(current_pdb),
-      props.bindSites
-    );
   }
 
   function handleRepresentation(stage, repr) {
@@ -413,23 +392,6 @@ const MolecularViewer = (props) => {
                         <MenuItem value="licorice">Licorice</MenuItem>
                         <MenuItem value="surface">Surface 1</MenuItem>
                         <MenuItem value="surface+cartoon">Surface 2</MenuItem>
-                      </Select>
-                    </FormControl>
-                    <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
-                      <InputLabel id="demo-select-small-label">
-                        Color
-                      </InputLabel>
-                      <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        value={reprColorButton}
-                        label="Color"
-                        onChange={(e) =>
-                          handleMoleculeColor(stage, e.target.value)
-                        }
-                      >
-                        <MenuItem value="uniform">Uniform</MenuItem>
-                        <MenuItem value="chain">By Chain</MenuItem>
                       </Select>
                     </FormControl>
                     <IconButton

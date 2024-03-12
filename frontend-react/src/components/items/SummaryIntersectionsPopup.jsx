@@ -51,7 +51,8 @@ export default function SummaryIntersectionsPopup(props) {
   const [reprColorButton, setReprColorButton] = useState("");
 
   useEffect(() => {
-    const newStage = new NGL.Stage("viewport-popup");
+    //console.log(props.upsetClickResidues)
+    const newStage = new NGL.Stage("viewport");
     newStage.removeAllComponents(); // Remove previous components
     newStage
       .loadFile(
@@ -351,7 +352,7 @@ export default function SummaryIntersectionsPopup(props) {
                         <div className="row">
                           <div className="col-md-12">
                             <div
-                              id="viewport-popup"
+                              id="viewport"
                               style={{ width: "100%", height: "676px" }}
                             ></div>
                           </div>

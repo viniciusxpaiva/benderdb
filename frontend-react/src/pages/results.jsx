@@ -15,6 +15,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import MolViewer from "../components/visualization/MolViewerSummary";
 import SummaryIntersectionsPopup from "../components/items/SummaryIntersectionsPopup";
+import SummaryTest from "../components/items/SummaryTest";
 
 const predictors = [
   "GRaSP",
@@ -217,6 +218,7 @@ const Results = () => {
 
           {/* <div class="card-body p-0 b-0" style={{ height: "815px", overflowY: "auto", overflowX: "hidden" }}> */}
           <div class="card-body p-0 b-0">
+          {upsetPlotData && pdbFolder && summaryTableData ? (
             <div class="tab-content">
               {/* Content for each predictor*/}
               <div
@@ -227,19 +229,15 @@ const Results = () => {
                 role="tabpanel"
                 aria-labelledby="predictor-Summary"
               >
-                {upsetPlotData ? (
+                
                   <>
-                    {pdbFolder && upsetClickResidues && summaryTableData && (
+                    {pdbFolder && summaryTableData && (
                       <MolViewer
                         pdb={inputString}
                         pdbFolder={pdbFolder}
-                        bindSites={graspSites}
-                        allResidues={allResidues}
                         bindingResidues={summaryTableData.rows.sort(
                           (a, b) => parseInt(a.number) - parseInt(b.number)
                         )}
-                        //numPreds={summaryContent[3]}
-                        //resOccurrenceList={summaryContent[2]}
                       />
                     )}
 
@@ -264,65 +262,6 @@ const Results = () => {
                                       </h6>
                                     </div>
                                     <div className="col">
-                                      <SummaryIntersectionsPopup
-                                        pdb={inputString}
-                                        bindSites={upsetClickResidues}
-                                        graspSites={graspSites.map((site) =>
-                                          site.map(
-                                            ([chain, res, number, occ]) =>
-                                              res + "-" + number + "-" + chain
-                                          )
-                                        )}
-                                        puresnetSites={puresnetSites.map(
-                                          (site) =>
-                                            site.map(
-                                              ([chain, res, number, occ]) =>
-                                                res + "-" + number + "-" + chain
-                                            )
-                                        )}
-                                        gassSites={gassSites.map((site) =>
-                                          site.map(
-                                            ([chain, res, number, occ]) =>
-                                              res + "-" + number + "-" + chain
-                                          )
-                                        )}
-                                        deeppocketSites={deeppocketSites.map(
-                                          (site) =>
-                                            site.map(
-                                              ([chain, res, number, occ]) =>
-                                                res + "-" + number + "-" + chain
-                                            )
-                                        )}
-                                        pointsiteSites={pointsiteSites.map(
-                                          (site) =>
-                                            site.map(
-                                              ([chain, res, number, occ]) =>
-                                                res + "-" + number + "-" + chain
-                                            )
-                                        )}
-                                        p2rankSites={p2rankSites.map((site) =>
-                                          site.map(
-                                            ([chain, res, number, occ]) =>
-                                              res + "-" + number + "-" + chain
-                                          )
-                                        )}
-                                        predsToShow={upsetClickName}
-                                        upsetClickResidues={upsetClickResidues
-                                          .slice() // Create a shallow copy to avoid modifying the original array
-                                          .sort((a, b) => {
-                                            const numA = parseInt(
-                                              a.split("-")[1],
-                                              10
-                                            );
-                                            const numB = parseInt(
-                                              b.split("-")[1],
-                                              10
-                                            );
-
-                                            return numA - numB;
-                                          })}
-                                        pdbFolder={pdbFolder}
-                                      />
                                       <Popup
                                         trigger={
                                           <Button
@@ -486,29 +425,22 @@ const Results = () => {
                       </div>
                     </Summary>
                   </>
-                ) : (
-                  <div className="row mt-4">
-                    <Stack sx={{ width: "100%" }} spacing={2}>
-                      <Alert variant="outlined" severity="info">
-                        <AlertTitle>
-                          <h6>
-                            <strong>Please wait</strong>
-                          </h6>
-                        </AlertTitle>
-                        <h6>Loading data...</h6>
-                      </Alert>
-                    </Stack>
-                  </div>
-                )}
+                
               </div>
-              <ConsensusContent
-                pred={"Consensus"}
-                predictors={predictors}
-                activeTab={predictorTab}
-                pdb={inputString}
-                bindSites={graspSites}
-                pdbFolder={pdbFolder}
-              />
+              {pdbFolder && summaryTableData && (
+                <ConsensusContent
+                  pred={"Consensus"}
+                  activeTab={predictorTab}
+                  pdb={inputString}
+                  bindingResidues={summaryTableData.rows.sort(
+                    (a, b) => parseInt(a.number) - parseInt(b.number)
+                  )}
+                  pdbFolder={pdbFolder}
+                  numPreds={summaryContent[3]}
+                  consensusData={meanConsensus.sort((a, b) => a[2] - b[2])}
+                />
+              )}
+
               <PredictorContent
                 pred={predictors[0]}
                 predictors={predictors}
@@ -558,6 +490,20 @@ const Results = () => {
                 pdbFolder={pdbFolder}
               />
             </div>
+          ) : (
+            <div className="row mt-4">
+              <Stack sx={{ width: "100%" }} spacing={2}>
+                <Alert variant="outlined" severity="info">
+                  <AlertTitle>
+                    <h6>
+                      <strong>Please wait</strong>
+                    </h6>
+                  </AlertTitle>
+                  <h6>Loading data...</h6>
+                </Alert>
+              </Stack>
+            </div>
+          )}
           </div>
         </div>
       </BaseLayout>
