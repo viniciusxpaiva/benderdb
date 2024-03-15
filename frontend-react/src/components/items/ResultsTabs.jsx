@@ -5,7 +5,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import MolViewerSummary from "../visualization/MolViewerSummary";
-import MolecularViewer from "../visualization/NGLViewer";
+import MolViewerPredictors from "../visualization/MolViewerPredictors";
 import Summary from "../results/summary/Summary";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
@@ -247,7 +247,7 @@ export default function ResultsTabs(props) {
           </Summary>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <MolecularViewer
+          <MolViewerPredictors
             pred={props.predictors[0]}
             predictors={props.predictors}
             activeTab={props.predictorTab}
@@ -257,7 +257,7 @@ export default function ResultsTabs(props) {
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          <MolecularViewer
+          <MolViewerPredictors
             pred={props.predictors[1]}
             predictors={props.predictors}
             activeTab={props.predictorTab}
@@ -267,7 +267,7 @@ export default function ResultsTabs(props) {
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3}>
-          <MolecularViewer
+          <MolViewerPredictors
             pred={props.predictors[2]}
             predictors={props.predictors}
             activeTab={props.predictorTab}
@@ -277,7 +277,7 @@ export default function ResultsTabs(props) {
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={4}>
-          <MolecularViewer
+          <MolViewerPredictors
             pred={props.predictors[3]}
             predictors={props.predictors}
             activeTab={props.predictorTab}
@@ -287,7 +287,7 @@ export default function ResultsTabs(props) {
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={5}>
-          <MolecularViewer
+          <MolViewerPredictors
             pred={props.predictors[4]}
             predictors={props.predictors}
             activeTab={props.predictorTab}
@@ -297,7 +297,7 @@ export default function ResultsTabs(props) {
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={6}>
-          <MolecularViewer
+          <MolViewerPredictors
             pred={props.predictors[5]}
             predictors={props.predictors}
             activeTab={props.predictorTab}

@@ -127,10 +127,6 @@ const Results = () => {
     setUpsetClickResidues(residueValues);
   }
 
-  function handlePredictorTab(tabNum) {
-    setPredictorTab(tabNum);
-  }
-
   return (
     <>
       <BaseLayout>
@@ -141,7 +137,7 @@ const Results = () => {
           <div className="row justify-content-center">
             <div class="col-md-12 text-center">
               <h6 className="display-6 text-light">
-                Results2: Predicted binding sites for protein{" "}
+                Results: Predicted binding sites for protein{" "}
                 <strong>{decodeURIComponent(inputString)}</strong>
               </h6>
             </div>

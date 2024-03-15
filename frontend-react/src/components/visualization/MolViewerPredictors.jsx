@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import * as NGL from "ngl/dist/ngl";
 import MouseHelpPopup from "../items/MouseHelpPopup";
 import Stack from "@mui/material/Stack";
-import MouseIcon from "@mui/icons-material/Mouse";
 import IconButton from "@mui/material/IconButton";
 import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
@@ -31,7 +30,7 @@ function ColorfulText({ color, children }) {
   return <span style={{ color: color }}>{children}</span>;
 }
 
-const MolecularViewer = (props) => {
+const MolViewerPredictors = (props) => {
   const [stage, setStage] = useState(null);
   const [bindSiteTab, setBindSiteTab] = useState(0);
   const [reprButton, setReprButton] = useState("");
@@ -432,4 +431,4 @@ const MolecularViewer = (props) => {
     </div>
   );
 };
-export default MolecularViewer;
+export default MolViewerPredictors;
