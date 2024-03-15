@@ -199,7 +199,7 @@ const MolecularViewer = (props) => {
   }
 
   return (
-    <>
+    <div className="row">
       <div className="col-md-4">
         <div className="card mx-0 p-0" id="card-results">
           <div className="card-header b-0" style={{ height: "3.6rem" }}>
@@ -429,7 +429,7 @@ const MolecularViewer = (props) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default MolecularViewer;

@@ -8,7 +8,7 @@ import Contact from './pages/contact';
 import Help from './pages/help';
 import NotFound from './pages/notFound';
 import DataTable from './pages/dataTable';
-import MolstarPage from './pages/molstarPage';
+import ResultsOld from './pages/resultsOld';
 
 function App() {
 	return (
@@ -16,12 +16,11 @@ function App() {
 			<Routes>
 				<Route path='/' element={<Home />} />
 				<Route path='/results/:inputString' element={<Results />} />
+				<Route path='/results2/:inputString' element={<ResultsOld />} />
 				<Route path='/contact' element={<Contact />} />
 				<Route path='/help' element={<Help />} />
 				<Route path='/notfound' element={<NotFound />} />
 				<Route path='/datatable' element={<DataTable />} />
-				<Route path='/molstar' element={<MolstarPage />} />
-
 			</Routes>
 		</Router>
 	);

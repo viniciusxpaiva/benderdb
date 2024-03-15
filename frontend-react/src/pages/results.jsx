@@ -1,21 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { MDBDataTable } from "mdbreact";
 import BaseLayout from "../components/layout/base";
-import PredictorContent from "../components/results/predictors/PredictorContent";
-import ConsensusContent from "../components/results/predictors/ConsensusContent";
-import UpsetPlot from "../components/visualization/UpsetPlot";
-import Summary from "../components/results/summary/Summary";
-import SummaryPopup from "../components/results/summary/SummaryPopup";
 import "reactjs-popup/dist/index.css";
-import Popup from "reactjs-popup";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
-import MolViewer from "../components/visualization/MolViewerSummary";
-import SummaryIntersectionsPopup from "../components/items/SummaryIntersectionsPopup";
-import SummaryTest from "../components/items/SummaryTest";
+import BasicTabs from "../components/items/ResultsTabs";
 
 const predictors = [
   "GRaSP",
@@ -64,7 +54,6 @@ const Results = () => {
   const [pdbFolder, setPdbFolder] = useState("");
 
   const [summaryContent, setSummaryContent] = useState([]);
-  const [allResidues, setAllResidues] = useState([]);
 
   const [upsetClickName, setUpsetClickName] = useState([]);
   const [upsetClickResidues, setUpsetClickResidues] = useState([]);
@@ -91,7 +80,6 @@ const Results = () => {
         setPointsiteSites(data.pointsite);
         setP2rankSites(data.p2rank);
         setSummaryContent(data.summary);
-        setAllResidues(data.all_residues);
         setPdbFolder(data.prot_folder);
         setMeanConsensus(data.mean_consensus);
       } catch (error) {
@@ -153,359 +141,53 @@ const Results = () => {
           <div className="row justify-content-center">
             <div class="col-md-12 text-center">
               <h6 className="display-6 text-light">
-                Predicted binding sites for protein{" "}
+                Results2: Predicted binding sites for protein{" "}
                 <strong>{decodeURIComponent(inputString)}</strong>
               </h6>
             </div>
           </div>
         </div>
+
         <div class="container-lg">
-          <div className="container-fluid bg-light mt-0 pt-2 pb-2 shadow rounded">
-            <ul className="nav nav-pills nav-fill">
-              <li className="nav-item">
-                <a
-                  className={
-                    "nav-item nav-link" + (predictorTab === -1 ? " active" : "")
-                  }
-                  href="#"
-                  onClick={() => handlePredictorTab(-1)}
-                  id="predictor-Summary"
-                  data-toggle="tab"
-                  role="tab"
-                  aria-controls="nav-Summary"
-                  aria-selected={predictorTab === -1 ? " true" : "false"}
-                >
-                  <span className="mx-1">Summary</span>
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className={
-                    "nav-item nav-link" + (predictorTab === -2 ? " active" : "")
-                  }
-                  href="#"
-                  onClick={() => handlePredictorTab(-2)}
-                  id="predictor-Consensus"
-                  data-toggle="tab"
-                  role="tab"
-                  aria-controls="nav-Consensus"
-                  aria-selected={predictorTab === -2 ? " true" : "false"}
-                >
-                  <span className="mx-1">BENDER Consensus</span>
-                </a>
-              </li>
-              {predictors.map((pred, i) => (
-                <li className="nav-item">
-                  <a
-                    className={
-                      "nav-item nav-link" +
-                      (predictorTab === i ? " active" : "")
-                    }
-                    href="#"
-                    onClick={() => handlePredictorTab(i)}
-                    id={"predictor-" + pred}
-                    data-toggle="tab"
-                    role="tab"
-                    aria-controls={"nav-" + pred}
-                    aria-selected={predictorTab === i ? " true" : "false"}
-                  >
-                    <span className="mx-1">{pred}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* <div class="card-body p-0 b-0" style={{ height: "815px", overflowY: "auto", overflowX: "hidden" }}> */}
-          <div class="card-body p-0 b-0">
-          {upsetPlotData && pdbFolder && summaryTableData ? (
-            <div class="tab-content">
-              {/* Content for each predictor*/}
-              <div
-                className={
-                  "tab-pane fade" + (predictorTab === -1 ? " active show" : "")
-                }
-                id="nav-Summary"
-                role="tabpanel"
-                aria-labelledby="predictor-Summary"
-              >
-                
-                  <>
-                    {pdbFolder && summaryTableData && (
-                      <MolViewer
-                        pdb={inputString}
-                        pdbFolder={pdbFolder}
-                        bindingResidues={summaryTableData.rows.sort(
-                          (a, b) => parseInt(a.number) - parseInt(b.number)
-                        )}
-                      />
-                    )}
-
-                    <Summary title={"Binding site intersections"}>
-                      <div className="row p-2">
-                        <div className="col-md-12">
-                          {upsetClickResidues.length > 0 ? (
-                            <>
-                              <Stack sx={{ width: "100%" }} spacing={2}>
-                                <Alert variant="outlined" severity="success">
-                                  <AlertTitle>
-                                    <div className="col">
-                                      <h6>
-                                        {upsetClickName.map((str, index) => (
-                                          <React.Fragment key={index}>
-                                            <strong>{str}</strong>
-                                            {index <
-                                              upsetClickName.length - 1 &&
-                                              " | "}
-                                          </React.Fragment>
-                                        ))}
-                                      </h6>
-                                    </div>
-                                    <div className="col">
-                                      <Popup
-                                        trigger={
-                                          <Button
-                                            variant="contained"
-                                            color="success"
-                                          >
-                                            View on protein
-                                          </Button>
-                                        }
-                                        position="right center"
-                                        modal
-                                        nested
-                                      >
-                                        <SummaryPopup
-                                          pdb={inputString}
-                                          bindSites={upsetClickResidues}
-                                          graspSites={graspSites.map((site) =>
-                                            site.map(
-                                              ([chain, res, number, occ]) =>
-                                                res + "-" + number + "-" + chain
-                                            )
-                                          )}
-                                          puresnetSites={puresnetSites.map(
-                                            (site) =>
-                                              site.map(
-                                                ([chain, res, number, occ]) =>
-                                                  res +
-                                                  "-" +
-                                                  number +
-                                                  "-" +
-                                                  chain
-                                              )
-                                          )}
-                                          gassSites={gassSites.map((site) =>
-                                            site.map(
-                                              ([chain, res, number, occ]) =>
-                                                res + "-" + number + "-" + chain
-                                            )
-                                          )}
-                                          deeppocketSites={deeppocketSites.map(
-                                            (site) =>
-                                              site.map(
-                                                ([chain, res, number, occ]) =>
-                                                  res +
-                                                  "-" +
-                                                  number +
-                                                  "-" +
-                                                  chain
-                                              )
-                                          )}
-                                          pointsiteSites={pointsiteSites.map(
-                                            (site) =>
-                                              site.map(
-                                                ([chain, res, number, occ]) =>
-                                                  res +
-                                                  "-" +
-                                                  number +
-                                                  "-" +
-                                                  chain
-                                              )
-                                          )}
-                                          p2rankSites={p2rankSites.map((site) =>
-                                            site.map(
-                                              ([chain, res, number, occ]) =>
-                                                res + "-" + number + "-" + chain
-                                            )
-                                          )}
-                                          predsToShow={upsetClickName}
-                                          upsetClickResidues={upsetClickResidues
-                                            .slice() // Create a shallow copy to avoid modifying the original array
-                                            .sort((a, b) => {
-                                              const numA = parseInt(
-                                                a.split("-")[1],
-                                                10
-                                              );
-                                              const numB = parseInt(
-                                                b.split("-")[1],
-                                                10
-                                              );
-
-                                              return numA - numB;
-                                            })}
-                                          pdbFolder={pdbFolder}
-                                        />
-                                      </Popup>
-                                    </div>
-                                  </AlertTitle>
-                                  <div>
-                                    <h6>
-                                      Click on button to view list of residues
-                                      for selected intersection{" "}
-                                    </h6>
-                                  </div>
-                                </Alert>
-                              </Stack>
-                            </>
-                          ) : (
-                            <Stack sx={{ width: "100%" }} spacing={2}>
-                              <Alert variant="outlined" severity="warning">
-                                <AlertTitle>
-                                  <h6>
-                                    <strong>Select an intersection</strong>
-                                  </h6>
-                                </AlertTitle>
-                                <h6>
-                                  Click on graph to show residues found by
-                                  predictors
-                                </h6>
-                              </Alert>
-                            </Stack>
-                          )}
-                        </div>
-                      </div>
-                      <UpsetPlot
-                        upsetOnClick={upsetOnClick}
-                        data={upsetPlotData}
-                      />
-                    </Summary>
-                    <Summary title={"Residues found on binding sites"}>
-                      <div className="row p-2">
-                        {summaryTableData ? (
-                          <div>
-                            <Stack sx={{ width: "100%" }} spacing={2}>
-                              <Alert variant="outlined" severity="info">
-                                <AlertTitle>
-                                  <h6>
-                                    <strong>
-                                      Overall prediction results for protein{" "}
-                                      {decodeURIComponent(inputString)}{" "}
-                                    </strong>
-                                  </h6>
-                                </AlertTitle>
-                                <h6>
-                                  {summaryContent[0]} binding sites/pockets were
-                                  predicted in {summaryContent[3]} different
-                                  predictors
-                                </h6>
-
-                                <h6>
-                                  {summaryContent[1]} different residues were
-                                  found in those predicted binding sites
-                                </h6>
-                                <h6>
-                                  Most common residues can be found at table
-                                  bellow
-                                </h6>
-                              </Alert>
-                            </Stack>
-                            <MDBDataTable
-                              striped
-                              bordered
-                              small
-                              displayEntries={false}
-                              data={summaryTableData}
-                              noBottomColumns={true}
-                            />
-                          </div>
-                        ) : (
-                          <div>Loading...</div>
-                        )}
-                      </div>
-                    </Summary>
-                  </>
-                
+            {upsetPlotData && pdbFolder && summaryTableData ? (
+              <BasicTabs
+                predictors={predictors}
+                activeTab={predictorTab}
+                pdb={inputString}
+                pdbFolder={pdbFolder}
+                graspSites={graspSites}
+                puresnetSites={puresnetSites}
+                gassSites={gassSites}
+                deeppocketSites={deeppocketSites}
+                pointsiteSites={pointsiteSites}
+                p2rankSites={p2rankSites}
+                bindingResidues={summaryTableData.rows.sort(
+                  (a, b) => parseInt(a.number) - parseInt(b.number)
+                )}
+                summaryTableData={summaryTableData}
+                summaryContent={summaryContent}
+                upsetClickResidues={upsetClickResidues}
+                upsetClickName={upsetClickName}
+                upsetOnClick={upsetOnClick}
+                upsetPlotData={upsetPlotData}
+                numPreds={summaryContent[3]}
+                consensusData={meanConsensus.sort((a, b) => a[2] - b[2])}
+              />
+            ) : (
+              <div className="row mt-4">
+                <Stack sx={{ width: "100%" }} spacing={2}>
+                  <Alert variant="outlined" severity="info">
+                    <AlertTitle>
+                      <h6>
+                        <strong>Please wait</strong>
+                      </h6>
+                    </AlertTitle>
+                    <h6>Loading data...</h6>
+                  </Alert>
+                </Stack>
               </div>
-              {pdbFolder && summaryTableData && (
-                <ConsensusContent
-                  pred={"Consensus"}
-                  activeTab={predictorTab}
-                  pdb={inputString}
-                  bindingResidues={summaryTableData.rows.sort(
-                    (a, b) => parseInt(a.number) - parseInt(b.number)
-                  )}
-                  pdbFolder={pdbFolder}
-                  numPreds={summaryContent[3]}
-                  consensusData={meanConsensus.sort((a, b) => a[2] - b[2])}
-                />
-              )}
-
-              <PredictorContent
-                pred={predictors[0]}
-                predictors={predictors}
-                activeTab={predictorTab}
-                pdb={inputString}
-                bindSites={graspSites}
-                pdbFolder={pdbFolder}
-              />
-              <PredictorContent
-                pred={predictors[1]}
-                predictors={predictors}
-                activeTab={predictorTab}
-                pdb={inputString}
-                bindSites={puresnetSites}
-                pdbFolder={pdbFolder}
-              />
-              <PredictorContent
-                pred={predictors[2]}
-                predictors={predictors}
-                activeTab={predictorTab}
-                pdb={inputString}
-                bindSites={gassSites}
-                pdbFolder={pdbFolder}
-              />
-              <PredictorContent
-                pred={predictors[3]}
-                predictors={predictors}
-                activeTab={predictorTab}
-                pdb={inputString}
-                bindSites={deeppocketSites}
-                pdbFolder={pdbFolder}
-              />
-              <PredictorContent
-                pred={predictors[4]}
-                predictors={predictors}
-                activeTab={predictorTab}
-                pdb={inputString}
-                bindSites={pointsiteSites}
-                pdbFolder={pdbFolder}
-              />
-              <PredictorContent
-                pred={predictors[5]}
-                predictors={predictors}
-                activeTab={predictorTab}
-                pdb={inputString}
-                bindSites={p2rankSites}
-                pdbFolder={pdbFolder}
-              />
-            </div>
-          ) : (
-            <div className="row mt-4">
-              <Stack sx={{ width: "100%" }} spacing={2}>
-                <Alert variant="outlined" severity="info">
-                  <AlertTitle>
-                    <h6>
-                      <strong>Please wait</strong>
-                    </h6>
-                  </AlertTitle>
-                  <h6>Loading data...</h6>
-                </Alert>
-              </Stack>
-            </div>
-          )}
+            )}
           </div>
-        </div>
       </BaseLayout>
     </>
   );

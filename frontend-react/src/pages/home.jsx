@@ -6,6 +6,7 @@ import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
+import TesteMolViewer from '../components/visualization/TesteMolViewer';
 
 const Home = () => {
 	
@@ -82,6 +83,8 @@ const Home = () => {
 						</div>
 					</div>
 					</div>
+				</div>
+				<div>
 				</div>
 				
 				<div class="container">

@@ -14,7 +14,7 @@ import Button from "@mui/material/Button";
 import DownloadingIcon from "@mui/icons-material/Downloading";
 import MouseHelpPopup from "../items/MouseHelpPopup";
 
-const MolViewer = (props) => {
+const MolViewerSummary = (props) => {
   const [stage, setStage] = useState(null);
   const [reprButton, setReprButton] = useState("");
   const [previousFocusRes, setPreviousFocusRes] = useState("");
@@ -147,7 +147,7 @@ const MolViewer = (props) => {
   }
 
   return (
-    <div className="row mt-4">
+    <div className="row">
       <div className="col-md-8">
         <div className="card mx-0" id="card-results">
           <div className="card-header" style={{ height: "3.6rem" }}>
@@ -310,4 +310,4 @@ const MolViewer = (props) => {
     </div>
   );
 };
-export default MolViewer;
+export default MolViewerSummary;
