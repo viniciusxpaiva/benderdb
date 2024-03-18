@@ -12,6 +12,12 @@ import Select from "@mui/material/Select";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import DownloadingIcon from "@mui/icons-material/Downloading";
 import Button from "@mui/material/Button";
+import ResListTabs from "../items/ResListTabs"
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
 const bSiteColors = [
   "#167288",
@@ -137,21 +143,6 @@ const MolViewerPredictors = (props) => {
     setPreviousFocusRes(sele)
   }
 
-  const handleBindSiteTab = (stage, tabNum, site) => {
-    const pdb_id = "AF-" + props.pdb + "-F1-model_v4.pdb";
-    setBindSiteTab(tabNum);
-    // Construct an array of selection strings from the residue list
-    var selectionStrings = site.map(function (residue) {
-      return residue[2] + ":" + residue[0] + " and " + residue[1];
-    });
-
-    // Combine the selection strings using " or " logical operator
-    var combinedSelection = selectionStrings.join(" or ");
-
-    // Automatically adjust the camera view to the combined selection
-    stage.getComponentsByName(pdb_id).autoView(combinedSelection);
-  };
-
   function handleDownloadResults(predictor, protName) {
     const fileUrl =
       process.env.PUBLIC_URL +
@@ -197,6 +188,81 @@ const MolViewerPredictors = (props) => {
     document.body.removeChild(link);
   }
 
+  const handleBindSiteTab = (stage, tabNum, site) => {
+    const pdb_id = "AF-" + props.pdb + "-F1-model_v4.pdb";
+    setBindSiteTab(tabNum);
+    // Construct an array of selection strings from the residue list
+    var selectionStrings = site.map(function (residue) {
+      return residue[2] + ":" + residue[0] + " and " + residue[1];
+    });
+
+    // Combine the selection strings using " or " logical operator
+    var combinedSelection = selectionStrings.join(" or ");
+
+    // Automatically adjust the camera view to the combined selection
+    stage.getComponentsByName(pdb_id).autoView(combinedSelection);
+  };
+
+  function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 0 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+CustomTabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  function BoldText({ children }) {
+    return <span style={{ fontWeight: "bold" }}>{children}</span>;
+  }
+
+  function ColorfulTab({ label, index, color, handleChange, ...rest }) {
+    const onClick = () => {
+      handleChange(index);
+    };
+
+    return (
+      <Tab
+        label={
+          <ColorfulText color={color} onClick={onClick}>
+            <BoldText>{label}</BoldText>
+          </ColorfulText>
+        }
+        {...rest}
+      />
+    );
+  }
+
   return (
     <div className="row">
       <div className="col-md-4">
@@ -239,50 +305,40 @@ const MolViewerPredictors = (props) => {
             <div className="container d-block p-0" id="cl-tab">
               <div className="row">
                 <div className="col-md-12">
-                  <nav style={{ overflowY: "auto" }}>
-                    <div
-                      className="nav nav-pills nav-fill mt-0 flex-nowrap"
-                      role="tablist"
+                  <Box sx={{ width: "100%" }}>
+                    <Box
+                      sx={{
+                        borderBottom: 1,
+                        borderColor: "divider",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
                     >
-                      {props.bindSites.map((site, i) => (
-                        <a
-                          key={i}
-                          className={
-                            "nav-item nav-link" +
-                            (bindSiteTab === i ? " active" : "")
-                          }
-                          href="#"
-                          onClick={() => handleBindSiteTab(stage, i, site)}
-                          id={"bindSite-" + i}
-                          data-toggle="tab"
-                          role="tab"
-                          aria-controls={"nav-" + i}
-                          aria-selected={bindSiteTab === i ? " true" : "false"}
-                          style={{
-                            minWidth: "100px",
-                            backgroundColor: bindSiteTab === i ? "#D3D3D3" : "",
-                          }}
-                        >
-                          <ColorfulText
+                      <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="basic tabs example"
+                        variant="scrollable"
+                        scrollButtons="auto"
+                      >
+                        {props.bindSites.map((site, i) => (
+                          <ColorfulTab
+                            key={i}
+                            index={i}
+                            label={`Site ${i}`}
                             color={bSiteColors[i % bSiteColors.length]}
-                          >
-                            {"Site " + i}
-                          </ColorfulText>
-                        </a>
-                      ))}
-                    </div>
-                  </nav>
-                  <div className="tab-content">
+                            handleChange={handleChange}
+                            {...a11yProps(i)}
+                          />
+                        ))}
+                      </Tabs>
+                    </Box>
+
                     {props.bindSites.map((p, i) => (
-                      <div
-                        key={i}
-                        className={
-                          "tab-pane fade" +
-                          (bindSiteTab === i ? " active show" : "")
-                        }
-                        id={"nav-" + i}
-                        role="tabpanel"
-                        aria-labelledby={"bindSite-" + i}
+                      <CustomTabPanel
+                        value={value}
+                        index={i}
+                        sx={{ backgroundColor: "red" }}
                       >
                         <div
                           className="table-container"
@@ -298,7 +354,7 @@ const MolViewerPredictors = (props) => {
                                 className="bg-light"
                                 style={{
                                   position: "sticky",
-                                  top: 0
+                                  top: 0,
                                 }}
                               >
                                 <tr>
@@ -338,9 +394,9 @@ const MolViewerPredictors = (props) => {
                             </table>
                           </div>
                         </div>
-                      </div>
+                      </CustomTabPanel>
                     ))}
-                  </div>
+                  </Box>
                 </div>
               </div>
             </div>

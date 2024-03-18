@@ -5,7 +5,7 @@ import "reactjs-popup/dist/index.css";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
-import BasicTabs from "../components/items/ResultsTabs";
+import ResultsTabs from "../components/items/ResultsTabs";
 
 const predictors = [
   "GRaSP",
@@ -145,45 +145,45 @@ const Results = () => {
         </div>
 
         <div class="container-lg">
-            {upsetPlotData && pdbFolder && summaryTableData ? (
-              <BasicTabs
-                predictors={predictors}
-                activeTab={predictorTab}
-                pdb={inputString}
-                pdbFolder={pdbFolder}
-                graspSites={graspSites}
-                puresnetSites={puresnetSites}
-                gassSites={gassSites}
-                deeppocketSites={deeppocketSites}
-                pointsiteSites={pointsiteSites}
-                p2rankSites={p2rankSites}
-                bindingResidues={summaryTableData.rows.sort(
-                  (a, b) => parseInt(a.number) - parseInt(b.number)
-                )}
-                summaryTableData={summaryTableData}
-                summaryContent={summaryContent}
-                upsetClickResidues={upsetClickResidues}
-                upsetClickName={upsetClickName}
-                upsetOnClick={upsetOnClick}
-                upsetPlotData={upsetPlotData}
-                numPreds={summaryContent[3]}
-                consensusData={meanConsensus.sort((a, b) => a[2] - b[2])}
-              />
-            ) : (
-              <div className="row mt-4">
-                <Stack sx={{ width: "100%" }} spacing={2}>
-                  <Alert variant="outlined" severity="info">
-                    <AlertTitle>
-                      <h6>
-                        <strong>Please wait</strong>
-                      </h6>
-                    </AlertTitle>
-                    <h6>Loading data...</h6>
-                  </Alert>
-                </Stack>
-              </div>
-            )}
-          </div>
+          {upsetPlotData && pdbFolder && summaryTableData ? (
+            <ResultsTabs
+              predictors={predictors}
+              activeTab={predictorTab}
+              pdb={inputString}
+              pdbFolder={pdbFolder}
+              graspSites={graspSites}
+              puresnetSites={puresnetSites}
+              gassSites={gassSites}
+              deeppocketSites={deeppocketSites}
+              pointsiteSites={pointsiteSites}
+              p2rankSites={p2rankSites}
+              bindingResidues={summaryTableData.rows.sort(
+                (a, b) => parseInt(a.number) - parseInt(b.number)
+              )}
+              summaryTableData={summaryTableData}
+              summaryContent={summaryContent}
+              upsetClickResidues={upsetClickResidues}
+              upsetClickName={upsetClickName}
+              upsetOnClick={upsetOnClick}
+              upsetPlotData={upsetPlotData}
+              numPreds={summaryContent[3]}
+              consensusData={meanConsensus.sort((a, b) => a[2] - b[2])}
+            />
+          ) : (
+            <div className="row mt-4">
+              <Stack sx={{ width: "100%" }} spacing={2}>
+                <Alert variant="outlined" severity="info">
+                  <AlertTitle>
+                    <h6>
+                      <strong>Please wait</strong>
+                    </h6>
+                  </AlertTitle>
+                  <h6>Loading data...</h6>
+                </Alert>
+              </Stack>
+            </div>
+          )}
+        </div>
       </BaseLayout>
     </>
   );

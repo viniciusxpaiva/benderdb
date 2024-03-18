@@ -4,6 +4,8 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+import IconButton from "@mui/material/IconButton";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -17,7 +19,7 @@ function CustomTabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 0 }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -38,7 +40,7 @@ function a11yProps(index) {
   };
 }
 
-export default function ResListTabs() {
+export default function ResListTabs(props) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -52,21 +54,67 @@ export default function ResListTabs() {
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
+          variant="scrollable"
+          scrollButtons="auto"
         >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          {props.bindSites.map((site, i) => (
+            <Tab label={`Site ${i}`} {...a11yProps(i)} />
+          ))}
         </Tabs>
       </Box>
-      <CustomTabPanel value={value} index={0}>
-        Item One
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        Item Two
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        Item Three
-      </CustomTabPanel>
+
+      {props.bindSites.map((p, i) => (
+        <CustomTabPanel value={value} index={i} sx={{ backgroundColor: "red" }}>
+          <div
+            className="table-container"
+            style={{
+              maxHeight: "620px",
+              overflowY: "auto",
+              overflowX: "hidden",
+            }}
+          >
+            <div className="table">
+              <table className="table table-sm table-hover">
+                <thead
+                  className="bg-light"
+                  style={{
+                    position: "sticky",
+                    top: 0,
+                  }}
+                >
+                  <tr>
+                    <th className="text-center">Residue</th>
+                    <th className="text-center">Number</th>
+                    <th className="text-center">Chain</th>
+                    <th className="text-center">Look at</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {p.map((res, j) => (
+                    <tr key={j}>
+                      <td className="text-center p-2">{res[1]}</td>
+                      <td className="text-center p-2">{res[2]}</td>
+                      <td className="text-center p-2">{res[0]}</td>
+                      <td className="text-center">
+                        <IconButton
+                          className="p-1"
+                          aria-label="focus-res"
+                          title="Focus on this residue"
+                          //onClick={() =>
+                          //focusResidue(stage, res[2], res[0])
+                          //}
+                        >
+                          <RemoveRedEyeOutlinedIcon />
+                        </IconButton>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </CustomTabPanel>
+      ))}
     </Box>
   );
 }
