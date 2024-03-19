@@ -42,14 +42,12 @@ export default function MouseHelpPopup() {
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
-      <div>
         <IconButton
           aria-label="mouse"
           title="Mouse controls"
           onClick={handleClick}
         >
           <MouseIcon />
-        </IconButton>
         {open ? (
           <Portal>
               <Box sx={overlayStyles} onClick={handleClickAway} />
@@ -58,7 +56,7 @@ export default function MouseHelpPopup() {
               </Box>
           </Portal>
         ) : null}
-      </div>
+        </IconButton>
     </ClickAwayListener>
   );
 }
