@@ -1,9 +1,8 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import * as NGL from "ngl/dist/ngl";
-import MouseHelpPopup from "../../items/MouseHelpPopup";
-import "../../../styles/SummaryPopup.css";
+import "../../styles/SummaryPopup.css";
 import Stack from "@mui/material/Stack";
-import MouseIcon from "@mui/icons-material/Mouse";
 import IconButton from "@mui/material/IconButton";
 import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
@@ -11,57 +10,25 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Button from "@mui/material/Button";
+import DownloadingIcon from "@mui/icons-material/Downloading";
+import MouseHelpPopup from "../items/MouseHelpPopup";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 
-const mousePopupStyle = {
-  width: "80%",
-  maxWidth: "600px",
-  height: "40vh",
-  overflowY: "auto",
-  overflowX: "auto", // Add this line to enable horizontal scrollbar when needed
-};
-
-const LegendItem = ({ itemName, color }) => {
-  const containerStyle = {
-    marginBottom: "10px",
-    marginLeft: "10px",
-    display: "inline-block", // Ensure the container only takes the space it needs
-  };
-
-  const itemStyle = {
-    color: "black",
-  };
-
-  const backgroundColorStyle = {
-    backgroundColor: color,
-    padding: "0 10px",
-    borderRadius: "5px",
-    display: "inline-block", // Allow the background to expand beyond the text
-  };
-
-  return (
-    <div style={containerStyle}>
-      <span style={itemStyle}>
-        <span style={backgroundColorStyle}>{itemName}</span>
-      </span>
-    </div>
-  );
-};
-
-const SummaryPopup = (props) => {
+const MolViewerPopupSummary = (props) => {
   const [stage, setStage] = useState(null);
   const [reprButton, setReprButton] = useState("");
+  const [reprColorButton, setReprColorButton] = useState("");
 
   useEffect(() => {
-    console.log(props.upsetClickResidues);
-    const newStage = new NGL.Stage("viewport");
+    const newStage = new NGL.Stage("viewport-teste");
     newStage.removeAllComponents(); // Remove previous components
     newStage
       .loadFile(
         "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
       )
       .then((component) => {
-        component.addRepresentation("cartoon", { color: "grey" });
+        component.addRepresentation("cartoon", { color: "lightgrey" });
         component.autoView();
         colorAllSites(component);
         changeColorBindSites(component, props.upsetClickResidues, "cyan");
@@ -70,21 +37,12 @@ const SummaryPopup = (props) => {
     setStage(newStage);
   }, []);
 
-  function colorAllSites(component) {
-    if (props.predsToShow.includes("GRaSP"))
-      changeColorBindSites(component, props.graspSites[0], "red");
-    if (props.predsToShow.includes("PUResNet"))
-      changeColorBindSites(component, props.puresnetSites[0], "green");
-    if (props.predsToShow.includes("GASS"))
-      changeColorBindSites(component, props.gassSites[0], "yellow");
-    if (props.predsToShow.includes("DeepPocket"))
-      changeColorBindSites(component, props.deeppocketSites[0], "orange");
-    if (props.predsToShow.includes("PointSite"))
-      changeColorBindSites(component, props.pointsiteSites[0], "purple");
-    if (props.predsToShow.includes("P2Rank"))
-      changeColorBindSites(component, props.p2rankSites[0], "pink");
+  function handleBackgroundColor(stage) {
+    const stageBackgroundColor = stage.getParameters().backgroundColor;
+    stageBackgroundColor === "white"
+      ? stage.setParameters({ backgroundColor: "black" })
+      : stage.setParameters({ backgroundColor: "white" });
   }
-
   function resetNGLViewer(stage) {
     stage.removeAllComponents();
     stage
@@ -94,7 +52,8 @@ const SummaryPopup = (props) => {
       .then((component) => {
         component.addRepresentation("cartoon", { color: "grey" });
         component.autoView();
-        changeColorBindSites(component, props.upsetClickResidues);
+        colorAllSites(component);
+        changeColorBindSites(component, props.upsetClickResidues, "cyan");
       });
     stage.setParameters({ backgroundColor: "white" });
     setStage(stage); // Remove previous components
@@ -123,6 +82,21 @@ const SummaryPopup = (props) => {
     stageBackgroundColor === "white"
       ? stage.setParameters({ backgroundColor: "black" })
       : stage.setParameters({ backgroundColor: "white" });
+  }
+
+  function colorAllSites(component) {
+    if (props.predsToShow.includes("GRaSP"))
+      changeColorBindSites(component, props.graspSites[0], "red");
+    if (props.predsToShow.includes("PUResNet"))
+      changeColorBindSites(component, props.puresnetSites[0], "green");
+    if (props.predsToShow.includes("GASS"))
+      changeColorBindSites(component, props.gassSites[0], "yellow");
+    if (props.predsToShow.includes("DeepPocket"))
+      changeColorBindSites(component, props.deeppocketSites[0], "orange");
+    if (props.predsToShow.includes("PointSite"))
+      changeColorBindSites(component, props.pointsiteSites[0], "purple");
+    if (props.predsToShow.includes("P2Rank"))
+      changeColorBindSites(component, props.p2rankSites[0], "pink");
   }
 
   function handleRepresentation(stage, repr) {
@@ -166,49 +140,16 @@ const SummaryPopup = (props) => {
 
   return (
     <>
-      <div className="row">
-        <div className="container text-center">
-          <div className="card mx-0" id="card-results">
-            <p className="mt-3">
-              Intersection and other residues from predicted binding sites are
-              distinguished by following colors:
-            </p>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <LegendItem itemName="Intersection" color="#00FFFF	" />
-              <LegendItem itemName="GRaSP" color="#FF0000" />
-              <LegendItem itemName="PUResNet" color="#008000" />
-              <LegendItem itemName="GASS" color="#FFFF00" />
-              <LegendItem itemName="DeepPocket" color="#FFA500" />
-              <LegendItem itemName="PointSite" color="#800080" />
-              <LegendItem itemName="P2Rank" color="#FFB6C1" />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="row mt-2">
+      <div className="row mt-4">
         <div className="col-md-8">
           <div className="card mx-0" id="card-results">
-            <div className="card-header color-white text-black">
+            <div className="card-header" style={{ height: "3.6rem" }}>
               <div className="row">
-                <div className="col-md-4 d-flex align-items-center">
+                <div className="col-md-6 d-flex align-items-center">
                   Molecular Visualization
                 </div>
-                <div
-                  className="col-md-8"
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignItems: "center",
-                    flexDirection: window.innerWidth <= 768 ? "column" : "row",
-                    // Add other styles as needed
-                  }}
-                >
+
+                <div className="col-md-6 ">
                   <div
                     style={{
                       display: "flex",
@@ -217,9 +158,19 @@ const SummaryPopup = (props) => {
                     }}
                   >
                     <Stack direction="row" spacing={1}>
+                      <Button
+                        size="small"
+                        aria-label="download"
+                        title="Download PyMol session"
+                        //onClick={() => handleDownloadPymol(props.pdb)}
+                        variant="outlined"
+                        startIcon={<DownloadingIcon />}
+                      >
+                        PyMol
+                      </Button>
                       <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
                         <InputLabel id="demo-select-small-label">
-                          Representation
+                          Protein
                         </InputLabel>
                         <Select
                           labelId="demo-select-small-label"
@@ -229,6 +180,27 @@ const SummaryPopup = (props) => {
                           onChange={(e) =>
                             handleRepresentation(stage, e.target.value)
                           }
+                          disabled={true}
+                        >
+                          <MenuItem value="cartoon">Cartoon</MenuItem>
+                          <MenuItem value="licorice">Licorice</MenuItem>
+                          <MenuItem value="surface">Surface 1</MenuItem>
+                          <MenuItem value="surface+cartoon">Surface 2</MenuItem>
+                        </Select>
+                      </FormControl>
+                      <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
+                        <InputLabel id="demo-select-small-label">
+                          Site
+                        </InputLabel>
+                        <Select
+                          labelId="demo-select-small-label"
+                          id="demo-select-small"
+                          value={reprButton}
+                          label="Representation"
+                          onChange={(e) =>
+                            handleRepresentation(stage, e.target.value)
+                          }
+                          disabled={true}
                         >
                           <MenuItem value="cartoon">Cartoon</MenuItem>
                           <MenuItem value="licorice">Licorice</MenuItem>
@@ -256,13 +228,13 @@ const SummaryPopup = (props) => {
                 </div>
               </div>
             </div>
-            <div className="card-body p-0 b-0" style={{ height: "683px" }}>
+            <div className="card-body p-0 b-0" style={{ height: "676px" }}>
               <div className="container d-block p-0" id="cl-tab">
                 <div className="row">
                   <div className="col-md-12">
                     <div
-                      id="viewport"
-                      style={{ width: "100%", height: "676px" }}
+                      id="viewport-teste"
+                      style={{ width: "100%", height: "673px" }}
                     ></div>
                   </div>
                 </div>
@@ -273,7 +245,7 @@ const SummaryPopup = (props) => {
         <div className="col-md-4">
           <div className="card mx-0" id="card-results">
             <div
-              className="card-header color-white text-black d-flex justify-content-center align-items-center"
+              className="card-header color-white text-black text-center"
               style={{ height: "3.5rem" }}
             >
               <span className="align-middle">
@@ -286,7 +258,6 @@ const SummaryPopup = (props) => {
                 ))}
               </span>
             </div>
-
             <div className="card-body p-0 b-0" style={{ height: "690px" }}>
               <div className="container d-block p-0" id="cl-tab">
                 <div className="row">
@@ -398,4 +369,4 @@ const SummaryPopup = (props) => {
     </>
   );
 };
-export default SummaryPopup;
+export default MolViewerPopupSummary;

@@ -6,18 +6,17 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import MolViewerSummary from "../visualization/MolViewerSummary";
 import MolViewerPredictors from "../visualization/MolViewerPredictors";
-import Summary from "../results/summary/Summary";
+import Summary from "../layout/Summary";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
 import { MDBDataTable } from "mdbreact";
-import MolViewerConsensus from "../visualization/MolViewerConsensus";
+//import MolViewerConsensus from "../visualization/MolViewerConsensus";
 import UpsetPlot from "../visualization/UpsetPlot";
-import SummaryPopup from "../results/summary/SummaryPopup";
 import "reactjs-popup/dist/index.css";
 import Popup from "reactjs-popup";
 import Button from "@mui/material/Button";
-
+import SummaryIntersectionsPopup from "./SummaryIntersectionsPopup";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -54,16 +53,7 @@ function a11yProps(index) {
 
 export default function ResultsTabs(props) {
   const [value, setValue] = useState(0);
-    const [upsetClickName, setUpsetClickName] = useState([]);
-    const [upsetClickResidues, setUpsetClickResidues] = useState([]);
-
-  function upsetOnClick(set) {
-    setUpsetClickName(set.name.replace(/[\s()]/g, "").split("∩"));
-    const residueValues = set.elems.map((e) => e.residue);
-    setUpsetClickResidues(residueValues);
-  }
-  
-    const handleChange = (event, newValue) => {
+  const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
@@ -84,7 +74,6 @@ export default function ResultsTabs(props) {
             <Tab label="DeepPocket" {...a11yProps(4)} />
             <Tab label="PointSite" {...a11yProps(5)} />
             <Tab label="P2Rank" {...a11yProps(6)} />
-            <Tab label="BENDER Consensus" {...a11yProps(7)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
@@ -92,101 +81,88 @@ export default function ResultsTabs(props) {
             pdb={props.pdb}
             pdbFolder={props.pdbFolder}
             bindingResidues={props.bindingResidues}
+            numPreds={props.numPreds}
+            consensusData={props.consensusData}
           />
+
           <Summary title={"Binding site intersections"}>
             <div className="row p-2">
               <div className="col-md-12">
                 {props.upsetClickResidues.length > 0 ? (
-                  <>
-                    <Stack sx={{ width: "100%" }} spacing={2}>
-                      <Alert variant="outlined" severity="success">
-                        <AlertTitle>
-                          <div className="col">
-                            <h6>
-                              {props.upsetClickName.map((str, index) => (
-                                <React.Fragment key={index}>
-                                  <strong>{str}</strong>
-                                  {index < props.upsetClickName.length - 1 &&
-                                    " | "}
-                                </React.Fragment>
-                              ))}
-                            </h6>
-                          </div>
-                          <div className="col">
-                            <Popup
-                              trigger={
-                                <Button variant="contained" color="success">
-                                  View on protein
-                                </Button>
-                              }
-                              position="right center"
-                              modal
-                              nested
-                            >
-                              <SummaryPopup
-                                pdb={props.pdb}
-                                bindSites={props.upsetClickResidues}
-                                graspSites={props.graspSites.map((site) =>
-                                  site.map(
-                                    ([chain, res, number, occ]) =>
-                                      res + "-" + number + "-" + chain
-                                  )
-                                )}
-                                puresnetSites={props.puresnetSites.map((site) =>
-                                  site.map(
-                                    ([chain, res, number, occ]) =>
-                                      res + "-" + number + "-" + chain
-                                  )
-                                )}
-                                gassSites={props.gassSites.map((site) =>
-                                  site.map(
-                                    ([chain, res, number, occ]) =>
-                                      res + "-" + number + "-" + chain
-                                  )
-                                )}
-                                deeppocketSites={props.deeppocketSites.map(
-                                  (site) =>
-                                    site.map(
-                                      ([chain, res, number, occ]) =>
-                                        res + "-" + number + "-" + chain
-                                    )
-                                )}
-                                pointsiteSites={props.pointsiteSites.map(
-                                  (site) =>
-                                    site.map(
-                                      ([chain, res, number, occ]) =>
-                                        res + "-" + number + "-" + chain
-                                    )
-                                )}
-                                p2rankSites={props.p2rankSites.map((site) =>
-                                  site.map(
-                                    ([chain, res, number, occ]) =>
-                                      res + "-" + number + "-" + chain
-                                  )
-                                )}
-                                predsToShow={upsetClickName}
-                                upsetClickResidues={upsetClickResidues
-                                  .slice() // Create a shallow copy to avoid modifying the original array
-                                  .sort((a, b) => {
-                                    const numA = parseInt(a.split("-")[1], 10);
-                                    const numB = parseInt(b.split("-")[1], 10);
-
-                                    return numA - numB;
-                                  })}
-                                pdbFolder={props.pdbFolder}
-                              />
-                            </Popup>
-                          </div>
-                        </AlertTitle>
-                        <div>
+                  <Stack sx={{ width: "100%" }} spacing={2}>
+                    <Alert variant="outlined" severity="success">
+                      <AlertTitle>
+                        <div className="col">
                           <h6>
-                            Click on button to view list of residues for
-                            selected intersection{" "}
+                            {props.upsetClickName.map((str, index) => (
+                              <React.Fragment key={index}>
+                                <strong>{str}</strong>
+                                {index < props.upsetClickName.length - 1 &&
+                                  " | "}
+                              </React.Fragment>
+                            ))}
                           </h6>
                         </div>
-                      </Alert>
-                    </Stack>
-                  </>
+                        <SummaryIntersectionsPopup
+                          pdb={props.pdb}
+                          bindSites={props.upsetClickResidues}
+                          graspSites={props.graspSites.map((site) =>
+                            site.map(
+                              ([chain, res, number, occ]) =>
+                                res + "-" + number + "-" + chain
+                            )
+                          )}
+                          puresnetSites={props.puresnetSites.map((site) =>
+                            site.map(
+                              ([chain, res, number, occ]) =>
+                                res + "-" + number + "-" + chain
+                            )
+                          )}
+                          gassSites={props.gassSites.map((site) =>
+                            site.map(
+                              ([chain, res, number, occ]) =>
+                                res + "-" + number + "-" + chain
+                            )
+                          )}
+                          deeppocketSites={props.deeppocketSites.map((site) =>
+                            site.map(
+                              ([chain, res, number, occ]) =>
+                                res + "-" + number + "-" + chain
+                            )
+                          )}
+                          pointsiteSites={props.pointsiteSites.map((site) =>
+                            site.map(
+                              ([chain, res, number, occ]) =>
+                                res + "-" + number + "-" + chain
+                            )
+                          )}
+                          p2rankSites={props.p2rankSites.map((site) =>
+                            site.map(
+                              ([chain, res, number, occ]) =>
+                                res + "-" + number + "-" + chain
+                            )
+                          )}
+                          predsToShow={props.upsetClickName}
+                          upsetClickResidues={props.upsetClickResidues
+                            .slice() // Create a shallow copy to avoid modifying the original array
+                            .sort((a, b) => {
+                              const numA = parseInt(a.split("-")[1], 10);
+                              const numB = parseInt(b.split("-")[1], 10);
+
+                              return numA - numB;
+                            })}
+                          pdbFolder={props.pdbFolder}
+                        />
+
+                      </AlertTitle>
+                      <div>
+                        <h6>
+                          Click on button to view list of residues for selected
+                          intersection{" "}
+                        </h6>
+                      </div>
+                    </Alert>
+                  </Stack>
                 ) : (
                   <Stack sx={{ width: "100%" }} spacing={2}>
                     <Alert variant="outlined" severity="warning">
@@ -203,7 +179,10 @@ export default function ResultsTabs(props) {
                 )}
               </div>
             </div>
-            <UpsetPlot upsetOnClick={upsetOnClick} data={props.upsetPlotData} />
+            <UpsetPlot
+              upsetOnClick={props.upsetOnClick}
+              data={props.upsetPlotData}
+            />
           </Summary>
           <Summary title={"Residues found on binding sites"}>
             <div className="row p-2">
@@ -305,15 +284,6 @@ export default function ResultsTabs(props) {
             bindSites={props.p2rankSites}
             pdbFolder={props.pdbFolder}
           />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={7}>
-            <MolViewerConsensus
-                    pdb={props.pdb}
-                    pdbFolder={props.pdbFolder}
-                    bindingResidues={props.bindingResidues}
-                    numPreds={props.numPreds}
-                    consensusData={props.consensusData}
-                  />
         </CustomTabPanel>
       </Box>
     </>

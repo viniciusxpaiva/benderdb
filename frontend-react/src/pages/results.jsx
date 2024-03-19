@@ -125,6 +125,7 @@ const Results = () => {
     setUpsetClickName(set.name.replace(/[\s()]/g, "").split("∩"));
     const residueValues = set.elems.map((e) => e.residue);
     setUpsetClickResidues(residueValues);
+    console.log("clicou")
   }
 
   return (
@@ -137,7 +138,7 @@ const Results = () => {
           <div className="row justify-content-center">
             <div class="col-md-12 text-center">
               <h6 className="display-6 text-light">
-                Results: Predicted binding sites for protein{" "}
+                Predicted binding sites for protein{" "}
                 <strong>{decodeURIComponent(inputString)}</strong>
               </h6>
             </div>

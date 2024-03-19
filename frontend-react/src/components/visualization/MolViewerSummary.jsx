@@ -13,6 +13,12 @@ import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import Button from "@mui/material/Button";
 import DownloadingIcon from "@mui/icons-material/Downloading";
 import MouseHelpPopup from "../items/MouseHelpPopup";
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import FormHelperText from "@mui/material/FormHelperText";
 
 const MolViewerSummary = (props) => {
   const [stage, setStage] = useState(null);
@@ -40,23 +46,61 @@ const MolViewerSummary = (props) => {
     setStage(newStage);
   }, []);
 
-  function resetNGLViewer(stage) {
+
+  function resetNGLViewer(stage, tabIndex) {
     stage.removeAllComponents();
-    stage
-      .loadFile(
-        "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
-      )
-      .then((component) => {
-        component.addRepresentation("cartoon", {
-          colorScheme: "bfactor",
-          colorScale: "RdYlBu", // Defines a color scale from red to blue
-          colorReverse: true, // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
+    if (tabIndex === 0) {
+      stage
+        .loadFile(
+          "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
+        )
+        .then((component) => {
+          component.addRepresentation("cartoon", {
+            colorScheme: "bfactor",
+            colorScale: "RdYlBu", // Defines a color scale from red to blue
+            colorReverse: true, // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
+          });
+          component.autoView();
+          //changeColorBindSites(component, props.upsetClickResidues)
         });
-        component.autoView();
-        //changeColorBindSites(component, props.upsetClickResidues)
-      });
+    } else {
+      const filteredData = props.consensusData.filter(
+        (p) => p[3] >= (props.numPreds - tabIndex + 1) / props.numPreds
+      );
+      stage
+        .loadFile(
+          "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
+        )
+        .then((component) => {
+          component.addRepresentation("cartoon", { color: "lightgrey" });
+          component.autoView();
+          changeColorBindSites(component, filteredData);
+        });
+    }
+    
     stage.setParameters({ backgroundColor: "white" });
     setStage(stage); // Remove previous components
+  }
+
+  function generateBindSiteString(bindSiteList) {
+    const stringArray = bindSiteList
+      .map((item) => `${item[2]}:${item[0]}`)
+      .join(" or ");
+    return stringArray;
+  }
+
+  function changeColorBindSites(component, BindSites) {
+    // Generate strings for each list inside bindSites
+    if (BindSites === null) {
+      return;
+    }
+    console.log(BindSites);
+    const bindSitesToShow = generateBindSiteString(BindSites);
+    console.log(bindSitesToShow);
+    component.addRepresentation("ball+stick", {
+      color: "red",
+      sele: bindSitesToShow,
+    });
   }
 
   function handleBackgroundColor(stage) {
@@ -116,7 +160,7 @@ const MolViewerSummary = (props) => {
       return;
     }
     const pdb_id = "AF-" + props.pdb + "-F1-model_v4.pdb";
-    stage.getRepresentationsByName("surface").dispose();
+    //stage.getRepresentationsByName("surface").dispose();
     stage.getComponentsByName(pdb_id).addRepresentation("surface", {
       sele: sele,
       opacity: 0.5,
@@ -146,11 +190,51 @@ const MolViewerSummary = (props) => {
     document.body.removeChild(link);
   }
 
+  CustomTabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+  };
+
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  }
+
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    resetNGLViewer(stage, newValue);
+  };
+  
+    function CustomTabPanel(props) {
+      const { children, value, index, ...other } = props;
+
+      return (
+        <div
+          role="tabpanel"
+          hidden={value !== index}
+          id={`simple-tabpanel-${index}`}
+          aria-labelledby={`simple-tab-${index}`}
+          {...other}
+        >
+          {value === index && (
+            <Box sx={{ p: 0 }}>
+              <Typography>{children}</Typography>
+            </Box>
+          )}
+        </div>
+      );
+    }
+
   return (
     <div className="row">
       <div className="col-md-8">
         <div className="card mx-0" id="card-results">
-          <div className="card-header" style={{ height: "3.6rem" }}>
+          <div className="card-header" style={{ height: "5.6rem" }}>
             <div className="row">
               <div className="col-md-6 d-flex align-items-center">
                 Molecular Visualization
@@ -177,7 +261,7 @@ const MolViewerSummary = (props) => {
                     </Button>
                     <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
                       <InputLabel id="demo-select-small-label">
-                        Representation
+                        Protein
                       </InputLabel>
                       <Select
                         labelId="demo-select-small-label"
@@ -187,6 +271,25 @@ const MolViewerSummary = (props) => {
                         onChange={(e) =>
                           handleRepresentation(stage, e.target.value)
                         }
+                      >
+                        <MenuItem value="cartoon">Cartoon</MenuItem>
+                        <MenuItem value="licorice">Licorice</MenuItem>
+                        <MenuItem value="surface">Surface 1</MenuItem>
+                        <MenuItem value="surface+cartoon">Surface 2</MenuItem>
+                      </Select>
+                      <FormHelperText>Protein representation</FormHelperText>
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
+                      <InputLabel id="demo-select-small-label">Site</InputLabel>
+                      <Select
+                        labelId="demo-select-small-label"
+                        id="demo-select-small"
+                        value={reprButton}
+                        label="Representation"
+                        onChange={(e) =>
+                          handleRepresentation(stage, e.target.value)
+                        }
+                        disabled={true}
                       >
                         <MenuItem value="cartoon">Cartoon</MenuItem>
                         <MenuItem value="licorice">Licorice</MenuItem>
@@ -205,7 +308,7 @@ const MolViewerSummary = (props) => {
                     <IconButton
                       aria-label="restart"
                       title="Reset visualization"
-                      onClick={() => resetNGLViewer(stage)}
+                      onClick={() => resetNGLViewer(stage, value)}
                     >
                       <RestartAltIcon />
                     </IconButton>
@@ -240,17 +343,39 @@ const MolViewerSummary = (props) => {
             <div className="container d-block p-0" id="cl-tab">
               <div className="row">
                 <div className="col-md-12">
-                  <div className="tab-content">
-                    <div
-                      className={"tab-pane fade active show"}
-                      id={"nav-inters"}
-                      role="tabpanel"
-                      aria-labelledby={"bindSite-inters"}
+                  <Box sx={{ width: "100%" }}>
+                    <Box
+                      sx={{
+                        borderBottom: 1,
+                        borderColor: "divider",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
                     >
+                      <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="basic tabs example"
+                        variant="scrollable"
+                        scrollButtons="auto"
+                      >
+                        <Tab label="Consensus" {...a11yProps(0)} />
+                        {[...Array(props.numPreds)].map((_, i) => (
+                          <Tab
+                            label={`${
+                              ((props.numPreds - i) / props.numPreds) * 100
+                            }%`}
+                            {...a11yProps(i + 1)}
+                          />
+                        ))}
+                      </Tabs>
+                    </Box>
+
+                    <CustomTabPanel value={value} index={0}>
                       <div
                         className="table-container"
                         style={{
-                          maxHeight: "670px",
+                          maxHeight: "620px",
                           overflowY: "auto",
                           overflowX: "hidden",
                         }}
@@ -273,7 +398,7 @@ const MolViewerSummary = (props) => {
                             </thead>
                             <tbody>
                               {props.bindingResidues.map((p, i) => (
-                                <tr>
+                                <tr key={i}>
                                   <td className="text-center p-2">
                                     {p.residue}
                                   </td>
@@ -299,8 +424,74 @@ const MolViewerSummary = (props) => {
                           </table>
                         </div>
                       </div>
-                    </div>
-                  </div>
+                    </CustomTabPanel>
+                    {[...Array(props.numPreds)].map((_, i) => (
+                      <CustomTabPanel value={value} index={i + 1}>
+                        <div
+                          className="table-container"
+                          style={{
+                            maxHeight: "670px",
+                            overflowY: "auto",
+                            overflowX: "hidden",
+                          }}
+                        >
+                          <div className="table">
+                            <table className="table table-sm table-hover">
+                              <thead
+                                className="bg-light"
+                                style={{
+                                  position: "sticky",
+                                  top: 0,
+                                }}
+                              >
+                                <tr>
+                                  <th className="text-center">Residue</th>
+                                  <th className="text-center">Number</th>
+                                  <th className="text-center">Chain</th>
+                                  <th className="text-center">Look at</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {props.consensusData.map((p, j) => {
+                                  if (
+                                    p[3] >=
+                                    (props.numPreds - i) / props.numPreds
+                                  ) {
+                                    return (
+                                      <tr key={j}>
+                                        <td className="text-center p-2">
+                                          {p[1]}
+                                        </td>
+                                        <td className="text-center p-2">
+                                          {p[0]}
+                                        </td>
+                                        <td className="text-center p-2">
+                                          {p[2]}
+                                        </td>
+                                        <td className="text-center">
+                                          <IconButton
+                                            className="p-1"
+                                            aria-label="focus-res"
+                                            title="Focus on this residue"
+                                            onClick={() =>
+                                              focusResidue(stage, p[2], p[0])
+                                            }
+                                          >
+                                            <RemoveRedEyeOutlinedIcon />
+                                          </IconButton>
+                                        </td>
+                                      </tr>
+                                    );
+                                  }
+                                  return null;
+                                })}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </CustomTabPanel>
+                    ))}
+                  </Box>
                 </div>
               </div>
             </div>

@@ -18,6 +18,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import zIndex from "@mui/material/styles/zIndex";
 
 const bSiteColors = [
   "#167288",
@@ -384,6 +385,7 @@ function a11yProps(index) {
                                         onClick={() =>
                                           focusResidue(stage, res[2], res[0])
                                         }
+                                        sx={{ zIndex: 0 }}
                                       >
                                         <RemoveRedEyeOutlinedIcon />
                                       </IconButton>
@@ -432,7 +434,7 @@ function a11yProps(index) {
                     </Button>
                     <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
                       <InputLabel id="demo-select-small-label">
-                        Representation
+                        Protein
                       </InputLabel>
                       <Select
                         labelId="demo-select-small-label"
@@ -442,6 +444,26 @@ function a11yProps(index) {
                         onChange={(e) =>
                           handleRepresentation(stage, e.target.value)
                         }
+                      >
+                        <MenuItem value="cartoon">Cartoon</MenuItem>
+                        <MenuItem value="licorice">Licorice</MenuItem>
+                        <MenuItem value="surface">Surface 1</MenuItem>
+                        <MenuItem value="surface+cartoon">Surface 2</MenuItem>
+                      </Select>
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
+                      <InputLabel id="demo-select-small-label">
+                        Site
+                      </InputLabel>
+                      <Select
+                        labelId="demo-select-small-label"
+                        id="demo-select-small"
+                        value={reprButton}
+                        label="Representation"
+                        onChange={(e) =>
+                          handleRepresentation(stage, e.target.value)
+                        }
+                        disabled={true}
                       >
                         <MenuItem value="cartoon">Cartoon</MenuItem>
                         <MenuItem value="licorice">Licorice</MenuItem>
