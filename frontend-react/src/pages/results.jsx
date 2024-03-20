@@ -57,9 +57,7 @@ const Results = () => {
 
   const [upsetClickName, setUpsetClickName] = useState([]);
   const [upsetClickResidues, setUpsetClickResidues] = useState([]);
-
-  const [predictorTab, setPredictorTab] = useState(-1);
-
+  
   useEffect(() => {
     // Fetch the processed string from the Flask backend
     const fetchProcessedString = async () => {
@@ -149,7 +147,6 @@ const Results = () => {
           {upsetPlotData && pdbFolder && summaryTableData ? (
             <ResultsTabs
               predictors={predictors}
-              activeTab={predictorTab}
               pdb={inputString}
               pdbFolder={pdbFolder}
               graspSites={graspSites}

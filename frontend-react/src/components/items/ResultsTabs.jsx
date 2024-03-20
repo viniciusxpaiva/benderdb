@@ -6,17 +6,16 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import MolViewerSummary from "../visualization/MolViewerSummary";
 import MolViewerPredictors from "../visualization/MolViewerPredictors";
-import Summary from "../layout/Summary";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
 import { MDBDataTable } from "mdbreact";
-//import MolViewerConsensus from "../visualization/MolViewerConsensus";
 import UpsetPlot from "../visualization/UpsetPlot";
 import "reactjs-popup/dist/index.css";
-import Popup from "reactjs-popup";
-import Button from "@mui/material/Button";
 import SummaryIntersectionsPopup from "./SummaryIntersectionsPopup";
+import Card from "@mui/material/Card";
+import Divider from "@mui/material/Divider";
+
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -52,6 +51,7 @@ function a11yProps(index) {
 }
 
 export default function ResultsTabs(props) {
+  console.log(props.summaryTableData)
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -84,146 +84,186 @@ export default function ResultsTabs(props) {
             numPreds={props.numPreds}
             consensusData={props.consensusData}
           />
+          <Card variant="outlined" sx={{ marginTop: 3 }}>
+            <Box sx={{ p: 2 }}>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography gutterBottom variant="h5" component="div">
+                  Binding site intersections
+                </Typography>
+              </Stack>
+              <Typography color="text.secondary" variant="body2">
+                Pinstriped cornflower blue cotton blouse takes you on a walk to
+                the park or just down the hall.
+              </Typography>
+            </Box>
 
-          <Summary title={"Binding site intersections"}>
-            <div className="row p-2">
-              <div className="col-md-12">
-                {props.upsetClickResidues.length > 0 ? (
-                  <Stack sx={{ width: "100%" }} spacing={2}>
-                    <Alert variant="outlined" severity="success">
-                      <AlertTitle>
-                        <div className="col">
+            <Box sx={{ p: 2 }}>
+              <div className="row">
+                <div className="col-md-12">
+                  {props.upsetClickResidues.length > 0 ? (
+                    <Stack sx={{ width: "100%" }} spacing={2}>
+                      <Alert variant="outlined" severity="success">
+                        <AlertTitle>
+                          <div className="col">
+                            <h6>
+                              {props.upsetClickName.map((str, index) => (
+                                <React.Fragment key={index}>
+                                  <strong>{str}</strong>
+                                  {index < props.upsetClickName.length - 1 &&
+                                    " | "}
+                                </React.Fragment>
+                              ))}
+                            </h6>
+                          </div>
+                          <SummaryIntersectionsPopup
+                            pdb={props.pdb}
+                            bindSites={props.upsetClickResidues}
+                            graspSites={props.graspSites.map((site) =>
+                              site.map(
+                                ([chain, res, number, occ]) =>
+                                  res + "-" + number + "-" + chain
+                              )
+                            )}
+                            puresnetSites={props.puresnetSites.map((site) =>
+                              site.map(
+                                ([chain, res, number, occ]) =>
+                                  res + "-" + number + "-" + chain
+                              )
+                            )}
+                            gassSites={props.gassSites.map((site) =>
+                              site.map(
+                                ([chain, res, number, occ]) =>
+                                  res + "-" + number + "-" + chain
+                              )
+                            )}
+                            deeppocketSites={props.deeppocketSites.map((site) =>
+                              site.map(
+                                ([chain, res, number, occ]) =>
+                                  res + "-" + number + "-" + chain
+                              )
+                            )}
+                            pointsiteSites={props.pointsiteSites.map((site) =>
+                              site.map(
+                                ([chain, res, number, occ]) =>
+                                  res + "-" + number + "-" + chain
+                              )
+                            )}
+                            p2rankSites={props.p2rankSites.map((site) =>
+                              site.map(
+                                ([chain, res, number, occ]) =>
+                                  res + "-" + number + "-" + chain
+                              )
+                            )}
+                            predsToShow={props.upsetClickName}
+                            upsetClickResidues={props.upsetClickResidues
+                              .slice() // Create a shallow copy to avoid modifying the original array
+                              .sort((a, b) => {
+                                const numA = parseInt(a.split("-")[1], 10);
+                                const numB = parseInt(b.split("-")[1], 10);
+
+                                return numA - numB;
+                              })}
+                            pdbFolder={props.pdbFolder}
+                          />
+                        </AlertTitle>
+                        <div>
                           <h6>
-                            {props.upsetClickName.map((str, index) => (
-                              <React.Fragment key={index}>
-                                <strong>{str}</strong>
-                                {index < props.upsetClickName.length - 1 &&
-                                  " | "}
-                              </React.Fragment>
-                            ))}
+                            Click on button to view list of residues for
+                            selected intersection{" "}
                           </h6>
                         </div>
-                        <SummaryIntersectionsPopup
-                          pdb={props.pdb}
-                          bindSites={props.upsetClickResidues}
-                          graspSites={props.graspSites.map((site) =>
-                            site.map(
-                              ([chain, res, number, occ]) =>
-                                res + "-" + number + "-" + chain
-                            )
-                          )}
-                          puresnetSites={props.puresnetSites.map((site) =>
-                            site.map(
-                              ([chain, res, number, occ]) =>
-                                res + "-" + number + "-" + chain
-                            )
-                          )}
-                          gassSites={props.gassSites.map((site) =>
-                            site.map(
-                              ([chain, res, number, occ]) =>
-                                res + "-" + number + "-" + chain
-                            )
-                          )}
-                          deeppocketSites={props.deeppocketSites.map((site) =>
-                            site.map(
-                              ([chain, res, number, occ]) =>
-                                res + "-" + number + "-" + chain
-                            )
-                          )}
-                          pointsiteSites={props.pointsiteSites.map((site) =>
-                            site.map(
-                              ([chain, res, number, occ]) =>
-                                res + "-" + number + "-" + chain
-                            )
-                          )}
-                          p2rankSites={props.p2rankSites.map((site) =>
-                            site.map(
-                              ([chain, res, number, occ]) =>
-                                res + "-" + number + "-" + chain
-                            )
-                          )}
-                          predsToShow={props.upsetClickName}
-                          upsetClickResidues={props.upsetClickResidues
-                            .slice() // Create a shallow copy to avoid modifying the original array
-                            .sort((a, b) => {
-                              const numA = parseInt(a.split("-")[1], 10);
-                              const numB = parseInt(b.split("-")[1], 10);
-
-                              return numA - numB;
-                            })}
-                          pdbFolder={props.pdbFolder}
-                        />
-
-                      </AlertTitle>
-                      <div>
+                      </Alert>
+                    </Stack>
+                  ) : (
+                    <Stack sx={{ width: "100%" }} spacing={2}>
+                      <Alert variant="outlined" severity="warning">
+                        <AlertTitle>
+                          <h6>
+                            <strong>Select an intersection</strong>
+                          </h6>
+                        </AlertTitle>
                         <h6>
-                          Click on button to view list of residues for selected
-                          intersection{" "}
+                          Click on graph to show residues found by predictors
                         </h6>
-                      </div>
-                    </Alert>
-                  </Stack>
+                      </Alert>
+                    </Stack>
+                  )}
+                </div>
+              </div>
+            </Box>
+            <Divider></Divider>
+            <Box sx={{ p: 0 }}>
+              <UpsetPlot
+                upsetOnClick={props.upsetOnClick}
+                data={props.upsetPlotData}
+              />
+            </Box>
+          </Card>
+
+          <Card variant="outlined" sx={{ marginTop: 3 }}>
+            <Box sx={{ p: 2 }}>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography gutterBottom variant="h5" component="div">
+                  Residues found on binding sites
+                </Typography>
+              </Stack>
+              <Typography color="text.secondary" variant="body2">
+                Pinstriped cornflower blue cotton blouse takes you on a walk to
+                the park or just down the hall.
+              </Typography>
+            </Box>
+
+            <Box sx={{ p: 2 }}>
+              <div className="row">
+                {props.summaryTableData ? (
+                  <div>
+                    <Stack sx={{ width: "100%" }} spacing={2}>
+                      <Alert variant="outlined" severity="info">
+                        <AlertTitle>
+                          <h6>
+                            <strong>
+                              Overall prediction results for protein {props.pdb}
+                            </strong>
+                          </h6>
+                        </AlertTitle>
+                        <h6>
+                          {props.summaryContent[0]} binding sites/pockets were
+                          predicted in {props.summaryContent[3]} different
+                          predictors
+                        </h6>
+
+                        <h6>
+                          {props.summaryContent[1]} different residues were
+                          found in those predicted binding sites
+                        </h6>
+                        <h6>
+                          Most common residues can be found at table bellow
+                        </h6>
+                      </Alert>
+                    </Stack>
+                    <MDBDataTable
+                      striped
+                      bordered
+                      small
+                      displayEntries={false}
+                      data={props.summaryTableData}
+                      noBottomColumns={true}
+                    />
+                  </div>
                 ) : (
-                  <Stack sx={{ width: "100%" }} spacing={2}>
-                    <Alert variant="outlined" severity="warning">
-                      <AlertTitle>
-                        <h6>
-                          <strong>Select an intersection</strong>
-                        </h6>
-                      </AlertTitle>
-                      <h6>
-                        Click on graph to show residues found by predictors
-                      </h6>
-                    </Alert>
-                  </Stack>
+                  <div>Loading...</div>
                 )}
               </div>
-            </div>
-            <UpsetPlot
-              upsetOnClick={props.upsetOnClick}
-              data={props.upsetPlotData}
-            />
-          </Summary>
-          <Summary title={"Residues found on binding sites"}>
-            <div className="row p-2">
-              {props.summaryTableData ? (
-                <div>
-                  <Stack sx={{ width: "100%" }} spacing={2}>
-                    <Alert variant="outlined" severity="info">
-                      <AlertTitle>
-                        <h6>
-                          <strong>
-                            Overall prediction results for protein {props.pdb}
-                          </strong>
-                        </h6>
-                      </AlertTitle>
-                      <h6>
-                        {props.summaryContent[0]} binding sites/pockets were
-                        predicted in {props.summaryContent[3]} different
-                        predictors
-                      </h6>
-
-                      <h6>
-                        {props.summaryContent[1]} different residues were found
-                        in those predicted binding sites
-                      </h6>
-                      <h6>Most common residues can be found at table bellow</h6>
-                    </Alert>
-                  </Stack>
-                  <MDBDataTable
-                    striped
-                    bordered
-                    small
-                    displayEntries={false}
-                    data={props.summaryTableData}
-                    noBottomColumns={true}
-                  />
-                </div>
-              ) : (
-                <div>Loading...</div>
-              )}
-            </div>
-          </Summary>
+            </Box>
+          </Card>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <MolViewerPredictors

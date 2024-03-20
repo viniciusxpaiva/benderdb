@@ -3,10 +3,6 @@ import React from 'react';
 import {
   MDBFooter,
   MDBContainer,
-  MDBCol,
-  MDBRow,
-  MDBIcon,
-  MDBBtn
 } from 'mdb-react-ui-kit';
 
 const Footer = () => {
@@ -22,7 +18,7 @@ const Footer = () => {
       </MDBContainer>
 
       <div className='text-center text-dark p-3' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
-        © 2023 Copyright BENDER DB
+        © 2024 Copyright BENDER DB
       </div>
     </MDBFooter>
         </footer>

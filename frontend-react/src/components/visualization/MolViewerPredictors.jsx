@@ -12,13 +12,43 @@ import Select from "@mui/material/Select";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import DownloadingIcon from "@mui/icons-material/Downloading";
 import Button from "@mui/material/Button";
-import ResListTabs from "../items/ResListTabs"
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import zIndex from "@mui/material/styles/zIndex";
+import FormHelperText from "@mui/material/FormHelperText";
+import Card from "@mui/material/Card";
+import Divider from "@mui/material/Divider";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: "grey",
+    color: theme.palette.common.white,
+    height: 50,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 15,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
 
 const bSiteColors = [
   "#167288",
@@ -30,7 +60,7 @@ const bSiteColors = [
   "#d48c84",
   "#d6cfa2",
   "#9bddb1",
-  "#836394"
+  "#836394",
 ];
 
 function ColorfulText({ color, children }) {
@@ -111,7 +141,9 @@ const MolViewerPredictors = (props) => {
     } else if (repr === "cartoon") {
       stage.getRepresentationsByName("surface").dispose();
       stage.getRepresentationsByName("licorice").dispose();
-      stage.getComponentsByName(current_pdb).addRepresentation(repr, { color: "lightgrey" });
+      stage
+        .getComponentsByName(current_pdb)
+        .addRepresentation(repr, { color: "lightgrey" });
     } else if (repr === "licorice") {
       stage.getRepresentationsByName("cartoon").dispose();
       stage.getRepresentationsByName("surface").dispose();
@@ -119,7 +151,9 @@ const MolViewerPredictors = (props) => {
     } else if (repr === "surface+cartoon") {
       stage.getRepresentationsByName("surface").dispose();
       stage.getRepresentationsByName("licorice").dispose();
-      stage.getComponentsByName(current_pdb).addRepresentation("cartoon", { color: "lightgrey" });
+      stage
+        .getComponentsByName(current_pdb)
+        .addRepresentation("cartoon", { color: "lightgrey" });
       stage
         .getComponentsByName(current_pdb)
         .addRepresentation("surface", { opacity: 0.3, color: "papayawhip" });
@@ -128,10 +162,10 @@ const MolViewerPredictors = (props) => {
 
   function focusResidue(stage, resNum, chain) {
     const sele = resNum + ":" + chain;
-    if(previousFocusRes === sele){
+    if (previousFocusRes === sele) {
       stage.getRepresentationsByName("surface").dispose();
-      setPreviousFocusRes("")
-      return
+      setPreviousFocusRes("");
+      return;
     }
     const pdb_id = "AF-" + props.pdb + "-F1-model_v4.pdb";
     stage.getRepresentationsByName("surface").dispose();
@@ -141,7 +175,7 @@ const MolViewerPredictors = (props) => {
       side: "front",
     });
     stage.getComponentsByName(pdb_id).autoView(sele);
-    setPreviousFocusRes(sele)
+    setPreviousFocusRes(sele);
   }
 
   function handleDownloadResults(predictor, protName) {
@@ -171,7 +205,12 @@ const MolViewerPredictors = (props) => {
 
   function handleDownloadPymol(predictor, protName) {
     const fileUrl =
-      process.env.PUBLIC_URL + "/pymol/" + protName + "_" + predictor + "_sites_pymol_session.pse";
+      process.env.PUBLIC_URL +
+      "/pymol/" +
+      protName +
+      "_" +
+      predictor +
+      "_sites_pymol_session.pse";
     const link = document.createElement("a");
     // Setting the href attribute to the file URL
     link.href = fileUrl;
@@ -205,37 +244,37 @@ const MolViewerPredictors = (props) => {
   };
 
   function CustomTabPanel(props) {
-  const { children, value, index, ...other } = props;
+    const { children, value, index, ...other } = props;
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 0 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box sx={{ p: 0 }}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+  }
 
-CustomTabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
+  CustomTabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
   };
-}
+
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  }
 
   const [value, setValue] = React.useState(0);
 
@@ -259,7 +298,6 @@ function a11yProps(index) {
             <BoldText>{label}</BoldText>
           </ColorfulText>
         }
-        {...rest}
       />
     );
   }
@@ -267,244 +305,226 @@ function a11yProps(index) {
   return (
     <div className="row">
       <div className="col-md-4">
-        <div className="card mx-0 p-0" id="card-results">
-          <div className="card-header b-0" style={{ height: "3.6rem" }}>
-            <div className="row">
-              <div className="col-md-6 d-flex align-items-center">
+        <Card variant="outlined">
+          <Box sx={{ p: 2}}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Typography gutterBottom variant="h5" component="div">
                 <span className="align-middle">{props.pred + " sites"}</span>
-              </div>
-              <div className="col-md-6 ">
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignItems: "center",
-                  }}
+              </Typography>
+              <Button
+                size="small"
+                aria-label="download"
+                title="Download results"
+                onClick={() => handleDownloadResults(props.pred, props.pdb)}
+                variant="outlined"
+                startIcon={<DownloadingIcon />}
+                sx={{
+                  height: "40px", // Set the height to match the IconButton's height
+                }}
+              >
+                Results
+              </Button>
+            </Stack>
+            <Typography color="text.secondary" variant="body2">
+              Pinstriped cornflower blue cotton blouse takes you on a walk to
+              the park or just down the hall1.
+            </Typography>
+          </Box>
+          <Divider />
+          <Box sx={{ p: 0 }}>
+            <Box sx={{ width: "100%" }}>
+              <Box
+                sx={{
+                  borderBottom: 1,
+                  borderColor: "divider",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  aria-label="basic tabs example"
+                  variant="scrollable"
+                  scrollButtons="auto"
                 >
-                  <Stack direction="row" spacing={1}>
-                    <Button
-                      size="small"
-                      aria-label="download"
-                      title="Download results"
-                      onClick={() =>
-                        handleDownloadResults(props.pred, props.pdb)
-                      }
-                      variant="outlined"
-                      startIcon={<DownloadingIcon />}
-                      sx={{
-                        height: "40px", // Set the height to match the IconButton's height
-                      }}
-                    >
-                      Results
-                    </Button>
-                  </Stack>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="card-body p-1 b-0" style={{ height: "677px" }}>
-            <div className="container d-block p-0" id="cl-tab">
-              <div className="row">
-                <div className="col-md-12">
-                  <Box sx={{ width: "100%" }}>
-                    <Box
-                      sx={{
-                        borderBottom: 1,
-                        borderColor: "divider",
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Tabs
-                        value={value}
-                        onChange={handleChange}
-                        aria-label="basic tabs example"
-                        variant="scrollable"
-                        scrollButtons="auto"
-                      >
-                        {props.bindSites.map((site, i) => (
-                          <ColorfulTab
-                            key={i}
-                            index={i}
-                            label={`Site ${i}`}
-                            color={bSiteColors[i % bSiteColors.length]}
-                            handleChange={handleChange}
-                            {...a11yProps(i)}
-                          />
-                        ))}
-                      </Tabs>
-                    </Box>
-
-                    {props.bindSites.map((p, i) => (
-                      <CustomTabPanel
-                        value={value}
-                        index={i}
-                        sx={{ backgroundColor: "red" }}
-                      >
-                        <div
-                          className="table-container"
-                          style={{
-                            maxHeight: "620px",
-                            overflowY: "auto",
-                            overflowX: "hidden",
-                          }}
+                  {props.bindSites.map((site, i) => (
+                    <Tab
+                      label={
+                        <ColorfulText
+                          color={bSiteColors[i % bSiteColors.length]}
                         >
-                          <div className="table">
-                            <table className="table table-sm table-hover">
-                              <thead
-                                className="bg-light"
-                                style={{
-                                  position: "sticky",
-                                  top: 0,
-                                }}
+                          Site {i}
+                        </ColorfulText>
+                      }
+                      {...a11yProps(i)}
+                    />
+                  ))}
+                </Tabs>
+              </Box>
+
+              {props.bindSites.map((p, i) => (
+                <CustomTabPanel value={value} index={i}>
+                  <TableContainer component={Paper} sx={{ height: 700 }}>
+                    <Table
+                      stickyHeader 
+                      aria-label="customized table"
+                      size="small"
+                    >
+                      <TableHead>
+                        <TableRow>
+                          <StyledTableCell align="center">
+                            Residue
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            Number
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            Chain
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            Look at
+                          </StyledTableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {p.map((res, j) => (
+                          <StyledTableRow key={i}>
+                            <StyledTableCell align="center">
+                              {res[1]}
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              {res[2]}
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              {res[0]}
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              <IconButton
+                                className="p-1"
+                                aria-label="focus-res"
+                                title="Focus on this residue"
+                                onClick={() =>
+                                  focusResidue(stage, res[2], res[0])
+                                }
                               >
-                                <tr>
-                                  <th className="text-center">Residue</th>
-                                  <th className="text-center">Number</th>
-                                  <th className="text-center">Chain</th>
-                                  <th className="text-center">Look at</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {p.map((res, j) => (
-                                  <tr key={j}>
-                                    <td className="text-center p-2">
-                                      {res[1]}
-                                    </td>
-                                    <td className="text-center p-2">
-                                      {res[2]}
-                                    </td>
-                                    <td className="text-center p-2">
-                                      {res[0]}
-                                    </td>
-                                    <td className="text-center">
-                                      <IconButton
-                                        className="p-1"
-                                        aria-label="focus-res"
-                                        title="Focus on this residue"
-                                        onClick={() =>
-                                          focusResidue(stage, res[2], res[0])
-                                        }
-                                        sx={{ zIndex: 0 }}
-                                      >
-                                        <RemoveRedEyeOutlinedIcon />
-                                      </IconButton>
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </CustomTabPanel>
-                    ))}
-                  </Box>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+                                <RemoveRedEyeOutlinedIcon />
+                              </IconButton>
+                            </StyledTableCell>
+                          </StyledTableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </CustomTabPanel>
+              ))}
+            </Box>
+          </Box>
+        </Card>
       </div>
 
       <div className="col-md-8">
-        <div className="card mx-0" id="card-results">
-          <div className="card-header" style={{ height: "3.6rem" }}>
-            <div className="row">
-              <div className="col-md-6 d-flex align-items-center">
-                Molecular Visualization
-              </div>
-              <div className="col-md-6 ">
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignItems: "center",
-                  }}
-                >
-                  <Stack direction="row" spacing={1}>
-                    <Button
-                      size="small"
-                      aria-label="download"
-                      title="Download PyMol session"
-                      onClick={() => handleDownloadPymol(props.pred, props.pdb)}
-                      variant="outlined"
-                      startIcon={<DownloadingIcon />}
-                    >
-                      PyMol
-                    </Button>
-                    <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
-                      <InputLabel id="demo-select-small-label">
-                        Protein
-                      </InputLabel>
-                      <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        value={reprButton}
-                        label="Representation"
-                        onChange={(e) =>
-                          handleRepresentation(stage, e.target.value)
-                        }
-                      >
-                        <MenuItem value="cartoon">Cartoon</MenuItem>
-                        <MenuItem value="licorice">Licorice</MenuItem>
-                        <MenuItem value="surface">Surface 1</MenuItem>
-                        <MenuItem value="surface+cartoon">Surface 2</MenuItem>
-                      </Select>
-                    </FormControl>
-                    <FormControl sx={{ m: 1, minWidth: 155 }} size="small">
-                      <InputLabel id="demo-select-small-label">
-                        Site
-                      </InputLabel>
-                      <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        value={reprButton}
-                        label="Representation"
-                        onChange={(e) =>
-                          handleRepresentation(stage, e.target.value)
-                        }
-                        disabled={true}
-                      >
-                        <MenuItem value="cartoon">Cartoon</MenuItem>
-                        <MenuItem value="licorice">Licorice</MenuItem>
-                        <MenuItem value="surface">Surface 1</MenuItem>
-                        <MenuItem value="surface+cartoon">Surface 2</MenuItem>
-                      </Select>
-                    </FormControl>
-                    <IconButton
-                      aria-label="fill"
-                      title="Background color"
-                      onClick={() => handleBackgroundColor(stage)}
-                    >
-                      <FormatColorFillIcon />
-                    </IconButton>
-                    <MouseHelpPopup />
+        <Card variant="outlined">
+          <Box sx={{ p: 2 }}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Typography gutterBottom variant="h5" component="div">
+                Molecular visualization
+              </Typography>
+              <Button
+                size="small"
+                aria-label="download"
+                title="Download PyMol session"
+                onClick={() => handleDownloadPymol(props.pdb)}
+                variant="outlined"
+                startIcon={<DownloadingIcon />}
+              >
+                PyMol
+              </Button>
+            </Stack>
+            <Typography color="text.secondary" variant="body2">
+              Pinstriped cornflower blue cotton blouse takes you on a walk to
+              the park or just down the hall.
+            </Typography>
+          </Box>
 
-                    <IconButton
-                      aria-label="restart"
-                      title="Reset visualization"
-                      onClick={() => resetNGLViewer(stage)}
-                    >
-                      <RestartAltIcon />
-                    </IconButton>
-                  </Stack>
-                </div>
-              </div>
+          <Box sx={{ p: 2 }}>
+            <Stack direction="row" justifyContent="space-between">
+              <Stack direction="row" spacing={5}>
+                <FormControl sx={{ m: 1, maxWidth: 181 }} size="small">
+                  <InputLabel id="demo-select-small-label">Protein</InputLabel>
+                  <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    value={reprButton}
+                    label="Representation"
+                    onChange={(e) =>
+                      handleRepresentation(stage, e.target.value)
+                    }
+                  >
+                    <MenuItem value="cartoon">Cartoon</MenuItem>
+                    <MenuItem value="licorice">Licorice</MenuItem>
+                    <MenuItem value="surface">Surface 1</MenuItem>
+                    <MenuItem value="surface+cartoon">Surface 2</MenuItem>
+                  </Select>
+                  <FormHelperText>Protein representation</FormHelperText>
+                </FormControl>
+                <FormControl sx={{ m: 1, maxWidth: 181 }} size="small">
+                  <InputLabel id="demo-select-small-label">Site</InputLabel>
+                  <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    value={reprButton}
+                    label="Representation"
+                    onChange={(e) =>
+                      handleRepresentation(stage, e.target.value)
+                    }
+                    disabled={true}
+                  >
+                    <MenuItem value="cartoon">Cartoon</MenuItem>
+                    <MenuItem value="licorice">Licorice</MenuItem>
+                    <MenuItem value="surface">Surface 1</MenuItem>
+                    <MenuItem value="surface+cartoon">Surface 2</MenuItem>
+                  </Select>
+                  <FormHelperText>Binding site representation</FormHelperText>
+                </FormControl>
+              </Stack>
+              <Stack direction="row" spacing={1}>
+                <IconButton
+                  aria-label="fill"
+                  title="Background color"
+                  onClick={() => handleBackgroundColor(stage)}
+                >
+                  <FormatColorFillIcon />
+                </IconButton>
+                <MouseHelpPopup />
+                <IconButton
+                  aria-label="restart"
+                  title="Reset visualization"
+                  onClick={() => resetNGLViewer(stage, value)}
+                >
+                  <RestartAltIcon />
+                </IconButton>
+              </Stack>
+            </Stack>
+          </Box>
+          <Divider></Divider>
+          <div className="row">
+            <div className="col-md-12">
+              <div
+                id="viewport"
+                style={{ width: "100%", height: "673px" }}
+              ></div>
             </div>
           </div>
-          <div className="card-body p-0 b-0" style={{ height: "676px" }}>
-            <div className="container d-block p-0" id="cl-tab">
-              <div className="row">
-                <div className="col-md-12">
-                  <div
-                    id="viewport"
-                    style={{ width: "100%", height: "673px" }}
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </Card>
       </div>
     </div>
   );
