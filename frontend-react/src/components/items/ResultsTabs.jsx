@@ -96,8 +96,9 @@ export default function ResultsTabs(props) {
                 </Typography>
               </Stack>
               <Typography color="text.secondary" variant="body2">
-                Pinstriped cornflower blue cotton blouse takes you on a walk to
-                the park or just down the hall.
+                Visualization bellow brings UpSet plot which shows intersection
+                of residues from different binding sites. <br />Connected dots
+                represent intersection of residues between predictors. 
               </Typography>
             </Box>
 
@@ -215,17 +216,13 @@ export default function ResultsTabs(props) {
                   Residues found on binding sites
                 </Typography>
               </Stack>
-              <Typography color="text.secondary" variant="body2">
-                Pinstriped cornflower blue cotton blouse takes you on a walk to
-                the park or just down the hall.
-              </Typography>
             </Box>
 
-            <Box sx={{ p: 2 }}>
+            <Box sx={{ p: 2, paddingTop: 0 }}>
               <div className="row">
                 {props.summaryTableData ? (
                   <div>
-                    <Stack sx={{ width: "100%" }} spacing={2}>
+                    <Stack sx={{ width: "100%", marginBottom: 2 }} spacing={2}>
                       <Alert variant="outlined" severity="info">
                         <AlertTitle>
                           <h6>
@@ -291,7 +288,7 @@ export default function ResultsTabs(props) {
             predictors={props.predictors}
             activeTab={props.predictorTab}
             pdb={props.pdb}
-            bindSites={props.graspSites}
+            bindSites={props.gassSites}
             pdbFolder={props.pdbFolder}
           />
         </CustomTabPanel>

@@ -34,7 +34,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "grey",
     color: theme.palette.common.white,
-    height: 50
+    height: 50,
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 15,
@@ -51,13 +51,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-
 const MolViewerSummary = (props) => {
   const [stage, setStage] = useState(null);
-  const [reprButton, setReprButton] = useState("");
+  const [protReprButton, setProtReprButton] = useState("cartoon");
+  const [siteReprButton, setSiteProtReprButton] = useState("licorice");
   const [previousFocusRes, setPreviousFocusRes] = useState("");
 
   useEffect(() => {
+    setProtReprButton("cartoon");
+    setSiteProtReprButton("licorice")
     const newStage = new NGL.Stage("viewport-summ");
     newStage.removeAllComponents(); // Remove previous components
     newStage
@@ -71,8 +73,6 @@ const MolViewerSummary = (props) => {
           colorReverse: true, // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
         });
         component.autoView();
-        //colorAllSites(component);
-        //changeColorBindSites(component, props.upsetClickResidues, "cyan")
       });
     newStage.setParameters({ backgroundColor: "white" });
     setStage(newStage);
@@ -105,7 +105,7 @@ const MolViewerSummary = (props) => {
         .then((component) => {
           component.addRepresentation("cartoon", { color: "lightgrey" });
           component.autoView();
-          changeColorBindSites(component, filteredData);
+          changeColorBindSites(component, filteredData, "ball+stick");
         });
     }
 
@@ -120,7 +120,7 @@ const MolViewerSummary = (props) => {
     return stringArray;
   }
 
-  function changeColorBindSites(component, BindSites) {
+  function changeColorBindSites(component, BindSites, repr) {
     // Generate strings for each list inside bindSites
     if (BindSites === null) {
       return;
@@ -128,8 +128,8 @@ const MolViewerSummary = (props) => {
     console.log(BindSites);
     const bindSitesToShow = generateBindSiteString(BindSites);
     console.log(bindSitesToShow);
-    component.addRepresentation("ball+stick", {
-      color: "red",
+    component.addRepresentation(repr, {
+      color: "#b45248",
       sele: bindSitesToShow,
     });
   }
@@ -141,45 +141,89 @@ const MolViewerSummary = (props) => {
       : stage.setParameters({ backgroundColor: "white" });
   }
 
-  function handleRepresentation(stage, repr) {
+  function handleRepresentation(stage, repr, tabIndex) {
     const current_pdb = "AF-" + props.pdb + "-F1-model_v4.pdb";
-    setReprButton(repr);
+    setProtReprButton(repr);
     if (repr === "surface") {
       stage.getRepresentationsByName("cartoon").dispose();
       stage.getRepresentationsByName("licorice").dispose();
-      stage.getComponentsByName(current_pdb).addRepresentation(repr, {
-        opacity: 0.3,
-        colorScheme: "bfactor",
-        colorScale: "RdYlBu", // Defines a color scale from red to blue
-        colorReverse: true,
-      });
+      if (tabIndex === 0) {
+        stage.getComponentsByName(current_pdb).addRepresentation(repr, {
+          opacity: 0.3,
+          colorScheme: "bfactor",
+          colorScale: "RdYlBu", // Defines a color scale from red to blue
+          colorReverse: true,
+        });
+      } else {
+        stage
+          .getComponentsByName(current_pdb)
+          .addRepresentation(repr, { opacity: 0.3, color: "papayawhip" });
+      }
     } else if (repr === "cartoon") {
       stage.getRepresentationsByName("surface").dispose();
       stage.getRepresentationsByName("licorice").dispose();
-      stage.getComponentsByName(current_pdb).addRepresentation(repr, {
-        colorScheme: "bfactor",
-        colorScale: "RdYlBu", // Defines a color scale from red to blue
-        colorReverse: true, // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
-      });
+      if (tabIndex === 0) {
+        stage.getComponentsByName(current_pdb).addRepresentation(repr, {
+          colorScheme: "bfactor",
+          colorScale: "RdYlBu", // Defines a color scale from red to blue
+          colorReverse: true, // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
+        });
+      } else {
+        stage
+          .getComponentsByName(current_pdb)
+          .addRepresentation(repr, { color: "lightgrey" });
+      }
     } else if (repr === "licorice") {
       stage.getRepresentationsByName("cartoon").dispose();
       stage.getRepresentationsByName("surface").dispose();
-      stage.getComponentsByName(current_pdb).addRepresentation(repr, {
-        colorScheme: "bfactor",
-        colorScale: "RdYlBu", // Defines a color scale from red to blue
-        colorReverse: true, // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
-      });
+      if (tabIndex === 0) {
+        stage.getComponentsByName(current_pdb).addRepresentation(repr, {
+          colorScheme: "bfactor",
+          colorScale: "RdYlBu", // Defines a color scale from red to blue
+          colorReverse: true, // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
+        });
+      } else {
+        stage.getComponentsByName(current_pdb).addRepresentation(repr);
+      }
     } else if (repr === "surface+cartoon") {
       stage.getRepresentationsByName("surface").dispose();
       stage.getRepresentationsByName("licorice").dispose();
-      stage.getComponentsByName(current_pdb).addRepresentation("cartoon", {
-        colorScheme: "bfactor",
-        colorScale: "RdYlBu", // Defines a color scale from red to blue
-        colorReverse: true, // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
-      });
+      if (tabIndex === 0) {
+        stage.getComponentsByName(current_pdb).addRepresentation("cartoon", {
+          colorScheme: "bfactor",
+          colorScale: "RdYlBu", // Defines a color scale from red to blue
+          colorReverse: true, // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
+        });
+        stage
+          .getComponentsByName(current_pdb)
+          .addRepresentation("surface", { opacity: 0.3, color: "papayawhip" });
+      }
+    } else {
+      stage
+        .getComponentsByName(current_pdb)
+        .addRepresentation("cartoon", { color: "lightgrey" });
       stage
         .getComponentsByName(current_pdb)
         .addRepresentation("surface", { opacity: 0.3, color: "papayawhip" });
+    }
+  }
+
+  function handleBSiteRepresentation(stage, repr, tabIndex) {
+    setSiteProtReprButton(repr);
+    if (tabIndex !== 0) {
+      const filteredData = props.consensusData.filter(
+        (p) => p[3] >= (props.numPreds - tabIndex + 1) / props.numPreds
+      );
+      console.log(filteredData)
+       stage.getRepresentationsByName("ball+stick").dispose();
+      stage
+        .loadFile(
+          "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
+        )
+        .then((component) => {
+          component.autoView();
+          changeColorBindSites(component, filteredData, repr);
+        });
     }
   }
 
@@ -224,7 +268,7 @@ const MolViewerSummary = (props) => {
   CustomTabPanel.propTypes = {
     children: PropTypes.node,
     index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired,
+    tabIndex: PropTypes.number.isRequired,
   };
 
   function a11yProps(index) {
@@ -234,11 +278,13 @@ const MolViewerSummary = (props) => {
     };
   }
 
-  const [value, setValue] = React.useState(0);
+  const [tabIndex, setTabIndex] = React.useState(0);
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setTabIndex(newValue);
     resetNGLViewer(stage, newValue);
+    setProtReprButton("cartoon"); // Reset protReprButton to 'cartoon' or your default value
+    setSiteProtReprButton("licorice");
   };
 
   function CustomTabPanel(props) {
@@ -287,8 +333,8 @@ const MolViewerSummary = (props) => {
                 </Button>
               </Stack>
               <Typography color="text.secondary" variant="body2">
-                Pinstriped cornflower blue cotton blouse takes you on a walk to
-                the park or just down the hall.
+                {props.pdb} protein structure along with highlighted binding
+                site residues
               </Typography>
             </Box>
 
@@ -296,16 +342,16 @@ const MolViewerSummary = (props) => {
               <Stack direction="row" justifyContent="space-between">
                 <Stack direction="row" spacing={5}>
                   <FormControl sx={{ m: 1, maxWidth: 181 }} size="small">
-                    <InputLabel id="demo-select-small-label">
+                    <InputLabel id="prot-select-small-label">
                       Protein
                     </InputLabel>
                     <Select
-                      labelId="demo-select-small-label"
-                      id="demo-select-small"
-                      value={reprButton}
+                      labelId="prot-select-small-label"
+                      id="prot-select-small"
+                      value={protReprButton}
                       label="Representation"
                       onChange={(e) =>
-                        handleRepresentation(stage, e.target.value)
+                        handleRepresentation(stage, e.target.value, tabIndex)
                       }
                     >
                       <MenuItem value="cartoon">Cartoon</MenuItem>
@@ -315,25 +361,34 @@ const MolViewerSummary = (props) => {
                     </Select>
                     <FormHelperText>Protein representation</FormHelperText>
                   </FormControl>
-                  <FormControl sx={{ m: 1, maxWidth: 181 }} size="small">
-                    <InputLabel id="demo-select-small-label">Site</InputLabel>
-                    <Select
-                      labelId="demo-select-small-label"
-                      id="demo-select-small"
-                      value={reprButton}
-                      label="Representation"
-                      onChange={(e) =>
-                        handleRepresentation(stage, e.target.value)
-                      }
-                      disabled={true}
-                    >
-                      <MenuItem value="cartoon">Cartoon</MenuItem>
-                      <MenuItem value="licorice">Licorice</MenuItem>
-                      <MenuItem value="surface">Surface 1</MenuItem>
-                      <MenuItem value="surface+cartoon">Surface 2</MenuItem>
-                    </Select>
-                    <FormHelperText>Binding site representation</FormHelperText>
-                  </FormControl>
+                  {tabIndex !== 0 ? (
+                    <FormControl sx={{ m: 1, maxWidth: 181 }} size="small">
+                      <InputLabel id="site-select-small-label">
+                        Binding site
+                      </InputLabel>
+                      <Select
+                        labelId="site-select-small-label"
+                        id="site-select-small"
+                        value={siteReprButton}
+                        label="Representation"
+                        onChange={(e) =>
+                          handleBSiteRepresentation(
+                            stage,
+                            e.target.value,
+                            tabIndex
+                          )
+                        }
+                        disabled
+                      >
+                        <MenuItem value="cartoon">Cartoon</MenuItem>
+                        <MenuItem value="licorice">Licorice</MenuItem>
+                        <MenuItem value="surface">Surface</MenuItem>
+                      </Select>
+                      <FormHelperText>
+                        Binding site representation
+                      </FormHelperText>
+                    </FormControl>
+                  ) : null}
                 </Stack>
                 <Stack direction="row" spacing={1}>
                   <IconButton
@@ -347,7 +402,7 @@ const MolViewerSummary = (props) => {
                   <IconButton
                     aria-label="restart"
                     title="Reset visualization"
-                    onClick={() => resetNGLViewer(stage, value)}
+                    onClick={() => resetNGLViewer(stage, tabIndex)}
                   >
                     <RestartAltIcon />
                   </IconButton>
@@ -378,8 +433,8 @@ const MolViewerSummary = (props) => {
                 </Typography>
               </Stack>
               <Typography color="text.secondary" variant="body2">
-                Pinstriped cornflower blue cotton blouse takes you on a walk to
-                the park or just down the hall1.
+                Residues displayed below are grouped according to the percentage
+                of predictors that identify them as belonging to binding sites.
               </Typography>
             </Box>
             <Divider />
@@ -394,7 +449,7 @@ const MolViewerSummary = (props) => {
                   }}
                 >
                   <Tabs
-                    value={value}
+                    value={tabIndex}
                     onChange={handleChange}
                     aria-label="basic tabs example"
                     variant="scrollable"
@@ -412,8 +467,8 @@ const MolViewerSummary = (props) => {
                   </Tabs>
                 </Box>
 
-                <CustomTabPanel value={value} index={0}>
-                  <TableContainer component={Paper} sx={{ height: 700 }}>
+                <CustomTabPanel value={tabIndex} index={0}>
+                  <TableContainer component={Paper} sx={{ height: 680 }}>
                     <Table
                       stickyHeader
                       aria-label="customized table"
@@ -466,9 +521,13 @@ const MolViewerSummary = (props) => {
                   </TableContainer>
                 </CustomTabPanel>
                 {[...Array(props.numPreds)].map((_, i) => (
-                  <CustomTabPanel value={value} index={i + 1}>
+                  <CustomTabPanel value={tabIndex} index={i + 1}>
                     <TableContainer component={Paper} sx={{ maxHeight: 700 }}>
-                      <Table stickyHeader aria-label="customized table" size="small">
+                      <Table
+                        stickyHeader
+                        aria-label="customized table"
+                        size="small"
+                      >
                         <TableHead>
                           <TableRow>
                             <StyledTableCell align="center">
