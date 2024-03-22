@@ -309,6 +309,139 @@ const MolViewerPredictors = (props) => {
     <>
       {props.bindSites.length > 0 ? (
         <div className="row">
+          <div className="col-md-8">
+            <Card variant="outlined">
+              <Box sx={{ p: 2 }}>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Typography gutterBottom variant="h5" component="div">
+                    Molecular visualization
+                  </Typography>
+                  <Button
+                    size="small"
+                    aria-label="download"
+                    title="Download PyMol session"
+                    onClick={() => handleDownloadPymol(props.pdb)}
+                    variant="outlined"
+                    startIcon={<DownloadingIcon />}
+                  >
+                    PyMol
+                  </Button>
+                </Stack>
+                <Typography color="text.secondary" variant="body2">
+                  {props.pdb} protein structure along with highlighted binding
+                  site residues predicted by {props.pred}
+                </Typography>
+              </Box>
+
+              <Box sx={{ p: 2 }}>
+                <Stack direction="row" justifyContent="space-between">
+                  <Stack direction="row" spacing={5}>
+                    <FormControl sx={{ m: 1, maxWidth: 181 }} size="small">
+                      <InputLabel id="demo-select-small-label">
+                        Protein
+                      </InputLabel>
+                      <Select
+                        labelId="demo-select-small-label"
+                        id="demo-select-small"
+                        value={reprButton}
+                        label="Representation"
+                        onChange={(e) =>
+                          handleRepresentation(stage, e.target.value)
+                        }
+                      >
+                        <MenuItem value="cartoon">Cartoon</MenuItem>
+                        <MenuItem value="licorice">Licorice</MenuItem>
+                        <MenuItem value="surface">Surface 1</MenuItem>
+                        <MenuItem value="surface+cartoon">Surface 2</MenuItem>
+                      </Select>
+                      <FormHelperText>Protein representation</FormHelperText>
+                    </FormControl>
+                    <FormControl sx={{ m: 1, maxWidth: 181 }} size="small">
+                      <InputLabel id="demo-select-small-label">
+                        Binding site
+                      </InputLabel>
+                      <Select
+                        labelId="demo-select-small-label"
+                        id="demo-select-small"
+                        value={reprButton}
+                        label="Representation"
+                        onChange={(e) =>
+                          handleRepresentation(stage, e.target.value)
+                        }
+                        disabled={true}
+                      >
+                        <MenuItem value="cartoon">Cartoon</MenuItem>
+                        <MenuItem value="licorice">Licorice</MenuItem>
+                        <MenuItem value="surface">Surface 1</MenuItem>
+                        <MenuItem value="surface+cartoon">Surface 2</MenuItem>
+                      </Select>
+                      <FormHelperText>
+                        Binding site representation
+                      </FormHelperText>
+                    </FormControl>
+                  </Stack>
+                  <Stack direction="row" spacing={1}>
+                    <IconButton
+                      aria-label="fill"
+                      title="Background color"
+                      onClick={() => handleBackgroundColor(stage)}
+                    >
+                      <FormatColorFillIcon />
+                    </IconButton>
+                    <MouseHelpPopup />
+                    <IconButton
+                      aria-label="restart"
+                      title="Reset visualization"
+                      onClick={() => resetNGLViewer(stage, value)}
+                    >
+                      <RestartAltIcon />
+                    </IconButton>
+                  </Stack>
+                </Stack>
+              </Box>
+              <Box
+                sx={{
+                  borderBottom: 1,
+                  borderColor: "divider",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  aria-label="basic tabs example"
+                  variant="scrollable"
+                  scrollButtons="auto"
+                >
+                  {props.bindSites.map((site, i) => (
+                    <Tab
+                      label={
+                        <ColorfulText
+                          color={bSiteColors[i % bSiteColors.length]}
+                        >
+                          Site {i}
+                        </ColorfulText>
+                      }
+                      {...a11yProps(i)}
+                    />
+                  ))}
+                </Tabs>
+              </Box>
+              <div className="row">
+                <div className="col-md-12">
+                  <div
+                    id="viewport"
+                    style={{ width: "100%", height: "673px" }}
+                  ></div>
+                </div>
+              </div>
+            </Card>
+          </div>
           <div className="col-md-4">
             <Card variant="outlined">
               <Box sx={{ p: 2 }}>
@@ -340,36 +473,6 @@ const MolViewerPredictors = (props) => {
               <Divider />
               <Box sx={{ p: 0 }}>
                 <Box sx={{ width: "100%" }}>
-                  <Box
-                    sx={{
-                      borderBottom: 1,
-                      borderColor: "divider",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Tabs
-                      value={value}
-                      onChange={handleChange}
-                      aria-label="basic tabs example"
-                      variant="scrollable"
-                      scrollButtons="auto"
-                    >
-                      {props.bindSites.map((site, i) => (
-                        <Tab
-                          label={
-                            <ColorfulText
-                              color={bSiteColors[i % bSiteColors.length]}
-                            >
-                              Site {i}
-                            </ColorfulText>
-                          }
-                          {...a11yProps(i)}
-                        />
-                      ))}
-                    </Tabs>
-                  </Box>
-
                   {props.bindSites.map((p, i) => (
                     <CustomTabPanel value={value} index={i}>
                       <TableContainer component={Paper} sx={{ height: 740 }}>
@@ -427,110 +530,6 @@ const MolViewerPredictors = (props) => {
                   ))}
                 </Box>
               </Box>
-            </Card>
-          </div>
-
-          <div className="col-md-8">
-            <Card variant="outlined">
-              <Box sx={{ p: 2 }}>
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Typography gutterBottom variant="h5" component="div">
-                    Molecular visualization
-                  </Typography>
-                  <Button
-                    size="small"
-                    aria-label="download"
-                    title="Download PyMol session"
-                    onClick={() => handleDownloadPymol(props.pdb)}
-                    variant="outlined"
-                    startIcon={<DownloadingIcon />}
-                  >
-                    PyMol
-                  </Button>
-                </Stack>
-                <Typography color="text.secondary" variant="body2">
-                  {props.pdb} protein structure along with highlighted binding
-                  site residues predicted by {props.pred}
-                </Typography>
-              </Box>
-
-              <Box sx={{ p: 2 }}>
-                <Stack direction="row" justifyContent="space-between">
-                  <Stack direction="row" spacing={5}>
-                    <FormControl sx={{ m: 1, maxWidth: 181 }} size="small">
-                      <InputLabel id="demo-select-small-label">
-                        Protein
-                      </InputLabel>
-                      <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        value={reprButton}
-                        label="Representation"
-                        onChange={(e) =>
-                          handleRepresentation(stage, e.target.value)
-                        }
-                      >
-                        <MenuItem value="cartoon">Cartoon</MenuItem>
-                        <MenuItem value="licorice">Licorice</MenuItem>
-                        <MenuItem value="surface">Surface 1</MenuItem>
-                        <MenuItem value="surface+cartoon">Surface 2</MenuItem>
-                      </Select>
-                      <FormHelperText>Protein representation</FormHelperText>
-                    </FormControl>
-                    <FormControl sx={{ m: 1, maxWidth: 181 }} size="small">
-                      <InputLabel id="demo-select-small-label">Binding site</InputLabel>
-                      <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        value={reprButton}
-                        label="Representation"
-                        onChange={(e) =>
-                          handleRepresentation(stage, e.target.value)
-                        }
-                        disabled={true}
-                      >
-                        <MenuItem value="cartoon">Cartoon</MenuItem>
-                        <MenuItem value="licorice">Licorice</MenuItem>
-                        <MenuItem value="surface">Surface 1</MenuItem>
-                        <MenuItem value="surface+cartoon">Surface 2</MenuItem>
-                      </Select>
-                      <FormHelperText>
-                        Binding site representation
-                      </FormHelperText>
-                    </FormControl>
-                  </Stack>
-                  <Stack direction="row" spacing={1}>
-                    <IconButton
-                      aria-label="fill"
-                      title="Background color"
-                      onClick={() => handleBackgroundColor(stage)}
-                    >
-                      <FormatColorFillIcon />
-                    </IconButton>
-                    <MouseHelpPopup />
-                    <IconButton
-                      aria-label="restart"
-                      title="Reset visualization"
-                      onClick={() => resetNGLViewer(stage, value)}
-                    >
-                      <RestartAltIcon />
-                    </IconButton>
-                  </Stack>
-                </Stack>
-              </Box>
-              <Divider></Divider>
-              <div className="row">
-                <div className="col-md-12">
-                  <div
-                    id="viewport"
-                    style={{ width: "100%", height: "673px" }}
-                  ></div>
-                </div>
-              </div>
             </Card>
           </div>
         </div>

@@ -29,6 +29,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import OutlinedInput from "@mui/material/OutlinedInput";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -307,6 +312,23 @@ const MolViewerSummary = (props) => {
     );
   }
 
+    const [open, setOpen] = React.useState(false);
+    const [age, setAge] = React.useState("");
+
+    const handleChange2 = (event) => {
+      setAge(Number(event.target.value) || "");
+    };
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+      if (reason !== "backdropClick") {
+        setOpen(false);
+      }
+    };
+
   return (
     <>
       <div className="row">
@@ -390,26 +412,112 @@ const MolViewerSummary = (props) => {
                     </FormControl>
                   ) : null}
                 </Stack>
-                <Stack direction="row" spacing={1}>
-                  <IconButton
-                    aria-label="fill"
-                    title="Background color"
-                    onClick={() => handleBackgroundColor(stage)}
-                  >
-                    <FormatColorFillIcon />
-                  </IconButton>
-                  <MouseHelpPopup />
-                  <IconButton
-                    aria-label="restart"
-                    title="Reset visualization"
-                    onClick={() => resetNGLViewer(stage, tabIndex)}
-                  >
-                    <RestartAltIcon />
-                  </IconButton>
-                </Stack>
               </Stack>
             </Box>
-            <Divider></Divider>
+            <Box
+              sx={{
+                borderBottom: 1,
+                borderColor: "divider",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Tabs
+                value={tabIndex}
+                onChange={handleChange}
+                aria-label="basic tabs example"
+                variant="scrollable"
+                scrollButtons="auto"
+              >
+                <Tab label="Consensus" {...a11yProps(0)} />
+                {[...Array(props.numPreds)].map((_, i) => (
+                  <Tab
+                    label={`${((props.numPreds - i) / props.numPreds) * 100}%`}
+                    {...a11yProps(i + 1)}
+                  />
+                ))}
+              </Tabs>
+            </Box>
+            <Divider>
+              <Stack direction="row" spacing={1}>
+                <div>
+                  <Button onClick={handleClickOpen}>Open select dialog</Button>
+                  <Dialog
+                    disableEscapeKeyDown
+                    open={open}
+                    onClose={handleClose}
+                  >
+                    <DialogTitle>Fill the form</DialogTitle>
+                    <DialogContent>
+                      <Box
+                        component="form"
+                        sx={{ display: "flex", flexWrap: "wrap" }}
+                      >
+                        <FormControl sx={{ m: 1, minWidth: 120 }}>
+                          <InputLabel htmlFor="demo-dialog-native">
+                            Age
+                          </InputLabel>
+                          <Select
+                            native
+                            value={age}
+                            onChange={handleChange}
+                            input={
+                              <OutlinedInput
+                                label="Age"
+                                id="demo-dialog-native"
+                              />
+                            }
+                          >
+                            <option aria-label="None" value="" />
+                            <option value={10}>Ten</option>
+                            <option value={20}>Twenty</option>
+                            <option value={30}>Thirty</option>
+                          </Select>
+                        </FormControl>
+                        <FormControl sx={{ m: 1, minWidth: 120 }}>
+                          <InputLabel id="demo-dialog-select-label">
+                            Age
+                          </InputLabel>
+                          <Select
+                            labelId="demo-dialog-select-label"
+                            id="demo-dialog-select"
+                            value={age}
+                            onChange={handleChange2}
+                            input={<OutlinedInput label="Age" />}
+                          >
+                            <MenuItem value="">
+                              <em>None</em>
+                            </MenuItem>
+                            <MenuItem value={10}>Ten</MenuItem>
+                            <MenuItem value={20}>Twenty</MenuItem>
+                            <MenuItem value={30}>Thirty</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Box>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleClose}>Cancel</Button>
+                      <Button onClick={handleClose}>Ok</Button>
+                    </DialogActions>
+                  </Dialog>
+                </div>
+                <IconButton
+                  aria-label="fill"
+                  title="Background color"
+                  onClick={() => handleBackgroundColor(stage)}
+                >
+                  <FormatColorFillIcon />
+                </IconButton>
+                <MouseHelpPopup />
+                <IconButton
+                  aria-label="restart"
+                  title="Reset visualization"
+                  onClick={() => resetNGLViewer(stage, tabIndex)}
+                >
+                  <RestartAltIcon />
+                </IconButton>
+              </Stack>
+            </Divider>
             <div className="row">
               <div className="col-md-12">
                 <div
@@ -440,35 +548,8 @@ const MolViewerSummary = (props) => {
             <Divider />
             <Box sx={{ p: 0 }}>
               <Box sx={{ width: "100%" }}>
-                <Box
-                  sx={{
-                    borderBottom: 1,
-                    borderColor: "divider",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Tabs
-                    value={tabIndex}
-                    onChange={handleChange}
-                    aria-label="basic tabs example"
-                    variant="scrollable"
-                    scrollButtons="auto"
-                  >
-                    <Tab label="Consensus" {...a11yProps(0)} />
-                    {[...Array(props.numPreds)].map((_, i) => (
-                      <Tab
-                        label={`${
-                          ((props.numPreds - i) / props.numPreds) * 100
-                        }%`}
-                        {...a11yProps(i + 1)}
-                      />
-                    ))}
-                  </Tabs>
-                </Box>
-
                 <CustomTabPanel value={tabIndex} index={0}>
-                  <TableContainer component={Paper} sx={{ height: 680 }}>
+                  <TableContainer component={Paper} sx={{ height: 775 }}>
                     <Table
                       stickyHeader
                       aria-label="customized table"
