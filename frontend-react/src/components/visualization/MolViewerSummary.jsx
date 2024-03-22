@@ -3,9 +3,7 @@ import * as NGL from "ngl/dist/ngl";
 import "../../styles/SummaryPopup.css";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
-import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -33,7 +31,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import OutlinedInput from "@mui/material/OutlinedInput";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -61,10 +59,13 @@ const MolViewerSummary = (props) => {
   const [protReprButton, setProtReprButton] = useState("cartoon");
   const [siteReprButton, setSiteProtReprButton] = useState("licorice");
   const [previousFocusRes, setPreviousFocusRes] = useState("");
+  const [bgroundColor, setBGroundColor] = useState("white");
+  const [tabIndex, setTabIndex] = useState(0);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setProtReprButton("cartoon");
-    setSiteProtReprButton("licorice")
+    setSiteProtReprButton("licorice");
     const newStage = new NGL.Stage("viewport-summ");
     newStage.removeAllComponents(); // Remove previous components
     newStage
@@ -139,11 +140,10 @@ const MolViewerSummary = (props) => {
     });
   }
 
-  function handleBackgroundColor(stage) {
-    const stageBackgroundColor = stage.getParameters().backgroundColor;
-    stageBackgroundColor === "white"
-      ? stage.setParameters({ backgroundColor: "black" })
-      : stage.setParameters({ backgroundColor: "white" });
+  function handleBackgroundColor(stage, color) {
+    //const stageBackgroundColor = stage.getParameters().backgroundColor;
+    setBGroundColor(color);
+    stage.setParameters({ backgroundColor: color });
   }
 
   function handleRepresentation(stage, repr, tabIndex) {
@@ -219,8 +219,8 @@ const MolViewerSummary = (props) => {
       const filteredData = props.consensusData.filter(
         (p) => p[3] >= (props.numPreds - tabIndex + 1) / props.numPreds
       );
-      console.log(filteredData)
-       stage.getRepresentationsByName("ball+stick").dispose();
+      console.log(filteredData);
+      stage.getRepresentationsByName("ball+stick").dispose();
       stage
         .loadFile(
           "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
@@ -270,12 +270,6 @@ const MolViewerSummary = (props) => {
     document.body.removeChild(link);
   }
 
-  CustomTabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    tabIndex: PropTypes.number.isRequired,
-  };
-
   function a11yProps(index) {
     return {
       id: `simple-tab-${index}`,
@@ -283,13 +277,17 @@ const MolViewerSummary = (props) => {
     };
   }
 
-  const [tabIndex, setTabIndex] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
+  function handleChange (event, newValue) {
     setTabIndex(newValue);
     resetNGLViewer(stage, newValue);
     setProtReprButton("cartoon"); // Reset protReprButton to 'cartoon' or your default value
     setSiteProtReprButton("licorice");
+  };
+
+  CustomTabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    tabIndex: PropTypes.number.isRequired,
   };
 
   function CustomTabPanel(props) {
@@ -312,22 +310,15 @@ const MolViewerSummary = (props) => {
     );
   }
 
-    const [open, setOpen] = React.useState(false);
-    const [age, setAge] = React.useState("");
+  function handleClickOpen ()  {
+    setOpen(true);
+  };
 
-    const handleChange2 = (event) => {
-      setAge(Number(event.target.value) || "");
-    };
-
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
-
-    const handleClose = (event, reason) => {
-      if (reason !== "backdropClick") {
-        setOpen(false);
-      }
-    };
+  function handleClose (event, reason) {
+    if (reason !== "backdropClick") {
+      setOpen(false);
+    }
+  };
 
   return (
     <>
@@ -360,60 +351,6 @@ const MolViewerSummary = (props) => {
               </Typography>
             </Box>
 
-            <Box sx={{ p: 2 }}>
-              <Stack direction="row" justifyContent="space-between">
-                <Stack direction="row" spacing={5}>
-                  <FormControl sx={{ m: 1, maxWidth: 181 }} size="small">
-                    <InputLabel id="prot-select-small-label">
-                      Protein
-                    </InputLabel>
-                    <Select
-                      labelId="prot-select-small-label"
-                      id="prot-select-small"
-                      value={protReprButton}
-                      label="Representation"
-                      onChange={(e) =>
-                        handleRepresentation(stage, e.target.value, tabIndex)
-                      }
-                    >
-                      <MenuItem value="cartoon">Cartoon</MenuItem>
-                      <MenuItem value="licorice">Licorice</MenuItem>
-                      <MenuItem value="surface">Surface 1</MenuItem>
-                      <MenuItem value="surface+cartoon">Surface 2</MenuItem>
-                    </Select>
-                    <FormHelperText>Protein representation</FormHelperText>
-                  </FormControl>
-                  {tabIndex !== 0 ? (
-                    <FormControl sx={{ m: 1, maxWidth: 181 }} size="small">
-                      <InputLabel id="site-select-small-label">
-                        Binding site
-                      </InputLabel>
-                      <Select
-                        labelId="site-select-small-label"
-                        id="site-select-small"
-                        value={siteReprButton}
-                        label="Representation"
-                        onChange={(e) =>
-                          handleBSiteRepresentation(
-                            stage,
-                            e.target.value,
-                            tabIndex
-                          )
-                        }
-                        disabled
-                      >
-                        <MenuItem value="cartoon">Cartoon</MenuItem>
-                        <MenuItem value="licorice">Licorice</MenuItem>
-                        <MenuItem value="surface">Surface</MenuItem>
-                      </Select>
-                      <FormHelperText>
-                        Binding site representation
-                      </FormHelperText>
-                    </FormControl>
-                  ) : null}
-                </Stack>
-              </Stack>
-            </Box>
             <Box
               sx={{
                 borderBottom: 1,
@@ -438,76 +375,107 @@ const MolViewerSummary = (props) => {
                 ))}
               </Tabs>
             </Box>
-            <Divider>
-              <Stack direction="row" spacing={1}>
+            <Box sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}>
+              <Stack direction="row" spacing={2}>
                 <div>
-                  <Button onClick={handleClickOpen}>Open select dialog</Button>
+                  <IconButton title="Visualization settings"  onClick={handleClickOpen}>
+                    <SettingsIcon />
+                  </IconButton>
                   <Dialog
                     disableEscapeKeyDown
                     open={open}
                     onClose={handleClose}
                   >
-                    <DialogTitle>Fill the form</DialogTitle>
+                    <DialogTitle>Visualization settings</DialogTitle>
+                    <DialogContent>
+                      <Typography color="text.secondary" variant="body2">
+                        {props.pdb} protein structure along with highlighted
+                        binding site residues
+                      </Typography>
+                    </DialogContent>
+                    <Divider />
                     <DialogContent>
                       <Box
                         component="form"
                         sx={{ display: "flex", flexWrap: "wrap" }}
                       >
-                        <FormControl sx={{ m: 1, minWidth: 120 }}>
-                          <InputLabel htmlFor="demo-dialog-native">
-                            Age
-                          </InputLabel>
+                        <FormControl sx={{ m: 1, maxWidth: 181 }} size="small">
+                          <FormHelperText sx={{ marginLeft: 0 }}>
+                            Change background color
+                          </FormHelperText>
                           <Select
-                            native
-                            value={age}
-                            onChange={handleChange}
-                            input={
-                              <OutlinedInput
-                                label="Age"
-                                id="demo-dialog-native"
-                              />
+                            labelId="bground-select-small-label"
+                            id="bground-select-small"
+                            value={bgroundColor}
+                            onChange={(e) =>
+                              handleBackgroundColor(stage, e.target.value)
                             }
                           >
-                            <option aria-label="None" value="" />
-                            <option value={10}>Ten</option>
-                            <option value={20}>Twenty</option>
-                            <option value={30}>Thirty</option>
+                            <MenuItem value="black">Black</MenuItem>
+                            <MenuItem value="white">White</MenuItem>
                           </Select>
                         </FormControl>
-                        <FormControl sx={{ m: 1, minWidth: 120 }}>
-                          <InputLabel id="demo-dialog-select-label">
-                            Age
-                          </InputLabel>
+                        <FormControl sx={{ m: 1, maxWidth: 181 }} size="small">
+                          <FormHelperText sx={{ marginLeft: 0 }}>
+                            Protein representation
+                          </FormHelperText>
                           <Select
-                            labelId="demo-dialog-select-label"
-                            id="demo-dialog-select"
-                            value={age}
-                            onChange={handleChange2}
-                            input={<OutlinedInput label="Age" />}
+                            labelId="prot-select-small-label"
+                            id="prot-select-small"
+                            value={protReprButton}
+                            onChange={(e) =>
+                              handleRepresentation(
+                                stage,
+                                e.target.value,
+                                tabIndex
+                              )
+                            }
                           >
-                            <MenuItem value="">
-                              <em>None</em>
+                            <MenuItem value="cartoon">Cartoon</MenuItem>
+                            <MenuItem value="licorice">Licorice</MenuItem>
+                            <MenuItem value="surface">Surface 1</MenuItem>
+                            <MenuItem value="surface+cartoon">
+                              Surface 2
                             </MenuItem>
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
                           </Select>
                         </FormControl>
+                        {tabIndex !== 0 ? (
+                          <FormControl
+                            sx={{ m: 1, maxWidth: 181 }}
+                            size="small"
+                          >
+                            <FormHelperText sx={{ marginLeft: 0 }}>
+                              Binding site representation
+                            </FormHelperText>
+                            <Select
+                              labelId="site-select-small-label"
+                              id="site-select-small"
+                              value={siteReprButton}
+                              onChange={(e) =>
+                                handleBSiteRepresentation(
+                                  stage,
+                                  e.target.value,
+                                  tabIndex
+                                )
+                              }
+                              disabled
+                            >
+                              <MenuItem value="cartoon">Cartoon</MenuItem>
+                              <MenuItem value="licorice">Licorice</MenuItem>
+                              <MenuItem value="surface">Surface</MenuItem>
+                            </Select>
+                          </FormControl>
+                        ) : null}
                       </Box>
                     </DialogContent>
                     <DialogActions>
-                      <Button onClick={handleClose}>Cancel</Button>
-                      <Button onClick={handleClose}>Ok</Button>
+                      <Button onClick={handleClose}>Close</Button>
                     </DialogActions>
                   </Dialog>
                 </div>
-                <IconButton
-                  aria-label="fill"
-                  title="Background color"
-                  onClick={() => handleBackgroundColor(stage)}
-                >
-                  <FormatColorFillIcon />
-                </IconButton>
                 <MouseHelpPopup />
                 <IconButton
                   aria-label="restart"
@@ -517,7 +485,9 @@ const MolViewerSummary = (props) => {
                   <RestartAltIcon />
                 </IconButton>
               </Stack>
-            </Divider>
+
+            </Box>
+            
             <div className="row">
               <div className="col-md-12">
                 <div

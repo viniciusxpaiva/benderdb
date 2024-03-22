@@ -30,6 +30,11 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -72,9 +77,14 @@ function ColorfulText({ color, children }) {
 const MolViewerPredictors = (props) => {
   
   const [stage, setStage] = useState(null);
-  const [bindSiteTab, setBindSiteTab] = useState(0);
   const [reprButton, setReprButton] = useState("");
   const [previousFocusRes, setPreviousFocusRes] = useState("");
+  const [value, setValue] = useState(0);
+  const [bgroundColor, setBGroundColor] = useState("white");
+  const [tabIndex, setTabIndex] = useState(1);
+  const [open, setOpen] = useState(false);
+  const [protReprButton, setProtReprButton] = useState("cartoon");
+  const [siteReprButton, setSiteProtReprButton] = useState("licorice");
 
   useEffect(() => {
     const newStage = new NGL.Stage("viewport");
@@ -163,6 +173,25 @@ const MolViewerPredictors = (props) => {
     }
   }
 
+  function handleBSiteRepresentation(stage, repr, tabIndex) {
+    setSiteProtReprButton(repr);
+    if (tabIndex !== 0) {
+      const filteredData = props.consensusData.filter(
+        (p) => p[3] >= (props.numPreds - tabIndex + 1) / props.numPreds
+      );
+      console.log(filteredData);
+      stage.getRepresentationsByName("ball+stick").dispose();
+      stage
+        .loadFile(
+          "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
+        )
+        .then((component) => {
+          component.autoView();
+          changeColorBindSites(component, filteredData, repr);
+        });
+    }
+  }
+
   function focusResidue(stage, resNum, chain) {
     const sele = resNum + ":" + chain;
     if (previousFocusRes === sele) {
@@ -231,21 +260,6 @@ const MolViewerPredictors = (props) => {
     document.body.removeChild(link);
   }
 
-  const handleBindSiteTab = (stage, tabNum, site) => {
-    const pdb_id = "AF-" + props.pdb + "-F1-model_v4.pdb";
-    setBindSiteTab(tabNum);
-    // Construct an array of selection strings from the residue list
-    var selectionStrings = site.map(function (residue) {
-      return residue[2] + ":" + residue[0] + " and " + residue[1];
-    });
-
-    // Combine the selection strings using " or " logical operator
-    var combinedSelection = selectionStrings.join(" or ");
-
-    // Automatically adjust the camera view to the combined selection
-    stage.getComponentsByName(pdb_id).autoView(combinedSelection);
-  };
-
   function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -279,31 +293,19 @@ const MolViewerPredictors = (props) => {
     };
   }
 
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
+  function handleChange (event, newValue) {
     setValue(newValue);
   };
 
-  function BoldText({ children }) {
-    return <span style={{ fontWeight: "bold" }}>{children}</span>;
-  }
+  function handleClickOpen ()  {
+    setOpen(true);
+  };
 
-  function ColorfulTab({ label, index, color, handleChange, ...rest }) {
-    const onClick = () => {
-      handleChange(index);
-    };
-
-    return (
-      <Tab
-        label={
-          <ColorfulText color={color} onClick={onClick}>
-            <BoldText>{label}</BoldText>
-          </ColorfulText>
-        }
-      />
-    );
-  }
+  function handleClose (event, reason) {
+    if (reason !== "backdropClick") {
+      setOpen(false);
+    }
+  };
 
   return (
     <>
@@ -337,72 +339,6 @@ const MolViewerPredictors = (props) => {
                 </Typography>
               </Box>
 
-              <Box sx={{ p: 2 }}>
-                <Stack direction="row" justifyContent="space-between">
-                  <Stack direction="row" spacing={5}>
-                    <FormControl sx={{ m: 1, maxWidth: 181 }} size="small">
-                      <InputLabel id="demo-select-small-label">
-                        Protein
-                      </InputLabel>
-                      <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        value={reprButton}
-                        label="Representation"
-                        onChange={(e) =>
-                          handleRepresentation(stage, e.target.value)
-                        }
-                      >
-                        <MenuItem value="cartoon">Cartoon</MenuItem>
-                        <MenuItem value="licorice">Licorice</MenuItem>
-                        <MenuItem value="surface">Surface 1</MenuItem>
-                        <MenuItem value="surface+cartoon">Surface 2</MenuItem>
-                      </Select>
-                      <FormHelperText>Protein representation</FormHelperText>
-                    </FormControl>
-                    <FormControl sx={{ m: 1, maxWidth: 181 }} size="small">
-                      <InputLabel id="demo-select-small-label">
-                        Binding site
-                      </InputLabel>
-                      <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        value={reprButton}
-                        label="Representation"
-                        onChange={(e) =>
-                          handleRepresentation(stage, e.target.value)
-                        }
-                        disabled={true}
-                      >
-                        <MenuItem value="cartoon">Cartoon</MenuItem>
-                        <MenuItem value="licorice">Licorice</MenuItem>
-                        <MenuItem value="surface">Surface 1</MenuItem>
-                        <MenuItem value="surface+cartoon">Surface 2</MenuItem>
-                      </Select>
-                      <FormHelperText>
-                        Binding site representation
-                      </FormHelperText>
-                    </FormControl>
-                  </Stack>
-                  <Stack direction="row" spacing={1}>
-                    <IconButton
-                      aria-label="fill"
-                      title="Background color"
-                      onClick={() => handleBackgroundColor(stage)}
-                    >
-                      <FormatColorFillIcon />
-                    </IconButton>
-                    <MouseHelpPopup />
-                    <IconButton
-                      aria-label="restart"
-                      title="Reset visualization"
-                      onClick={() => resetNGLViewer(stage, value)}
-                    >
-                      <RestartAltIcon />
-                    </IconButton>
-                  </Stack>
-                </Stack>
-              </Box>
               <Box
                 sx={{
                   borderBottom: 1,
@@ -432,6 +368,119 @@ const MolViewerPredictors = (props) => {
                   ))}
                 </Tabs>
               </Box>
+              <Box sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}>
+              <Stack direction="row" spacing={2}>
+                <div>
+                  <IconButton onClick={handleClickOpen}>
+                    <SettingsIcon />
+                  </IconButton>
+                  <Dialog
+                    disableEscapeKeyDown
+                    open={open}
+                    onClose={handleClose}
+                  >
+                    <DialogTitle>Visualization settings</DialogTitle>
+                    <DialogContent>
+                      <Typography color="text.secondary" variant="body2">
+                        {props.pdb} protein structure along with highlighted
+                        binding site residues
+                      </Typography>
+                    </DialogContent>
+                    <Divider />
+                    <DialogContent>
+                      <Box
+                        component="form"
+                        sx={{ display: "flex", flexWrap: "wrap" }}
+                      >
+                        <FormControl sx={{ m: 1, maxWidth: 181 }} size="small">
+                          <FormHelperText sx={{ marginLeft: 0 }}>
+                            Change background color
+                          </FormHelperText>
+                          <Select
+                            labelId="bground-select-small-label"
+                            id="bground-select-small"
+                            value={bgroundColor}
+                            onChange={(e) =>
+                              handleBackgroundColor(stage, e.target.value)
+                            }
+                          >
+                            <MenuItem value="black">Black</MenuItem>
+                            <MenuItem value="white">White</MenuItem>
+                          </Select>
+                        </FormControl>
+                        <FormControl sx={{ m: 1, maxWidth: 181 }} size="small">
+                          <FormHelperText sx={{ marginLeft: 0 }}>
+                            Protein representation
+                          </FormHelperText>
+                          <Select
+                            labelId="prot-select-small-label"
+                            id="prot-select-small"
+                            value={protReprButton}
+                            onChange={(e) =>
+                              handleRepresentation(
+                                stage,
+                                e.target.value,
+                                tabIndex
+                              )
+                            }
+                          >
+                            <MenuItem value="cartoon">Cartoon</MenuItem>
+                            <MenuItem value="licorice">Licorice</MenuItem>
+                            <MenuItem value="surface">Surface 1</MenuItem>
+                            <MenuItem value="surface+cartoon">
+                              Surface 2
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
+                        {tabIndex !== 0 ? (
+                          <FormControl
+                            sx={{ m: 1, maxWidth: 181 }}
+                            size="small"
+                          >
+                            <FormHelperText sx={{ marginLeft: 0 }}>
+                              Binding site representation
+                            </FormHelperText>
+                            <Select
+                              labelId="site-select-small-label"
+                              id="site-select-small"
+                              value={siteReprButton}
+                              onChange={(e) =>
+                                handleBSiteRepresentation(
+                                  stage,
+                                  e.target.value,
+                                  tabIndex
+                                )
+                              }
+                              disabled
+                            >
+                              <MenuItem value="cartoon">Cartoon</MenuItem>
+                              <MenuItem value="licorice">Licorice</MenuItem>
+                              <MenuItem value="surface">Surface</MenuItem>
+                            </Select>
+                          </FormControl>
+                        ) : null}
+                      </Box>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleClose}>Close</Button>
+                    </DialogActions>
+                  </Dialog>
+                </div>
+                <MouseHelpPopup />
+                <IconButton
+                  aria-label="restart"
+                  title="Reset visualization"
+                  onClick={() => resetNGLViewer(stage, tabIndex)}
+                >
+                  <RestartAltIcon />
+                </IconButton>
+              </Stack>
+
+              </Box>
+            
               <div className="row">
                 <div className="col-md-12">
                   <div

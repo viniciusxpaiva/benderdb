@@ -1,62 +1,144 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import { ClickAwayListener } from '@mui/base/ClickAwayListener';
-import { Portal } from '@mui/base/Portal';
+import * as React from "react";
+import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import MouseIcon from "@mui/icons-material/Mouse";
-import ModalControls from "./MouseControls";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Button from "@mui/material/Button";
 
 export default function MouseHelpPopup() {
   const [open, setOpen] = React.useState(false);
 
-  const handleClick = () => {
-    setOpen((prev) => !prev);
+  const handleClickOpen = () => {
+    setOpen(true);
   };
 
-  const handleClickAway = () => {
-    setOpen(false);
-  };
-
-  const styles = {
-    position: 'fixed',
-    width: 'max-content',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    border: '1px solid',
-    borderRadius: '8px', // Round border
-    bgcolor: 'background.paper',
-    boxShadow: '0px 4px 8px rgb(0 0 0 / 0.1)',
-    zIndex: 1,
-  };
-
-  const overlayStyles = {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    zIndex: 0,
+  const handleClose = (event, reason) => {
+    if (reason !== "backdropClick") {
+      setOpen(false);
+    }
   };
 
   return (
-    <ClickAwayListener onClickAway={handleClickAway}>
-        <IconButton
-          aria-label="mouse"
-          title="Mouse controls"
-          onClick={handleClick}
-        >
+    <>
+      <div>
+        <IconButton title="Mouse controls" onClick={handleClickOpen}>
           <MouseIcon />
-        {open ? (
-          <Portal>
-              <Box sx={overlayStyles} onClick={handleClickAway} />
-              <Box sx={styles}>
-                <ModalControls />
-              </Box>
-          </Portal>
-        ) : null}
         </IconButton>
-    </ClickAwayListener>
+        <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
+          <DialogTitle>Mouse controls</DialogTitle>
+          <DialogContent>
+            <Typography color="text.secondary" variant="body2">
+              Following mouse commands can be used at molecular visualization
+            </Typography>
+          </DialogContent>
+          <Divider />
+          <DialogContent>
+            <Box>
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-2">
+                    <img
+                      src="../img/mouseleftclick.jpg"
+                      alt=""
+                      style={{ width: "50px", height: "50px" }}
+                    />
+                  </div>
+                  <div class="col-md-10 p-0 d-flex align-items-center">
+                    <Typography color="text.secondary" variant="body2">
+                      <b>Left button click</b>: pick atom.
+                    </Typography>
+                  </div>
+                </div>
+                <div class="row mt-2">
+                  <div class="col-md-2">
+                    <img
+                      src="../img/mousescroll.jpg"
+                      alt=""
+                      style={{ width: "50px", height: "50px" }}
+                    />
+                  </div>
+                  <div class="col-md-10 p-0 d-flex align-items-center">
+                    <Typography color="text.secondary" variant="body2">
+                      <b>Middle button scroll</b>: zoom camera.
+                    </Typography>
+                  </div>
+                </div>
+
+                <div class="row mt-2">
+                  <div class="col-md-2">
+                    <img
+                      src="../img/mousemiddleclick.jpg"
+                      alt=""
+                      style={{ width: "50px", height: "50px" }}
+                    />
+                  </div>
+                  <div class="col-md-10 p-0 d-flex align-items-center">
+                    <Typography color="text.secondary" variant="body2">
+                      <b>Middle button click</b>: center camera on atom.
+                    </Typography>
+                  </div>
+                </div>
+
+                <div class="row mt-2">
+                  <div class="col-md-2">
+                    <img
+                      src="../img/mousemiddlehold.jpg"
+                      alt=""
+                      style={{ width: "50px", height: "50px" }}
+                    />
+                  </div>
+                  <div class="col-md-10 p-0 d-flex align-items-center">
+                    <Typography color="text.secondary" variant="body2">
+                      <b>Middle button hold and move</b>: zoom camera in and
+                      out.
+                    </Typography>
+                  </div>
+                </div>
+
+                <div class="row mt-2">
+                  <div class="col-md-2">
+                    <img
+                      src="../img/mouselefthold.jpg"
+                      alt=""
+                      style={{ width: "50px", height: "50px" }}
+                    />
+                  </div>
+                  <div class="col-md-10 p-0 d-flex align-items-center">
+                    <Typography color="text.secondary" variant="body2">
+                      <b>Left button hold and move</b>: rotate camera around
+                      center.
+                    </Typography>
+                  </div>
+                </div>
+
+                <div class="row mt-2 mb-2">
+                  <div class="col-md-2">
+                    <img
+                      src="../img/mouserighthold.jpg"
+                      alt=""
+                      style={{ width: "50px", height: "50px" }}
+                    />
+                  </div>
+                  <div class="col-md-10 p-0 d-flex align-items-center">
+                    <Typography color="text.secondary" variant="body2">
+                      <b>Right button hold and move</b>: translate camera in
+                      screen plane.
+                    </Typography>
+                  </div>
+                </div>
+              </div>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Close</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    </>
   );
 }
