@@ -10,8 +10,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 
-export default function MouseHelpPopup() {
+export default function MouseHelpPopup(props) {
   const [open, setOpen] = React.useState(false);
+  console.log(props.bgroundColor)
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -24,10 +25,9 @@ export default function MouseHelpPopup() {
   };
 
   return (
-    <>
       <div>
-        <IconButton title="Mouse controls" onClick={handleClickOpen}>
-          <MouseIcon />
+        <IconButton title="Mouse controls" onClick={handleClickOpen} >
+          <MouseIcon htmlColor={props.bgroundColor  === "white"? "black" : "white"}/>
         </IconButton>
         <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
           <DialogTitle>Mouse controls</DialogTitle>
@@ -139,6 +139,5 @@ export default function MouseHelpPopup() {
           </DialogActions>
         </Dialog>
       </div>
-    </>
   );
 }

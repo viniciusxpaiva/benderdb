@@ -32,6 +32,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import SettingsIcon from "@mui/icons-material/Settings";
+import SettingsApplicationsSharpIcon from "@mui/icons-material/SettingsApplicationsSharp";
+import TesteMolViewer from "./TesteMolViewer";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -66,7 +68,7 @@ const MolViewerSummary = (props) => {
   useEffect(() => {
     setProtReprButton("cartoon");
     setSiteProtReprButton("licorice");
-    const newStage = new NGL.Stage("viewport-summ");
+    const newStage = new NGL.Stage("viewport");
     newStage.removeAllComponents(); // Remove previous components
     newStage
       .loadFile(
@@ -277,12 +279,12 @@ const MolViewerSummary = (props) => {
     };
   }
 
-  function handleChange (event, newValue) {
+  function handleChange(event, newValue) {
     setTabIndex(newValue);
     resetNGLViewer(stage, newValue);
     setProtReprButton("cartoon"); // Reset protReprButton to 'cartoon' or your default value
     setSiteProtReprButton("licorice");
-  };
+  }
 
   CustomTabPanel.propTypes = {
     children: PropTypes.node,
@@ -310,19 +312,26 @@ const MolViewerSummary = (props) => {
     );
   }
 
-  function handleClickOpen ()  {
+  function handleClickOpen() {
     setOpen(true);
-  };
+  }
 
-  function handleClose (event, reason) {
+  function handleClose(event, reason) {
     if (reason !== "backdropClick") {
       setOpen(false);
     }
-  };
+  }
 
   return (
     <>
       <div className="row">
+      {/*}
+      <TesteMolViewer pdb={props.pdb}
+            pdbFolder={props.pdbFolder}
+            bindingResidues={props.bindingResidues}
+            numPreds={props.numPreds}
+            consensusData={props.consensusData}/>
+        {*/}
         <div className="col-md-8">
           <Card variant="outlined">
             <Box sx={{ p: 2 }}>
@@ -375,129 +384,182 @@ const MolViewerSummary = (props) => {
                 ))}
               </Tabs>
             </Box>
-            <Box sx={{
-                display: "flex",
-                justifyContent: "center",
-              }}>
-              <Stack direction="row" spacing={2}>
-                <div>
-                  <IconButton title="Visualization settings"  onClick={handleClickOpen}>
-                    <SettingsIcon />
-                  </IconButton>
-                  <Dialog
-                    disableEscapeKeyDown
-                    open={open}
-                    onClose={handleClose}
-                  >
-                    <DialogTitle>Visualization settings</DialogTitle>
-                    <DialogContent>
-                      <Typography color="text.secondary" variant="body2">
-                        {props.pdb} protein structure along with highlighted
-                        binding site residues
-                      </Typography>
-                    </DialogContent>
-                    <Divider />
-                    <DialogContent>
-                      <Box
-                        component="form"
-                        sx={{ display: "flex", flexWrap: "wrap" }}
-                      >
-                        <FormControl sx={{ m: 1, maxWidth: 181 }} size="small">
-                          <FormHelperText sx={{ marginLeft: 0 }}>
-                            Change background color
-                          </FormHelperText>
-                          <Select
-                            labelId="bground-select-small-label"
-                            id="bground-select-small"
-                            value={bgroundColor}
-                            onChange={(e) =>
-                              handleBackgroundColor(stage, e.target.value)
-                            }
-                          >
-                            <MenuItem value="black">Black</MenuItem>
-                            <MenuItem value="white">White</MenuItem>
-                          </Select>
-                        </FormControl>
-                        <FormControl sx={{ m: 1, maxWidth: 181 }} size="small">
-                          <FormHelperText sx={{ marginLeft: 0 }}>
-                            Protein representation
-                          </FormHelperText>
-                          <Select
-                            labelId="prot-select-small-label"
-                            id="prot-select-small"
-                            value={protReprButton}
-                            onChange={(e) =>
-                              handleRepresentation(
-                                stage,
-                                e.target.value,
-                                tabIndex
-                              )
-                            }
-                          >
-                            <MenuItem value="cartoon">Cartoon</MenuItem>
-                            <MenuItem value="licorice">Licorice</MenuItem>
-                            <MenuItem value="surface">Surface 1</MenuItem>
-                            <MenuItem value="surface+cartoon">
-                              Surface 2
-                            </MenuItem>
-                          </Select>
-                        </FormControl>
-                        {tabIndex !== 0 ? (
-                          <FormControl
-                            sx={{ m: 1, maxWidth: 181 }}
-                            size="small"
-                          >
-                            <FormHelperText sx={{ marginLeft: 0 }}>
-                              Binding site representation
-                            </FormHelperText>
-                            <Select
-                              labelId="site-select-small-label"
-                              id="site-select-small"
-                              value={siteReprButton}
-                              onChange={(e) =>
-                                handleBSiteRepresentation(
-                                  stage,
-                                  e.target.value,
-                                  tabIndex
-                                )
-                              }
-                              disabled
-                            >
-                              <MenuItem value="cartoon">Cartoon</MenuItem>
-                              <MenuItem value="licorice">Licorice</MenuItem>
-                              <MenuItem value="surface">Surface</MenuItem>
-                            </Select>
-                          </FormControl>
-                        ) : null}
-                      </Box>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={handleClose}>Close</Button>
-                    </DialogActions>
-                  </Dialog>
-                </div>
-                <MouseHelpPopup />
-                <IconButton
-                  aria-label="restart"
-                  title="Reset visualization"
-                  onClick={() => resetNGLViewer(stage, tabIndex)}
-                >
-                  <RestartAltIcon />
-                </IconButton>
-              </Stack>
 
-            </Box>
-            
             <div className="row">
               <div className="col-md-12">
                 <div
-                  id="viewport-summ"
-                  style={{ width: "100%", height: "673px" }}
-                ></div>
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                    height: "673px",
+                  }}
+                >
+                  <div
+                    id="viewport"
+                    style={{ width: "100%", height: "100%" }}
+                  ></div>
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      zIndex: 1,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Stack direction="row" spacing={2}>
+                        <div>
+                          <IconButton
+                            title="Visualization settings"
+                            onClick={handleClickOpen}
+                          >
+                            <SettingsIcon
+                              htmlColor={
+                                bgroundColor === "white" ? "black" : "white"
+                              }
+                            />
+                          </IconButton>
+                          <Dialog
+                            disableEscapeKeyDown
+                            open={open}
+                            onClose={handleClose}
+                          >
+                            <DialogTitle>Visualization settings</DialogTitle>
+                            <DialogContent>
+                              <Typography
+                                color="text.secondary"
+                                variant="body2"
+                              >
+                                {props.pdb} protein structure along with
+                                highlighted binding site residues
+                              </Typography>
+                            </DialogContent>
+                            <Divider />
+                            <DialogContent>
+                              <Box
+                                component="form"
+                                sx={{ display: "flex", flexWrap: "wrap" }}
+                              >
+                                <FormControl
+                                  sx={{ m: 1, maxWidth: 181 }}
+                                  size="small"
+                                >
+                                  <FormHelperText sx={{ marginLeft: 0 }}>
+                                    Change background color
+                                  </FormHelperText>
+                                  <Select
+                                    labelId="bground-select-small-label"
+                                    id="bground-select-small"
+                                    value={bgroundColor}
+                                    onChange={(e) =>
+                                      handleBackgroundColor(
+                                        stage,
+                                        e.target.value
+                                      )
+                                    }
+                                  >
+                                    <MenuItem value="black">Black</MenuItem>
+                                    <MenuItem value="white">White</MenuItem>
+                                  </Select>
+                                </FormControl>
+                                <FormControl
+                                  sx={{ m: 1, maxWidth: 181 }}
+                                  size="small"
+                                >
+                                  <FormHelperText sx={{ marginLeft: 0 }}>
+                                    Protein representation
+                                  </FormHelperText>
+                                  <Select
+                                    labelId="prot-select-small-label"
+                                    id="prot-select-small"
+                                    value={protReprButton}
+                                    onChange={(e) =>
+                                      handleRepresentation(
+                                        stage,
+                                        e.target.value,
+                                        tabIndex
+                                      )
+                                    }
+                                  >
+                                    <MenuItem value="cartoon">Cartoon</MenuItem>
+                                    <MenuItem value="licorice">
+                                      Licorice
+                                    </MenuItem>
+                                    <MenuItem value="surface">
+                                      Surface 1
+                                    </MenuItem>
+                                    <MenuItem value="surface+cartoon">
+                                      Surface 2
+                                    </MenuItem>
+                                  </Select>
+                                </FormControl>
+                                {tabIndex !== 0 ? (
+                                  <FormControl
+                                    sx={{ m: 1, maxWidth: 181 }}
+                                    size="small"
+                                  >
+                                    <FormHelperText sx={{ marginLeft: 0 }}>
+                                      Binding site representation
+                                    </FormHelperText>
+                                    <Select
+                                      labelId="site-select-small-label"
+                                      id="site-select-small"
+                                      value={siteReprButton}
+                                      onChange={(e) =>
+                                        handleBSiteRepresentation(
+                                          stage,
+                                          e.target.value,
+                                          tabIndex
+                                        )
+                                      }
+                                      disabled
+                                    >
+                                      <MenuItem value="cartoon">
+                                        Cartoon
+                                      </MenuItem>
+                                      <MenuItem value="licorice">
+                                        Licorice
+                                      </MenuItem>
+                                      <MenuItem value="surface">
+                                        Surface
+                                      </MenuItem>
+                                    </Select>
+                                  </FormControl>
+                                ) : null}
+                              </Box>
+                            </DialogContent>
+                            <DialogActions>
+                              <Button onClick={handleClose}>Close</Button>
+                            </DialogActions>
+                          </Dialog>
+                        </div>
+                        <MouseHelpPopup bgroundColor={bgroundColor} />
+                        <IconButton
+                          aria-label="restart"
+                          title="Reset visualization"
+                          onClick={() => resetNGLViewer(stage, tabIndex)}
+                        >
+                          <RestartAltIcon
+                            htmlColor={
+                              bgroundColor === "white" ? "black" : "white"
+                            }
+                          />
+                        </IconButton>
+                      </Stack>
+                    </Box>
+                  </div>
+                </div>
               </div>
             </div>
           </Card>
         </div>
+                          
         <div className="col-md-4">
           <Card variant="outlined">
             <Box sx={{ p: 2 }}>
