@@ -27,7 +27,7 @@ export default function MouseHelpPopup(props) {
   return (
       <div>
         <IconButton title="Mouse controls" onClick={handleClickOpen} >
-          <MouseIcon htmlColor={props.bgroundColor  === "white"? "black" : "white"}/>
+          <MouseIcon htmlColor={props.bgroundColor  === "white"? "" : "white"}/>
         </IconButton>
         <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
           <DialogTitle>Mouse controls</DialogTitle>

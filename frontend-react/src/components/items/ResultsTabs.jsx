@@ -15,6 +15,8 @@ import "reactjs-popup/dist/index.css";
 import SummaryIntersectionsPopup from "./SummaryIntersectionsPopup";
 import Card from "@mui/material/Card";
 import Divider from "@mui/material/Divider";
+import MolViewerPopup from "../visualization/SummaryPopup";
+import SummaryPopup from "../visualization/SummaryPopup";
 
 
 function CustomTabPanel(props) {
@@ -97,8 +99,9 @@ export default function ResultsTabs(props) {
               </Stack>
               <Typography color="text.secondary" variant="body2">
                 Visualization bellow brings UpSet plot which shows intersection
-                of residues from different binding sites. <br />Connected dots
-                represent intersection of residues between predictors. 
+                of residues from different binding sites. <br />
+                Connected dots represent intersection of residues between
+                predictors.
               </Typography>
             </Box>
 
@@ -120,6 +123,61 @@ export default function ResultsTabs(props) {
                               ))}
                             </h6>
                           </div>
+
+                          <SummaryPopup
+                            pdb={props.pdb}
+                            pdbFolder={props.pdbFolder}
+                            bindingResidues={props.bindingResidues}
+                            numPreds={props.numPreds}
+                            consensusData={props.consensusData}
+                            bindSites={props.upsetClickResidues}
+                            graspSites={props.graspSites.map((site) =>
+                              site.map(
+                                ([chain, res, number, occ]) =>
+                                  res + "-" + number + "-" + chain
+                              )
+                            )}
+                            puresnetSites={props.puresnetSites.map((site) =>
+                              site.map(
+                                ([chain, res, number, occ]) =>
+                                  res + "-" + number + "-" + chain
+                              )
+                            )}
+                            gassSites={props.gassSites.map((site) =>
+                              site.map(
+                                ([chain, res, number, occ]) =>
+                                  res + "-" + number + "-" + chain
+                              )
+                            )}
+                            deeppocketSites={props.deeppocketSites.map((site) =>
+                              site.map(
+                                ([chain, res, number, occ]) =>
+                                  res + "-" + number + "-" + chain
+                              )
+                            )}
+                            pointsiteSites={props.pointsiteSites.map((site) =>
+                              site.map(
+                                ([chain, res, number, occ]) =>
+                                  res + "-" + number + "-" + chain
+                              )
+                            )}
+                            p2rankSites={props.p2rankSites.map((site) =>
+                              site.map(
+                                ([chain, res, number, occ]) =>
+                                  res + "-" + number + "-" + chain
+                              )
+                            )}
+                            predsToShow={props.upsetClickName}
+                            upsetClickResidues={props.upsetClickResidues
+                              .slice() // Create a shallow copy to avoid modifying the original array
+                              .sort((a, b) => {
+                                const numA = parseInt(a.split("-")[1], 10);
+                                const numB = parseInt(b.split("-")[1], 10);
+
+                                return numA - numB;
+                              })}
+                          />
+                          {/*}
                           <SummaryIntersectionsPopup
                             pdb={props.pdb}
                             bindSites={props.upsetClickResidues}
@@ -170,6 +228,7 @@ export default function ResultsTabs(props) {
                               })}
                             pdbFolder={props.pdbFolder}
                           />
+                            {*/}
                         </AlertTitle>
                         <div>
                           <h6>

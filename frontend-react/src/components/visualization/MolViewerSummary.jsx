@@ -32,8 +32,6 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import SettingsIcon from "@mui/icons-material/Settings";
-import SettingsApplicationsSharpIcon from "@mui/icons-material/SettingsApplicationsSharp";
-import TesteMolViewer from "./TesteMolViewer";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -58,7 +56,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const MolViewerSummary = (props) => {
   const [stage, setStage] = useState(null);
-  const [protReprButton, setProtReprButton] = useState("cartoon");
+  const [protReprButton, setProtReprButton] = useState("surface");
   const [siteReprButton, setSiteProtReprButton] = useState("licorice");
   const [previousFocusRes, setPreviousFocusRes] = useState("");
   const [bgroundColor, setBGroundColor] = useState("white");
@@ -66,7 +64,7 @@ const MolViewerSummary = (props) => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    setProtReprButton("cartoon");
+    setProtReprButton("surface");
     setSiteProtReprButton("licorice");
     const newStage = new NGL.Stage("viewport");
     newStage.removeAllComponents(); // Remove previous components
@@ -75,7 +73,7 @@ const MolViewerSummary = (props) => {
         "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
       )
       .then((component) => {
-        component.addRepresentation("cartoon", {
+        component.addRepresentation("surface", {
           colorScheme: "bfactor",
           colorScale: "RdYlBu", // Defines a color scale from red to blue
           colorReverse: true, // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
@@ -279,11 +277,12 @@ const MolViewerSummary = (props) => {
     };
   }
 
-  function handleChange(event, newValue) {
+  function handleTabChange(event, newValue) {
     setTabIndex(newValue);
     resetNGLViewer(stage, newValue);
     setProtReprButton("cartoon"); // Reset protReprButton to 'cartoon' or your default value
     setSiteProtReprButton("licorice");
+    setBGroundColor("white");
   }
 
   CustomTabPanel.propTypes = {
@@ -323,15 +322,7 @@ const MolViewerSummary = (props) => {
   }
 
   return (
-    <>
       <div className="row">
-      {/*}
-      <TesteMolViewer pdb={props.pdb}
-            pdbFolder={props.pdbFolder}
-            bindingResidues={props.bindingResidues}
-            numPreds={props.numPreds}
-            consensusData={props.consensusData}/>
-        {*/}
         <div className="col-md-8">
           <Card variant="outlined">
             <Box sx={{ p: 2 }}>
@@ -370,7 +361,7 @@ const MolViewerSummary = (props) => {
             >
               <Tabs
                 value={tabIndex}
-                onChange={handleChange}
+                onChange={handleTabChange}
                 aria-label="basic tabs example"
                 variant="scrollable"
                 scrollButtons="auto"
@@ -421,7 +412,7 @@ const MolViewerSummary = (props) => {
                           >
                             <SettingsIcon
                               htmlColor={
-                                bgroundColor === "white" ? "black" : "white"
+                                bgroundColor === "white" ? "" : "white"
                               }
                             />
                           </IconButton>
@@ -436,8 +427,8 @@ const MolViewerSummary = (props) => {
                                 color="text.secondary"
                                 variant="body2"
                               >
-                                {props.pdb} protein structure along with
-                                highlighted binding site residues
+                                Use select buttons bellow to change background
+                                color, protein and bindig site representations
                               </Typography>
                             </DialogContent>
                             <Divider />
@@ -451,7 +442,7 @@ const MolViewerSummary = (props) => {
                                   size="small"
                                 >
                                   <FormHelperText sx={{ marginLeft: 0 }}>
-                                    Change background color
+                                    Background color
                                   </FormHelperText>
                                   <Select
                                     labelId="bground-select-small-label"
@@ -546,9 +537,7 @@ const MolViewerSummary = (props) => {
                           onClick={() => resetNGLViewer(stage, tabIndex)}
                         >
                           <RestartAltIcon
-                            htmlColor={
-                              bgroundColor === "white" ? "black" : "white"
-                            }
+                            htmlColor={bgroundColor === "white" ? "" : "white"}
                           />
                         </IconButton>
                       </Stack>
@@ -559,7 +548,7 @@ const MolViewerSummary = (props) => {
             </div>
           </Card>
         </div>
-                          
+
         <div className="col-md-4">
           <Card variant="outlined">
             <Box sx={{ p: 2 }}>
@@ -573,15 +562,18 @@ const MolViewerSummary = (props) => {
                 </Typography>
               </Stack>
               <Typography color="text.secondary" variant="body2">
-                Residues displayed below are grouped according to the percentage
-                of predictors that identify them as belonging to binding sites.
+                {tabIndex === 0
+                  ? "Below are shown consensus prediction residues. Shades of blue represent a low probability of belonging to a binding site, while shades of red indicate a high probability."
+                  : `Residues displayed below are presented in ${
+                      ((props.numPreds - tabIndex + 1) / props.numPreds) * 100
+                    }% of predictors`}
               </Typography>
             </Box>
             <Divider />
             <Box sx={{ p: 0 }}>
               <Box sx={{ width: "100%" }}>
                 <CustomTabPanel value={tabIndex} index={0}>
-                  <TableContainer component={Paper} sx={{ height: 775 }}>
+                  <TableContainer component={Paper} sx={{ height: 660 }}>
                     <Table
                       stickyHeader
                       aria-label="customized table"
@@ -698,7 +690,6 @@ const MolViewerSummary = (props) => {
           </Card>
         </div>
       </div>
-    </>
   );
 };
 export default MolViewerSummary;

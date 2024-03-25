@@ -56,7 +56,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const TesteMolViewer = (props) => {
+const MolViewerPopup = (props) => {
   const [stage, setStage] = useState(null);
   const [protReprButton, setProtReprButton] = useState("cartoon");
   const [siteReprButton, setSiteProtReprButton] = useState("licorice");
@@ -68,19 +68,17 @@ const TesteMolViewer = (props) => {
   useEffect(() => {
     setProtReprButton("cartoon");
     setSiteProtReprButton("licorice");
-    const newStage = new NGL.Stage("viewport");
+    const newStage = new NGL.Stage("viewport-pop");
     newStage.removeAllComponents(); // Remove previous components
     newStage
       .loadFile(
         "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
       )
       .then((component) => {
-        component.addRepresentation("cartoon", {
-          colorScheme: "bfactor",
-          colorScale: "RdYlBu", // Defines a color scale from red to blue
-          colorReverse: true, // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
-        });
+        component.addRepresentation("cartoon", { color: "lightgrey" });
         component.autoView();
+        colorAllSites(component);
+        changeColorBindSites(component, props.upsetClickResidues, "cyan");
       });
     newStage.setParameters({ backgroundColor: "white" });
     setStage(newStage);
@@ -88,37 +86,51 @@ const TesteMolViewer = (props) => {
 
   function resetNGLViewer(stage, tabIndex) {
     stage.removeAllComponents();
-    if (tabIndex === 0) {
-      stage
-        .loadFile(
-          "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
-        )
-        .then((component) => {
-          component.addRepresentation("cartoon", {
-            colorScheme: "bfactor",
-            colorScale: "RdYlBu", // Defines a color scale from red to blue
-            colorReverse: true, // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
-          });
-          component.autoView();
-          //changeColorBindSites(component, props.upsetClickResidues)
-        });
-    } else {
-      const filteredData = props.consensusData.filter(
-        (p) => p[3] >= (props.numPreds - tabIndex + 1) / props.numPreds
-      );
-      stage
-        .loadFile(
-          "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
-        )
-        .then((component) => {
-          component.addRepresentation("cartoon", { color: "lightgrey" });
-          component.autoView();
-          changeColorBindSites(component, filteredData, "ball+stick");
-        });
-    }
-
+    stage
+      .loadFile(
+        "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
+      )
+      .then((component) => {
+        component.addRepresentation("cartoon", { color: "grey" });
+        component.autoView();
+        colorAllSites(component);
+        changeColorBindSites(component, props.upsetClickResidues, "cyan");
+      });
     stage.setParameters({ backgroundColor: "white" });
     setStage(stage); // Remove previous components
+  }
+
+  function changeColorBindSites(component, BindSites, color) {
+    // Generate strings for each list inside bindSites
+    const transformedArray = BindSites.map((item) => {
+      const parts = item.split("-");
+      return `${parts[1]}:${parts[2]}`;
+    });
+
+    //const bindSitesToShow = transformedArray.join(' or ');
+    const bindSitesToShow = [transformedArray.join(" or ")];
+    // Log the result strings
+    bindSitesToShow.forEach((site, index) => {
+      component.addRepresentation("ball+stick", {
+        color: color,
+        sele: site,
+      });
+    });
+  }
+
+  function colorAllSites(component) {
+    if (props.predsToShow.includes("GRaSP"))
+      changeColorBindSites(component, props.graspSites[0], "red");
+    if (props.predsToShow.includes("PUResNet"))
+      changeColorBindSites(component, props.puresnetSites[0], "green");
+    if (props.predsToShow.includes("GASS"))
+      changeColorBindSites(component, props.gassSites[0], "yellow");
+    if (props.predsToShow.includes("DeepPocket"))
+      changeColorBindSites(component, props.deeppocketSites[0], "orange");
+    if (props.predsToShow.includes("PointSite"))
+      changeColorBindSites(component, props.pointsiteSites[0], "purple");
+    if (props.predsToShow.includes("P2Rank"))
+      changeColorBindSites(component, props.p2rankSites[0], "pink");
   }
 
   function generateBindSiteString(bindSiteList) {
@@ -361,18 +373,12 @@ const TesteMolViewer = (props) => {
         >
           <Tabs
             value={tabIndex}
-            onChange={handleChange}
+            //onChange={handleTabChange}
             aria-label="basic tabs example"
             variant="scrollable"
             scrollButtons="auto"
           >
-            <Tab label="Consensus" {...a11yProps(0)} />
-            {[...Array(props.numPreds)].map((_, i) => (
-              <Tab
-                label={`${((props.numPreds - i) / props.numPreds) * 100}%`}
-                {...a11yProps(i + 1)}
-              />
-            ))}
+            <Tab label="Intersection" {...a11yProps(0)} />
           </Tabs>
         </Box>
 
@@ -386,7 +392,7 @@ const TesteMolViewer = (props) => {
               }}
             >
               <div
-                id="viewport"
+                id="viewport-pop"
                 style={{ width: "100%", height: "100%" }}
               ></div>
               <div
@@ -411,9 +417,7 @@ const TesteMolViewer = (props) => {
                         onClick={handleClickOpen}
                       >
                         <SettingsIcon
-                          htmlColor={
-                            bgroundColor === "white" ? "black" : "white"
-                          }
+                          htmlColor={bgroundColor === "white" ? "" : "white"}
                         />
                       </IconButton>
                       <Dialog
@@ -424,8 +428,8 @@ const TesteMolViewer = (props) => {
                         <DialogTitle>Visualization settings</DialogTitle>
                         <DialogContent>
                           <Typography color="text.secondary" variant="body2">
-                            {props.pdb} protein structure along with highlighted
-                            binding site residues
+                            Use select buttons bellow to change background
+                            color, protein and bindig site representations
                           </Typography>
                         </DialogContent>
                         <Divider />
@@ -439,7 +443,7 @@ const TesteMolViewer = (props) => {
                               size="small"
                             >
                               <FormHelperText sx={{ marginLeft: 0 }}>
-                                Change background color
+                                Background color
                               </FormHelperText>
                               <Select
                                 labelId="bground-select-small-label"
@@ -480,7 +484,6 @@ const TesteMolViewer = (props) => {
                                 </MenuItem>
                               </Select>
                             </FormControl>
-                            {tabIndex !== 0 ? (
                               <FormControl
                                 sx={{ m: 1, maxWidth: 181 }}
                                 size="small"
@@ -506,7 +509,6 @@ const TesteMolViewer = (props) => {
                                   <MenuItem value="surface">Surface</MenuItem>
                                 </Select>
                               </FormControl>
-                            ) : null}
                           </Box>
                         </DialogContent>
                         <DialogActions>
@@ -521,7 +523,7 @@ const TesteMolViewer = (props) => {
                       onClick={() => resetNGLViewer(stage, tabIndex)}
                     >
                       <RestartAltIcon
-                        htmlColor={bgroundColor === "white" ? "black" : "white"}
+                        htmlColor={bgroundColor === "white" ? "" : "white"}
                       />
                     </IconButton>
                   </Stack>
@@ -534,4 +536,4 @@ const TesteMolViewer = (props) => {
     </div>
   );
 };
-export default TesteMolViewer;
+export default MolViewerPopup;
