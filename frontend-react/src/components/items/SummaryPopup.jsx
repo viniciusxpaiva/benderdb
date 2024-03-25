@@ -11,7 +11,7 @@ import Select from "@mui/material/Select";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import Button from "@mui/material/Button";
 import DownloadingIcon from "@mui/icons-material/Downloading";
-import MouseHelpPopup from "../items/MouseHelpPopup";
+import MouseHelpPopup from "./MouseHelpPopup";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -33,7 +33,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import SettingsIcon from "@mui/icons-material/Settings";
-import MolViewerPopup from "./MolViewerPopup";
+import MolViewerPopup from "../visualization/MolViewerPopup";
 
 const SummaryPopup = (props) => {
   const [openInters, setOpenInters] = useState(false);
@@ -63,7 +63,16 @@ const SummaryPopup = (props) => {
           disableEscapeKeyDown
           open={openInters}
           onClose={handleCloseInters}
+          maxWidth="lg"
+          fullWidth
         >
+          <DialogTitle>Mouse controls</DialogTitle>
+          <DialogContent>
+            <Typography color="text.secondary" variant="body2">
+              Following mouse commands can be used at molecular visualization
+            </Typography>
+          </DialogContent>
+          <Divider />
           <DialogContent>
             <MolViewerPopup
               pdb={props.pdb}
@@ -71,7 +80,7 @@ const SummaryPopup = (props) => {
               bindingResidues={props.bindingResidues}
               numPreds={props.numPreds}
               consensusData={props.consensusData}
-              bindSites={props.bSites}
+              bindSites={props.bindSites}
               graspSites={props.graspSites}
               puresnetSites={props.puresnetSites}
               gassSites={props.gassSites}

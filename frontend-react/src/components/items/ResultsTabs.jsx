@@ -12,11 +12,9 @@ import Stack from "@mui/material/Stack";
 import { MDBDataTable } from "mdbreact";
 import UpsetPlot from "../visualization/UpsetPlot";
 import "reactjs-popup/dist/index.css";
-import SummaryIntersectionsPopup from "./SummaryIntersectionsPopup";
 import Card from "@mui/material/Card";
 import Divider from "@mui/material/Divider";
-import MolViewerPopup from "../visualization/SummaryPopup";
-import SummaryPopup from "../visualization/SummaryPopup";
+import SummaryPopup from "./SummaryPopup";
 
 
 function CustomTabPanel(props) {
@@ -177,58 +175,6 @@ export default function ResultsTabs(props) {
                                 return numA - numB;
                               })}
                           />
-                          {/*}
-                          <SummaryIntersectionsPopup
-                            pdb={props.pdb}
-                            bindSites={props.upsetClickResidues}
-                            graspSites={props.graspSites.map((site) =>
-                              site.map(
-                                ([chain, res, number, occ]) =>
-                                  res + "-" + number + "-" + chain
-                              )
-                            )}
-                            puresnetSites={props.puresnetSites.map((site) =>
-                              site.map(
-                                ([chain, res, number, occ]) =>
-                                  res + "-" + number + "-" + chain
-                              )
-                            )}
-                            gassSites={props.gassSites.map((site) =>
-                              site.map(
-                                ([chain, res, number, occ]) =>
-                                  res + "-" + number + "-" + chain
-                              )
-                            )}
-                            deeppocketSites={props.deeppocketSites.map((site) =>
-                              site.map(
-                                ([chain, res, number, occ]) =>
-                                  res + "-" + number + "-" + chain
-                              )
-                            )}
-                            pointsiteSites={props.pointsiteSites.map((site) =>
-                              site.map(
-                                ([chain, res, number, occ]) =>
-                                  res + "-" + number + "-" + chain
-                              )
-                            )}
-                            p2rankSites={props.p2rankSites.map((site) =>
-                              site.map(
-                                ([chain, res, number, occ]) =>
-                                  res + "-" + number + "-" + chain
-                              )
-                            )}
-                            predsToShow={props.upsetClickName}
-                            upsetClickResidues={props.upsetClickResidues
-                              .slice() // Create a shallow copy to avoid modifying the original array
-                              .sort((a, b) => {
-                                const numA = parseInt(a.split("-")[1], 10);
-                                const numB = parseInt(b.split("-")[1], 10);
-
-                                return numA - numB;
-                              })}
-                            pdbFolder={props.pdbFolder}
-                          />
-                            {*/}
                         </AlertTitle>
                         <div>
                           <h6>

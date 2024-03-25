@@ -566,7 +566,7 @@ const MolViewerSummary = (props) => {
                   ? "Below are shown consensus prediction residues. Shades of blue represent a low probability of belonging to a binding site, while shades of red indicate a high probability."
                   : `Residues displayed below are presented in ${
                       ((props.numPreds - tabIndex + 1) / props.numPreds) * 100
-                    }% of predictors`}
+                    }% of predictors results.`}
               </Typography>
             </Box>
             <Divider />

@@ -4,9 +4,7 @@ import * as NGL from "ngl/dist/ngl";
 import "../../styles/SummaryPopup.css";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
-import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -34,6 +32,7 @@ import Card from "@mui/material/Card";
 import Divider from "@mui/material/Divider";
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
+import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -131,27 +130,6 @@ const MolViewerPopup = (props) => {
       changeColorBindSites(component, props.pointsiteSites[0], "purple");
     if (props.predsToShow.includes("P2Rank"))
       changeColorBindSites(component, props.p2rankSites[0], "pink");
-  }
-
-  function generateBindSiteString(bindSiteList) {
-    const stringArray = bindSiteList
-      .map((item) => `${item[2]}:${item[0]}`)
-      .join(" or ");
-    return stringArray;
-  }
-
-  function changeColorBindSites(component, BindSites, repr) {
-    // Generate strings for each list inside bindSites
-    if (BindSites === null) {
-      return;
-    }
-    console.log(BindSites);
-    const bindSitesToShow = generateBindSiteString(BindSites);
-    console.log(bindSitesToShow);
-    component.addRepresentation(repr, {
-      color: "#b45248",
-      sele: bindSitesToShow,
-    });
   }
 
   function handleBackgroundColor(stage, color) {
@@ -291,13 +269,6 @@ const MolViewerPopup = (props) => {
     };
   }
 
-  function handleChange(event, newValue) {
-    setTabIndex(newValue);
-    resetNGLViewer(stage, newValue);
-    setProtReprButton("cartoon"); // Reset protReprButton to 'cartoon' or your default value
-    setSiteProtReprButton("licorice");
-  }
-
   CustomTabPanel.propTypes = {
     children: PropTypes.node,
     index: PropTypes.number.isRequired,
@@ -335,155 +306,156 @@ const MolViewerPopup = (props) => {
   }
 
   return (
-    <div className="col-md-8">
-      <Card variant="outlined">
-        <Box sx={{ p: 2 }}>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography gutterBottom variant="h5" component="div">
-              Molecular visualization
+    <div className="row">
+      <div className="col-md-8">
+        <Card variant="outlined">
+          <Box sx={{ p: 2 }}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Typography gutterBottom variant="h5" component="div">
+                Molecular visualization
+              </Typography>
+              <Button
+                size="small"
+                aria-label="download"
+                title="Download PyMol session"
+                onClick={() => handleDownloadPymol(props.pdb)}
+                variant="outlined"
+                startIcon={<DownloadingIcon />}
+              >
+                PyMol
+              </Button>
+            </Stack>
+            <Typography color="text.secondary" variant="body2">
+              {props.pdb} protein structure along with highlighted binding site
+              residues
             </Typography>
-            <Button
-              size="small"
-              aria-label="download"
-              title="Download PyMol session"
-              onClick={() => handleDownloadPymol(props.pdb)}
-              variant="outlined"
-              startIcon={<DownloadingIcon />}
-            >
-              PyMol
-            </Button>
-          </Stack>
-          <Typography color="text.secondary" variant="body2">
-            {props.pdb} protein structure along with highlighted binding site
-            residues
-          </Typography>
-        </Box>
+          </Box>
 
-        <Box
-          sx={{
-            borderBottom: 1,
-            borderColor: "divider",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <Tabs
-            value={tabIndex}
-            //onChange={handleTabChange}
-            aria-label="basic tabs example"
-            variant="scrollable"
-            scrollButtons="auto"
+          <Box
+            sx={{
+              borderBottom: 1,
+              borderColor: "divider",
+              display: "flex",
+              justifyContent: "center",
+            }}
           >
-            <Tab label="Intersection" {...a11yProps(0)} />
-          </Tabs>
-        </Box>
-
-        <div className="row">
-          <div className="col-md-12">
-            <div
-              style={{
-                position: "relative",
-                width: "100%",
-                height: "673px",
-              }}
+            <Tabs
+              value={tabIndex}
+              //onChange={handleTabChange}
+              aria-label="basic tabs example"
+              variant="scrollable"
+              scrollButtons="auto"
             >
-              <div
-                id="viewport-pop"
-                style={{ width: "100%", height: "100%" }}
-              ></div>
+              <Tab label="Intersection" {...a11yProps(0)} />
+            </Tabs>
+          </Box>
+
+          <div className="row">
+            <div className="col-md-12">
               <div
                 style={{
-                  position: "absolute",
-                  top: 0,
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  zIndex: 1,
+                  position: "relative",
+                  width: "100%",
+                  height: "673px",
                 }}
               >
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
+                <div
+                  id="viewport-pop"
+                  style={{ width: "100%", height: "100%" }}
+                ></div>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    zIndex: 1,
                   }}
                 >
-                  <Stack direction="row" spacing={2}>
-                    <div>
-                      <IconButton
-                        title="Visualization settings"
-                        onClick={handleClickOpen}
-                      >
-                        <SettingsIcon
-                          htmlColor={bgroundColor === "white" ? "" : "white"}
-                        />
-                      </IconButton>
-                      <Dialog
-                        disableEscapeKeyDown
-                        open={open}
-                        onClose={handleClose}
-                      >
-                        <DialogTitle>Visualization settings</DialogTitle>
-                        <DialogContent>
-                          <Typography color="text.secondary" variant="body2">
-                            Use select buttons bellow to change background
-                            color, protein and bindig site representations
-                          </Typography>
-                        </DialogContent>
-                        <Divider />
-                        <DialogContent>
-                          <Box
-                            component="form"
-                            sx={{ display: "flex", flexWrap: "wrap" }}
-                          >
-                            <FormControl
-                              sx={{ m: 1, maxWidth: 181 }}
-                              size="small"
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Stack direction="row" spacing={2}>
+                      <div>
+                        <IconButton
+                          title="Visualization settings"
+                          onClick={handleClickOpen}
+                        >
+                          <SettingsIcon
+                            htmlColor={bgroundColor === "white" ? "" : "white"}
+                          />
+                        </IconButton>
+                        <Dialog
+                          disableEscapeKeyDown
+                          open={open}
+                          onClose={handleClose}
+                        >
+                          <DialogTitle>Visualization settings</DialogTitle>
+                          <DialogContent>
+                            <Typography color="text.secondary" variant="body2">
+                              Use select buttons bellow to change background
+                              color, protein and bindig site representations
+                            </Typography>
+                          </DialogContent>
+                          <Divider />
+                          <DialogContent>
+                            <Box
+                              component="form"
+                              sx={{ display: "flex", flexWrap: "wrap" }}
                             >
-                              <FormHelperText sx={{ marginLeft: 0 }}>
-                                Background color
-                              </FormHelperText>
-                              <Select
-                                labelId="bground-select-small-label"
-                                id="bground-select-small"
-                                value={bgroundColor}
-                                onChange={(e) =>
-                                  handleBackgroundColor(stage, e.target.value)
-                                }
+                              <FormControl
+                                sx={{ m: 1, maxWidth: 181 }}
+                                size="small"
                               >
-                                <MenuItem value="black">Black</MenuItem>
-                                <MenuItem value="white">White</MenuItem>
-                              </Select>
-                            </FormControl>
-                            <FormControl
-                              sx={{ m: 1, maxWidth: 181 }}
-                              size="small"
-                            >
-                              <FormHelperText sx={{ marginLeft: 0 }}>
-                                Protein representation
-                              </FormHelperText>
-                              <Select
-                                labelId="prot-select-small-label"
-                                id="prot-select-small"
-                                value={protReprButton}
-                                onChange={(e) =>
-                                  handleRepresentation(
-                                    stage,
-                                    e.target.value,
-                                    tabIndex
-                                  )
-                                }
+                                <FormHelperText sx={{ marginLeft: 0 }}>
+                                  Background color
+                                </FormHelperText>
+                                <Select
+                                  labelId="bground-select-small-label"
+                                  id="bground-select-small"
+                                  value={bgroundColor}
+                                  onChange={(e) =>
+                                    handleBackgroundColor(stage, e.target.value)
+                                  }
+                                >
+                                  <MenuItem value="black">Black</MenuItem>
+                                  <MenuItem value="white">White</MenuItem>
+                                </Select>
+                              </FormControl>
+                              <FormControl
+                                sx={{ m: 1, maxWidth: 181 }}
+                                size="small"
                               >
-                                <MenuItem value="cartoon">Cartoon</MenuItem>
-                                <MenuItem value="licorice">Licorice</MenuItem>
-                                <MenuItem value="surface">Surface 1</MenuItem>
-                                <MenuItem value="surface+cartoon">
-                                  Surface 2
-                                </MenuItem>
-                              </Select>
-                            </FormControl>
+                                <FormHelperText sx={{ marginLeft: 0 }}>
+                                  Protein representation
+                                </FormHelperText>
+                                <Select
+                                  labelId="prot-select-small-label"
+                                  id="prot-select-small"
+                                  value={protReprButton}
+                                  onChange={(e) =>
+                                    handleRepresentation(
+                                      stage,
+                                      e.target.value,
+                                      tabIndex
+                                    )
+                                  }
+                                >
+                                  <MenuItem value="cartoon">Cartoon</MenuItem>
+                                  <MenuItem value="licorice">Licorice</MenuItem>
+                                  <MenuItem value="surface">Surface 1</MenuItem>
+                                  <MenuItem value="surface+cartoon">
+                                    Surface 2
+                                  </MenuItem>
+                                </Select>
+                              </FormControl>
                               <FormControl
                                 sx={{ m: 1, maxWidth: 181 }}
                                 size="small"
@@ -509,30 +481,167 @@ const MolViewerPopup = (props) => {
                                   <MenuItem value="surface">Surface</MenuItem>
                                 </Select>
                               </FormControl>
-                          </Box>
-                        </DialogContent>
-                        <DialogActions>
-                          <Button onClick={handleClose}>Close</Button>
-                        </DialogActions>
-                      </Dialog>
-                    </div>
-                    <MouseHelpPopup bgroundColor={bgroundColor} />
-                    <IconButton
-                      aria-label="restart"
-                      title="Reset visualization"
-                      onClick={() => resetNGLViewer(stage, tabIndex)}
-                    >
-                      <RestartAltIcon
-                        htmlColor={bgroundColor === "white" ? "" : "white"}
-                      />
-                    </IconButton>
-                  </Stack>
-                </Box>
+                            </Box>
+                          </DialogContent>
+                          <DialogActions>
+                            <Button onClick={handleClose}>Close</Button>
+                          </DialogActions>
+                        </Dialog>
+                      </div>
+                      <MouseHelpPopup bgroundColor={bgroundColor} />
+                      <IconButton
+                        aria-label="restart"
+                        title="Reset visualization"
+                        onClick={() => resetNGLViewer(stage, tabIndex)}
+                      >
+                        <RestartAltIcon
+                          htmlColor={bgroundColor === "white" ? "" : "white"}
+                        />
+                      </IconButton>
+                    </Stack>
+                  </Box>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </Card>
+        </Card>
+      </div>
+      <div className="col-md-4">
+        <Card variant="outlined">
+          <Box sx={{ p: 2 }}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Typography gutterBottom variant="h5" component="div">
+                Binding sites residues
+              </Typography>
+            </Stack>
+            <Typography color="text.secondary" variant="body2">
+              Residues listed bellow are intersections
+            </Typography>
+          </Box>
+          <Divider />
+          <Box sx={{ p: 0 }}>
+            <Box sx={{ width: "100%" }}>
+              <CustomTabPanel value={tabIndex} index={0}>
+                <TableContainer component={Paper} sx={{ height: 720 }}>
+                  <Table
+                    stickyHeader
+                    aria-label="customized table"
+                    size="small"
+                  >
+                    <TableHead>
+                      <TableRow>
+                        <StyledTableCell align="center">
+                          Residue
+                        </StyledTableCell>
+                        <StyledTableCell align="center">Number</StyledTableCell>
+                        <StyledTableCell align="center">Chain</StyledTableCell>
+                        <StyledTableCell align="center">
+                          Look at
+                        </StyledTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {props.upsetClickResidues.map((res, i) => (
+                        <StyledTableRow key={i}>
+                          <StyledTableCell align="center">
+                            {res.split("-")[0]}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {res.split("-")[1]}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {res.split("-")[2]}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            <IconButton
+                              className="p-1"
+                              aria-label="focus-res"
+                              title="Focus on this residue"
+                              onClick={() =>
+                                focusResidue(
+                                  stage,
+                                  res.split("-")[1],
+                                  res.split("-")[2]
+                                )
+                              }
+                            >
+                              <RemoveRedEyeOutlinedIcon />
+                            </IconButton>
+                          </StyledTableCell>
+                        </StyledTableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </CustomTabPanel>
+              {[...Array(props.numPreds)].map((_, i) => (
+                <CustomTabPanel value={tabIndex} index={i + 1}>
+                  <TableContainer component={Paper} sx={{ maxHeight: 700 }}>
+                    <Table
+                      stickyHeader
+                      aria-label="customized table"
+                      size="small"
+                    >
+                      <TableHead>
+                        <TableRow>
+                          <StyledTableCell align="center">
+                            Residue
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            Number
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            Chain
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            Look at
+                          </StyledTableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {props.consensusData.map((p, j) => {
+                          if (p[3] >= (props.numPreds - i) / props.numPreds) {
+                            return (
+                              <StyledTableRow key={i}>
+                                <StyledTableCell align="center">
+                                  {p[1]}
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                  {p[0]}
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                  {p[2]}
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                  <IconButton
+                                    className="p-1"
+                                    aria-label="focus-res"
+                                    title="Focus on this residue"
+                                    onClick={() =>
+                                      focusResidue(stage, p[2], p[0])
+                                    }
+                                  >
+                                    <RemoveRedEyeOutlinedIcon />
+                                  </IconButton>
+                                </StyledTableCell>
+                              </StyledTableRow>
+                            );
+                          }
+                          return null;
+                        })}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </CustomTabPanel>
+              ))}
+            </Box>
+          </Box>
+        </Card>
+      </div>
     </div>
   );
 };
