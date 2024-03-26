@@ -16,7 +16,6 @@ import Card from "@mui/material/Card";
 import Divider from "@mui/material/Divider";
 import SummaryPopup from "./SummaryPopup";
 
-
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -51,7 +50,7 @@ function a11yProps(index) {
 }
 
 export default function ResultsTabs(props) {
-  console.log(props.summaryTableData)
+  console.log(props.summaryTableData);
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -67,13 +66,41 @@ export default function ResultsTabs(props) {
             aria-label="basic tabs example"
             centered
           >
-            <Tab label="Summary" {...a11yProps(0)} />
-            <Tab label="GRaSP" {...a11yProps(1)} />
-            <Tab label="PUResNet" {...a11yProps(2)} />
-            <Tab label="GASS" {...a11yProps(3)} />
-            <Tab label="DeepPocket" {...a11yProps(4)} />
-            <Tab label="PointSite" {...a11yProps(5)} />
-            <Tab label="P2Rank" {...a11yProps(6)} />
+            <Tab
+              label="Summary"
+              sx={{ "&:hover": { color: "#1976d2" }}}
+              {...a11yProps(0)}
+            />
+            <Tab
+              label="GRaSP"
+              sx={{ "&:hover": { color: "#1976d2" } }}
+              {...a11yProps(1)}
+            />
+            <Tab
+              label="PUResNet"
+              sx={{ "&:hover": { color: "#1976d2" } }}
+              {...a11yProps(2)}
+            />
+            <Tab
+              label="GASS"
+              sx={{ "&:hover": { color: "#1976d2" } }}
+              {...a11yProps(3)}
+            />
+            <Tab
+              label="DeepPocket"
+              sx={{ "&:hover": { color: "#1976d2" } }}
+              {...a11yProps(4)}
+            />
+            <Tab
+              label="PointSite"
+              sx={{ "&:hover": { color: "#1976d2" } }}
+              {...a11yProps(5)}
+            />
+            <Tab
+              label="P2Rank"
+              sx={{ "&:hover": { color: "#1976d2" } }}
+              {...a11yProps(6)}
+            />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>

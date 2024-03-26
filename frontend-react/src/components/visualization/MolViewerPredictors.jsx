@@ -71,8 +71,18 @@ const bSiteColors = [
   "#836394",
 ];
 
-function ColorfulText({ color, children }) {
-  return <span style={{ color: color }}>{children}</span>;
+function ColorfulText({ color, hoverColor, children }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <span
+      style={{ color: isHovered ? hoverColor : color }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {children}
+    </span>
+  );
 }
 
 const MolViewerPredictors = (props) => {
@@ -357,13 +367,14 @@ const MolViewerPredictors = (props) => {
                 >
                   {props.bindSites.map((site, i) => (
                     <Tab
-                      label={
-                        <ColorfulText
-                          color={bSiteColors[i % bSiteColors.length]}
-                        >
-                          Site {i}
-                        </ColorfulText>
-                      }
+                    label={
+                      <ColorfulText
+                        color={bSiteColors[i % bSiteColors.length]}
+                        hoverColor="grey"
+                      >
+                        Site {i}
+                      </ColorfulText>
+                    }
                       {...a11yProps(i)}
                     />
                   ))}

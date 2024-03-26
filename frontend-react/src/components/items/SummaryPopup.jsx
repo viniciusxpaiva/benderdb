@@ -48,7 +48,6 @@ const SummaryPopup = (props) => {
     }
   }
 
-
   return (
     <>
       <div>
@@ -66,12 +65,46 @@ const SummaryPopup = (props) => {
           maxWidth="lg"
           fullWidth
         >
-          <DialogTitle>Mouse controls</DialogTitle>
-          <DialogContent>
-            <Typography color="text.secondary" variant="body2">
-              Following mouse commands can be used at molecular visualization
+          <DialogTitle>
+            <Typography gutterBottom variant="h5" component="div">
+              Binding site intersection
             </Typography>
-          </DialogContent>
+            <Typography color="text.secondary" variant="body2">
+              Residues colors are displayed according to each predictor. Intersection residues are shown in cyan
+            </Typography>
+
+            <Box>
+              <Stack
+                direction="row"
+                justifyContent="flex-start" // Align buttons to the left
+                spacing={2} // Add space between the buttons
+                alignItems="center"
+                marginTop={2}
+              >
+                <Button variant="contained" sx={{ backgroundColor: "cyan", color: "grey" }}>
+                  Intersection
+                </Button>
+                <Button variant="contained" sx={{ backgroundColor: "red", }}>
+                  GRaSP
+                </Button>
+                <Button variant="contained" sx={{ backgroundColor: "green" }}>
+                  PUResNet
+                </Button>
+                <Button variant="contained" sx={{ backgroundColor: "yellow", color: "grey"  }}>
+                  GASS
+                </Button>
+                <Button variant="contained" sx={{ backgroundColor: "orange" }}>
+                  DeepPocket
+                </Button>
+                <Button variant="contained" sx={{ backgroundColor: "purple" }}>
+                  PointSite
+                </Button>
+                <Button variant="contained" sx={{ backgroundColor: "pink", color: "grey"  }}>
+                  P2Rank
+                </Button>
+              </Stack>
+            </Box>
+          </DialogTitle>
           <Divider />
           <DialogContent>
             <MolViewerPopup

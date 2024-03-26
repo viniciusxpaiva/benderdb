@@ -63,6 +63,7 @@ const MolViewerSummary = (props) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [open, setOpen] = useState(false);
 
+
   useEffect(() => {
     setProtReprButton("surface");
     setSiteProtReprButton("licorice");
@@ -321,6 +322,9 @@ const MolViewerSummary = (props) => {
     }
   }
 
+
+
+
   return (
       <div className="row">
         <div className="col-md-8">
@@ -369,6 +373,7 @@ const MolViewerSummary = (props) => {
                 <Tab label="Consensus" {...a11yProps(0)} />
                 {[...Array(props.numPreds)].map((_, i) => (
                   <Tab
+                    sx={{ "&:hover": { color: "#1976d2" } }}
                     label={`${((props.numPreds - i) / props.numPreds) * 100}%`}
                     {...a11yProps(i + 1)}
                   />
