@@ -49,7 +49,7 @@ function a11yProps(index) {
   };
 }
 
-export default function ResultsTabs(props) {
+export default function ResultsPageTabs(props) {
   console.log(props.summaryTableData);
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
@@ -68,7 +68,7 @@ export default function ResultsTabs(props) {
           >
             <Tab
               label="Summary"
-              sx={{ "&:hover": { color: "#1976d2" }}}
+              sx={{ "&:hover": { color: "#1976d2" } }}
               {...a11yProps(0)}
             />
             <Tab
@@ -300,7 +300,7 @@ export default function ResultsTabs(props) {
             predictors={props.predictors}
             activeTab={props.predictorTab}
             pdb={props.pdb}
-            bindSites={props.graspSites}
+            predSites={props.graspSites}
             pdbFolder={props.pdbFolder}
           />
         </CustomTabPanel>
@@ -310,7 +310,7 @@ export default function ResultsTabs(props) {
             predictors={props.predictors}
             activeTab={props.predictorTab}
             pdb={props.pdb}
-            bindSites={props.puresnetSites}
+            predSites={props.puresnetSites}
             pdbFolder={props.pdbFolder}
           />
         </CustomTabPanel>
@@ -320,7 +320,7 @@ export default function ResultsTabs(props) {
             predictors={props.predictors}
             activeTab={props.predictorTab}
             pdb={props.pdb}
-            bindSites={props.gassSites}
+            predSites={props.gassSites}
             pdbFolder={props.pdbFolder}
           />
         </CustomTabPanel>
@@ -330,7 +330,7 @@ export default function ResultsTabs(props) {
             predictors={props.predictors}
             activeTab={props.predictorTab}
             pdb={props.pdb}
-            bindSites={props.deeppocketSites}
+            predSites={props.deeppocketSites}
             pdbFolder={props.pdbFolder}
           />
         </CustomTabPanel>
@@ -340,7 +340,7 @@ export default function ResultsTabs(props) {
             predictors={props.predictors}
             activeTab={props.predictorTab}
             pdb={props.pdb}
-            bindSites={props.pointsiteSites}
+            predSites={props.pointsiteSites}
             pdbFolder={props.pdbFolder}
           />
         </CustomTabPanel>
@@ -350,7 +350,7 @@ export default function ResultsTabs(props) {
             predictors={props.predictors}
             activeTab={props.predictorTab}
             pdb={props.pdb}
-            bindSites={props.p2rankSites}
+            predSites={props.p2rankSites}
             pdbFolder={props.pdbFolder}
           />
         </CustomTabPanel>

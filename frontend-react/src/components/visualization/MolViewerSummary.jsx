@@ -1,38 +1,9 @@
 import React, { useEffect, useState } from "react";
 import * as NGL from "ngl/dist/ngl";
-import "../../styles/SummaryPopup.css";
-import Stack from "@mui/material/Stack";
-import IconButton from "@mui/material/IconButton";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import Button from "@mui/material/Button";
-import DownloadingIcon from "@mui/icons-material/Downloading";
-import MouseHelpPopup from "../items/MouseHelpPopup";
-import PropTypes from "prop-types";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import FormHelperText from "@mui/material/FormHelperText";
-import Card from "@mui/material/Card";
-import Divider from "@mui/material/Divider";
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import SettingsIcon from "@mui/icons-material/Settings";
+import MolViewer from "./MolViewer";
+import ResiduesTabs from "../items/ResiduesTabs";
 
+{/*}
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "grey",
@@ -54,17 +25,25 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+{*/}
+
 const MolViewerSummary = (props) => {
+  
+  // eslint-disable-next-line no-lone-blocks
+  {/*}
   const [stage, setStage] = useState(null);
   const [protReprButton, setProtReprButton] = useState("surface");
   const [siteReprButton, setSiteProtReprButton] = useState("licorice");
   const [previousFocusRes, setPreviousFocusRes] = useState("");
   const [bgroundColor, setBGroundColor] = useState("white");
-  const [tabIndex, setTabIndex] = useState(0);
   const [open, setOpen] = useState(false);
-
+{*/}
+  const [tabIndex, setTabIndex] = useState(0);
+  const [stageSummary, setStageSummary] = useState("");
 
   useEffect(() => {
+    // eslint-disable-next-line no-lone-blocks
+  {/*}
     setProtReprButton("surface");
     setSiteProtReprButton("licorice");
     const newStage = new NGL.Stage("viewport");
@@ -83,8 +62,27 @@ const MolViewerSummary = (props) => {
       });
     newStage.setParameters({ backgroundColor: "white" });
     setStage(newStage);
+      {*/}
+    const newStage = new NGL.Stage("viewport");
+    newStage.removeAllComponents(); // Remove previous components
+    newStage
+      .loadFile(
+        "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
+      )
+      .then((component) => {
+        component.addRepresentation("cartoon", {
+          colorScheme: "bfactor",
+          colorScale: "RdYlBu", // Defines a color scale from red to blue
+          colorReverse: true, // Reverses the color scale to use blue for low bfactor values and red for high bfactor values
+        });
+        component.autoView();
+      });
+    newStage.setParameters({ backgroundColor: "white" });
+    setStageSummary(newStage);
   }, []);
-
+  // eslint-disable-next-line no-lone-blocks
+  {
+    /*}
   function resetNGLViewer(stage, tabIndex) {
     stage.removeAllComponents();
     if (tabIndex === 0) {
@@ -321,12 +319,37 @@ const MolViewerSummary = (props) => {
       setOpen(false);
     }
   }
-
-
-
+{*/
+  }
 
   return (
-      <div className="row">
+    <div className="row">
+      <MolViewer
+        type={"summary"}
+        pdb={props.pdb}
+        pdbFolder={props.pdbFolder}
+        bindingResidues={props.bindingResidues}
+        numPreds={props.numPreds}
+        consensusData={props.consensusData}
+        stage={stageSummary}
+        setStage={setStageSummary}
+        tabIndex={tabIndex}
+        setTabIndex={setTabIndex}
+      />
+
+      <ResiduesTabs
+        type={"summary"}
+        pdb={props.pdb}
+        pdbFolder={props.pdbFolder}
+        tabIndex={tabIndex}
+        setTabIndex={setTabIndex}
+        bindingResidues={props.bindingResidues}
+        numPreds={props.numPreds}
+        consensusData={props.consensusData}
+        stage={stageSummary}
+      />
+
+      {/*}
         <div className="col-md-8">
           <Card variant="outlined">
             <Box sx={{ p: 2 }}>
@@ -554,6 +577,8 @@ const MolViewerSummary = (props) => {
           </Card>
         </div>
 
+        
+
         <div className="col-md-4">
           <Card variant="outlined">
             <Box sx={{ p: 2 }}>
@@ -694,7 +719,8 @@ const MolViewerSummary = (props) => {
             </Box>
           </Card>
         </div>
-      </div>
+        {*/}
+    </div>
   );
 };
 export default MolViewerSummary;

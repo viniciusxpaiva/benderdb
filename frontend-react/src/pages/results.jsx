@@ -5,7 +5,7 @@ import "reactjs-popup/dist/index.css";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
-import ResultsTabs from "../components/items/ResultsTabs";
+import ResultsPageTabs from "../components/items/ResultsPageTabs";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 const predictors = [
@@ -146,7 +146,7 @@ const Results = () => {
 
         <div class="container-lg">
           {upsetPlotData && pdbFolder && summaryTableData ? (
-            <ResultsTabs
+            <ResultsPageTabs
               predictors={predictors}
               pdb={inputString}
               pdbFolder={pdbFolder}
