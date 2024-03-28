@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
@@ -36,29 +36,27 @@ function ColorfulText({ color, hoverColor, children }) {
   );
 }
 
-export default function MolViewer(props) {
+export default function NGLViewer(props) {
   const [protReprButton, setProtReprButton] = useState("surface");
   const [siteReprButton, setSiteProtReprButton] = useState("licorice");
   const [bgroundColor, setBGroundColor] = useState("white");
   const [open, setOpen] = useState(false);
- 
-  
+
   function setViewerTabs() {
     if (props.type === "summary") {
-        return <ViewerTabsSummary />;
+      return <ViewerTabsSummary />;
     } else if (props.type === "predictors") {
-        return <ViewerTabsPredictors />;
+      return <ViewerTabsPredictors />;
     } else {
-        return null; // Or handle other cases
+      return null; // Or handle other cases
     }
-}
-  
+  }
+
   function changeColorBindSites(component, BindSites, repr) {
     if (props.type === "summary") {
       changeColorBindSitesSummary(component, BindSites, repr);
     } else if (props.type === "predictors") {
       changeColorBindSitesPredictors(component, BindSites);
-    } else if (props.type === "popup") {
     }
   }
 
@@ -68,6 +66,7 @@ export default function MolViewer(props) {
     } else if (props.type === "predictors") {
       resetNGLViewerPredictors(stage, tabIndex);
     } else if (props.type === "popup") {
+      resetNGLViewerPopup(stage);
     }
   }
 
@@ -117,6 +116,39 @@ export default function MolViewer(props) {
         sele: site,
       });
     });
+  }
+
+  function changeColorBindSitesPopup(component, BindSites, color) {
+    // Generate strings for each list inside bindSites
+    const transformedArray = BindSites.map((item) => {
+      const parts = item.split("-");
+      return `${parts[1]}:${parts[2]}`;
+    });
+
+    //const bindSitesToShow = transformedArray.join(' or ');
+    const bindSitesToShow = [transformedArray.join(" or ")];
+    // Log the result strings
+    bindSitesToShow.forEach((site, index) => {
+      component.addRepresentation("ball+stick", {
+        color: color,
+        sele: site,
+      });
+    });
+  }
+
+  function colorAllSitesPopup(component) {
+    if (props.predsToShow.includes("GRaSP"))
+      changeColorBindSitesPopup(component, props.graspSites[0], "red");
+    if (props.predsToShow.includes("PUResNet"))
+      changeColorBindSitesPopup(component, props.puresnetSites[0], "green");
+    if (props.predsToShow.includes("GASS"))
+      changeColorBindSitesPopup(component, props.gassSites[0], "yellow");
+    if (props.predsToShow.includes("DeepPocket"))
+      changeColorBindSitesPopup(component, props.deeppocketSites[0], "orange");
+    if (props.predsToShow.includes("PointSite"))
+      changeColorBindSitesPopup(component, props.pointsiteSites[0], "purple");
+    if (props.predsToShow.includes("P2Rank"))
+      changeColorBindSitesPopup(component, props.p2rankSites[0], "pink");
   }
 
   function handleDownloadPymolSummary(protName) {
@@ -212,7 +244,24 @@ export default function MolViewer(props) {
       .then((component) => {
         component.addRepresentation("cartoon", { color: "lightgrey" });
         component.autoView();
-        changeColorBindSites(component, props.predSites);
+        changeColorBindSites(component, props.bindSites);
+      });
+    stage.setParameters({ backgroundColor: "white" });
+    props.setStage(stage); // Remove previous components
+  }
+
+  function resetNGLViewerPopup(stage) {
+    resetParameters();
+    stage.removeAllComponents();
+    stage
+      .loadFile(
+        "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
+      )
+      .then((component) => {
+        component.addRepresentation("cartoon", { color: "grey" });
+        component.autoView();
+        colorAllSitesPopup(component);
+        changeColorBindSitesPopup(component, props.upsetClickResidues, "cyan");
       });
     stage.setParameters({ backgroundColor: "white" });
     props.setStage(stage); // Remove previous components
@@ -248,42 +297,44 @@ export default function MolViewer(props) {
     );
   }
 
-  function ViewerTabsPredictors(){
-    return(<Box
-      sx={{
-        borderBottom: 1,
-        borderColor: "divider",
-        display: "flex",
-        justifyContent: "center",
-      }}
-    >
-      <Tabs
-        value={props.tabIndex}
-        onChange={handleTabChange}
-        aria-label="basic tabs example"
-        variant="scrollable"
-        scrollButtons="auto"
+  function ViewerTabsPredictors() {
+    return (
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: "divider",
+          display: "flex",
+          justifyContent: "center",
+        }}
       >
-        {props.predSites.map((site, i) => (
-          <Tab
-          label={
-            <ColorfulText
-              color={props.bSiteColors[i % props.bSiteColors.length]}
-              hoverColor="grey"
-            >
-              Site {i}
-            </ColorfulText>
-          }
-            {...a11yProps(i)}
-          />
-        ))}
-      </Tabs>
-    </Box>);
+        <Tabs
+          value={props.tabIndex}
+          onChange={handleTabChange}
+          aria-label="basic tabs example"
+          variant="scrollable"
+          scrollButtons="auto"
+        >
+          {props.bindSites.map((site, i) => (
+            <Tab
+              label={
+                <ColorfulText
+                  color={props.bSiteColors[i % props.bSiteColors.length]}
+                  hoverColor="grey"
+                >
+                  Site {i}
+                </ColorfulText>
+              }
+              {...a11yProps(i)}
+            />
+          ))}
+        </Tabs>
+      </Box>
+    );
   }
 
   function handleBackgroundColor(stage, color) {
     //const stageBackgroundColor = stage.getParameters().backgroundColor;
-    console.log(color)
+    console.log(color);
     setBGroundColor(color);
     stage.setParameters({ backgroundColor: color });
   }
@@ -294,7 +345,7 @@ export default function MolViewer(props) {
     if (repr === "surface") {
       stage.getRepresentationsByName("cartoon").dispose();
       stage.getRepresentationsByName("licorice").dispose();
-      if (tabIndex === 0) {
+      if (tabIndex === 0 && props.type === "summary") {
         stage.getComponentsByName(current_pdb).addRepresentation(repr, {
           opacity: 0.3,
           colorScheme: "bfactor",
@@ -309,7 +360,7 @@ export default function MolViewer(props) {
     } else if (repr === "cartoon") {
       stage.getRepresentationsByName("surface").dispose();
       stage.getRepresentationsByName("licorice").dispose();
-      if (tabIndex === 0) {
+      if (tabIndex === 0 && props.type === "summary") {
         stage.getComponentsByName(current_pdb).addRepresentation(repr, {
           colorScheme: "bfactor",
           colorScale: "RdYlBu", // Defines a color scale from red to blue
@@ -335,7 +386,7 @@ export default function MolViewer(props) {
     } else if (repr === "surface+cartoon") {
       stage.getRepresentationsByName("surface").dispose();
       stage.getRepresentationsByName("licorice").dispose();
-      if (tabIndex === 0) {
+      if (tabIndex === 0 && props.type === "summary") {
         stage.getComponentsByName(current_pdb).addRepresentation("cartoon", {
           colorScheme: "bfactor",
           colorScale: "RdYlBu", // Defines a color scale from red to blue
@@ -431,13 +482,6 @@ export default function MolViewer(props) {
     }
   }
 
-  // eslint-disable-next-line no-lone-blocks
-  {
-    /*}
-    //Old Functions bellow
-{*/
-  }
-
   return (
     <div className="col-md-8">
       <Card variant="outlined">
@@ -463,7 +507,7 @@ export default function MolViewer(props) {
           </Stack>
           <Typography color="text.secondary" variant="body2">
             {props.pdb} protein structure along with highlighted binding site
-            residues
+            residues {props.type}
           </Typography>
         </Box>
 
@@ -479,7 +523,7 @@ export default function MolViewer(props) {
               }}
             >
               <div
-                id="viewport"
+                id={props.type === "popup" ? "viewport-pop" : "viewport"}
                 style={{ width: "100%", height: "100%" }}
               ></div>
               <div

@@ -3,10 +3,8 @@ import { useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import { styled, alpha } from "@mui/material/styles";
@@ -211,87 +209,6 @@ function ResponsiveAppBar() {
                 HELP
               </Typography>
             </Box>
-            {/*}
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              <Button
-                key={"results"}
-                sx={{
-                  my: 2,
-                  color: "white",
-                  display: "block",
-                  textAlign: "center",
-                }}
-                component={Link}
-                to="/results/A4HXH5"
-                style={{
-                  backgroundColor: currentPage.startsWith("/results/")
-                    ? "white"
-                    : "#1976d2",
-                  color: currentPage.startsWith("/results/")
-                    ? "#1976d2"
-                    : "white",
-                }}
-              >
-                Example
-              </Button>
-              <Button
-                key={"about"}
-                sx={{
-                  my: 2,
-                  color: "white",
-                  display: "block",
-                  textAlign: "center",
-                  "&:hover": { color: "red" }
-                }}
-                component={Link}
-                to="/datatable"
-                style={{
-                  backgroundColor:
-                    currentPage === "/datatable" ? "white" : "#1976d2",
-                  color: currentPage === "/datatable" ? "#1976d2" : "white",
-                  "&:hover": { color: "red" }
-                }}
-              >
-                Available Data
-              </Button>
-              <Button
-                key={"contact"}
-                sx={{
-                  my: 2,
-                  color: "white",
-                  display: "block",
-                  textAlign: "center",
-                }}
-                component={Link}
-                to="/contact"
-                style={{
-                  backgroundColor:
-                    currentPage === "/contact" ? "white" : "#1976d2",
-                  color: currentPage === "/contact" ? "#1976d2" : "white",
-                }}
-              >
-                Contact
-              </Button>
-              <Button
-                key={"help"}
-                sx={{
-                  my: 2,
-                  color: "white",
-                  display: "block",
-                  textAlign: "center",
-                }}
-                component={Link}
-                to="/help"
-                style={{
-                  backgroundColor:
-                    currentPage === "/help" ? "white" : "#1976d2",
-                  color: currentPage === "/help" ? "#1976d2" : "white",
-                }}
-              >
-                Help
-              </Button>
-            </Box>
-              {*/}
             <Box sx={{ flexGrow: 0 }}>
               <Paper component="form" onSubmit={handleSubmit}>
                 <Search>

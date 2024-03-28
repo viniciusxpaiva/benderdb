@@ -11,6 +11,5 @@ def mean_consensus(residues_list, total_pred):
 		aux = bsite[0]
 		aux.append(len(bsite[1])/total_pred)
 		res_with_occ_list.append(aux)
-
-	print(res_with_occ_list)
+		
 	return res_with_occ_list

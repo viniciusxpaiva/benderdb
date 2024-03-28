@@ -3,8 +3,7 @@ import * as NGL from "ngl/dist/ngl";
 import Stack from "@mui/material/Stack";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
-
-import MolViewer from "./MolViewer";
+import NGLViewer from "./NGLViewer";
 import ResiduesTabs from "../items/ResiduesTabs";
 
 const bSiteColors = [
@@ -52,7 +51,7 @@ export default function MolViewerPredictors(props) {
       .then((component) => {
         component.addRepresentation("cartoon", { color: "lightgrey" });
         component.autoView();
-        changeColorBindSitesPredictors(component, props.predSites);
+        changeColorBindSitesPredictors(component, props.bindSites);
       });
     newStage.setParameters({ backgroundColor: "white" });
     setStagePredictors(newStage);
@@ -60,9 +59,9 @@ export default function MolViewerPredictors(props) {
 
   return (
     <>
-      {props.predSites.length > 0 ? (
+      {props.bindSites.length > 0 ? (
         <div className="row">
-          <MolViewer
+          <NGLViewer
             type={"predictors"}
             pdb={props.pdb}
             pdbFolder={props.pdbFolder}
@@ -72,7 +71,7 @@ export default function MolViewerPredictors(props) {
             setStage={setStagePredictors}
             tabIndex={tabIndex}
             setTabIndex={setTabIndex}
-            predSites={props.predSites}
+            bindSites={props.bindSites}
             bSiteColors={bSiteColors}
           />
 
@@ -83,7 +82,7 @@ export default function MolViewerPredictors(props) {
             pdbFolder={props.pdbFolder}
             tabIndex={tabIndex}
             setTabIndex={setTabIndex}
-            predSites={props.predSites}
+            bindSites={props.bindSites}
             numPreds={props.numPreds}
             stage={stagePredictors}
           />
