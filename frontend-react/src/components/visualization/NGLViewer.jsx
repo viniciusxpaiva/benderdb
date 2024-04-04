@@ -22,6 +22,19 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import SettingsIcon from "@mui/icons-material/Settings";
 
+const bSiteColors = [
+  "#167288",
+  "#a89a49",
+  "#b45248",
+  "#3cb464",
+  "#643c6a",
+  "#8cdaec",
+  "#d48c84",
+  "#d6cfa2",
+  "#9bddb1",
+  "#836394",
+];
+
 function ColorfulText({ color, hoverColor, children }) {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -47,7 +60,10 @@ export default function NGLViewer(props) {
       return <ViewerTabsSummary />;
     } else if (props.type === "predictors") {
       return <ViewerTabsPredictors />;
-    } else {
+    } else if (props.type === "popup") {
+      return <ViewerTabsPopup />;
+    }
+    else {
       return null; // Or handle other cases
     }
   }
@@ -138,17 +154,17 @@ export default function NGLViewer(props) {
 
   function colorAllSitesPopup(component) {
     if (props.predsToShow.includes("GRaSP"))
-      changeColorBindSitesPopup(component, props.graspSites[0], "red");
+      changeColorBindSitesPopup(component, props.graspSites[0], bSiteColors[0]);
     if (props.predsToShow.includes("PUResNet"))
-      changeColorBindSitesPopup(component, props.puresnetSites[0], "green");
+      changeColorBindSitesPopup(component, props.puresnetSites[0], bSiteColors[1]);
     if (props.predsToShow.includes("GASS"))
-      changeColorBindSitesPopup(component, props.gassSites[0], "yellow");
+      changeColorBindSitesPopup(component, props.gassSites[0], bSiteColors[2]);
     if (props.predsToShow.includes("DeepPocket"))
-      changeColorBindSitesPopup(component, props.deeppocketSites[0], "orange");
+      changeColorBindSitesPopup(component, props.deeppocketSites[0], bSiteColors[3]);
     if (props.predsToShow.includes("PointSite"))
-      changeColorBindSitesPopup(component, props.pointsiteSites[0], "purple");
+      changeColorBindSitesPopup(component, props.pointsiteSites[0], bSiteColors[4]);
     if (props.predsToShow.includes("P2Rank"))
-      changeColorBindSitesPopup(component, props.p2rankSites[0], "pink");
+      changeColorBindSitesPopup(component, props.p2rankSites[0], bSiteColors[5]);
   }
 
   function handleDownloadPymolSummary(protName) {
@@ -258,10 +274,10 @@ export default function NGLViewer(props) {
         "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
       )
       .then((component) => {
-        component.addRepresentation("cartoon", { color: "grey" });
+        component.addRepresentation("cartoon", { color: "lightgrey" });
         component.autoView();
         colorAllSitesPopup(component);
-        changeColorBindSitesPopup(component, props.upsetClickResidues, "cyan");
+        changeColorBindSitesPopup(component, props.upsetClickResidues, "pink");
       });
     stage.setParameters({ backgroundColor: "white" });
     props.setStage(stage); // Remove previous components
@@ -327,6 +343,31 @@ export default function NGLViewer(props) {
               {...a11yProps(i)}
             />
           ))}
+        </Tabs>
+      </Box>
+    );
+  }
+
+  function ViewerTabsPopup() {
+    return (
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: "divider",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Tabs
+          aria-label="basic tabs example"
+          variant="scrollable"
+          scrollButtons="auto"
+          value={0}
+        >
+          <Tab
+              label={"Intersection"}
+              {...a11yProps(0)}
+            />
         </Tabs>
       </Box>
     );

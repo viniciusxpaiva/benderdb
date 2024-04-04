@@ -47,7 +47,7 @@ export default function ResiduesTabs(props) {
       return <ContentTabsSummary />;
     } else if (props.type === "predictors") {
       return <ContentTabsPredictors />;
-    } else if (props.type === "popup"){
+    } else if (props.type === "popup") {
       return <ContentTabsPopup />; // Or handle other cases
     } else {
       return null;
@@ -82,7 +82,7 @@ export default function ResiduesTabs(props) {
   function ContentTabsSummary() {
     return (
       <Card variant="outlined">
-        <Box sx={{ p: 2 }}>
+        <Box sx={{ p: 2, height: 137 }}>
           <Stack
             direction="row"
             justifyContent="space-between"
@@ -94,7 +94,7 @@ export default function ResiduesTabs(props) {
           </Stack>
           <Typography color="text.secondary" variant="body2">
             {props.tabIndex === 0
-              ? "Below are shown consensus prediction residues. Shades of blue represent a low probability of belonging to a binding site, while shades of red indicate a high probability."
+              ? "Shades of blue represent a low probability of belonging to a binding site, while shades of red indicate a high probability."
               : `Residues displayed below are presented in ${
                   ((props.numPreds - props.tabIndex + 1) / props.numPreds) * 100
                 }% of predictors results.`}
@@ -104,7 +104,7 @@ export default function ResiduesTabs(props) {
         <Box sx={{ p: 0 }}>
           <Box sx={{ width: "100%" }}>
             <CustomTabPanel value={props.tabIndex} index={0}>
-              <TableContainer component={Paper} sx={{ height: 660 }}>
+              <TableContainer component={Paper} sx={{ height: 676 }}>
                 <Table stickyHeader aria-label="customized table" size="small">
                   <TableHead>
                     <TableRow>
@@ -209,7 +209,7 @@ export default function ResiduesTabs(props) {
   function ContentTabsPredictors() {
     return (
       <Card variant="outlined">
-        <Box sx={{ p: 2 }}>
+        <Box sx={{ p: 2, height: 137 }}>
           <Stack
             direction="row"
             justifyContent="space-between"
@@ -232,13 +232,16 @@ export default function ResiduesTabs(props) {
               Results
             </Button>
           </Stack>
+          <Typography color="text.secondary" variant="body2">
+            List of binding site residues
+          </Typography>
         </Box>
         <Divider />
         <Box sx={{ p: 0 }}>
           <Box sx={{ width: "100%" }}>
             {props.bindSites.map((p, i) => (
               <CustomTabPanel value={props.tabIndex} index={i}>
-                <TableContainer component={Paper} sx={{ height: 740 }}>
+                <TableContainer component={Paper} sx={{ height: 676 }}>
                   <Table
                     stickyHeader
                     aria-label="customized table"
@@ -294,83 +297,74 @@ export default function ResiduesTabs(props) {
   }
 
   function ContentTabsPopup() {
-    return(
-    
+    return (
       <Card variant="outlined">
-      <Box sx={{ p: 2 }}>
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Typography gutterBottom variant="h5" component="div">
-            Binding sites residues
+        <Box sx={{ p: 2, height: 137 }}>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Typography gutterBottom variant="h5" component="div">
+              Binding sites residues
+            </Typography>
+          </Stack>
+          <Typography color="text.secondary" variant="body2">
+            Residues listed bellow are intersections
           </Typography>
-        </Stack>
-        <Typography color="text.secondary" variant="body2">
-          Residues listed bellow are intersections
-        </Typography>
-      </Box>
-      <Divider />
-      <Box sx={{ p: 0 }}>
-        <Box sx={{ width: "100%" }}>
-          <CustomTabPanel value={props.tabIndex} index={0}>
-            <TableContainer component={Paper} sx={{ height: 720 }}>
-              <Table
-                stickyHeader
-                aria-label="customized table"
-                size="small"
-              >
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell align="center">
-                      Residue
-                    </StyledTableCell>
-                    <StyledTableCell align="center">Number</StyledTableCell>
-                    <StyledTableCell align="center">Chain</StyledTableCell>
-                    <StyledTableCell align="center">
-                      Look at
-                    </StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {props.upsetClickResidues.map((res, i) => (
-                    <StyledTableRow key={i}>
-                      <StyledTableCell align="center">
-                        {res.split("-")[0]}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {res.split("-")[1]}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {res.split("-")[2]}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        <IconButton
-                          className="p-1"
-                          aria-label="focus-res"
-                          title="Focus on this residue"
-                          onClick={() =>
-                            focusResidue(
-                              props.stage,
-                              res.split("-")[1],
-                              res.split("-")[2]
-                            )
-                          }
-                        >
-                          <RemoveRedEyeOutlinedIcon />
-                        </IconButton>
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </CustomTabPanel>
         </Box>
-      </Box>
-    </Card>);
-    
+        <Divider />
+        <Box sx={{ p: 0 }}>
+          <Box sx={{ width: "100%" }}>
+            <CustomTabPanel value={props.tabIndex} index={0}>
+              <TableContainer component={Paper} sx={{ height: 676 }}>
+                <Table stickyHeader aria-label="customized table" size="small">
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell align="center">Residue</StyledTableCell>
+                      <StyledTableCell align="center">Number</StyledTableCell>
+                      <StyledTableCell align="center">Chain</StyledTableCell>
+                      <StyledTableCell align="center">Look at</StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {props.upsetClickResidues.map((res, i) => (
+                      <StyledTableRow key={i}>
+                        <StyledTableCell align="center">
+                          {res.split("-")[0]}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {res.split("-")[1]}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {res.split("-")[2]}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          <IconButton
+                            className="p-1"
+                            aria-label="focus-res"
+                            title="Focus on this residue"
+                            onClick={() =>
+                              focusResidue(
+                                props.stage,
+                                res.split("-")[1],
+                                res.split("-")[2]
+                              )
+                            }
+                          >
+                            <RemoveRedEyeOutlinedIcon />
+                          </IconButton>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </CustomTabPanel>
+          </Box>
+        </Box>
+      </Card>
+    );
   }
 
   function focusResidue(stage, resNum, chain) {
@@ -416,9 +410,5 @@ export default function ResiduesTabs(props) {
       </div>
     );
   }
-  return (
-    <div className="col-md-4">
-      {ContentTabs()}
-    </div>
-  );
+  return <div className="col-md-4">{ContentTabs()}</div>;
 }

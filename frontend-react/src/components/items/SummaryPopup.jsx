@@ -10,6 +10,19 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import MolViewerPopup from "../visualization/MolViewerPopup";
 
+const bSiteColors = [
+  "#167288",
+  "#a89a49",
+  "#b45248",
+  "#3cb464",
+  "#643c6a",
+  "#8cdaec",
+  "#d48c84",
+  "#d6cfa2",
+  "#9bddb1",
+  "#836394",
+];
+
 export default function SummaryPopup(props) {
   const [openInters, setOpenInters] = useState(false);
 
@@ -59,31 +72,85 @@ export default function SummaryPopup(props) {
               >
                 <Button
                   variant="contained"
-                  sx={{ backgroundColor: "cyan", color: "grey" }}
+                  sx={{
+                    "&.Mui-disabled": {
+                      backgroundColor: "pink",
+                      color: "grey",
+                    },
+                  }}
+                  disabled
                 >
                   Intersection
                 </Button>
-                <Button variant="contained" sx={{ backgroundColor: "red" }}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    "&.Mui-disabled": {
+                      backgroundColor: bSiteColors[0],
+                      color: "white",
+                    },
+                  }}
+                  disabled
+                >
                   GRaSP
                 </Button>
-                <Button variant="contained" sx={{ backgroundColor: "green" }}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    "&.Mui-disabled": {
+                      backgroundColor: bSiteColors[1],
+                      color: "white",
+                    },
+                  }}
+                  disabled
+                >
                   PUResNet
                 </Button>
                 <Button
                   variant="contained"
-                  sx={{ backgroundColor: "yellow", color: "grey" }}
+                  sx={{
+                    "&.Mui-disabled": {
+                      backgroundColor: bSiteColors[2],
+                      color: "white",
+                    },
+                  }}
+                  disabled
                 >
                   GASS
                 </Button>
-                <Button variant="contained" sx={{ backgroundColor: "orange" }}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    "&.Mui-disabled": {
+                      backgroundColor: bSiteColors[3],
+                      color: "white",
+                    },
+                  }}
+                  disabled
+                >
                   DeepPocket
                 </Button>
-                <Button variant="contained" sx={{ backgroundColor: "purple" }}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    "&.Mui-disabled": {
+                      backgroundColor: bSiteColors[4],
+                      color: "white",
+                    },
+                  }}
+                  disabled
+                >
                   PointSite
                 </Button>
                 <Button
                   variant="contained"
-                  sx={{ backgroundColor: "pink", color: "grey" }}
+                  sx={{
+                    "&.Mui-disabled": {
+                      backgroundColor: bSiteColors[5],
+                      color: "white",
+                    },
+                  }}
+                  disabled
                 >
                   P2Rank
                 </Button>

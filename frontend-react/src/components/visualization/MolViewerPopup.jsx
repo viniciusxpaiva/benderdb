@@ -4,6 +4,19 @@ import * as NGL from "ngl/dist/ngl";
 import NGLViewer from "./NGLViewer";
 import ResiduesTabs from "../items/ResiduesTabs";
 
+const bSiteColors = [
+  "#167288",
+  "#a89a49",
+  "#b45248",
+  "#3cb464",
+  "#643c6a",
+  "#8cdaec",
+  "#d48c84",
+  "#d6cfa2",
+  "#9bddb1",
+  "#836394",
+];
+
 export default function MolViewerPopup(props) {
   const [stagePopup, setStagePopup] = useState(null);
   const [tabIndex, setTabIndex] = useState(0);
@@ -28,17 +41,17 @@ export default function MolViewerPopup(props) {
 
   function colorAllSites(component) {
     if (props.predsToShow.includes("GRaSP"))
-      changeColorBindSitesPopup(component, props.graspSites[0], "red");
+      changeColorBindSitesPopup(component, props.graspSites[0], bSiteColors[0]);
     if (props.predsToShow.includes("PUResNet"))
-      changeColorBindSitesPopup(component, props.puresnetSites[0], "green");
+      changeColorBindSitesPopup(component, props.puresnetSites[0], bSiteColors[1]);
     if (props.predsToShow.includes("GASS"))
-      changeColorBindSitesPopup(component, props.gassSites[0], "yellow");
+      changeColorBindSitesPopup(component, props.gassSites[0], bSiteColors[2]);
     if (props.predsToShow.includes("DeepPocket"))
-      changeColorBindSitesPopup(component, props.deeppocketSites[0], "orange");
+      changeColorBindSitesPopup(component, props.deeppocketSites[0], bSiteColors[3]);
     if (props.predsToShow.includes("PointSite"))
-      changeColorBindSitesPopup(component, props.pointsiteSites[0], "purple");
+      changeColorBindSitesPopup(component, props.pointsiteSites[0], bSiteColors[4]);
     if (props.predsToShow.includes("P2Rank"))
-      changeColorBindSitesPopup(component, props.p2rankSites[0], "pink");
+      changeColorBindSitesPopup(component, props.p2rankSites[0], bSiteColors[5]);
   }
 
   useEffect(() => {
@@ -52,7 +65,7 @@ export default function MolViewerPopup(props) {
         component.addRepresentation("cartoon", { color: "lightgrey" });
         component.autoView();
         colorAllSites(component);
-        changeColorBindSitesPopup(component, props.upsetClickResidues, "cyan");
+        changeColorBindSitesPopup(component, props.upsetClickResidues, "pink");
       });
     newStage.setParameters({ backgroundColor: "white" });
     setStagePopup(newStage);
