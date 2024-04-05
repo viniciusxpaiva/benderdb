@@ -62,8 +62,7 @@ export default function NGLViewer(props) {
       return <ViewerTabsPredictors />;
     } else if (props.type === "popup") {
       return <ViewerTabsPopup />;
-    }
-    else {
+    } else {
       return null; // Or handle other cases
     }
   }
@@ -156,15 +155,31 @@ export default function NGLViewer(props) {
     if (props.predsToShow.includes("GRaSP"))
       changeColorBindSitesPopup(component, props.graspSites[0], bSiteColors[0]);
     if (props.predsToShow.includes("PUResNet"))
-      changeColorBindSitesPopup(component, props.puresnetSites[0], bSiteColors[1]);
+      changeColorBindSitesPopup(
+        component,
+        props.puresnetSites[0],
+        bSiteColors[1]
+      );
     if (props.predsToShow.includes("GASS"))
       changeColorBindSitesPopup(component, props.gassSites[0], bSiteColors[2]);
     if (props.predsToShow.includes("DeepPocket"))
-      changeColorBindSitesPopup(component, props.deeppocketSites[0], bSiteColors[3]);
+      changeColorBindSitesPopup(
+        component,
+        props.deeppocketSites[0],
+        bSiteColors[3]
+      );
     if (props.predsToShow.includes("PointSite"))
-      changeColorBindSitesPopup(component, props.pointsiteSites[0], bSiteColors[4]);
+      changeColorBindSitesPopup(
+        component,
+        props.pointsiteSites[0],
+        bSiteColors[4]
+      );
     if (props.predsToShow.includes("P2Rank"))
-      changeColorBindSitesPopup(component, props.p2rankSites[0], bSiteColors[5]);
+      changeColorBindSitesPopup(
+        component,
+        props.p2rankSites[0],
+        bSiteColors[5]
+      );
   }
 
   function handleDownloadPymolSummary(protName) {
@@ -300,10 +315,26 @@ export default function NGLViewer(props) {
           variant="scrollable"
           scrollButtons="auto"
         >
-          <Tab label="Consensus" {...a11yProps(0)} />
+          <Tab
+            sx={{
+              "&:hover": {
+                color: "#1976d2",
+                borderBottom: 2,
+                borderColor: "#1976d2",
+              },
+            }}
+            label="Consensus"
+            {...a11yProps(0)}
+          />
           {[...Array(props.numPreds)].map((_, i) => (
             <Tab
-              sx={{ "&:hover": { color: "#1976d2" } }}
+              sx={{
+                "&:hover": {
+                  color: "#1976d2",
+                  borderBottom: 2,
+                  borderColor: "#1976d2",
+                },
+              }}
               label={`${((props.numPreds - i) / props.numPreds) * 100}%`}
               {...a11yProps(i + 1)}
             />
@@ -364,10 +395,7 @@ export default function NGLViewer(props) {
           scrollButtons="auto"
           value={0}
         >
-          <Tab
-              label={"Intersection"}
-              {...a11yProps(0)}
-            />
+          <Tab label={"Intersection"} {...a11yProps(0)} />
         </Tabs>
       </Box>
     );
@@ -481,7 +509,9 @@ export default function NGLViewer(props) {
 
   function handleTabChange(event, newValue) {
     props.setTabIndex(newValue);
-    resetNGLViewer(props.stage, newValue);
+    if (props.type === "summary") {
+      resetNGLViewer(props.stage, newValue);
+    }
     setProtReprButton("cartoon"); // Reset protReprButton to 'cartoon' or your default value
     setSiteProtReprButton("licorice");
     setBGroundColor("white");
@@ -548,7 +578,7 @@ export default function NGLViewer(props) {
           </Stack>
           <Typography color="text.secondary" variant="body2">
             {props.pdb} protein structure along with highlighted binding site
-            residues {props.type}
+            residues
           </Typography>
         </Box>
 

@@ -51,7 +51,7 @@ export default function MolViewerPopup(props) {
     if (props.predsToShow.includes("PointSite"))
       changeColorBindSitesPopup(component, props.pointsiteSites[0], bSiteColors[4]);
     if (props.predsToShow.includes("P2Rank"))
-      changeColorBindSitesPopup(component, props.p2rankSites[0], bSiteColors[5]);
+      changeColorBindSitesPopup(component, props.p2rankSites[0], "pink");
   }
 
   useEffect(() => {
@@ -65,7 +65,11 @@ export default function MolViewerPopup(props) {
         component.addRepresentation("cartoon", { color: "lightgrey" });
         component.autoView();
         colorAllSites(component);
-        changeColorBindSitesPopup(component, props.upsetClickResidues, "pink");
+        changeColorBindSitesPopup(
+          component,
+          props.upsetClickResidues,
+          bSiteColors[5]
+        );
       });
     newStage.setParameters({ backgroundColor: "white" });
     setStagePopup(newStage);

@@ -55,11 +55,16 @@ export default function SummaryPopup(props) {
         >
           <DialogTitle>
             <Typography gutterBottom variant="h5" component="div">
-              Binding site intersection
+              Binding site intersection between{" "}
+              {props.predsToShow.length === 1
+                ? props.predsToShow[0]
+                : props.predsToShow.slice(0, -1).join(", ") +
+                  " and " +
+                  props.predsToShow[props.predsToShow.length - 1]}
             </Typography>
             <Typography color="text.secondary" variant="body2">
               Residues colors are displayed according to each predictor.
-              Intersection residues are shown in cyan
+              Intersection residues are shown in light blue.
             </Typography>
 
             <Box>
@@ -74,8 +79,8 @@ export default function SummaryPopup(props) {
                   variant="contained"
                   sx={{
                     "&.Mui-disabled": {
-                      backgroundColor: "pink",
-                      color: "grey",
+                      backgroundColor: bSiteColors[5],
+                      color: "white",
                     },
                   }}
                   disabled
@@ -146,8 +151,8 @@ export default function SummaryPopup(props) {
                   variant="contained"
                   sx={{
                     "&.Mui-disabled": {
-                      backgroundColor: bSiteColors[5],
-                      color: "white",
+                      backgroundColor: "pink",
+                      color: "grey",
                     },
                   }}
                   disabled

@@ -146,7 +146,7 @@ export default function ResiduesTabs(props) {
             </CustomTabPanel>
             {[...Array(props.numPreds)].map((_, i) => (
               <CustomTabPanel value={props.tabIndex} index={i + 1}>
-                <TableContainer component={Paper} sx={{ maxHeight: 700 }}>
+                <TableContainer component={Paper} sx={{ height: 676 }}>
                   <Table
                     stickyHeader
                     aria-label="customized table"
@@ -310,7 +310,7 @@ export default function ResiduesTabs(props) {
             </Typography>
           </Stack>
           <Typography color="text.secondary" variant="body2">
-            Residues listed bellow are intersections
+            Residues related to selected intersection are listed bellow
           </Typography>
         </Box>
         <Divider />

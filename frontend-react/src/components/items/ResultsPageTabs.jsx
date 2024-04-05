@@ -50,7 +50,6 @@ function a11yProps(index) {
 }
 
 export default function ResultsPageTabs(props) {
-  console.log(props.summaryTableData);
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -68,37 +67,79 @@ export default function ResultsPageTabs(props) {
           >
             <Tab
               label="Summary"
-              sx={{ "&:hover": { color: "#1976d2" } }}
+              sx={{
+                "&:hover": {
+                  color: "#1976d2",
+                  borderBottom: 2,
+                  borderColor: "#1976d2",
+                },
+              }}
               {...a11yProps(0)}
             />
             <Tab
               label="GRaSP"
-              sx={{ "&:hover": { color: "#1976d2" } }}
+              sx={{
+                "&:hover": {
+                  color: "#1976d2",
+                  borderBottom: 2,
+                  borderColor: "#1976d2",
+                },
+              }}
               {...a11yProps(1)}
             />
             <Tab
               label="PUResNet"
-              sx={{ "&:hover": { color: "#1976d2" } }}
+              sx={{
+                "&:hover": {
+                  color: "#1976d2",
+                  borderBottom: 2,
+                  borderColor: "#1976d2",
+                },
+              }}
               {...a11yProps(2)}
             />
             <Tab
               label="GASS"
-              sx={{ "&:hover": { color: "#1976d2" } }}
+              sx={{
+                "&:hover": {
+                  color: "#1976d2",
+                  borderBottom: 2,
+                  borderColor: "#1976d2",
+                },
+              }}
               {...a11yProps(3)}
             />
             <Tab
               label="DeepPocket"
-              sx={{ "&:hover": { color: "#1976d2" } }}
+              sx={{
+                "&:hover": {
+                  color: "#1976d2",
+                  borderBottom: 2,
+                  borderColor: "#1976d2",
+                },
+              }}
               {...a11yProps(4)}
             />
             <Tab
               label="PointSite"
-              sx={{ "&:hover": { color: "#1976d2" } }}
+              sx={{
+                "&:hover": {
+                  color: "#1976d2",
+                  borderBottom: 2,
+                  borderColor: "#1976d2",
+                },
+              }}
               {...a11yProps(5)}
             />
             <Tab
               label="P2Rank"
-              sx={{ "&:hover": { color: "#1976d2" } }}
+              sx={{
+                "&:hover": {
+                  color: "#1976d2",
+                  borderBottom: 2,
+                  borderColor: "#1976d2",
+                },
+              }}
               {...a11yProps(6)}
             />
           </Tabs>
