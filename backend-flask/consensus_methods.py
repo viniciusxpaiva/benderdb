@@ -12,4 +12,5 @@ def mean_consensus(residues_list, total_pred):
 		aux.append(len(bsite[1])/total_pred)
 		res_with_occ_list.append(aux)
 		
-	return res_with_occ_list
+	sorted_data = sorted(res_with_occ_list, key=lambda x: (int(x[2]) if x[2].isdigit() else x[2]))
+	return sorted_data

@@ -21,6 +21,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import SettingsIcon from "@mui/icons-material/Settings";
+import CloseIcon from "@mui/icons-material/Close";
 
 const bSiteColors = [
   "#167288",
@@ -116,7 +117,7 @@ export default function NGLViewer(props) {
     console.log(BindSites);
     const bindSitesToShow = generateBindSiteStringSummary(BindSites);
     console.log(bindSitesToShow);
-    component.addRepresentation(repr, {
+    component.addRepresentation("cartoon", {
       color: "#b45248",
       sele: bindSitesToShow,
     });
@@ -335,7 +336,9 @@ export default function NGLViewer(props) {
                   borderColor: "#1976d2",
                 },
               }}
-              label={`${((props.numPreds - i) / props.numPreds) * 100}%`}
+              label={`${Math.floor(
+                ((props.numPreds - i) / props.numPreds) * 100
+              )}%`}
               {...a11yProps(i + 1)}
             />
           ))}
@@ -476,22 +479,20 @@ export default function NGLViewer(props) {
   }
 
   function handleBSiteRepresentation(stage, repr, tabIndex) {
+    if (tabIndex === 0) return;
     setSiteProtReprButton(repr);
-    if (tabIndex !== 0) {
-      const filteredData = props.consensusData.filter(
-        (p) => p[3] >= (props.numPreds - tabIndex + 1) / props.numPreds
-      );
-      console.log(filteredData);
-      stage.getRepresentationsByName("ball+stick").dispose();
-      stage
-        .loadFile(
-          "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
-        )
-        .then((component) => {
-          component.autoView();
-          changeColorBindSites(component, filteredData, repr);
-        });
-    }
+    const current_pdb = "AF-" + props.pdb + "-F1-model_v4.pdb";
+    const filteredData = props.consensusData.filter(
+      (p) => p[3] >= (props.numPreds - tabIndex + 1) / props.numPreds
+    );
+    console.log(filteredData);
+    const bSiteString = generateBindSiteStringSummary(filteredData);
+    stage.getRepresentationsByName("licorice").dispose();
+    stage.getRepresentationsByName("ball+stick").dispose();
+    stage.getComponentsByName(current_pdb).addRepresentation("licorice", {
+      color: "blue",
+      sele: bSiteString,
+    });
   }
 
   function a11yProps(index) {
@@ -631,8 +632,20 @@ export default function NGLViewer(props) {
                         <DialogContent>
                           <Typography color="text.secondary" variant="body2">
                             Use select buttons bellow to change background
-                            color, protein and bindig site representations
+                            color and protein representation
                           </Typography>
+                          <IconButton
+                            aria-label="close"
+                            onClick={handleClose}
+                            sx={{
+                              position: "absolute",
+                              right: 8,
+                              top: 8,
+                              color: (theme) => theme.palette.grey[500],
+                            }}
+                          >
+                            <CloseIcon />
+                          </IconButton>
                         </DialogContent>
                         <Divider />
                         <DialogContent>
@@ -689,6 +702,7 @@ export default function NGLViewer(props) {
                                 </MenuItem>
                               </Select>
                             </FormControl>
+                            {/*}
                             {props.tabIndex !== 0 ? (
                               <FormControl
                                 sx={{ m: 1, maxWidth: 181 }}
@@ -708,7 +722,6 @@ export default function NGLViewer(props) {
                                       props.tabIndex
                                     )
                                   }
-                                  disabled
                                 >
                                   <MenuItem value="cartoon">Cartoon</MenuItem>
                                   <MenuItem value="licorice">Licorice</MenuItem>
@@ -716,6 +729,7 @@ export default function NGLViewer(props) {
                                 </Select>
                               </FormControl>
                             ) : null}
+                              {*/}
                           </Box>
                         </DialogContent>
                         <DialogActions>

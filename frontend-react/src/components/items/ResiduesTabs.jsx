@@ -40,6 +40,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function ResiduesTabs(props) {
+
+  console.log(props.consensusData)
   const [previousFocusRes, setPreviousFocusRes] = useState("");
 
   function ContentTabs() {
@@ -115,30 +117,30 @@ export default function ResiduesTabs(props) {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {props.bindingResidues.map((p, i) => (
+                    {props.consensusData.map((p, i) => (
                       <StyledTableRow key={i}>
-                        <StyledTableCell align="center">
-                          {p.residue}
-                        </StyledTableCell>
-                        <StyledTableCell align="center">
-                          {p.number}
-                        </StyledTableCell>
-                        <StyledTableCell align="center">
-                          {p.chain}
-                        </StyledTableCell>
-                        <StyledTableCell align="center">
-                          <IconButton
-                            className="p-1"
-                            aria-label="focus-res"
-                            title="Focus on this residue"
-                            onClick={() =>
-                              focusResidue(props.stage, p.number, p.chain)
-                            }
-                          >
-                            <RemoveRedEyeOutlinedIcon />
-                          </IconButton>
-                        </StyledTableCell>
-                      </StyledTableRow>
+                      <StyledTableCell align="center">
+                        {p[1]}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {p[2]}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {p[0]}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        <IconButton
+                          className="p-1"
+                          aria-label="focus-res"
+                          title="Focus on this residue"
+                          onClick={() =>
+                            focusResidue(props.stage, p[2], p[0])
+                          }
+                        >
+                          <RemoveRedEyeOutlinedIcon />
+                        </IconButton>
+                      </StyledTableCell>
+                    </StyledTableRow>
                     ))}
                   </TableBody>
                 </Table>
@@ -239,7 +241,9 @@ export default function ResiduesTabs(props) {
         <Divider />
         <Box sx={{ p: 0 }}>
           <Box sx={{ width: "100%" }}>
-            {props.bindSites.map((p, i) => (
+            {props.bindSites.sort(
+              (a, b) => parseInt(a.number) - parseInt(b.number)
+            ).map((p, i) => (
               <CustomTabPanel value={props.tabIndex} index={i}>
                 <TableContainer component={Paper} sx={{ height: 676 }}>
                   <Table

@@ -156,17 +156,15 @@ const Results = () => {
               deeppocketSites={deeppocketSites}
               pointsiteSites={pointsiteSites}
               p2rankSites={p2rankSites}
-              bindingResidues={summaryTableData.rows.sort(
-                (a, b) => parseInt(a.number) - parseInt(b.number)
-              )}
               summaryTableData={summaryTableData}
+              bindingResidues={summaryTableData.rows}
               summaryContent={summaryContent}
               upsetClickResidues={upsetClickResidues}
               upsetClickName={upsetClickName}
               upsetOnClick={upsetOnClick}
               upsetPlotData={upsetPlotData}
               numPreds={summaryContent[3]}
-              consensusData={meanConsensus.sort((a, b) => a[2] - b[2])}
+              consensusData={meanConsensus}
             />
           ) : (
             <div className="row mt-4">

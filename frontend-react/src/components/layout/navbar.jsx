@@ -123,6 +123,7 @@ function ResponsiveAppBar() {
                   p: 2,
                   display: { xs: "none", md: "flex" },
                   fontFamily: "monospace",
+                  fontSize: 14,
                   fontWeight: 300,
                   letterSpacing: ".01rem",
 
@@ -148,6 +149,7 @@ function ResponsiveAppBar() {
                   p: 2,
                   display: { xs: "none", md: "flex" },
                   fontFamily: "monospace",
+                  fontSize: 14,
                   fontWeight: 300,
                   letterSpacing: ".01rem",
                   textDecoration: "none",
@@ -174,6 +176,7 @@ function ResponsiveAppBar() {
                   display: { xs: "none", md: "flex" },
                   fontFamily: "monospace",
                   fontWeight: 300,
+                  fontSize: 14,
                   letterSpacing: ".01rem",
 
                   textDecoration: "none",
@@ -196,6 +199,7 @@ function ResponsiveAppBar() {
                   display: { xs: "none", md: "flex" },
                   fontFamily: "monospace",
                   fontWeight: 300,
+                  fontSize: 14,
                   letterSpacing: ".01rem",
 
                   textDecoration: "none",

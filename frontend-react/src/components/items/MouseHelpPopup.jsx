@@ -9,10 +9,11 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function MouseHelpPopup(props) {
   const [open, setOpen] = React.useState(false);
-  console.log(props.bgroundColor)
+  console.log(props.bgroundColor);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -25,119 +26,130 @@ export default function MouseHelpPopup(props) {
   };
 
   return (
-      <div>
-        <IconButton title="Mouse controls" onClick={handleClickOpen} >
-          <MouseIcon htmlColor={props.bgroundColor  === "white"? "" : "white"}/>
-        </IconButton>
-        <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
-          <DialogTitle>Mouse controls</DialogTitle>
-          <DialogContent>
-            <Typography color="text.secondary" variant="body2">
-              Following mouse commands can be used at molecular visualization
-            </Typography>
-          </DialogContent>
-          <Divider />
-          <DialogContent>
-            <Box>
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-2">
-                    <img
-                      src="../img/mouseleftclick.jpg"
-                      alt=""
-                      style={{ width: "50px", height: "50px" }}
-                    />
-                  </div>
-                  <div class="col-md-10 p-0 d-flex align-items-center">
-                    <Typography color="text.secondary" variant="body2">
-                      <b>Left button click</b>: pick atom.
-                    </Typography>
-                  </div>
+    <div>
+      <IconButton title="Mouse controls" onClick={handleClickOpen}>
+        <MouseIcon htmlColor={props.bgroundColor === "white" ? "" : "white"} />
+      </IconButton>
+      <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
+        <DialogTitle>Mouse controls</DialogTitle>
+        <DialogContent>
+          <Typography color="text.secondary" variant="body2">
+            Following mouse commands can be used at molecular visualization
+          </Typography>
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogContent>
+        <Divider />
+        <DialogContent>
+          <Box>
+            <div class="container">
+              <div class="row">
+                <div class="col-md-2">
+                  <img
+                    src="../img/mouseleftclick.jpg"
+                    alt=""
+                    style={{ width: "50px", height: "50px" }}
+                  />
                 </div>
-                <div class="row mt-2">
-                  <div class="col-md-2">
-                    <img
-                      src="../img/mousescroll.jpg"
-                      alt=""
-                      style={{ width: "50px", height: "50px" }}
-                    />
-                  </div>
-                  <div class="col-md-10 p-0 d-flex align-items-center">
-                    <Typography color="text.secondary" variant="body2">
-                      <b>Middle button scroll</b>: zoom camera.
-                    </Typography>
-                  </div>
-                </div>
-
-                <div class="row mt-2">
-                  <div class="col-md-2">
-                    <img
-                      src="../img/mousemiddleclick.jpg"
-                      alt=""
-                      style={{ width: "50px", height: "50px" }}
-                    />
-                  </div>
-                  <div class="col-md-10 p-0 d-flex align-items-center">
-                    <Typography color="text.secondary" variant="body2">
-                      <b>Middle button click</b>: center camera on atom.
-                    </Typography>
-                  </div>
-                </div>
-
-                <div class="row mt-2">
-                  <div class="col-md-2">
-                    <img
-                      src="../img/mousemiddlehold.jpg"
-                      alt=""
-                      style={{ width: "50px", height: "50px" }}
-                    />
-                  </div>
-                  <div class="col-md-10 p-0 d-flex align-items-center">
-                    <Typography color="text.secondary" variant="body2">
-                      <b>Middle button hold and move</b>: zoom camera in and
-                      out.
-                    </Typography>
-                  </div>
-                </div>
-
-                <div class="row mt-2">
-                  <div class="col-md-2">
-                    <img
-                      src="../img/mouselefthold.jpg"
-                      alt=""
-                      style={{ width: "50px", height: "50px" }}
-                    />
-                  </div>
-                  <div class="col-md-10 p-0 d-flex align-items-center">
-                    <Typography color="text.secondary" variant="body2">
-                      <b>Left button hold and move</b>: rotate camera around
-                      center.
-                    </Typography>
-                  </div>
-                </div>
-
-                <div class="row mt-2 mb-2">
-                  <div class="col-md-2">
-                    <img
-                      src="../img/mouserighthold.jpg"
-                      alt=""
-                      style={{ width: "50px", height: "50px" }}
-                    />
-                  </div>
-                  <div class="col-md-10 p-0 d-flex align-items-center">
-                    <Typography color="text.secondary" variant="body2">
-                      <b>Right button hold and move</b>: translate camera in
-                      screen plane.
-                    </Typography>
-                  </div>
+                <div class="col-md-10 p-0 d-flex align-items-center">
+                  <Typography color="text.secondary" variant="body2">
+                    <b>Left button click</b>: pick atom.
+                  </Typography>
                 </div>
               </div>
-            </Box>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Close</Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+              <div class="row mt-2">
+                <div class="col-md-2">
+                  <img
+                    src="../img/mousescroll.jpg"
+                    alt=""
+                    style={{ width: "50px", height: "50px" }}
+                  />
+                </div>
+                <div class="col-md-10 p-0 d-flex align-items-center">
+                  <Typography color="text.secondary" variant="body2">
+                    <b>Middle button scroll</b>: zoom camera.
+                  </Typography>
+                </div>
+              </div>
+
+              <div class="row mt-2">
+                <div class="col-md-2">
+                  <img
+                    src="../img/mousemiddleclick.jpg"
+                    alt=""
+                    style={{ width: "50px", height: "50px" }}
+                  />
+                </div>
+                <div class="col-md-10 p-0 d-flex align-items-center">
+                  <Typography color="text.secondary" variant="body2">
+                    <b>Middle button click</b>: center camera on atom.
+                  </Typography>
+                </div>
+              </div>
+
+              <div class="row mt-2">
+                <div class="col-md-2">
+                  <img
+                    src="../img/mousemiddlehold.jpg"
+                    alt=""
+                    style={{ width: "50px", height: "50px" }}
+                  />
+                </div>
+                <div class="col-md-10 p-0 d-flex align-items-center">
+                  <Typography color="text.secondary" variant="body2">
+                    <b>Middle button hold and move</b>: zoom camera in and out.
+                  </Typography>
+                </div>
+              </div>
+
+              <div class="row mt-2">
+                <div class="col-md-2">
+                  <img
+                    src="../img/mouselefthold.jpg"
+                    alt=""
+                    style={{ width: "50px", height: "50px" }}
+                  />
+                </div>
+                <div class="col-md-10 p-0 d-flex align-items-center">
+                  <Typography color="text.secondary" variant="body2">
+                    <b>Left button hold and move</b>: rotate camera around
+                    center.
+                  </Typography>
+                </div>
+              </div>
+
+              <div class="row mt-2 mb-2">
+                <div class="col-md-2">
+                  <img
+                    src="../img/mouserighthold.jpg"
+                    alt=""
+                    style={{ width: "50px", height: "50px" }}
+                  />
+                </div>
+                <div class="col-md-10 p-0 d-flex align-items-center">
+                  <Typography color="text.secondary" variant="body2">
+                    <b>Right button hold and move</b>: translate camera in
+                    screen plane.
+                  </Typography>
+                </div>
+              </div>
+            </div>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 }

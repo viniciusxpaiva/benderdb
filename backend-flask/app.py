@@ -49,6 +49,8 @@ def process_string():
 
     mean_consensus_data = mean_consensus(summary_content[2], summary_content[3])
 
+    print(mean_consensus_data)
+
     return jsonify({'grasp': bsites_grasp,
                     'puresnet': bsites_puresnet,
                     'gass': bsites_gass, 

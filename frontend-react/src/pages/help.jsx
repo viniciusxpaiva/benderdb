@@ -59,96 +59,95 @@ const Help = () => {
           </div>
         </div>
       </div>
-
-      <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-            centered
-          >
-            <Tab
-              label="Submit a protein"
-              sx={{
-                "&:hover": {
-                  color: "#1976d2",
-                  borderBottom: 2,
-                  borderColor: "#1976d2",
-                },
-              }}
-              {...a11yProps(0)}
-            />
-            <Tab
-              label="Available data"
-              sx={{
-                "&:hover": {
-                  color: "#1976d2",
-                  borderBottom: 2,
-                  borderColor: "#1976d2",
-                },
-              }}
-              {...a11yProps(1)}
-            />
-            <Tab
-              label="Results page"
-              sx={{
-                "&:hover": {
-                  color: "#1976d2",
-                  borderBottom: 2,
-                  borderColor: "#1976d2",
-                },
-              }}
-              {...a11yProps(2)}
-            />
-            <Tab
-              label="Summary content"
-              sx={{
-                "&:hover": {
-                  color: "#1976d2",
-                  borderBottom: 2,
-                  borderColor: "#1976d2",
-                },
-              }}
-              {...a11yProps(3)}
-            />
-            <Tab
-              label="Predictor content"
-              sx={{
-                "&:hover": {
-                  color: "#1976d2",
-                  borderBottom: 2,
-                  borderColor: "#1976d2",
-                },
-              }}
-              {...a11yProps(4)}
-            />
-            <Tab
-              label="Visualizations"
-              sx={{
-                "&:hover": {
-                  color: "#1976d2",
-                  borderBottom: 2,
-                  borderColor: "#1976d2",
-                },
-              }}
-              {...a11yProps(5)}
-            />
-            <Tab
-              label="Browser compatibility"
-              sx={{
-                "&:hover": {
-                  color: "#1976d2",
-                  borderBottom: 2,
-                  borderColor: "#1976d2",
-                },
-              }}
-              {...a11yProps(6)}
-            />
-          </Tabs>
-        </Box>
-        <CustomTabPanel value={value} index={0}>
-          <div className="container">
+      <div className="container">
+        <Box sx={{ width: "100%" }}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+              centered
+            >
+              <Tab
+                label="Submit a protein"
+                sx={{
+                  "&:hover": {
+                    color: "#1976d2",
+                    borderBottom: 2,
+                    borderColor: "#1976d2",
+                  },
+                }}
+                {...a11yProps(0)}
+              />
+              <Tab
+                label="Available data"
+                sx={{
+                  "&:hover": {
+                    color: "#1976d2",
+                    borderBottom: 2,
+                    borderColor: "#1976d2",
+                  },
+                }}
+                {...a11yProps(1)}
+              />
+              <Tab
+                label="Results page"
+                sx={{
+                  "&:hover": {
+                    color: "#1976d2",
+                    borderBottom: 2,
+                    borderColor: "#1976d2",
+                  },
+                }}
+                {...a11yProps(2)}
+              />
+              <Tab
+                label="Summary content"
+                sx={{
+                  "&:hover": {
+                    color: "#1976d2",
+                    borderBottom: 2,
+                    borderColor: "#1976d2",
+                  },
+                }}
+                {...a11yProps(3)}
+              />
+              <Tab
+                label="Predictor content"
+                sx={{
+                  "&:hover": {
+                    color: "#1976d2",
+                    borderBottom: 2,
+                    borderColor: "#1976d2",
+                  },
+                }}
+                {...a11yProps(4)}
+              />
+              <Tab
+                label="Visualizations"
+                sx={{
+                  "&:hover": {
+                    color: "#1976d2",
+                    borderBottom: 2,
+                    borderColor: "#1976d2",
+                  },
+                }}
+                {...a11yProps(5)}
+              />
+              <Tab
+                label="Browser compatibility"
+                sx={{
+                  "&:hover": {
+                    color: "#1976d2",
+                    borderBottom: 2,
+                    borderColor: "#1976d2",
+                  },
+                }}
+                {...a11yProps(6)}
+              />
+            </Tabs>
+          </Box>
+          <CustomTabPanel value={value} index={0}>
             <Card variant="outlined">
               <Box sx={{ p: 2 }}>
                 <Stack
@@ -198,10 +197,8 @@ const Help = () => {
                 </div>
               </Box>
             </Card>
-          </div>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <div className="container">
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={1}>
             <Card variant="outlined">
               <Box sx={{ p: 2 }}>
                 <Stack
@@ -251,10 +248,8 @@ const Help = () => {
                 </div>
               </Box>
             </Card>
-          </div>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
-          <div className="container">
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={2}>
             <Card variant="outlined">
               <Box sx={{ p: 2 }}>
                 <Stack
@@ -311,10 +306,8 @@ const Help = () => {
                 </div>
               </Box>
             </Card>
-          </div>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={3}>
-          <div className="container">
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={3}>
             <Card variant="outlined">
               <Box sx={{ p: 2 }}>
                 <Stack
@@ -386,10 +379,8 @@ const Help = () => {
                 </div>
               </Box>
             </Card>
-          </div>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={4}>
-          <div className="container">
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={4}>
             <Card variant="outlined">
               <Box sx={{ p: 2 }}>
                 <Stack
@@ -462,10 +453,8 @@ const Help = () => {
                 </div>
               </Box>
             </Card>
-          </div>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={5}>
-          <div className="container">
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={5}>
             <Card variant="outlined">
               <Box sx={{ p: 2 }}>
                 <Stack
@@ -548,10 +537,8 @@ const Help = () => {
                 </div>
               </Box>
             </Card>
-          </div>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={6}>
-          <div className="container">
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={6}>
             <Card variant="outlined">
               <Box sx={{ p: 2 }}>
                 <Stack
@@ -611,9 +598,9 @@ const Help = () => {
                 </div>
               </Box>
             </Card>
-          </div>
-        </CustomTabPanel>
-      </Box>
+          </CustomTabPanel>
+        </Box>
+      </div>
     </BaseLayout>
   );
 };

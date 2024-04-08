@@ -1,8 +1,0 @@
-Predictor,Site,Residues
-GRaSP,0,"ARG_21_A,ARG_24_A"
-PointSite,0,"HIS_17_A,ARG_21_A,ARG_24_A"
-DeepPocket,0,"ARG_50_A,GLY_53_A,SER_54_A,GLY_56_A,ARG_57_A,ASP_60_A"
-DeepPocket,1,"LEU_39_A,VAL_43_A,GLN_46_A,ARG_47_A,ARG_50_A"
-DeepPocket,2,"HIS_17_A,LEU_20_A,ARG_21_A,ARG_24_A"
-DeepPocket,3,"SER_42_A,ARG_45_A,GLN_46_A,HIS_48_A,ARG_49_A"
-DeepPocket,4,"ALA_2_A,VAL_3_A,PRO_4_A,GLU_5_A,ILE_6_A"

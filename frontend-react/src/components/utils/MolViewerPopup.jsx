@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import * as NGL from "ngl/dist/ngl";
-import NGLViewer from "./NGLViewer";
+import NGLViewer from "../visualization/NGLViewer";
 import ResiduesTabs from "../items/ResiduesTabs";
+
 
 const bSiteColors = [
   "#167288",

@@ -8,7 +8,9 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import MolViewerPopup from "../visualization/MolViewerPopup";
+import MolViewerPopup from "../utils/MolViewerPopup";
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/Button";
 
 const bSiteColors = [
   "#167288",
@@ -162,6 +164,18 @@ export default function SummaryPopup(props) {
               </Stack>
             </Box>
           </DialogTitle>
+          <IconButton
+            aria-label="close"
+            onClick={handleCloseInters}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
           <Divider />
           <DialogContent>
             <MolViewerPopup

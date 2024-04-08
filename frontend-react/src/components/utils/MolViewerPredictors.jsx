@@ -3,7 +3,7 @@ import * as NGL from "ngl/dist/ngl";
 import Stack from "@mui/material/Stack";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
-import NGLViewer from "./NGLViewer";
+import NGLViewer from "../visualization/NGLViewer";
 import ResiduesTabs from "../items/ResiduesTabs";
 
 const bSiteColors = [
