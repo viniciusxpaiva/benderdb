@@ -93,13 +93,13 @@ const Home = () => {
 								<h2>Binding sites in database</h2>
 							</p>
 							<p>
-								BENDER DB is a database that contains protein binding sites for proteomes of neglected disease pathogens.
+								BENDER DB is a comprehensive database containing protein binding sites for proteomes of neglected disease pathogens.
 							</p>
 							<p>
-								10 different proteomes are available, totaling 101.813 proteins and 1.172.743 binding sites.
+								Database includes 10 different proteomes, encompassing a total of 101,813 proteins and 1,172,743 binding sites.
 							</p>
 							<p>
-								A complete list of all proteomes and available binding sites in BENDER DB can be found at Available Data menu.
+								A complete list of all proteomes and available binding sites in BENDER DB can be found in the Available Data menu.
 							</p>
 
 
@@ -129,16 +129,16 @@ const Home = () => {
 							</p>
 							
 							<p>
-							Proteomes related to neglected disease pathogens (listed by <a className="text-decoration-none" href="https://www.who.int/health-topics/neglected-tropical-diseases#tab=tab_1" target="_blank" rel="noopener noreferrer">WHO</a> and <a className="text-decoration-none" href="https://www.paho.org/en/topics/neglected-tropical-and-vector-borne-diseases" target="_blank" rel="noopener noreferrer">PAHO</a>) were collected from the AlphaFold database.
+							Proteomes related to neglected disease pathogens, as listed by <a className="text-decoration-none" href="https://www.who.int/health-topics/neglected-tropical-diseases#tab=tab_1" target="_blank" rel="noopener noreferrer">WHO</a> and <a className="text-decoration-none" href="https://www.paho.org/en/topics/neglected-tropical-and-vector-borne-diseases" target="_blank" rel="noopener noreferrer">PAHO</a>, were collected from the AlphaFold database.
 
 
 							</p>
 							<p>
-							Six different predictors were used to search for pockets/binding sites in every single protein.
+							Five different predictors were used to identify pockets and binding sites in each protein.
 							</p>
 
 							<p>
-							A web server was created to make the results available to the entire community.
+							A web server was created to make the results accessible to the entire community.
 							</p>
 						</div>
 
@@ -148,9 +148,9 @@ const Home = () => {
 						<div class="col-md-6" style={{display: "flex", flexDirection:"column", justifyContent:"center"}}>
 							<br /><br />
 							<h2 style={{marginBottom: "25px"}}>Data visualization</h2>
-							<p>BENDER DB uses two main visual representations: NGL Viewer and UpSet Plot.</p>
-							<p>NGL Viewer allows binding sites and residues found by predictors to be analyzed in the protein structure itself.</p>
-							<p>With the UpSet Plot it is possible to verify the convergence of results in all combinations of binding site predictions.</p>
+							<p>BENDER DB utilizes two primary visual representations: NGL Viewer and UpSet Plot.</p>
+							<p>NGL Viewer allows for the analysis of binding sites and residues identified by predictors within the protein structure itself.</p>
+							<p>UpSet Plot enables verification of the convergence of results across all combinations of binding site predictions.</p>
 						</div>
 						<div class="col-md-6">
 							<div class="bordered">
