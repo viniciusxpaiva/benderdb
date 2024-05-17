@@ -165,10 +165,10 @@ export default function ResiduesTabs(props) {
                           {p[1]}
                         </StyledTableCell>
                         <StyledTableCell align="center">
-                          {p[0]}
+                          {p[2]}
                         </StyledTableCell>
                         <StyledTableCell align="center">
-                          {p[2]}
+                          {p[0]}
                         </StyledTableCell>
                         <StyledTableCell align="center">
                           <IconButton
@@ -217,10 +217,10 @@ export default function ResiduesTabs(props) {
                                 {p[1]}
                               </StyledTableCell>
                               <StyledTableCell align="center">
-                                {p[0]}
+                                {p[2]}
                               </StyledTableCell>
                               <StyledTableCell align="center">
-                                {p[2]}
+                                {p[0]}
                               </StyledTableCell>
                               <StyledTableCell align="center">
                                 <IconButton

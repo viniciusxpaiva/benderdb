@@ -148,11 +148,11 @@ const DataTable = () => {
                   alignItems="center"
                 >
                   <Typography gutterBottom variant="h5" component="div">
-                    Summary content
+                    Neglected disease proteomes
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  Binding site intersections
+                  All available proteomes in BENDER DB are listed below
                 </Typography>
               </Box>
               <Divider />
@@ -231,7 +231,7 @@ const DataTable = () => {
               scrollButtons="auto"
               value={0}
             >
-              <Tab label={"Catalogued proteins"} {...a11yProps(0)} />
+              <Tab label={"Proteins"} {...a11yProps(0)} />
             </Tabs>
           </Box>
           <CustomTabPanel value={0} index={0}>
@@ -243,28 +243,27 @@ const DataTable = () => {
                   alignItems="center"
                 >
                   <Typography gutterBottom variant="h5" component="div">
-                    Summary content
+                    Catalogued proteins
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  Binding site intersections
+                  All available proteins in BENDER DB are displayed below
                 </Typography>
               </Box>
               <Divider />
               <Box sx={{ p: 2 }}>
-              <MDBDataTable
-                      striped
-                      bordered
-                      hover
-                      displayEntries={false}
-                      data={data}
-                      noBottomColumns={true}
-                      entries={10}
-                    />
+                <MDBDataTable
+                  striped
+                  bordered
+                  hover
+                  displayEntries={false}
+                  data={data}
+                  noBottomColumns={true}
+                  entries={10}
+                />
               </Box>
             </Card>
           </CustomTabPanel>
-
         </div>
       </BaseLayout>
     </>

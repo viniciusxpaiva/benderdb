@@ -287,7 +287,7 @@ export default function ResultsPageTabs(props) {
                 alignItems="center"
               >
                 <Typography gutterBottom variant="h5" component="div">
-                  Residues found on binding sites
+                  Binding sites residues
                 </Typography>
               </Stack>
             </Box>
@@ -316,7 +316,7 @@ export default function ResultsPageTabs(props) {
                           found in those predicted binding sites
                         </h6>
                         <h6>
-                          Most common residues can be found at table bellow
+                          Most common residues are listed in table bellow
                         </h6>
                       </Alert>
                     </Stack>
