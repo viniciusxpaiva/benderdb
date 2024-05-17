@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from utils import *
-from consensus_methods import mean_consensus
+from consensus_methods import *
 
 app = Flask(__name__)
 CORS(app)
@@ -49,7 +49,9 @@ def process_string():
 
     mean_consensus_data = mean_consensus(summary_content[2], summary_content[3])
 
-    print(mean_consensus_data)
+    ai_prediction_data = ai_prediction(input_string)
+
+    print(ai_prediction_data)
 
     return jsonify({'grasp': bsites_grasp,
                     'puresnet': bsites_puresnet,
@@ -60,7 +62,8 @@ def process_string():
                     'summary': summary_content,
                     'prot_folder': prot_folder,
                     'all_residues': protein_residues,
-                    'mean_consensus' : mean_consensus_data})
+                    'mean_consensus' : mean_consensus_data,
+                    'ai_prediction' : ai_prediction_data})
 
 # Run the app
 if __name__ == '__main__':

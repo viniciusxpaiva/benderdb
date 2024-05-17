@@ -35,6 +35,7 @@ export default function MolViewerSummary(props) {
         bindingResidues={props.bindingResidues}
         numPreds={props.numPreds}
         consensusData={props.consensusData}
+        aiPredictionData={props.aiPredictionData}
         stage={stageSummary}
         setStage={setStageSummary}
         tabIndex={tabIndex}
@@ -50,6 +51,7 @@ export default function MolViewerSummary(props) {
         bindingResidues={props.bindingResidues}
         numPreds={props.numPreds}
         consensusData={props.consensusData}
+        aiPredictionData={props.aiPredictionData}
         stage={stageSummary}
       />
     </div>

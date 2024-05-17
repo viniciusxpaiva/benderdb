@@ -97,9 +97,10 @@ export default function ResiduesTabs(props) {
           <Typography color="text.secondary" variant="body2">
             {props.tabIndex === 0
               ? "Shades of blue represent a low probability of belonging to a binding site, while shades of red indicate a high probability."
-              : `Residues displayed below are presented in ${
-                  ((props.numPreds - props.tabIndex + 1) / props.numPreds) * 100
-                }% of predictors results.`}
+              : props.tabIndex === 1
+                ? "Residues displayed below are predicted by BENDER AI, a Machine Learning model based meta-predictor."
+                : `Residues displayed below are presented in ${((props.numPreds - props.tabIndex + 2) / props.numPreds) * 100}% of predictors results.`}
+
           </Typography>
         </Box>
         <Divider />
@@ -119,35 +120,76 @@ export default function ResiduesTabs(props) {
                   <TableBody>
                     {props.consensusData.map((p, i) => (
                       <StyledTableRow key={i}>
-                      <StyledTableCell align="center">
-                        {p[1]}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {p[2]}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {p[0]}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        <IconButton
-                          className="p-1"
-                          aria-label="focus-res"
-                          title="Focus on this residue"
-                          onClick={() =>
-                            focusResidue(props.stage, p[2], p[0])
-                          }
-                        >
-                          <RemoveRedEyeOutlinedIcon />
-                        </IconButton>
-                      </StyledTableCell>
-                    </StyledTableRow>
+                        <StyledTableCell align="center">
+                          {p[1]}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {p[2]}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {p[0]}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          <IconButton
+                            className="p-1"
+                            aria-label="focus-res"
+                            title="Focus on this residue"
+                            onClick={() =>
+                              focusResidue(props.stage, p[2], p[0])
+                            }
+                          >
+                            <RemoveRedEyeOutlinedIcon />
+                          </IconButton>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </CustomTabPanel>
+            <CustomTabPanel value={props.tabIndex} index={1}>
+              <TableContainer component={Paper} sx={{ height: 676 }}>
+                <Table stickyHeader aria-label="customized table" size="small">
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell align="center">Residue</StyledTableCell>
+                      <StyledTableCell align="center">Number</StyledTableCell>
+                      <StyledTableCell align="center">Chain</StyledTableCell>
+                      <StyledTableCell align="center">Look at</StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {props.aiPredictionData.map((p, i) => (
+                      <StyledTableRow key={i}>
+                        <StyledTableCell align="center">
+                          {p[1]}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {p[0]}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {p[2]}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          <IconButton
+                            className="p-1"
+                            aria-label="focus-res"
+                            title="Focus on this residue"
+                            onClick={() =>
+                              focusResidue(props.stage, p[2], p[0])
+                            }
+                          >
+                            <RemoveRedEyeOutlinedIcon />
+                          </IconButton>
+                        </StyledTableCell>
+                      </StyledTableRow>
                     ))}
                   </TableBody>
                 </Table>
               </TableContainer>
             </CustomTabPanel>
             {[...Array(props.numPreds)].map((_, i) => (
-              <CustomTabPanel value={props.tabIndex} index={i + 1}>
+              <CustomTabPanel value={props.tabIndex} index={i + 2}>
                 <TableContainer component={Paper} sx={{ height: 676 }}>
                   <Table
                     stickyHeader

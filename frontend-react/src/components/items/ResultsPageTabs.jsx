@@ -151,6 +151,7 @@ export default function ResultsPageTabs(props) {
             bindingResidues={props.bindingResidues}
             numPreds={props.numPreds}
             consensusData={props.consensusData}
+            aiPredictionData={props.aiPredictionData}
           />
           <Card variant="outlined" sx={{ marginTop: 3 }}>
             <Box sx={{ p: 2 }}>

@@ -51,6 +51,7 @@ const Results = () => {
   const [p2rankSites, setP2rankSites] = useState([]);
 
   const [meanConsensus, setMeanConsensus] = useState([]);
+  const [aiPrediction, setAiPrediction] = useState([]);
 
   const [pdbFolder, setPdbFolder] = useState("");
 
@@ -81,6 +82,7 @@ const Results = () => {
         setSummaryContent(data.summary);
         setPdbFolder(data.prot_folder);
         setMeanConsensus(data.mean_consensus);
+        setAiPrediction(data.ai_prediction);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -165,6 +167,7 @@ const Results = () => {
               upsetPlotData={upsetPlotData}
               numPreds={summaryContent[3]}
               consensusData={meanConsensus}
+              aiPredictionData={aiPrediction}
             />
           ) : (
             <div className="row mt-4">

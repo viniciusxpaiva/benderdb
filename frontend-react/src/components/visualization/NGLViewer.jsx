@@ -55,6 +55,7 @@ export default function NGLViewer(props) {
   const [siteReprButton, setSiteProtReprButton] = useState("licorice");
   const [bgroundColor, setBGroundColor] = useState("white");
   const [open, setOpen] = useState(false);
+  console.log(props.consensusData)
 
   function setViewerTabs() {
     if (props.type === "summary") {
@@ -117,7 +118,7 @@ export default function NGLViewer(props) {
     console.log(BindSites);
     const bindSitesToShow = generateBindSiteStringSummary(BindSites);
     console.log(bindSitesToShow);
-    component.addRepresentation("cartoon", {
+    component.addRepresentation("ball+stick", {
       color: "#b45248",
       sele: bindSitesToShow,
     });
@@ -209,7 +210,7 @@ export default function NGLViewer(props) {
       "/pymol/" +
       protName +
       "_" +
-      props.predictor +
+      props.pred +
       "_sites_pymol_session.pse";
     const link = document.createElement("a");
     // Setting the href attribute to the file URL
@@ -217,7 +218,7 @@ export default function NGLViewer(props) {
 
     // Setting the filename for the download
     link.download =
-      protName + "_" + props.predictor + "_sites_pymol_session.pse";
+      protName + "_" + props.pred + "_sites_pymol_session.pse";
 
     // Appending the link to the document
     document.body.appendChild(link);
@@ -249,7 +250,7 @@ export default function NGLViewer(props) {
         });
     } else {
       const filteredData = props.consensusData.filter(
-        (p) => p[3] >= (props.numPreds - tabIndex + 1) / props.numPreds
+        (p) => p[3] >= (props.numPreds - tabIndex + 2) / props.numPreds
       );
       stage
         .loadFile(
@@ -258,7 +259,7 @@ export default function NGLViewer(props) {
         .then((component) => {
           component.addRepresentation("cartoon", { color: "lightgrey" });
           component.autoView();
-          changeColorBindSites(component, filteredData, "ball+stick");
+          changeColorBindSites(component, tabIndex === 1? props.aiPredictionData : filteredData, "ball+stick");
         });
     }
 
@@ -327,6 +328,17 @@ export default function NGLViewer(props) {
             label="Consensus"
             {...a11yProps(0)}
           />
+          <Tab
+            sx={{
+              "&:hover": {
+                color: "#1976d2",
+                borderBottom: 2,
+                borderColor: "#1976d2",
+              },
+            }}
+            label="BENDER AI"
+            {...a11yProps(2)}
+          />
           {[...Array(props.numPreds)].map((_, i) => (
             <Tab
               sx={{
@@ -339,7 +351,7 @@ export default function NGLViewer(props) {
               label={`${Math.floor(
                 ((props.numPreds - i) / props.numPreds) * 100
               )}%`}
-              {...a11yProps(i + 1)}
+              {...a11yProps(i + 2)}
             />
           ))}
         </Tabs>

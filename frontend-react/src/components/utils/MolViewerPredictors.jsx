@@ -65,6 +65,7 @@ export default function MolViewerPredictors(props) {
             type={"predictors"}
             pdb={props.pdb}
             pdbFolder={props.pdbFolder}
+            pred={props.pred}
             numPreds={props.numPreds}
             consensusData={props.consensusData}
             stage={stagePredictors}
