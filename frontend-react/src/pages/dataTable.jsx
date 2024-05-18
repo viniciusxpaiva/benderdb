@@ -152,7 +152,7 @@ const DataTable = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  All available proteomes in BENDER DB are listed below
+                  Available proteomes in BENDER DB are listed below
                 </Typography>
               </Box>
               <Divider />
@@ -247,7 +247,7 @@ const DataTable = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  All available proteins in BENDER DB are displayed below
+                  Available proteins in BENDER DB are displayed below
                 </Typography>
               </Box>
               <Divider />

@@ -54,6 +54,7 @@ const Results = () => {
   const [aiPrediction, setAiPrediction] = useState([]);
 
   const [pdbFolder, setPdbFolder] = useState("");
+  const [proteinFullName, setProteinFullName] = useState("MAK10_SUBUNIT_-_NATC_N(ALPHA )-TERMINAL_ACETYLTRANSFERASE_-_PUTATIVE");
 
   const [summaryContent, setSummaryContent] = useState([]);
 
@@ -168,6 +169,7 @@ const Results = () => {
               numPreds={summaryContent[3]}
               consensusData={meanConsensus}
               aiPredictionData={aiPrediction}
+              proteinFullName={proteinFullName}
             />
           ) : (
             <div className="row mt-4">

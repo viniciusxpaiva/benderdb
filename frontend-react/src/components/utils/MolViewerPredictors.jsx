@@ -5,6 +5,8 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import NGLViewer from "../visualization/NGLViewer";
 import ResiduesTabs from "../items/ResiduesTabs";
+import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
 
 const bSiteColors = [
   "#167288",
@@ -61,6 +63,20 @@ export default function MolViewerPredictors(props) {
     <>
       {props.bindSites.length > 0 ? (
         <div className="row">
+          {props.pred !== "GRaSP" ? (<Stack sx={{ marginBottom: 3 }} spacing={2}>
+            <Card
+              variant="outlined"
+              style={{ textAlign: 'center', justifyContent: 'center', padding: 6 }}
+            >
+              <Typography variant="body1" sx={{ marginTop: 1 }}>
+                Protein from {props.pdbFolder.replace('_', ' ')} organism
+              </Typography>
+              <Typography color="text.secondary" variant="body1" sx={{ marginTop: 1 }}>
+                {props.proteinFullName}
+              </Typography>
+            </Card>
+          </Stack>) : <></>}
+
           <NGLViewer
             type={"predictors"}
             pdb={props.pdb}

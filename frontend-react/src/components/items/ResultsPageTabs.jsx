@@ -59,6 +59,7 @@ export default function ResultsPageTabs(props) {
     <>
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+
           <Tabs
             value={value}
             onChange={handleChange}
@@ -145,6 +146,19 @@ export default function ResultsPageTabs(props) {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
+          <Stack sx={{ marginBottom: 3 }} spacing={2}>
+            <Card
+              variant="outlined"
+              style={{ textAlign: 'center', justifyContent: 'center', padding: 6 }}
+            >
+              <Typography variant="body1" sx={{ marginTop: 1 }}>
+                Protein from {props.pdbFolder.replace('_', ' ')} organism
+              </Typography>
+              <Typography color="text.secondary" variant="body1" sx={{ marginTop: 1 }}>
+                {props.proteinFullName}
+              </Typography>
+            </Card>
+          </Stack>
           <MolViewerSummary
             pdb={props.pdb}
             pdbFolder={props.pdbFolder}
@@ -190,7 +204,7 @@ export default function ResultsPageTabs(props) {
                               ))}
                             </h6>
                           </div>
-                          {}
+                          { }
                           <SummaryPopup
                             pdb={props.pdb}
                             pdbFolder={props.pdbFolder}
@@ -344,6 +358,7 @@ export default function ResultsPageTabs(props) {
             pdb={props.pdb}
             bindSites={props.graspSites}
             pdbFolder={props.pdbFolder}
+            proteinFullName={props.proteinFullName}
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
@@ -354,6 +369,7 @@ export default function ResultsPageTabs(props) {
             pdb={props.pdb}
             bindSites={props.puresnetSites}
             pdbFolder={props.pdbFolder}
+            proteinFullName={props.proteinFullName}
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3}>
@@ -364,6 +380,7 @@ export default function ResultsPageTabs(props) {
             pdb={props.pdb}
             bindSites={props.gassSites}
             pdbFolder={props.pdbFolder}
+            proteinFullName={props.proteinFullName}
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={4}>
@@ -374,6 +391,7 @@ export default function ResultsPageTabs(props) {
             pdb={props.pdb}
             bindSites={props.deeppocketSites}
             pdbFolder={props.pdbFolder}
+            proteinFullName={props.proteinFullName}
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={5}>
@@ -384,6 +402,7 @@ export default function ResultsPageTabs(props) {
             pdb={props.pdb}
             bindSites={props.pointsiteSites}
             pdbFolder={props.pdbFolder}
+            proteinFullName={props.proteinFullName}
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={6}>
@@ -394,6 +413,7 @@ export default function ResultsPageTabs(props) {
             pdb={props.pdb}
             bindSites={props.p2rankSites}
             pdbFolder={props.pdbFolder}
+            proteinFullName={props.proteinFullName}
           />
         </CustomTabPanel>
       </Box>
