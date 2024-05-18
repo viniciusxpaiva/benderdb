@@ -51,8 +51,6 @@ def process_string():
 
     ai_prediction_data = ai_prediction(input_string)
 
-    print(ai_prediction_data)
-
     return jsonify({'grasp': bsites_grasp,
                     'puresnet': bsites_puresnet,
                     'gass': bsites_gass, 

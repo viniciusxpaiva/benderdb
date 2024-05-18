@@ -2,9 +2,11 @@ import pandas as pd
 import os
 import glob
 
+BACKEND_PATH = '/home/vinicius/Desktop/benderdb/backend-flask/'
+FRONTEND_PATH = '/home/vinicius/Desktop/benderdb/frontend-react/'
 
 def search_PDB(search_string):
-	pdb_folder = '../frontend-react/public/pdbs/'
+	pdb_folder = FRONTEND_PATH + 'public/pdbs/'
 
 	pdb_name = 'AF-' + search_string.upper() + '-F1-model_v4.pdb'
 	
@@ -34,12 +36,12 @@ def create_dataframe(prot_name, data, predictor):
     df = pd.DataFrame(rows, columns=['Predictor', 'Site', 'Residues'])
     df.to_csv(prot_name + '_' + predictor + '_results.csv', index=False)
 
-    cmd = 'cp ' + prot_name + '_' + predictor + '_results.csv ' + '../frontend-react/public/results'
+    cmd = 'cp ' + prot_name + '_' + predictor + '_results.csv ' + FRONTEND_PATH + 'public/results'
     os.system(cmd)
 
 
 def concat_dataframes(prot_name):
-	folder_path = '../data/puresnet/'
+	folder_path = BACKEND_PATH + 'data/puresnet/'
 	
 	file_paths = glob.glob(prot_name +'_*.csv')
 
@@ -53,13 +55,13 @@ def concat_dataframes(prot_name):
 
 	concatenated_df.to_csv(prot_name + '_overall_results.csv', index=False)  # Replace 'concatenated_data.csv' with your desired file name
 
-	cmd = 'cp ' + prot_name + '_overall_results.csv ' + '../frontend-react/public/results'
+	cmd = 'cp ' + prot_name + '_overall_results.csv ' + FRONTEND_PATH + 'public/results'
 	os.system(cmd)
 
 
 def create_download_files(prot_name, bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank):
 	
-	if prot_name + '_overall_results.csv' not in os.listdir('../frontend-react/public/results'):
+	if prot_name + '_overall_results.csv' not in os.listdir(FRONTEND_PATH + 'public/results'):
 		create_dataframe(prot_name, bsites_grasp, "GRaSP")
 		create_dataframe(prot_name, bsites_puresnet, "PUResNet")
 		create_dataframe(prot_name, bsites_gass, "GASS")
@@ -76,7 +78,7 @@ def create_download_files(prot_name, bsites_grasp, bsites_puresnet, bsites_gass,
 	
 
 def get_all_protein_residues(prot_name, prot_folder):
-	pdb_folder = '../frontend-react/public/pdbs/' + prot_folder + '/'
+	pdb_folder = FRONTEND_PATH + 'public/pdbs/' + prot_folder + '/'
 	pdb_name = 'AF-' + prot_name.upper() + '-F1-model_v4.pdb'
 	protein_file = open(pdb_folder + "AF-" + prot_name + "-F1-model_v4.pdb", "r")
 	pdb_lines = protein_file.readlines()
@@ -260,7 +262,7 @@ def grasp_search(prot_name):
 	Function to handle search for GRaSP results
 	'''
 	prot_name = prot_name.upper()
-	file_path = 'data/grasp/'
+	file_path = BACKEND_PATH + 'data/grasp/'
 	file_name = 'GRaSP_Concatenated_Sites.csv'
 
 	df = pd.read_csv(file_path + file_name)
@@ -286,7 +288,7 @@ def puresnet_search(prot_name):
 	Function to handle search for PUResNet results
 	'''
 	prot_name = prot_name.upper()
-	file_path = 'data/puresnet/'
+	file_path = BACKEND_PATH + 'data/puresnet/'
 	file_name = 'PUResNet_Concatenated_Sites.csv'
 
 	df = pd.read_csv(file_path + file_name)
@@ -314,7 +316,7 @@ def p2rank_search(prot_name):
 	Function to handle search for p2Rank results
 	'''
 	prot_name = prot_name.upper()
-	file_path = 'data/p2rank/'
+	file_path = BACKEND_PATH + 'data/p2rank/'
 	file_name = 'p2Rank_Concatenated_Sites.csv'
 
 	df = pd.read_csv(file_path + file_name)
@@ -339,7 +341,7 @@ def pointsite_search(prot_name):
 	Function to handle search for PointSite results
 	'''
 	prot_name = prot_name.upper()
-	file_path = 'data/pointsite/'
+	file_path = BACKEND_PATH + 'data/pointsite/'
 	file_name = 'PointSite_Concatenated_Sites.csv'
 
 	df = pd.read_csv(file_path + file_name)
@@ -364,7 +366,7 @@ def deeppocket_search(prot_name):
 	Function to handle search for DeepPocket results
 	'''
 	prot_name = prot_name.upper()
-	file_path = 'data/deeppocket/'
+	file_path = BACKEND_PATH + 'data/deeppocket/'
 	file_name = 'DeepPocket_Concatenated_Sites.csv'
 
 	df = pd.read_csv(file_path + file_name)
@@ -383,7 +385,3 @@ def deeppocket_search(prot_name):
 		result_list.append(format_bsite_string(blist))
 	
 	return result_list
-
-#grasp_search('X8F8R7')
-#p2rank_search('X8F8R7')
-#pointsite_search('X8F8R7')
