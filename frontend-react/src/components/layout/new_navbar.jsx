@@ -9,11 +9,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 
-const pages = ['Example', 'Available data', 'Contact', 'Help'];
 const pagesLinks = { 'Example': '/results/A4HXH5', 'Available data': '/datatable', 'Contact': '/contact', 'Help': '/help' };
 
 function ResponsiveAppBar() {
@@ -26,6 +25,9 @@ function ResponsiveAppBar() {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+  const location = useLocation();
+  const currentPage = location.pathname;
+  console.log(currentPage)
 
   return (
     <AppBar position="static">
@@ -86,7 +88,7 @@ function ResponsiveAppBar() {
                   <MenuItem key={k}
                   component={Link}
                   to={v}>
-                    <Typography textAlign="center">{k}</Typography>
+                    <Typography textAlign="center">{k} </Typography>
                   </MenuItem>
                 ))}
               </Menu>
@@ -117,7 +119,13 @@ function ResponsiveAppBar() {
                   to={v}
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >
-                  <Typography variant='body2'>
+                  <Typography variant='body2' sx={{
+                     textDecoration: 'none',
+                     "&:hover": { 
+                       fontWeight: 'bold' 
+                     },
+                     fontWeight: currentPage === v ? "bold" : "normal"
+                    }}>
                   {k}
                   </Typography>
                   
