@@ -10,6 +10,8 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from "react-router-dom";
+import Avatar from '@mui/material/Avatar';
+import Tooltip from '@mui/material/Tooltip';
 
 const pages = ['Example', 'Available data', 'Contact', 'Help'];
 const pagesLinks = { 'Example': '/results/A4HXH5', 'Available data': '/datatable', 'Contact': '/contact', 'Help': '/help' };
@@ -29,8 +31,8 @@ function ResponsiveAppBar() {
     <AppBar position="static">
       <div className="container">
         <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <Typography
+          <Toolbar disableGutters sx={{display: "flex"}}>
+          <Typography
               variant="h6"
               noWrap
               component={Link}
@@ -45,7 +47,10 @@ function ResponsiveAppBar() {
                 textDecoration: 'none',
               }}
             >
-              BENDER DB
+              BENDER DB | 
+            </Typography>
+            <Typography variant='body2' sx={{display: { xs: 'none', md: 'flex' }}}>
+            PROTEIN BINDING SITE DATABASE
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -77,9 +82,11 @@ function ResponsiveAppBar() {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
+                {Object.entries(pagesLinks).map(([k, v]) => (
+                  <MenuItem key={k}
+                  component={Link}
+                  to={v}>
+                    <Typography textAlign="center">{k}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
@@ -102,7 +109,7 @@ function ResponsiveAppBar() {
             >
               BENDER DB
             </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            <Box sx={{ marginLeft: "auto", flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
               {Object.entries(pagesLinks).map(([k, v]) => (
                 <Button
                   key={k}
@@ -110,7 +117,10 @@ function ResponsiveAppBar() {
                   to={v}
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >
+                  <Typography variant='body2'>
                   {k}
+                  </Typography>
+                  
                 </Button>
               ))}
             </Box>
