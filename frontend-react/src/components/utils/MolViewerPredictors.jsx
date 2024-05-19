@@ -63,19 +63,19 @@ export default function MolViewerPredictors(props) {
     <>
       {props.bindSites.length > 0 ? (
         <div className="row">
-          {props.pred !== "GRaSP" ? (<Stack sx={{ marginBottom: 3 }} spacing={2}>
+          <Stack sx={{ marginBottom: 2 }} spacing={2}>
             <Card
               variant="outlined"
-              style={{ textAlign: 'center', justifyContent: 'center', padding: 6 }}
+              style={{ textAlign: 'center', justifyContent: 'center', border: 0, borderTop: 0, borderLeft: 0, borderRight: 0 }}
             >
-              <Typography variant="body1" sx={{ marginTop: 1 }}>
-                Protein from {props.pdbFolder.replace('_', ' ')} organism
+              <Typography variant="body1">
+                Protein from <b>{props.pdbFolder.replace('_', ' ')}</b> organism
               </Typography>
               <Typography color="text.secondary" variant="body1" sx={{ marginTop: 1 }}>
                 {props.proteinFullName}
               </Typography>
             </Card>
-          </Stack>) : <></>}
+          </Stack>
 
           <NGLViewer
             type={"predictors"}

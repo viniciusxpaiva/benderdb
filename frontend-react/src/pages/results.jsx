@@ -7,6 +7,9 @@ import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
 import ResultsPageTabs from "../components/items/ResultsPageTabs";
 import LoadingButton from "@mui/lab/LoadingButton";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import Button from '@mui/material/Button';
 
 const predictors = [
   "GRaSP",
@@ -60,7 +63,7 @@ const Results = () => {
 
   const [upsetClickName, setUpsetClickName] = useState([]);
   const [upsetClickResidues, setUpsetClickResidues] = useState([]);
-  
+
   useEffect(() => {
     // Fetch the processed string from the Flask backend
     const fetchProcessedString = async () => {
@@ -139,10 +142,14 @@ const Results = () => {
         >
           <div className="row justify-content-center">
             <div class="col-md-12 text-center">
-              <h6 className="display-6 text-light">
-                Predicted binding sites for protein{" "}
-                <strong>{decodeURIComponent(inputString)}</strong>
-              </h6>
+              {upsetPlotData && pdbFolder && summaryTableData ? (
+                <h6 className="display-6 text-light">
+                  Predicted binding sites for protein{" "}
+                  <strong>{decodeURIComponent(inputString)}</strong>
+                </h6>) : (
+                <h6 className="display-6 text-light">
+                  Searching results...
+                </h6>)}
             </div>
           </div>
         </div>
@@ -173,21 +180,22 @@ const Results = () => {
             />
           ) : (
             <div className="row mt-4">
-              <LoadingButton
-                loading
-                variant="outlined"
-                style={{ border: "none", boxShadow: "none" }}
+              <Backdrop
+                sx={{
+                  color: '#fff',
+                  zIndex: (theme) => theme.zIndex.drawer + 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                open={true}
               >
-                Submit
-              </LoadingButton>
-              <Stack sx={{ width: "100%", marginTop: 4 }} spacing={2}>
-                <Alert severity="info">
-                  <AlertTitle>
-                    <strong>Please wait</strong>
-                  </AlertTitle>
-                  Loading data...
-                </Alert>
-              </Stack>
+                <div className="mb-4">
+                  Please wait. Loading data...
+                </div>
+                <CircularProgress color="inherit" />
+              </Backdrop>
             </div>
           )}
         </div>

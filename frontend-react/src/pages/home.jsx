@@ -87,7 +87,7 @@ const Home = () => {
 				</div>
 				
 				<div class="container">
-					<div class="row">
+					<div class="row mt-4">
 						<div class="col-md-6" style={{display: "flex", flexDirection:"column", justifyContent:"center"}}>
 							<p>
 								<h2>Binding sites in database</h2>
