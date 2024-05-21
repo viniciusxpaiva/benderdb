@@ -2,14 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BaseLayout from "../components/layout/base";
 import "reactjs-popup/dist/index.css";
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
-import Stack from "@mui/material/Stack";
 import ResultsPageTabs from "../components/items/ResultsPageTabs";
-import LoadingButton from "@mui/lab/LoadingButton";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import Button from '@mui/material/Button';
 
 const predictors = [
   "GRaSP",

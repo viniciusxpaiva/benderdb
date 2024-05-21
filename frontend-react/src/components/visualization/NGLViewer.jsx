@@ -315,7 +315,7 @@ export default function NGLViewer(props) {
           onChange={handleTabChange}
           aria-label="basic tabs example"
           variant="scrollable"
-          scrollButtons="auto"
+          allowScrollButtonsMobile
         >
           <Tab
             sx={{
@@ -374,7 +374,7 @@ export default function NGLViewer(props) {
           onChange={handleTabChange}
           aria-label="basic tabs example"
           variant="scrollable"
-          scrollButtons="auto"
+          allowScrollButtonsMobile
         >
           {props.bindSites.map((site, i) => (
             <Tab
@@ -407,6 +407,7 @@ export default function NGLViewer(props) {
         <Tabs
           aria-label="basic tabs example"
           variant="scrollable"
+          allowScrollButtonsMobile
           scrollButtons="auto"
           value={0}
         >

@@ -1,5 +1,4 @@
 import Footer from "./footer";
-import SearchAppBar from "./navbar";
 import ResponsiveAppBar from "./new_navbar";
 
 const BaseLayout = ({children}) => {

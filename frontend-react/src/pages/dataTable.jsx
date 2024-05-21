@@ -260,6 +260,7 @@ const DataTable = () => {
                   data={data}
                   noBottomColumns={true}
                   entries={10}
+                  responsive
                 />
               </Box>
             </Card>

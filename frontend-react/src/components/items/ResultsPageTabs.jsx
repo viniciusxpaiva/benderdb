@@ -58,13 +58,19 @@ export default function ResultsPageTabs(props) {
   return (
     <>
       <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Box sx={{
+          borderBottom: 1,
+          borderColor: "divider",
+          display: "flex",
+          justifyContent: "center",
+        }}>
 
           <Tabs
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
-            centered
+            variant="scrollable"
+            allowScrollButtonsMobile
           >
             <Tab
               label="Summary"
@@ -341,6 +347,8 @@ export default function ResultsPageTabs(props) {
                       displayEntries={false}
                       data={props.summaryTableData}
                       noBottomColumns={true}
+                      responsive
+                      
                     />
                   </div>
                 ) : (

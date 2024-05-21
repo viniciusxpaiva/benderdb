@@ -10,8 +10,6 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import { Link, useLocation } from "react-router-dom";
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
 
 const pagesLinks = { 'Example': '/results/A4HXH5', 'Available data': '/datatable', 'Contact': '/contact', 'Help': '/help' };
 
@@ -96,8 +94,8 @@ function ResponsiveAppBar() {
             <Typography
               variant="h5"
               noWrap
-              component="a"
-              href="#app-bar-with-responsive-menu"
+              component={Link}
+              to="/"
               sx={{
                 mr: 2,
                 display: { xs: 'flex', md: 'none' },

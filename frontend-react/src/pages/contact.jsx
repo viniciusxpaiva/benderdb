@@ -78,11 +78,30 @@ const Contact = () => {
 					<Card variant="outlined">
 						<Box sx={{ p: 2 }}>
 							<div className="row mt-2 mb-2">
-								<div className="col-5">
+								<div className="col-12">
+
+								<Stack
+										direction="row"
+										justifyContent="space-between"
+										alignItems="center"
+									>
+										<Typography gutterBottom variant="h5" component="div">
+											<a className="text-decoration-none" href="https://homepages.dcc.ufmg.br/~sabrinas" target="_blank" rel="noopener noreferrer">LaBio Laboratory of Bioinformatics, Visualization and Systems</a>
+										</Typography>
+									</Stack>
+									<Typography color="text.secondary" variant="body1">
+										<p>Department of Computer Science
+											<br />Universidade Federal de Viçosa
+											<br />Viçosa - Minas Gerais - Brazil
+											<br />36570-900
+											<br />+55 (31) 3612-6359
+										</p>
+									</Typography>
 									<Stack
 										direction="row"
 										justifyContent="space-between"
 										alignItems="center"
+										marginTop={5}
 
 									>
 										<Typography gutterBottom variant="h5" component="div">
@@ -106,25 +125,6 @@ const Contact = () => {
 									<Typography color="text.secondary" variant="body1">
 										vinicius.d.paiva@ufv.br<br />
 										ORCID: <a className="text-decoration-none" href="https://orcid.org/0000-0002-4411-1875" target="_blank" rel="noopener noreferrer">0000-0002-4411-1875</a><br />
-									</Typography>
-								</div>
-								<div className="col-7">
-									<Stack
-										direction="row"
-										justifyContent="space-between"
-										alignItems="center"
-									>
-										<Typography gutterBottom variant="h5" component="div">
-											<a className="text-decoration-none" href="https://homepages.dcc.ufmg.br/~sabrinas" target="_blank" rel="noopener noreferrer">LaBio Laboratory of Bioinformatics, Visualization and Systems</a>
-										</Typography>
-									</Stack>
-									<Typography color="text.secondary" variant="body1">
-										<p>Department of Computer Science
-											<br />Universidade Federal de Viçosa
-											<br />Viçosa - Minas Gerais - Brazil
-											<br />36570-900
-											<br />+55 (31) 3612-6359
-										</p>
 									</Typography>
 								</div>
 							</div>

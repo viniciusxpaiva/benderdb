@@ -83,7 +83,7 @@ export default function ResiduesTabs(props) {
 
   function ContentTabsSummary() {
     return (
-      <Card variant="outlined">
+      <Card variant="outlined" sx={{marginTop: { xs: 2, md: 0 }}}>
         <Box sx={{ p: 2, height: 137 }}>
           <Stack
             direction="row"
@@ -252,7 +252,7 @@ export default function ResiduesTabs(props) {
 
   function ContentTabsPredictors() {
     return (
-      <Card variant="outlined">
+      <Card variant="outlined" sx={{marginTop: { xs: 2, md: 0 }}}>
         <Box sx={{ p: 2, height: 137 }}>
           <Stack
             direction="row"
@@ -344,7 +344,7 @@ export default function ResiduesTabs(props) {
 
   function ContentTabsPopup() {
     return (
-      <Card variant="outlined">
+      <Card variant="outlined" sx={{marginTop: { xs: 2, md: 0 }}}>
         <Box sx={{ p: 2, height: 137 }}>
           <Stack
             direction="row"
