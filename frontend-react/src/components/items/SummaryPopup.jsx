@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import { Button, ButtonGroup, Dialog, DialogTitle, DialogContent, DialogActions, Typography, Box, Stack, useMediaQuery } from '@mui/material';
 import Divider from "@mui/material/Divider";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
+
 import MolViewerPopup from "../utils/MolViewerPopup";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/Button";
+import { useTheme } from '@mui/material/styles';
 
 const bSiteColors = [
   "#167288",
@@ -24,6 +19,122 @@ const bSiteColors = [
   "#9bddb1",
   "#836394",
 ];
+
+const ResponsiveButtonGroup = () => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  return (
+    <div style={{ overflowX: 'auto', display: 'flex', flexWrap: 'nowrap' }}>
+      <ButtonGroup
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'nowrap',
+        }}
+      >
+        <Button
+          variant="contained"
+          sx={{
+            "&.Mui-disabled": {
+              backgroundColor: bSiteColors[5],
+              color: "white",
+            },
+            minWidth: isSmallScreen ? '80px' : 'auto',
+            flexShrink: 0,
+          }}
+          disabled
+        >
+          Intersection
+        </Button>
+        <Button
+          variant="contained"
+          sx={{
+            "&.Mui-disabled": {
+              backgroundColor: bSiteColors[0],
+              color: "white",
+            },
+            minWidth: isSmallScreen ? '80px' : 'auto',
+            flexShrink: 0,
+          }}
+          disabled
+        >
+          GRaSP
+        </Button>
+        <Button
+          variant="contained"
+          sx={{
+            "&.Mui-disabled": {
+              backgroundColor: bSiteColors[1],
+              color: "white",
+            },
+            minWidth: isSmallScreen ? '80px' : 'auto',
+            flexShrink: 0,
+          }}
+          disabled
+        >
+          PUResNet
+        </Button>
+        <Button
+          variant="contained"
+          sx={{
+            "&.Mui-disabled": {
+              backgroundColor: bSiteColors[2],
+              color: "white",
+            },
+            minWidth: isSmallScreen ? '80px' : 'auto',
+            flexShrink: 0,
+          }}
+          disabled
+        >
+          GASS
+        </Button>
+        <Button
+          variant="contained"
+          sx={{
+            "&.Mui-disabled": {
+              backgroundColor: bSiteColors[3],
+              color: "white",
+            },
+            minWidth: isSmallScreen ? '80px' : 'auto',
+            flexShrink: 0,
+          }}
+          disabled
+        >
+          DeepPocket
+        </Button>
+        <Button
+          variant="contained"
+          sx={{
+            "&.Mui-disabled": {
+              backgroundColor: bSiteColors[4],
+              color: "white",
+            },
+            minWidth: isSmallScreen ? '80px' : 'auto',
+            flexShrink: 0,
+          }}
+          disabled
+        >
+          PointSite
+        </Button>
+        <Button
+          variant="contained"
+          sx={{
+            "&.Mui-disabled": {
+              backgroundColor: "pink",
+              color: "grey",
+            },
+            minWidth: isSmallScreen ? '80px' : 'auto',
+            flexShrink: 0,
+          }}
+          disabled
+        >
+          P2Rank
+        </Button>
+      </ButtonGroup>
+    </div>
+  );
+};
 
 export default function SummaryPopup(props) {
   const [openInters, setOpenInters] = useState(false);
@@ -56,112 +167,37 @@ export default function SummaryPopup(props) {
           fullWidth
         >
           <DialogTitle>
-            <Typography gutterBottom variant="h5" component="div">
-              Binding site intersection between{" "}
-              {props.predsToShow.length === 1
-                ? props.predsToShow[0]
-                : props.predsToShow.slice(0, -1).join(", ") +
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+                width: '100%', // Ensure the box takes full width
+              }}
+            >
+              <Typography gutterBottom variant="h5" component="div">
+                Binding site intersection between{" "}
+                {props.predsToShow.length === 1
+                  ? props.predsToShow[0]
+                  : props.predsToShow.slice(0, -1).join(", ") +
                   " and " +
                   props.predsToShow[props.predsToShow.length - 1]}
-            </Typography>
-            <Typography color="text.secondary" variant="body2">
-              Residues colors are displayed according to each predictor.
-              Intersection residues are shown in light blue.
-            </Typography>
-
-            <Box>
-              <Stack
-                direction="row"
-                justifyContent="flex-start" // Align buttons to the left
-                spacing={2} // Add space between the buttons
-                alignItems="center"
-                marginTop={2}
-              >
-                <Button
-                  variant="contained"
-                  sx={{
-                    "&.Mui-disabled": {
-                      backgroundColor: bSiteColors[5],
-                      color: "white",
-                    },
-                  }}
-                  disabled
+              </Typography>
+              <Typography color="text.secondary" variant="body2">
+                Residues colors are displayed according to each predictor.
+                Intersection residues are shown in light blue.
+              </Typography>
+              <Box sx={{ width: '100%', overflowX: 'auto', marginTop: 2 }}>
+                <Stack
+                  direction="row"
+                  justifyContent="center" // Align buttons to the center
+                  spacing={2} // Add space between the buttons
+                  alignItems="center"
                 >
-                  Intersection
-                </Button>
-                <Button
-                  variant="contained"
-                  sx={{
-                    "&.Mui-disabled": {
-                      backgroundColor: bSiteColors[0],
-                      color: "white",
-                    },
-                  }}
-                  disabled
-                >
-                  GRaSP
-                </Button>
-                <Button
-                  variant="contained"
-                  sx={{
-                    "&.Mui-disabled": {
-                      backgroundColor: bSiteColors[1],
-                      color: "white",
-                    },
-                  }}
-                  disabled
-                >
-                  PUResNet
-                </Button>
-                <Button
-                  variant="contained"
-                  sx={{
-                    "&.Mui-disabled": {
-                      backgroundColor: bSiteColors[2],
-                      color: "white",
-                    },
-                  }}
-                  disabled
-                >
-                  GASS
-                </Button>
-                <Button
-                  variant="contained"
-                  sx={{
-                    "&.Mui-disabled": {
-                      backgroundColor: bSiteColors[3],
-                      color: "white",
-                    },
-                  }}
-                  disabled
-                >
-                  DeepPocket
-                </Button>
-                <Button
-                  variant="contained"
-                  sx={{
-                    "&.Mui-disabled": {
-                      backgroundColor: bSiteColors[4],
-                      color: "white",
-                    },
-                  }}
-                  disabled
-                >
-                  PointSite
-                </Button>
-                <Button
-                  variant="contained"
-                  sx={{
-                    "&.Mui-disabled": {
-                      backgroundColor: "pink",
-                      color: "grey",
-                    },
-                  }}
-                  disabled
-                >
-                  P2Rank
-                </Button>
-              </Stack>
+                  <ResponsiveButtonGroup />
+                </Stack>
+              </Box>
             </Box>
           </DialogTitle>
           <IconButton

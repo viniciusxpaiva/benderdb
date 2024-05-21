@@ -152,10 +152,10 @@ export default function ResultsPageTabs(props) {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <Stack sx={{ marginBottom: 2}} spacing={2}>
+          <Stack sx={{ marginBottom: 2 }} spacing={2}>
             <Card
               variant="outlined"
-              style={{ textAlign: 'center', justifyContent: 'center', border: 0, borderTop:0, borderLeft: 0, borderRight: 0}}
+              style={{ textAlign: 'center', justifyContent: 'center', border: 0, borderTop: 0, borderLeft: 0, borderRight: 0 }}
             >
               <Typography variant="body1">
                 Protein from <b>{props.pdbFolder.replace('_', ' ')}</b> organism
@@ -291,12 +291,12 @@ export default function ResultsPageTabs(props) {
               </div>
             </Box>
             <Divider></Divider>
-            <Box sx={{ p: 0 }}>
-              <UpsetPlot
-                upsetOnClick={props.upsetOnClick}
-                data={props.upsetPlotData}
-              />
-            </Box>
+            <Box sx={{ p: 0, overflowX: 'auto', maxWidth: '100%' }}>
+      <UpsetPlot
+        upsetOnClick={props.upsetOnClick}
+        data={props.upsetPlotData}
+      />
+    </Box>
           </Card>
 
           <Card variant="outlined" sx={{ marginTop: 3 }}>
@@ -348,7 +348,7 @@ export default function ResultsPageTabs(props) {
                       data={props.summaryTableData}
                       noBottomColumns={true}
                       responsive
-                      
+
                     />
                   </div>
                 ) : (
