@@ -186,7 +186,7 @@ export default function NGLViewer(props) {
 
   function handleDownloadPymolSummary(protName) {
     const fileUrl =
-      process.env.PUBLIC_URL + "/pymol/" + protName + "_pymol_session.pse";
+      process.env.PUBLIC_URL + "/pymol/" + props.pdbFolder + "/" + protName + "_pymol_session.pse";
     const link = document.createElement("a");
     // Setting the href attribute to the file URL
     link.href = fileUrl;
@@ -207,7 +207,7 @@ export default function NGLViewer(props) {
   function handleDownloadPymolPredictors(protName) {
     const fileUrl =
       process.env.PUBLIC_URL +
-      "/pymol/" +
+      "/pymol/" + props.pdbFolder + "/" +
       protName +
       "_" +
       props.pred +
@@ -259,7 +259,7 @@ export default function NGLViewer(props) {
         .then((component) => {
           component.addRepresentation("cartoon", { color: "lightgrey" });
           component.autoView();
-          changeColorBindSites(component, tabIndex === 1? props.aiPredictionData : filteredData, "ball+stick");
+          changeColorBindSites(component, tabIndex === 1 ? props.aiPredictionData : filteredData, "ball+stick");
         });
     }
 

@@ -8,6 +8,7 @@ import Contact from './pages/contact';
 import Help from './pages/help';
 import NotFound from './pages/notFound';
 import DataTable from './pages/dataTable';
+import ZeroPredict from './pages/zeroPredict';
 
 function App() {
 	return (
@@ -19,6 +20,7 @@ function App() {
 				<Route path='/help' element={<Help />} />
 				<Route path='/notfound' element={<NotFound />} />
 				<Route path='/datatable' element={<DataTable />} />
+				<Route path='/nopredictions' element={<ZeroPredict />} />
 			</Routes>
 		</Router>
 	);

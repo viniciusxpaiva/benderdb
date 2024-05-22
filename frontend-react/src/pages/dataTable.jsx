@@ -251,7 +251,16 @@ const DataTable = () => {
                 </Typography>
               </Box>
               <Divider />
-              <Box sx={{ p: 2 }}>
+              <Box sx={{
+                p: 2,
+                width: '100%',
+                '@media (max-width: 600px)': {
+                  overflowX: 'auto',
+                },
+                '@media (min-width: 601px)': {
+                  overflowX: 'hidden',
+                },
+              }}>
                 <MDBDataTable
                   striped
                   bordered
@@ -260,7 +269,6 @@ const DataTable = () => {
                   data={data}
                   noBottomColumns={true}
                   entries={10}
-                  responsive
                 />
               </Box>
             </Card>

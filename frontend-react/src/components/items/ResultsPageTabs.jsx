@@ -292,11 +292,11 @@ export default function ResultsPageTabs(props) {
             </Box>
             <Divider></Divider>
             <Box sx={{ p: 0, overflowX: 'auto', maxWidth: '100%' }}>
-      <UpsetPlot
-        upsetOnClick={props.upsetOnClick}
-        data={props.upsetPlotData}
-      />
-    </Box>
+              <UpsetPlot
+                upsetOnClick={props.upsetOnClick}
+                data={props.upsetPlotData}
+              />
+            </Box>
           </Card>
 
           <Card variant="outlined" sx={{ marginTop: 3 }}>
@@ -340,16 +340,25 @@ export default function ResultsPageTabs(props) {
                         </h6>
                       </Alert>
                     </Stack>
-                    <MDBDataTable
-                      striped
-                      bordered
-                      small
-                      displayEntries={false}
-                      data={props.summaryTableData}
-                      noBottomColumns={true}
-                      responsive
 
-                    />
+                    <Box s sx={{
+                      width: '100%',
+                      '@media (max-width: 600px)': {
+                        overflowX: 'auto',
+                      },
+                      '@media (min-width: 601px)': {
+                        overflowX: 'hidden',
+                      },
+                    }}>
+                      <MDBDataTable
+                        striped
+                        bordered
+                        small
+                        displayEntries={false}
+                        data={props.summaryTableData}
+                        noBottomColumns={true}
+                      />
+                    </Box>
                   </div>
                 ) : (
                   <div>Loading...</div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import BaseLayout from "../components/layout/base";
 import "reactjs-popup/dist/index.css";
@@ -52,12 +53,14 @@ const Results = () => {
   const [aiPrediction, setAiPrediction] = useState([]);
 
   const [pdbFolder, setPdbFolder] = useState("");
-  const [proteinFullName, setProteinFullName] = useState("MAK10_SUBUNIT_-_NATC_N(ALPHA )-TERMINAL_ACETYLTRANSFERASE_-_PUTATIVE");
+  const [proteinFullName, setProteinFullName] = useState("");
 
   const [summaryContent, setSummaryContent] = useState([]);
 
   const [upsetClickName, setUpsetClickName] = useState([]);
   const [upsetClickResidues, setUpsetClickResidues] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch the processed string from the Flask backend
@@ -72,6 +75,10 @@ const Results = () => {
         });
 
         const data = await response.json();
+        if(data.summary[3] === 0){
+					// Navigate to the "results" page with the input string
+					navigate(`/nopredictions`);
+				}
         setGraspSites(data.grasp);
         setPuresnetSites(data.puresnet);
         setGassSites(data.gass);
@@ -82,6 +89,7 @@ const Results = () => {
         setPdbFolder(data.prot_folder);
         setMeanConsensus(data.mean_consensus);
         setAiPrediction(data.ai_prediction);
+        setProteinFullName(data.prot_full_name);
       } catch (error) {
         console.error("Error:", error);
       }

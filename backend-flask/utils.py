@@ -5,6 +5,27 @@ import glob
 BACKEND_PATH = '/home/vinicius/Desktop/benderdb/backend-flask/'
 FRONTEND_PATH = '/home/vinicius/Desktop/benderdb/frontend-react/'
 
+def get_protein_full_name(prot_name, pdb_folder):
+	pdb_name = '/AF-' + prot_name.upper() + '-F1-model_v4.pdb'
+	file = open(FRONTEND_PATH + 'public/pdbs/' + pdb_folder + pdb_name)
+	file_lines = file.readlines()
+	file.close()
+
+	reading_name = False
+	prot_full_name = ""
+	for line in file_lines:
+		if line[:6] == 'COMPND':
+			if line[11:19] == 'MOLECULE':
+				reading_name = True
+				prot_full_name += line[21:].replace('\n','')
+			elif line[11:16] == 'CHAIN':
+				break
+			elif reading_name:
+				prot_full_name += line[11:].replace('\n','')
+	
+	return prot_full_name.replace('\n','')
+
+
 def search_PDB(search_string):
 	pdb_folder = FRONTEND_PATH + 'public/pdbs/'
 

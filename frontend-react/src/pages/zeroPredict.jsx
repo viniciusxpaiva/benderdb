@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
-const NotFound = () => {
+const ZeroPredict = () => {
 
 	return (
         <BaseLayout>
@@ -20,8 +20,8 @@ const NotFound = () => {
             
             <Stack sx={{ width: '100%' }} spacing={2}>
                 <Alert variant="outlined" severity="error">
-                    <AlertTitle><strong>BENDER DB could not find input protein</strong></AlertTitle>
-                    Please inform a valid UniProt code from neglected disease proteome.
+                    <AlertTitle><strong>No predictions are available for this protein</strong></AlertTitle>
+                    Searched protein returned zero result from all predictiors.
                     <br></br>
                     <br></br>
                     Following table brings all available proteins in BENDER DB. Use search bar to find out if protein is available.
@@ -38,4 +38,4 @@ const NotFound = () => {
 	);
 };
 
-export default NotFound;
+export default ZeroPredict;

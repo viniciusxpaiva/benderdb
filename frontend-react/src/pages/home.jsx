@@ -29,6 +29,7 @@ const Home = () => {
 				});
 	
 				const data = await response.json();
+				console.log(data.summary)
 				if(data.prot_folder !== ''){
 					// Navigate to the "results" page with the input string
 					navigate(`/results/${encodeURIComponent(searchString)}`);
