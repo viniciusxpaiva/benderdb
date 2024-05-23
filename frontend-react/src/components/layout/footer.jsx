@@ -19,15 +19,15 @@ const Footer = () => {
           <MDBContainer className="pt-4">
             <section className="mb-3 text-dark">
               <div className="row">
+                <span>© 2024 Copyright BENDER DB</span>
                 <a
-                  className="text-decoration-none"
+                  className="text-decoration-none mt-2"
                   href="https://homepages.dcc.ufmg.br/~sabrinas"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   LaBio Laboratory of Bioinformatics, Visualization and Systems
                 </a>
-                <span className="mt-2">© 2024 Copyright BENDER DB</span>
               </div>
             </section>
           </MDBContainer>
@@ -46,7 +46,7 @@ const Footer = () => {
                     rel="noopener noreferrer"
                   >
                     <img
-                      src="img/ufv.png"
+                      src="/img/ufv.png"
                       className="img-fluid"
                       style={{
                         maxWidth: "100%",
@@ -65,7 +65,7 @@ const Footer = () => {
                     rel="noopener noreferrer"
                   >
                     <img
-                      src="img/uni_melb.png"
+                      src="/img/uni_melb.png"
                       className="img-fluid"
                       style={{
                         maxWidth: "100%",
@@ -84,7 +84,7 @@ const Footer = () => {
                     rel="noopener noreferrer"
                   >
                     <img
-                      src="img/unifei2.png"
+                      src="/img/unifei2.png"
                       className="img-fluid"
                       style={{
                         maxWidth: "100%",
@@ -103,7 +103,7 @@ const Footer = () => {
                     rel="noopener noreferrer"
                   >
                     <img
-                      src="img/ufmg.png"
+                      src="/img/ufmg.png"
                       className="img-fluid"
                       style={{
                         maxWidth: "100%",
