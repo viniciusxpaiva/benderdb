@@ -16,7 +16,9 @@ def mean_consensus(residues_list, total_pred):
 		res_with_occ_list.append(aux)
 		
 	sorted_data = sorted(res_with_occ_list, key=lambda x: (int(x[2]) if x[2].isdigit() else x[2]))
-	return sorted_data
+	max_consensus_percent = max([float(inner[-1]) for inner in sorted_data])
+	
+	return sorted_data, max_consensus_percent
 
 def ai_prediction(prot_name):
 	prot_name = prot_name.upper()

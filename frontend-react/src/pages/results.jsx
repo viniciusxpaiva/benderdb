@@ -50,6 +50,7 @@ const Results = () => {
   const [p2rankSites, setP2rankSites] = useState([]);
 
   const [meanConsensus, setMeanConsensus] = useState([]);
+  const [maxConsensusPercent, setMaxConsensusPercent] = useState([]);
   const [aiPrediction, setAiPrediction] = useState([]);
 
   const [pdbFolder, setPdbFolder] = useState("");
@@ -88,6 +89,7 @@ const Results = () => {
         setSummaryContent(data.summary);
         setPdbFolder(data.prot_folder);
         setMeanConsensus(data.mean_consensus);
+        setMaxConsensusPercent(data.max_consensus_percent);
         setAiPrediction(data.ai_prediction);
         setProteinFullName(data.prot_full_name);
       } catch (error) {
@@ -178,6 +180,7 @@ const Results = () => {
               upsetPlotData={upsetPlotData}
               numPreds={summaryContent[3]}
               consensusData={meanConsensus}
+              maxConsensusPercent={maxConsensusPercent}
               aiPredictionData={aiPrediction}
               proteinFullName={proteinFullName}
             />

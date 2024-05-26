@@ -55,7 +55,8 @@ export default function NGLViewer(props) {
   const [siteReprButton, setSiteProtReprButton] = useState("licorice");
   const [bgroundColor, setBGroundColor] = useState("white");
   const [open, setOpen] = useState(false);
-  console.log(props.consensusData)
+  console.log(props.maxConsensusPercent);
+  console.log(props.numPreds);
 
   function setViewerTabs() {
     if (props.type === "summary") {
@@ -115,9 +116,7 @@ export default function NGLViewer(props) {
     if (BindSites === null) {
       return;
     }
-    console.log(BindSites);
     const bindSitesToShow = generateBindSiteStringSummary(BindSites);
-    console.log(bindSitesToShow);
     component.addRepresentation("ball+stick", {
       color: "#b45248",
       sele: bindSitesToShow,
@@ -250,7 +249,7 @@ export default function NGLViewer(props) {
         });
     } else {
       const filteredData = props.consensusData.filter(
-        (p) => p[3] >= (props.numPreds - tabIndex + 2) / props.numPreds
+        (p) => p[3] >= (props.numPreds*props.maxConsensusPercent - tabIndex + 2) / props.numPreds
       );
       stage
         .loadFile(
@@ -339,7 +338,7 @@ export default function NGLViewer(props) {
             label="BENDER AI"
             {...a11yProps(2)}
           />
-          {[...Array(props.numPreds)].map((_, i) => (
+          {[...Array(props.numPreds*props.maxConsensusPercent)].map((_, i) => (
             <Tab
               sx={{
                 "&:hover": {
@@ -349,7 +348,7 @@ export default function NGLViewer(props) {
                 },
               }}
               label={`${Math.floor(
-                ((props.numPreds - i) / props.numPreds) * 100
+                (((props.numPreds*props.maxConsensusPercent) - i) / props.numPreds) * (100)
               )}%`}
               {...a11yProps(i + 2)}
             />

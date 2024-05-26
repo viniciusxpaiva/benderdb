@@ -40,6 +40,7 @@ export default function MolViewerSummary(props) {
         setStage={setStageSummary}
         tabIndex={tabIndex}
         setTabIndex={setTabIndex}
+        maxConsensusPercent={props.maxConsensusPercent}
       />
 
       <ResiduesTabs
@@ -53,6 +54,7 @@ export default function MolViewerSummary(props) {
         consensusData={props.consensusData}
         aiPredictionData={props.aiPredictionData}
         stage={stageSummary}
+        maxConsensusPercent={props.maxConsensusPercent}
       />
     </div>
   );

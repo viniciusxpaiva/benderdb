@@ -99,7 +99,7 @@ export default function ResiduesTabs(props) {
               ? "Shades of blue represent a low probability of belonging to a binding site, while shades of red indicate a high probability."
               : props.tabIndex === 1
                 ? "Residues displayed below are predicted by BENDER AI, a Machine Learning model based meta-predictor."
-                : `Residues displayed below are presented in ${((props.numPreds - props.tabIndex + 2) / props.numPreds) * 100}% of predictors results.`}
+                : `Residues displayed below are presented in ${((props.numPreds*props.maxConsensusPercent - props.tabIndex + 2) / props.numPreds) * 100}% of predictors results.`}
 
           </Typography>
         </Box>
@@ -210,7 +210,7 @@ export default function ResiduesTabs(props) {
                     </TableHead>
                     <TableBody>
                       {props.consensusData.map((p, j) => {
-                        if (p[3] >= (props.numPreds - i) / props.numPreds) {
+                        if (p[3] >= (props.numPreds*props.maxConsensusPercent - i) / props.numPreds) {
                           return (
                             <StyledTableRow key={i}>
                               <StyledTableCell align="center">

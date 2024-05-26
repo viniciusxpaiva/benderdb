@@ -50,7 +50,7 @@ def process_string():
 
     protein_residues = get_all_protein_residues(input_string, prot_folder)
 
-    mean_consensus_data = mean_consensus(summary_content[2], summary_content[3])
+    mean_consensus_data, max_consensus_percent = mean_consensus(summary_content[2], summary_content[3])
 
     ai_prediction_data = ai_prediction(input_string)
 
@@ -66,6 +66,7 @@ def process_string():
                     'prot_folder': prot_folder,
                     'all_residues': protein_residues,
                     'mean_consensus' : mean_consensus_data,
+                    'max_consensus_percent': max_consensus_percent,
                     'ai_prediction' : ai_prediction_data,
                     'prot_full_name': prot_full_name})
 
