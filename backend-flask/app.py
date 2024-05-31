@@ -52,7 +52,9 @@ def process_string():
 
     mean_consensus_data, max_consensus_percent = mean_consensus(summary_content[2], summary_content[3])
 
-    ai_prediction_data = ai_prediction(input_string)
+    ai_prediction_data = ai_prediction(input_string, prot_folder)
+
+    print(ai_prediction_data)
 
     prot_full_name = get_protein_full_name(input_string, prot_folder)
 

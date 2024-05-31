@@ -1,4 +1,5 @@
 from utils import *
+import os
 
 BACKEND_PATH = '/home/vinicius/Desktop/benderdb/backend-flask/'
 FRONTEND_PATH = '/home/vinicius/Desktop/benderdb/frontend-react/'
@@ -20,12 +21,14 @@ def mean_consensus(residues_list, total_pred):
 	
 	return sorted_data, max_consensus_percent
 
-def ai_prediction(prot_name):
+def ai_prediction(prot_name, prot_folder):
 	prot_name = prot_name.upper()
 	file_path = BACKEND_PATH + 'data/predictions/'
-	file_name = 'final_ai_prediction.csv'
-
-	df = pd.read_csv(file_path + file_name)
+	file_name = 'final_ai_prediction_' + prot_folder + '.csv'
+	if os.path.exists(file_path + file_name):
+		df = pd.read_csv(file_path + file_name)
+	else:
+		df = pd.read_csv(file_path + 'final_ai_prediction.csv')
 	matches = df.loc[df['residue'].str.contains(prot_name), 'residue']
 
 	if matches.empty:
