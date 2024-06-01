@@ -61,19 +61,17 @@ const Home = () => {
                   a database for Binding sitE identification in Neglected
                   DiseasE pRoteomes
                 </p>
-                <div
-                  class="container p-0 mb-5 mt-5 justify-content-center"
-                  style={{ display: "flex" }}
-                >
-                  <div className="row">
-                    <div className="col">
+                <div className="container p-0 mb-5 mt-5 justify-content-center">
+                  <div className="row justify-content-center">
+                    <div className="col-12 col-md-10 col-lg-8">
                       <Paper
                         component="form"
                         sx={{
                           p: "2px 4px",
                           display: "flex",
                           alignItems: "center",
-                          width: 800,
+                          width: "100%",
+                          marginBottom: "10px",
                         }}
                         onSubmit={handleSubmit}
                       >
@@ -100,49 +98,47 @@ const Home = () => {
                           </Button>
                         </IconButton>
                       </Paper>
+
                       <Paper
                         sx={{
                           p: "2px 4px",
                           display: "flex",
                           alignItems: "center",
-                          width: 800,
+                          width: "100%",
                           backgroundColor: "inherit",
                         }}
                         elevation={0}
                       >
-                        <Typography variant="body" sx={{ color: "white" }}>
+                        <Typography
+                          variant="body"
+                          sx={{ color: "white", mr: 1 }}
+                        >
                           Examples:
                         </Typography>
-                        <IconButton sx={{ p: "10px" }} aria-label="menu">
-                          <Button
-                            variant="outlined"
-                            component={Link}
-                            to="/results/Q7Z1V1"
-                            sx={{ color: "white", borderColor: "white" }}
-                          >
-                            Q7Z1V1
-                          </Button>
-                        </IconButton>
-                        <IconButton sx={{ p: "10px" }} aria-label="menu">
-                          <Button
-                            variant="outlined"
-                            component={Link}
-                            to="/results/A4HXH5"
-                            sx={{ color: "white", borderColor: "white" }}
-                          >
-                            A4HXH5
-                          </Button>
-                        </IconButton>
-                        <IconButton sx={{ p: "10px" }} aria-label="menu">
-                          <Button
-                            variant="outlined"
-                            component={Link}
-                            to="/results/Q4E4E1"
-                            sx={{ color: "white", borderColor: "white" }}
-                          >
-                            Q4E4E1
-                          </Button>
-                        </IconButton>
+                        <Button
+                          variant="outlined"
+                          component={Link}
+                          to="/results/Q7Z1V1"
+                          sx={{ color: "white", borderColor: "white", mr: 2 }}
+                        >
+                          Q7Z1V1
+                        </Button>
+                        <Button
+                          variant="outlined"
+                          component={Link}
+                          to="/results/A4HXH5"
+                          sx={{ color: "white", borderColor: "white", mr: 2 }}
+                        >
+                          A4HXH5
+                        </Button>
+                        <Button
+                          variant="outlined"
+                          component={Link}
+                          to="/results/Q4E4E1"
+                          sx={{ color: "white", borderColor: "white" }}
+                        >
+                          Q4E4E1
+                        </Button>
                       </Paper>
                     </div>
                   </div>
