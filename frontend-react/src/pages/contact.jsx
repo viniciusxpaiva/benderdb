@@ -1,7 +1,5 @@
 import React from 'react';
 import BaseLayout from '../components/layout/base';
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";

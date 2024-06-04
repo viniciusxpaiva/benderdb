@@ -9,6 +9,10 @@ import Help from './pages/help';
 import NotFound from './pages/notFound';
 import DataTable from './pages/dataTable';
 import ZeroPredict from './pages/zeroPredict';
+import ReactGA from 'react-ga';
+
+ReactGA.initialize('G-V8KQDT1TXL');
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 function App() {
 	return (
