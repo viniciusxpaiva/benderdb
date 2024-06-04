@@ -30,7 +30,6 @@ function ResponsiveAppBar() {
   };
   const location = useLocation();
   const currentPage = location.pathname;
-  console.log(currentPage);
 
   return (
     <AppBar position="static">

@@ -20,10 +20,9 @@ const bSiteColors = [
   "#836394",
 ];
 
-const ResponsiveButtonGroup = () => {
+const ResponsiveButtonGroup = (props) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
   return (
     <div style={{ overflowX: 'auto', display: 'flex', flexWrap: 'nowrap' }}>
       <ButtonGroup
@@ -50,70 +49,76 @@ const ResponsiveButtonGroup = () => {
         <Button
           variant="contained"
           sx={{
-            "&.Mui-disabled": {
+            backgroundColor: (theme) => theme.palette.action.disabledBackground,
+            "&:not(:disabled)": {
               backgroundColor: bSiteColors[0],
               color: "white",
             },
             minWidth: isSmallScreen ? '80px' : 'auto',
             flexShrink: 0,
           }}
-          disabled
+          disabled={Object.values(props.predsToShow).includes("GRaSP") ? false : true}
         >
           GRaSP
         </Button>
         <Button
           variant="contained"
           sx={{
-            "&.Mui-disabled": {
+            backgroundColor: (theme) => theme.palette.action.disabledBackground,
+            "&:not(:disabled)": {
               backgroundColor: bSiteColors[1],
               color: "white",
             },
             minWidth: isSmallScreen ? '80px' : 'auto',
             flexShrink: 0,
           }}
-          disabled
+          disabled={Object.values(props.predsToShow).includes("PUResNet") ? false : true}
         >
           PUResNet
         </Button>
+
         <Button
           variant="contained"
           sx={{
-            "&.Mui-disabled": {
+            backgroundColor: (theme) => theme.palette.action.disabledBackground,
+            "&:not(:disabled)": {
               backgroundColor: bSiteColors[3],
               color: "white",
             },
             minWidth: isSmallScreen ? '80px' : 'auto',
             flexShrink: 0,
           }}
-          disabled
+          disabled={Object.values(props.predsToShow).includes("DeepPocket") ? false : true}
         >
           DeepPocket
         </Button>
         <Button
           variant="contained"
           sx={{
-            "&.Mui-disabled": {
+            backgroundColor: (theme) => theme.palette.action.disabledBackground,
+            "&:not(:disabled)": {
               backgroundColor: bSiteColors[4],
               color: "white",
             },
             minWidth: isSmallScreen ? '80px' : 'auto',
             flexShrink: 0,
           }}
-          disabled
+          disabled={Object.values(props.predsToShow).includes("PointSite") ? false : true}
         >
           PointSite
         </Button>
         <Button
           variant="contained"
           sx={{
-            "&.Mui-disabled": {
+            backgroundColor: (theme) => theme.palette.action.disabledBackground,
+            "&:not(:disabled)": {
               backgroundColor: "pink",
-              color: "grey",
+              color: "white",
             },
             minWidth: isSmallScreen ? '80px' : 'auto',
             flexShrink: 0,
           }}
-          disabled
+          disabled={Object.values(props.predsToShow).includes("P2Rank") ? false : true}
         >
           P2Rank
         </Button>
@@ -124,7 +129,6 @@ const ResponsiveButtonGroup = () => {
 
 export default function SummaryPopup(props) {
   const [openInters, setOpenInters] = useState(false);
-
   function handleClickOpenInters() {
     setOpenInters(true);
   }
@@ -181,7 +185,7 @@ export default function SummaryPopup(props) {
                   spacing={2} // Add space between the buttons
                   alignItems="center"
                 >
-                  <ResponsiveButtonGroup />
+                  <ResponsiveButtonGroup predsToShow={props.predsToShow}/>
                 </Stack>
               </Box>
             </Box>
@@ -208,7 +212,7 @@ export default function SummaryPopup(props) {
               consensusData={props.consensusData}
               bindSites={props.bindSites}
               graspSites={props.graspSites}
-              puresnetSites={props.puresnetSites}g
+              puresnetSites={props.puresnetSites} g
               deeppocketSites={props.deeppocketSites}
               pointsiteSites={props.pointsiteSites}
               p2rankSites={props.p2rankSites}

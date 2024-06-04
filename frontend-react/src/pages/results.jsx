@@ -132,7 +132,6 @@ const Results = () => {
     setUpsetClickName(set.name.replace(/[\s()]/g, "").split("∩"));
     const residueValues = set.elems.map((e) => e.residue);
     setUpsetClickResidues(residueValues);
-    console.log("clicou")
   }
 
   return (

@@ -13,7 +13,6 @@ import CloseIcon from "@mui/icons-material/Close";
 
 export default function MouseHelpPopup(props) {
   const [open, setOpen] = React.useState(false);
-  console.log(props.bgroundColor);
 
   const handleClickOpen = () => {
     setOpen(true);

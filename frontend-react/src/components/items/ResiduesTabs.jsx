@@ -41,7 +41,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function ResiduesTabs(props) {
 
-  console.log(props.consensusData)
   const [previousFocusRes, setPreviousFocusRes] = useState("");
 
   function ContentTabs() {

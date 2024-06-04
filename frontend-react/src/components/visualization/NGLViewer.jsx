@@ -55,8 +55,6 @@ export default function NGLViewer(props) {
   const [siteReprButton, setSiteProtReprButton] = useState("licorice");
   const [bgroundColor, setBGroundColor] = useState("white");
   const [open, setOpen] = useState(false);
-  console.log(props.maxConsensusPercent);
-  console.log(props.numPreds);
 
   function setViewerTabs() {
     if (props.type === "summary") {
@@ -177,7 +175,7 @@ export default function NGLViewer(props) {
       changeColorBindSitesPopup(
         component,
         props.p2rankSites[0],
-        bSiteColors[5]
+        "pink"
       );
   }
 
@@ -291,7 +289,7 @@ export default function NGLViewer(props) {
         component.addRepresentation("cartoon", { color: "lightgrey" });
         component.autoView();
         colorAllSitesPopup(component);
-        changeColorBindSitesPopup(component, props.upsetClickResidues, "pink");
+        changeColorBindSitesPopup(component, props.upsetClickResidues, bSiteColors[5]);
       });
     stage.setParameters({ backgroundColor: "white" });
     props.setStage(stage); // Remove previous components
@@ -315,6 +313,7 @@ export default function NGLViewer(props) {
           allowScrollButtonsMobile
         >
           <Tab
+            key={"consensus"}
             sx={{
               "&:hover": {
                 color: "#1976d2",
@@ -326,6 +325,7 @@ export default function NGLViewer(props) {
             {...a11yProps(0)}
           />
           <Tab
+            key={"bender-ai"}
             sx={{
               "&:hover": {
                 color: "#1976d2",
@@ -338,7 +338,10 @@ export default function NGLViewer(props) {
           />
           {[...Array(props.numPreds*props.maxConsensusPercent)].map((_, i) => (
             <Tab
-              sx={{
+            key={`${Math.floor(
+              (((props.numPreds*props.maxConsensusPercent) - i) / props.numPreds) * (100)
+            )}%`}  
+            sx={{
                 "&:hover": {
                   color: "#1976d2",
                   borderBottom: 2,
@@ -415,8 +418,6 @@ export default function NGLViewer(props) {
   }
 
   function handleBackgroundColor(stage, color) {
-    //const stageBackgroundColor = stage.getParameters().backgroundColor;
-    console.log(color);
     setBGroundColor(color);
     stage.setParameters({ backgroundColor: color });
   }
@@ -495,7 +496,6 @@ export default function NGLViewer(props) {
     const filteredData = props.consensusData.filter(
       (p) => p[3] >= (props.numPreds - tabIndex + 1) / props.numPreds
     );
-    console.log(filteredData);
     const bSiteString = generateBindSiteStringSummary(filteredData);
     stage.getRepresentationsByName("licorice").dispose();
     stage.getRepresentationsByName("ball+stick").dispose();
