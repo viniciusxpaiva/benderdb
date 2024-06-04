@@ -79,20 +79,6 @@ const ResponsiveButtonGroup = () => {
           variant="contained"
           sx={{
             "&.Mui-disabled": {
-              backgroundColor: bSiteColors[2],
-              color: "white",
-            },
-            minWidth: isSmallScreen ? '80px' : 'auto',
-            flexShrink: 0,
-          }}
-          disabled
-        >
-          GASS
-        </Button>
-        <Button
-          variant="contained"
-          sx={{
-            "&.Mui-disabled": {
               backgroundColor: bSiteColors[3],
               color: "white",
             },
@@ -222,8 +208,7 @@ export default function SummaryPopup(props) {
               consensusData={props.consensusData}
               bindSites={props.bindSites}
               graspSites={props.graspSites}
-              puresnetSites={props.puresnetSites}
-              gassSites={props.gassSites}
+              puresnetSites={props.puresnetSites}g
               deeppocketSites={props.deeppocketSites}
               pointsiteSites={props.pointsiteSites}
               p2rankSites={props.p2rankSites}

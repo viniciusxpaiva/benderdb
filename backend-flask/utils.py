@@ -23,7 +23,7 @@ def get_protein_full_name(prot_name, pdb_folder):
 			elif reading_name:
 				prot_full_name += line[11:].replace('\n','')
 	
-	return prot_full_name.replace('\n','')
+	return prot_full_name.split(';')[0]
 
 
 def search_PDB(search_string):

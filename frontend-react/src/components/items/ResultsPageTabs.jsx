@@ -106,7 +106,7 @@ export default function ResultsPageTabs(props) {
               {...a11yProps(2)}
             />
             <Tab
-              label="GASS"
+              label="DeepPocket"
               sx={{
                 "&:hover": {
                   color: "#1976d2",
@@ -117,7 +117,7 @@ export default function ResultsPageTabs(props) {
               {...a11yProps(3)}
             />
             <Tab
-              label="DeepPocket"
+              label="PointSite"
               sx={{
                 "&:hover": {
                   color: "#1976d2",
@@ -128,17 +128,6 @@ export default function ResultsPageTabs(props) {
               {...a11yProps(4)}
             />
             <Tab
-              label="PointSite"
-              sx={{
-                "&:hover": {
-                  color: "#1976d2",
-                  borderBottom: 2,
-                  borderColor: "#1976d2",
-                },
-              }}
-              {...a11yProps(5)}
-            />
-            <Tab
               label="P2Rank"
               sx={{
                 "&:hover": {
@@ -147,7 +136,7 @@ export default function ResultsPageTabs(props) {
                   borderColor: "#1976d2",
                 },
               }}
-              {...a11yProps(6)}
+              {...a11yProps(5)}
             />
           </Tabs>
         </Box>
@@ -226,12 +215,6 @@ export default function ResultsPageTabs(props) {
                               )
                             )}
                             puresnetSites={props.puresnetSites.map((site) =>
-                              site.map(
-                                ([chain, res, number, occ]) =>
-                                  res + "-" + number + "-" + chain
-                              )
-                            )}
-                            gassSites={props.gassSites.map((site) =>
                               site.map(
                                 ([chain, res, number, occ]) =>
                                   res + "-" + number + "-" + chain
@@ -396,7 +379,7 @@ export default function ResultsPageTabs(props) {
             predictors={props.predictors}
             activeTab={props.predictorTab}
             pdb={props.pdb}
-            bindSites={props.gassSites}
+            bindSites={props.deeppocketSites}
             pdbFolder={props.pdbFolder}
             proteinFullName={props.proteinFullName}
           />
@@ -407,7 +390,7 @@ export default function ResultsPageTabs(props) {
             predictors={props.predictors}
             activeTab={props.predictorTab}
             pdb={props.pdb}
-            bindSites={props.deeppocketSites}
+            bindSites={props.pointsiteSites}
             pdbFolder={props.pdbFolder}
             proteinFullName={props.proteinFullName}
           />
@@ -415,17 +398,6 @@ export default function ResultsPageTabs(props) {
         <CustomTabPanel value={value} index={5}>
           <MolViewerPredictors
             pred={props.predictors[4]}
-            predictors={props.predictors}
-            activeTab={props.predictorTab}
-            pdb={props.pdb}
-            bindSites={props.pointsiteSites}
-            pdbFolder={props.pdbFolder}
-            proteinFullName={props.proteinFullName}
-          />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={6}>
-          <MolViewerPredictors
-            pred={props.predictors[5]}
             predictors={props.predictors}
             activeTab={props.predictorTab}
             pdb={props.pdb}

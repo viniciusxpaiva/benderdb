@@ -10,7 +10,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 const predictors = [
   "GRaSP",
   "PUResNet",
-  "GASS",
   "DeepPocket",
   "PointSite",
   "P2Rank",
@@ -44,7 +43,6 @@ const Results = () => {
 
   const [graspSites, setGraspSites] = useState([]);
   const [puresnetSites, setPuresnetSites] = useState([]);
-  const [gassSites, setGassSites] = useState([]);
   const [deeppocketSites, setDeeppocketSites] = useState([]);
   const [pointsiteSites, setPointsiteSites] = useState([]);
   const [p2rankSites, setP2rankSites] = useState([]);
@@ -82,7 +80,6 @@ const Results = () => {
 				}
         setGraspSites(data.grasp);
         setPuresnetSites(data.puresnet);
-        setGassSites(data.gass);
         setDeeppocketSites(data.deeppocket);
         setPointsiteSites(data.pointsite);
         setP2rankSites(data.p2rank);
@@ -167,7 +164,6 @@ const Results = () => {
               pdbFolder={pdbFolder}
               graspSites={graspSites}
               puresnetSites={puresnetSites}
-              gassSites={gassSites}
               deeppocketSites={deeppocketSites}
               pointsiteSites={pointsiteSites}
               p2rankSites={p2rankSites}

@@ -54,13 +54,10 @@ def process_string():
 
     ai_prediction_data = ai_prediction(input_string, prot_folder)
 
-    print(ai_prediction_data)
-
     prot_full_name = get_protein_full_name(input_string, prot_folder)
 
     return jsonify({'grasp': bsites_grasp,
-                    'puresnet': bsites_puresnet,
-                    'gass': bsites_gass, 
+                    'puresnet': bsites_puresnet, 
                     'deeppocket': bsites_deeppocket, 
                     'pointsite': bsites_pointsite,
                     'p2rank': bsites_p2rank,

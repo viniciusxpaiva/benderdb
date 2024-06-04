@@ -45,8 +45,6 @@ export default function MolViewerPopup(props) {
       changeColorBindSitesPopup(component, props.graspSites[0], bSiteColors[0]);
     if (props.predsToShow.includes("PUResNet"))
       changeColorBindSitesPopup(component, props.puresnetSites[0], bSiteColors[1]);
-    if (props.predsToShow.includes("GASS"))
-      changeColorBindSitesPopup(component, props.gassSites[0], bSiteColors[2]);
     if (props.predsToShow.includes("DeepPocket"))
       changeColorBindSitesPopup(component, props.deeppocketSites[0], bSiteColors[3]);
     if (props.predsToShow.includes("PointSite"))
@@ -87,7 +85,6 @@ export default function MolViewerPopup(props) {
         bindSites={props.bindSites}
         graspSites={props.graspSites}
         puresnetSites={props.puresnetSites}
-        gassSites={props.gassSites}
         deeppocketSites={props.deeppocketSites}
         pointsiteSites={props.pointsiteSites}
         p2rankSites={props.p2rankSites}

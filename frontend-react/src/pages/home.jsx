@@ -58,8 +58,7 @@ const Home = () => {
                   className="display-7 text-light mt-3"
                   style={{ fontSize: "22px" }}
                 >
-                  a database for Binding sitE identification in Neglected
-                  DiseasE pRoteomes
+                  a database of protein Binding sitEs across Neglected DiseasE pRoteomes
                 </p>
                 <div className="container p-0 mb-5 mt-5 justify-content-center">
                   <div className="row justify-content-center">

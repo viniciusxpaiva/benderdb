@@ -161,8 +161,6 @@ export default function NGLViewer(props) {
         props.puresnetSites[0],
         bSiteColors[1]
       );
-    if (props.predsToShow.includes("GASS"))
-      changeColorBindSitesPopup(component, props.gassSites[0], bSiteColors[2]);
     if (props.predsToShow.includes("DeepPocket"))
       changeColorBindSitesPopup(
         component,
