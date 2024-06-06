@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
@@ -151,37 +151,50 @@ export default function NGLViewer(props) {
   }
 
   function colorAllSitesPopup(component) {
-    if (props.predsToShow.includes("GRaSP"))
+    if (props.predsToShow.includes("GRaSP") && props.graspButton === "selected")
       changeColorBindSitesPopup(component, props.graspSites[0], bSiteColors[0]);
-    if (props.predsToShow.includes("PUResNet"))
+    if (
+      props.predsToShow.includes("PUResNet") &&
+      props.puresnetButton === "selected"
+    )
       changeColorBindSitesPopup(
         component,
         props.puresnetSites[0],
         bSiteColors[1]
       );
-    if (props.predsToShow.includes("DeepPocket"))
+    if (
+      props.predsToShow.includes("DeepPocket") &&
+      props.deeppocketButton === "selected"
+    )
       changeColorBindSitesPopup(
         component,
         props.deeppocketSites[0],
         bSiteColors[3]
       );
-    if (props.predsToShow.includes("PointSite"))
+    if (
+      props.predsToShow.includes("PointSite") &&
+      props.pointsiteButton === "selected"
+    )
       changeColorBindSitesPopup(
         component,
         props.pointsiteSites[0],
         bSiteColors[4]
       );
-    if (props.predsToShow.includes("P2Rank"))
-      changeColorBindSitesPopup(
-        component,
-        props.p2rankSites[0],
-        "pink"
-      );
+    if (
+      props.predsToShow.includes("P2Rank") &&
+      props.p2rankButton === "selected"
+    )
+      changeColorBindSitesPopup(component, props.p2rankSites[0], "pink");
   }
 
   function handleDownloadPymolSummary(protName) {
     const fileUrl =
-      process.env.PUBLIC_URL + "/pymol/" + props.pdbFolder + "/" + protName + "_pymol_session.pse";
+      process.env.PUBLIC_URL +
+      "/pymol/" +
+      props.pdbFolder +
+      "/" +
+      protName +
+      "_pymol_session.pse";
     const link = document.createElement("a");
     // Setting the href attribute to the file URL
     link.href = fileUrl;
@@ -202,7 +215,9 @@ export default function NGLViewer(props) {
   function handleDownloadPymolPredictors(protName) {
     const fileUrl =
       process.env.PUBLIC_URL +
-      "/pymol/" + props.pdbFolder + "/" +
+      "/pymol/" +
+      props.pdbFolder +
+      "/" +
       protName +
       "_" +
       props.pred +
@@ -212,8 +227,7 @@ export default function NGLViewer(props) {
     link.href = fileUrl;
 
     // Setting the filename for the download
-    link.download =
-      protName + "_" + props.pred + "_sites_pymol_session.pse";
+    link.download = protName + "_" + props.pred + "_sites_pymol_session.pse";
 
     // Appending the link to the document
     document.body.appendChild(link);
@@ -245,7 +259,10 @@ export default function NGLViewer(props) {
         });
     } else {
       const filteredData = props.consensusData.filter(
-        (p) => p[3] >= (props.numPreds*props.maxConsensusPercent - tabIndex + 2) / props.numPreds
+        (p) =>
+          p[3] >=
+          (props.numPreds * props.maxConsensusPercent - tabIndex + 2) /
+            props.numPreds
       );
       stage
         .loadFile(
@@ -254,7 +271,11 @@ export default function NGLViewer(props) {
         .then((component) => {
           component.addRepresentation("cartoon", { color: "lightgrey" });
           component.autoView();
-          changeColorBindSites(component, tabIndex === 1 ? props.aiPredictionData : filteredData, "ball+stick");
+          changeColorBindSites(
+            component,
+            tabIndex === 1 ? props.aiPredictionData : filteredData,
+            "ball+stick"
+          );
         });
     }
 
@@ -278,6 +299,12 @@ export default function NGLViewer(props) {
     props.setStage(stage); // Remove previous components
   }
 
+  useEffect(() => {
+    if (props.puresnetButton && props.graspButton && props.pointsiteButton && props.p2rankButton && props.deeppocketButton && props.stage) {
+      resetNGLViewer(props.stage);
+    }
+  }, [[props.puresnetButton, props.graspButton, props.pointsiteButton]]);
+
   function resetNGLViewerPopup(stage) {
     resetParameters();
     stage.removeAllComponents();
@@ -289,7 +316,11 @@ export default function NGLViewer(props) {
         component.addRepresentation("cartoon", { color: "lightgrey" });
         component.autoView();
         colorAllSitesPopup(component);
-        changeColorBindSitesPopup(component, props.upsetClickResidues, bSiteColors[5]);
+        changeColorBindSitesPopup(
+          component,
+          props.upsetClickResidues,
+          bSiteColors[5]
+        );
       });
     stage.setParameters({ backgroundColor: "white" });
     props.setStage(stage); // Remove previous components
@@ -336,24 +367,30 @@ export default function NGLViewer(props) {
             label="BENDER AI"
             {...a11yProps(2)}
           />
-          {[...Array(props.numPreds*props.maxConsensusPercent)].map((_, i) => (
-            <Tab
-            key={`${Math.floor(
-              (((props.numPreds*props.maxConsensusPercent) - i) / props.numPreds) * (100)
-            )}%`}  
-            sx={{
-                "&:hover": {
-                  color: "#1976d2",
-                  borderBottom: 2,
-                  borderColor: "#1976d2",
-                },
-              }}
-              label={`${Math.floor(
-                (((props.numPreds*props.maxConsensusPercent) - i) / props.numPreds) * (100)
-              )}%`}
-              {...a11yProps(i + 2)}
-            />
-          ))}
+          {[...Array(props.numPreds * props.maxConsensusPercent)].map(
+            (_, i) => (
+              <Tab
+                key={`${Math.floor(
+                  ((props.numPreds * props.maxConsensusPercent - i) /
+                    props.numPreds) *
+                    100
+                )}%`}
+                sx={{
+                  "&:hover": {
+                    color: "#1976d2",
+                    borderBottom: 2,
+                    borderColor: "#1976d2",
+                  },
+                }}
+                label={`${Math.floor(
+                  ((props.numPreds * props.maxConsensusPercent - i) /
+                    props.numPreds) *
+                    100
+                )}%`}
+                {...a11yProps(i + 2)}
+              />
+            )
+          )}
         </Tabs>
       </Box>
     );
@@ -641,8 +678,8 @@ export default function NGLViewer(props) {
                         <DialogTitle>Visualization settings</DialogTitle>
                         <DialogContent>
                           <Typography color="text.secondary" variant="body2">
-                            Use select buttons bellow to change background
-                            color and protein representation
+                            Use select buttons bellow to change background color
+                            and protein representation
                           </Typography>
                           <IconButton
                             aria-label="close"

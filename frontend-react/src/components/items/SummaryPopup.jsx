@@ -1,11 +1,22 @@
 import React, { useState } from "react";
-import { Button, ButtonGroup, Dialog, DialogTitle, DialogContent, DialogActions, Typography, Box, Stack, useMediaQuery } from '@mui/material';
+import {
+  Button,
+  ButtonGroup,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Typography,
+  Box,
+  Stack,
+  useMediaQuery,
+} from "@mui/material";
 import Divider from "@mui/material/Divider";
 
 import MolViewerPopup from "../utils/MolViewerPopup";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/Button";
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 
 const bSiteColors = [
   "#167288",
@@ -22,14 +33,14 @@ const bSiteColors = [
 
 const ResponsiveButtonGroup = (props) => {
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
-    <div style={{ overflowX: 'auto', display: 'flex', flexWrap: 'nowrap' }}>
+    <div style={{ overflowX: "auto", display: "flex", flexWrap: "nowrap" }}>
       <ButtonGroup
         sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'nowrap',
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "nowrap",
         }}
       >
         <Button
@@ -39,7 +50,7 @@ const ResponsiveButtonGroup = (props) => {
               backgroundColor: bSiteColors[5],
               color: "white",
             },
-            minWidth: isSmallScreen ? '80px' : 'auto',
+            minWidth: isSmallScreen ? "80px" : "auto",
             flexShrink: 0,
           }}
           disabled
@@ -54,10 +65,17 @@ const ResponsiveButtonGroup = (props) => {
               backgroundColor: bSiteColors[0],
               color: "white",
             },
-            minWidth: isSmallScreen ? '80px' : 'auto',
+            minWidth: isSmallScreen ? "80px" : "auto",
             flexShrink: 0,
           }}
-          disabled={Object.values(props.predsToShow).includes("GRaSP") ? false : true}
+          disabled={
+            Object.values(props.predsToShow).includes("GRaSP") ? false : true
+          }
+          onClick={
+            props.graspButton === "selected"
+              ? () => props.setGraspButton("not-selected")
+              : () => props.setGraspButton("selected")
+          }
         >
           GRaSP
         </Button>
@@ -69,10 +87,17 @@ const ResponsiveButtonGroup = (props) => {
               backgroundColor: bSiteColors[1],
               color: "white",
             },
-            minWidth: isSmallScreen ? '80px' : 'auto',
+            minWidth: isSmallScreen ? "80px" : "auto",
             flexShrink: 0,
           }}
-          disabled={Object.values(props.predsToShow).includes("PUResNet") ? false : true}
+          disabled={
+            Object.values(props.predsToShow).includes("PUResNet") ? false : true
+          }
+          onClick={
+            props.puresnetButton === "selected"
+              ? () => props.setPuresnetButton("not-selected")
+              : () => props.setPuresnetButton("selected")
+          }
         >
           PUResNet
         </Button>
@@ -85,10 +110,19 @@ const ResponsiveButtonGroup = (props) => {
               backgroundColor: bSiteColors[3],
               color: "white",
             },
-            minWidth: isSmallScreen ? '80px' : 'auto',
+            minWidth: isSmallScreen ? "80px" : "auto",
             flexShrink: 0,
           }}
-          disabled={Object.values(props.predsToShow).includes("DeepPocket") ? false : true}
+          disabled={
+            Object.values(props.predsToShow).includes("DeepPocket")
+              ? false
+              : true
+          }
+          onClick={
+            props.deeppocketButton === "selected"
+              ? () => props.setDeeppocketButton("not-selected")
+              : () => props.setDeeppocketButton("selected")
+          }
         >
           DeepPocket
         </Button>
@@ -100,10 +134,19 @@ const ResponsiveButtonGroup = (props) => {
               backgroundColor: bSiteColors[4],
               color: "white",
             },
-            minWidth: isSmallScreen ? '80px' : 'auto',
+            minWidth: isSmallScreen ? "80px" : "auto",
             flexShrink: 0,
           }}
-          disabled={Object.values(props.predsToShow).includes("PointSite") ? false : true}
+          disabled={
+            Object.values(props.predsToShow).includes("PointSite")
+              ? false
+              : true
+          }
+          onClick={
+            props.pointsiteButton === "selected"
+              ? () => props.setPointsiteButton("not-selected")
+              : () => props.setPointsiteButton("selected")
+          }
         >
           PointSite
         </Button>
@@ -115,10 +158,17 @@ const ResponsiveButtonGroup = (props) => {
               backgroundColor: "pink",
               color: "white",
             },
-            minWidth: isSmallScreen ? '80px' : 'auto',
+            minWidth: isSmallScreen ? "80px" : "auto",
             flexShrink: 0,
           }}
-          disabled={Object.values(props.predsToShow).includes("P2Rank") ? false : true}
+          disabled={
+            Object.values(props.predsToShow).includes("P2Rank") ? false : true
+          }
+          onClick={
+            props.p2rankButton === "selected"
+              ? () => props.setp2rankButton("not-selected")
+              : () => props.setp2rankButton("selected")
+          }
         >
           P2Rank
         </Button>
@@ -129,6 +179,12 @@ const ResponsiveButtonGroup = (props) => {
 
 export default function SummaryPopup(props) {
   const [openInters, setOpenInters] = useState(false);
+  const [puresnetButton, setPuresnetButton] = useState("selected");
+  const [pointsiteButton, setPointsiteButton] = useState("selected");
+  const [graspButton, setGraspButton] = useState("selected");
+  const [p2rankButton, setp2rankButton] = useState("selected");
+  const [deeppocketButton, setDeeppocketButton] = useState("selected");
+
   function handleClickOpenInters() {
     setOpenInters(true);
   }
@@ -159,11 +215,11 @@ export default function SummaryPopup(props) {
           <DialogTitle>
             <Box
               sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                textAlign: 'center',
-                width: '100%', // Ensure the box takes full width
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+                width: "100%", // Ensure the box takes full width
               }}
             >
               <Typography gutterBottom variant="h5" component="div">
@@ -171,21 +227,33 @@ export default function SummaryPopup(props) {
                 {props.predsToShow.length === 1
                   ? props.predsToShow[0]
                   : props.predsToShow.slice(0, -1).join(", ") +
-                  " and " +
-                  props.predsToShow[props.predsToShow.length - 1]}
+                    " and " +
+                    props.predsToShow[props.predsToShow.length - 1]}
               </Typography>
               <Typography color="text.secondary" variant="body2">
                 Residues colors are displayed according to each predictor.
                 Intersection residues are shown in light blue.
               </Typography>
-              <Box sx={{ width: '100%', overflowX: 'auto', marginTop: 2 }}>
+              <Box sx={{ width: "100%", overflowX: "auto", marginTop: 2 }}>
                 <Stack
                   direction="row"
                   justifyContent="center" // Align buttons to the center
                   spacing={2} // Add space between the buttons
                   alignItems="center"
                 >
-                  <ResponsiveButtonGroup predsToShow={props.predsToShow}/>
+                  <ResponsiveButtonGroup
+                    predsToShow={props.predsToShow}
+                    puresnetButton={puresnetButton}
+                    setPuresnetButton={setPuresnetButton}
+                    graspButton={graspButton}
+                    setGraspButton={setGraspButton}
+                    pointsiteButton={pointsiteButton}
+                    setPointsiteButton={setPointsiteButton}
+                    p2rankButton={p2rankButton}
+                    setp2rankButton={setp2rankButton}
+                    deeppocketButton={deeppocketButton}
+                    setDeeppocketButton={setDeeppocketButton}
+                  />
                 </Stack>
               </Box>
             </Box>
@@ -212,12 +280,20 @@ export default function SummaryPopup(props) {
               consensusData={props.consensusData}
               bindSites={props.bindSites}
               graspSites={props.graspSites}
-              puresnetSites={props.puresnetSites} g
+              puresnetSites={props.puresnetSites}
+              g
               deeppocketSites={props.deeppocketSites}
               pointsiteSites={props.pointsiteSites}
               p2rankSites={props.p2rankSites}
               predsToShow={props.predsToShow}
               upsetClickResidues={props.upsetClickResidues}
+              puresnetButton={puresnetButton}
+              graspButton={graspButton}
+              pointsiteButton={pointsiteButton}
+              p2rankButton={p2rankButton}
+              setp2rankButton={setp2rankButton}
+              deeppocketButton={deeppocketButton}
+              setDeeppocketButton={setDeeppocketButton}
             />
           </DialogContent>
           <DialogActions>

@@ -90,6 +90,11 @@ export default function MolViewerPopup(props) {
         p2rankSites={props.p2rankSites}
         predsToShow={props.predsToShow}
         upsetClickResidues={props.upsetClickResidues}
+        puresnetButton={props.puresnetButton}
+        graspButton={props.graspButton}
+        pointsiteButton={props.pointsiteButton}
+        p2rankButton={props.p2rankButton}
+        deeppocketButton={props.deeppocketButton}
       />
       <ResiduesTabs
         type={"popup"}
