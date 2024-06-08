@@ -77,8 +77,7 @@ const Contact = () => {
 						<Box sx={{ p: 2 }}>
 							<div className="row mt-2 mb-2">
 								<div className="col-12">
-
-								<Stack
+									<Stack
 										direction="row"
 										justifyContent="space-between"
 										alignItems="center"
@@ -126,18 +125,11 @@ const Contact = () => {
 									</Typography>
 								</div>
 							</div>
-
-
-
-
 						</Box>
 						<Divider />
 					</Card>
 				</CustomTabPanel>
-
 			</div>
-
-
 		</BaseLayout>
 	);
 };

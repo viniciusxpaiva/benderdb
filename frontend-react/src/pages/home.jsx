@@ -177,7 +177,7 @@ const Home = () => {
             <div class="col-md-6">
               <div class="bordered">
                 <img
-                  src="img/ngl_example.png"
+                  src="img/ngl2.png"
                   className="img-fluid"
                   style={{
                     maxWidth: "100%",
