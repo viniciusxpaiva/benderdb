@@ -2,8 +2,8 @@ import pandas as pd
 import os
 import glob
 
-BACKEND_PATH = '/home/viniciusp/Desktop/benderdb/backend-flask/'
-FRONTEND_PATH = '/home/viniciusp/Desktop/benderdb/frontend-react/'
+BACKEND_PATH = '/home/vinicius/Desktop/benderdb/backend-flask/'
+FRONTEND_PATH = '/home/vinicius/Desktop/benderdb/frontend-react/'
 
 def get_protein_full_name(prot_name, pdb_folder):
 	pdb_name = '/AF-' + prot_name.upper() + '-F1-model_v4.pdb'

@@ -291,7 +291,7 @@ export default function ResultsPageTabs(props) {
                 alignItems="center"
               >
                 <Typography gutterBottom variant="h5" component="div">
-                  Binding sites residues
+                  Binding sites data
                 </Typography>
               </Stack>
             </Box>

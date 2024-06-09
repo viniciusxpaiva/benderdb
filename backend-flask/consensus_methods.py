@@ -1,8 +1,8 @@
 from utils import *
 import os
 
-BACKEND_PATH = '/home/viniciusp/Desktop/benderdb/backend-flask/'
-FRONTEND_PATH = '/home/viniciusp/Desktop/benderdb/frontend-react/'
+BACKEND_PATH = '/home/vinicius/Desktop/benderdb/backend-flask/'
+FRONTEND_PATH = '/home/vinicius/Desktop/benderdb/frontend-react/'
 
 def mean_consensus(residues_list, total_pred):
 	'''
