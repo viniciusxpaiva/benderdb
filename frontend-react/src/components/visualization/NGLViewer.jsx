@@ -194,13 +194,13 @@ export default function NGLViewer(props) {
       props.pdbFolder +
       "/" +
       protName +
-      "_pymol_session.pse";
+      "_pymol_session.zip";
     const link = document.createElement("a");
     // Setting the href attribute to the file URL
     link.href = fileUrl;
 
     // Setting the filename for the download
-    link.download = protName + "_pymol_session.pse";
+    link.download = protName + "_pymol_session.zip";
 
     // Appending the link to the document
     document.body.appendChild(link);
@@ -221,13 +221,13 @@ export default function NGLViewer(props) {
       protName +
       "_" +
       props.pred +
-      "_sites_pymol_session.pse";
+      "_sites_pymol_session.zip";
     const link = document.createElement("a");
     // Setting the href attribute to the file URL
     link.href = fileUrl;
 
     // Setting the filename for the download
-    link.download = protName + "_" + props.pred + "_sites_pymol_session.pse";
+    link.download = protName + "_" + props.pred + "_sites_pymol_session.zip";
 
     // Appending the link to the document
     document.body.appendChild(link);
