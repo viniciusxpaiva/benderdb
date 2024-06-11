@@ -43,11 +43,6 @@ def process_string():
 
     summary_content = build_summary(bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank)
 
-    if summary_content[3] > 0:
-        create_download_files(input_string, bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank)
-    else:
-        print("No predictions for this protein")
-
     protein_residues = get_all_protein_residues(input_string, prot_folder)
 
     mean_consensus_data, max_consensus_percent = mean_consensus(summary_content[2], summary_content[3])
