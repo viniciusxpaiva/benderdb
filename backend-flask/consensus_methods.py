@@ -1,8 +1,8 @@
 from utils import *
 import os
 
-BACKEND_PATH = '/home/vinicius/Desktop/benderdb/backend-flask/'
-FRONTEND_PATH = '/home/vinicius/Desktop/benderdb/frontend-react/'
+BACKEND_PATH = '/var/www/benderdb/backend-flask/'
+FRONTEND_PATH = '/var/www/benderdb/frontend-react/'
 
 def mean_consensus(residues_list, total_pred):
 	'''
@@ -17,9 +17,11 @@ def mean_consensus(residues_list, total_pred):
 		res_with_occ_list.append(aux)
 		
 	sorted_data = sorted(res_with_occ_list, key=lambda x: (int(x[2]) if x[2].isdigit() else x[2]))
-	max_consensus_percent = max([float(inner[-1]) for inner in sorted_data])
-	
-	return sorted_data, max_consensus_percent
+	if sorted_data: 
+		max_consensus_percent = max([float(inner[-1]) for inner in sorted_data])
+		return sorted_data, max_consensus_percent
+	else:
+		return [], 0.0
 
 def ai_prediction(prot_name, prot_folder):
 	prot_name = prot_name.upper()

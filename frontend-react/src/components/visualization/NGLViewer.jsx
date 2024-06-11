@@ -22,6 +22,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import CloseIcon from "@mui/icons-material/Close";
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import { styled } from '@mui/system';
 
 const bSiteColors = [
   "#167288",
@@ -35,6 +37,14 @@ const bSiteColors = [
   "#9bddb1",
   "#836394",
 ];
+
+const NoMaxWidthTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))({
+  [`& .${tooltipClasses.tooltip}`]: {
+    maxWidth: 'none',
+  },
+});
 
 function ColorfulText({ color, hoverColor, children }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -262,7 +272,7 @@ export default function NGLViewer(props) {
         (p) =>
           p[3] >=
           (props.numPreds * props.maxConsensusPercent - tabIndex + 2) /
-            props.numPreds
+          props.numPreds
       );
       stage
         .loadFile(
@@ -355,25 +365,46 @@ export default function NGLViewer(props) {
             label="Consensus"
             {...a11yProps(0)}
           />
-          <Tab
-            key={"bender-ai"}
-            sx={{
-              "&:hover": {
-                color: "#1976d2",
-                borderBottom: 2,
-                borderColor: "#1976d2",
-              },
-            }}
-            label="BENDER AI"
-            {...a11yProps(2)}
-          />
+          {props.aiPredictionData.length > 0 ? (
+            <Tab
+              key={"bender-ai"}
+              sx={{
+                "&:hover": {
+                  color: "#1976d2",
+                  borderBottom: 2,
+                  borderColor: "#1976d2",
+                },
+              }}
+              label="BENDER AI"
+              {...a11yProps(2)}
+            />
+          ) : (
+            <NoMaxWidthTooltip title="BENDER AI did not find any binding site residue for this protein">
+              <Box>
+                <Tab
+                  key={"bender-ai"}
+                  sx={{
+                    "&:hover": {
+                      color: "#1976d2",
+                      borderBottom: 2,
+                      borderColor: "#1976d2",
+                    },
+                  }}
+                  label="BENDER AI"
+                  {...a11yProps(2)}
+                  disabled
+                />
+              </Box>
+            </NoMaxWidthTooltip>
+          )}
+
           {[...Array(props.numPreds * props.maxConsensusPercent)].map(
             (_, i) => (
               <Tab
                 key={`${Math.floor(
                   ((props.numPreds * props.maxConsensusPercent - i) /
                     props.numPreds) *
-                    100
+                  100
                 )}%`}
                 sx={{
                   "&:hover": {
@@ -385,7 +416,7 @@ export default function NGLViewer(props) {
                 label={`${Math.floor(
                   ((props.numPreds * props.maxConsensusPercent - i) /
                     props.numPreds) *
-                    100
+                  100
                 )}%`}
                 {...a11yProps(i + 2)}
               />

@@ -2,8 +2,8 @@ import pandas as pd
 import os
 import glob
 
-BACKEND_PATH = '/home/vinicius/Desktop/benderdb/backend-flask/'
-FRONTEND_PATH = '/home/vinicius/Desktop/benderdb/frontend-react/'
+BACKEND_PATH = '/var/www/benderdb/backend-flask/'
+FRONTEND_PATH = '/var/www/benderdb/frontend-react/'
 BENDERDB_DATA_PATH = '/home/vinicius/BENDERDB-server-data/'
 
 
@@ -64,9 +64,9 @@ def create_dataframe(prot_name, data, predictor):
 
 
 def concat_dataframes(prot_name):
-	folder_path = BACKEND_PATH + 'data/puresnet/'
+	folder_path = BENDERDB_DATA_PATH + "results/"
 	
-	file_paths = glob.glob(prot_name +'_*.csv')
+	file_paths = glob.glob(BENDERDB_DATA_PATH + "results/" + prot_name +'_*.csv')
 
 	dataframes = []
 
@@ -78,8 +78,8 @@ def concat_dataframes(prot_name):
 
 	concatenated_df.to_csv(BENDERDB_DATA_PATH + "results/" + prot_name + '_overall_results.csv', index=False)  # Replace 'concatenated_data.csv' with your desired file name
 
-	#cmd = 'cp ' + prot_name + '_overall_results.csv ' + FRONTEND_PATH + 'public/results'
-	#os.system(cmd)
+	cmd = 'cp ' + BENDERDB_DATA_PATH + "results/" +  prot_name + '_overall_results.csv ' + FRONTEND_PATH + 'public/results'
+	os.system(cmd)
 
 
 def create_download_files(prot_name, bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank):
@@ -92,7 +92,7 @@ def create_download_files(prot_name, bsites_grasp, bsites_puresnet, bsites_gass,
 		create_dataframe(prot_name, bsites_pointsite, "PointSite")
 		create_dataframe(prot_name, bsites_p2rank, "P2Rank")
 
-		#concat_dataframes(prot_name)
+		concat_dataframes(prot_name)
 
 		#cmd = 'rm *.csv'
 		#os.system(cmd)
