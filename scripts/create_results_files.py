@@ -11,43 +11,23 @@ def format_bsite_string(bsite_string):
 	return processed_result
 
 def create_dataframe(prot_name, data, predictor):
-    rows = []
-    site_num = 0
-    for inner_list in data:
-        residues = ','.join([f'{x[1]}_{x[2]}_{x[0]}' for x in inner_list])
-        rows.append([predictor, site_num, residues])
-        site_num += 1
-
-    df = pd.DataFrame(rows, columns=['Predictor', 'Site', 'Residues'])
-    df.to_csv(BENDERDB_DATA_PATH + "results/" +  prot_name + '_' + predictor + '_results.csv', index=False)
-
-
-def concat_dataframes(prot_name):
-	folder_path = BENDERDB_DATA_PATH + "results/"
-	
-	file_paths = glob.glob(BENDERDB_DATA_PATH + "results/" + prot_name +'_*.csv')
-
-	dataframes = []
-
-	for file_path in file_paths:
-	    df = pd.read_csv(file_path)
-	    dataframes.append(df)
-
-	concatenated_df = pd.concat(dataframes, ignore_index=True)
-
-	concatenated_df.to_csv(BENDERDB_DATA_PATH + "results/" + prot_name + '_overall_results.csv', index=False)  # Replace 'concatenated_data.csv' with your desired file name
+	rows = []
+	site_num = 0
+	for inner_list in data:
+		residues = ','.join([f'{x[1]}_{x[2]}_{x[0]}' for x in inner_list])
+		rows.append([predictor, site_num, residues])
+		site_num += 1
+	if rows:
+		df = pd.DataFrame(rows, columns=['Predictor', 'Site', 'Residues'])
+		df.to_csv(BENDERDB_DATA_PATH + "results/" +  prot_name + '_' + predictor + '_results.csv', index=False)
 
 
 def create_download_files(prot_name, bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank):
-	
-	if prot_name + '_overall_results.csv' not in os.listdir(BENDERDB_DATA_PATH + 'results'):
-		create_dataframe(prot_name, bsites_grasp, "GRaSP")
-		create_dataframe(prot_name, bsites_puresnet, "PUResNet")
-		create_dataframe(prot_name, bsites_deeppocket, "DeepPocket")
-		create_dataframe(prot_name, bsites_pointsite, "PointSite")
-		create_dataframe(prot_name, bsites_p2rank, "P2Rank")
-	else:
-		print("Results already done")
+	create_dataframe(prot_name, bsites_grasp, "GRaSP")
+	create_dataframe(prot_name, bsites_puresnet, "PUResNet")
+	create_dataframe(prot_name, bsites_deeppocket, "DeepPocket")
+	create_dataframe(prot_name, bsites_pointsite, "PointSite")
+	create_dataframe(prot_name, bsites_p2rank, "P2Rank")
 
 
 def grasp_search(prot_name):

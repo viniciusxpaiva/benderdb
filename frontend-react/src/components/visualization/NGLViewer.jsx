@@ -379,7 +379,7 @@ export default function NGLViewer(props) {
               {...a11yProps(2)}
             />
           ) : (
-            <NoMaxWidthTooltip title="BENDER AI did not find any binding site residue for this protein">
+            <NoMaxWidthTooltip title="BENDER AI did not predict any binding site residue for this protein">
               <Box>
                 <Tab
                   key={"bender-ai"}

@@ -15,6 +15,16 @@ import "reactjs-popup/dist/index.css";
 import Card from "@mui/material/Card";
 import Divider from "@mui/material/Divider";
 import SummaryPopup from "./SummaryPopup";
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import { styled } from '@mui/system';
+
+const NoMaxWidthTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))({
+  [`& .${tooltipClasses.tooltip}`]: {
+    maxWidth: 'none',
+  },
+});
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -74,6 +84,7 @@ export default function ResultsPageTabs(props) {
           >
             <Tab
               label="Summary"
+              key={"summary"}
               sx={{
                 "&:hover": {
                   color: "#1976d2",
@@ -83,8 +94,9 @@ export default function ResultsPageTabs(props) {
               }}
               {...a11yProps(0)}
             />
-            <Tab
+            {props.graspSites.length > 0 ? (<Tab
               label="GRaSP"
+              key={"grasp"}
               sx={{
                 "&:hover": {
                   color: "#1976d2",
@@ -93,9 +105,28 @@ export default function ResultsPageTabs(props) {
                 },
               }}
               {...a11yProps(1)}
-            />
-            <Tab
+            />) : (
+              <NoMaxWidthTooltip title="GRaSP did not predict any binding site for this protein">
+                <Box>
+                  <Tab
+                    label="GRaSP"
+                    key={"grasp"}
+                    sx={{
+                      "&:hover": {
+                        color: "#1976d2",
+                        borderBottom: 2,
+                        borderColor: "#1976d2",
+                      },
+                    }}
+                    {...a11yProps(1)}
+                    disabled
+                  />
+                </Box>
+              </NoMaxWidthTooltip>
+            )}
+            {props.puresnetSites.length > 0 ? (<Tab
               label="PUResNet"
+              key={"puresnet"}
               sx={{
                 "&:hover": {
                   color: "#1976d2",
@@ -104,9 +135,28 @@ export default function ResultsPageTabs(props) {
                 },
               }}
               {...a11yProps(2)}
-            />
-            <Tab
+            />) : (
+              <NoMaxWidthTooltip title="PUResNet did not predict any binding site for this protein">
+                <Box>
+                  <Tab
+                    label="PUResNet"
+                    key={"puresnet"}
+                    sx={{
+                      "&:hover": {
+                        color: "#1976d2",
+                        borderBottom: 2,
+                        borderColor: "#1976d2",
+                      },
+                    }}
+                    {...a11yProps(2)}
+                    disabled
+                  />
+                </Box>
+              </NoMaxWidthTooltip>
+            )}
+            {props.deeppocketSites.length > 0 ? (<Tab
               label="DeepPocket"
+              key={"deeppocket"}
               sx={{
                 "&:hover": {
                   color: "#1976d2",
@@ -115,9 +165,28 @@ export default function ResultsPageTabs(props) {
                 },
               }}
               {...a11yProps(3)}
-            />
-            <Tab
+            />) : (
+              <NoMaxWidthTooltip title="DeepPocket did not predict any binding site for this protein">
+                <Box>
+                  <Tab
+                    label="DeepPocket"
+                    key={"deeppocket"}
+                    sx={{
+                      "&:hover": {
+                        color: "#1976d2",
+                        borderBottom: 2,
+                        borderColor: "#1976d2",
+                      },
+                    }}
+                    {...a11yProps(3)}
+                    disabled
+                  />
+                </Box>
+              </NoMaxWidthTooltip>
+            )}
+            {props.pointsiteSites.length > 0 ? (<Tab
               label="PointSite"
+              key={"pointsite"}
               sx={{
                 "&:hover": {
                   color: "#1976d2",
@@ -126,9 +195,28 @@ export default function ResultsPageTabs(props) {
                 },
               }}
               {...a11yProps(4)}
-            />
-            <Tab
+            />) : (
+              <NoMaxWidthTooltip title="PointSite did not predict any binding site for this protein">
+                <Box>
+                  <Tab
+                    label="PointSite"
+                    key={"pointsite"}
+                    sx={{
+                      "&:hover": {
+                        color: "#1976d2",
+                        borderBottom: 2,
+                        borderColor: "#1976d2",
+                      },
+                    }}
+                    {...a11yProps(4)}
+                    disabled
+                  />
+                </Box>
+              </NoMaxWidthTooltip>
+            )}
+            {props.p2rankSites.length > 0 ? (<Tab
               label="P2Rank"
+              key={"p2rank"}
               sx={{
                 "&:hover": {
                   color: "#1976d2",
@@ -137,7 +225,25 @@ export default function ResultsPageTabs(props) {
                 },
               }}
               {...a11yProps(5)}
-            />
+            />) : (
+              <NoMaxWidthTooltip title="P2Rank did not predict any binding site for this protein">
+                <Box>
+                  <Tab
+                    label="P2Rank"
+                    key={"p2rank"}
+                    sx={{
+                      "&:hover": {
+                        color: "#1976d2",
+                        borderBottom: 2,
+                        borderColor: "#1976d2",
+                      },
+                    }}
+                    {...a11yProps(5)}
+                    disabled
+                  />
+                </Box>
+              </NoMaxWidthTooltip>
+            )}
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
