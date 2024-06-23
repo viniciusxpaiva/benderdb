@@ -177,7 +177,7 @@ const Home = () => {
             <div class="col-md-6">
               <div class="bordered">
                 <img
-                  src="img/ngl2.png"
+                  src="img/ngl_home2.png"
                   className="img-fluid"
                   style={{
                     maxWidth: "100%",
@@ -194,7 +194,7 @@ const Home = () => {
           <div class="row mb">
             <div class="col-md-6">
               <div class="bordered">
-                <img src="img/workflow.png" class=" img-fluid" />
+                <img src="img/diagram_home.png" class=" img-fluid" />
               </div>
             </div>
             <div
@@ -206,7 +206,7 @@ const Home = () => {
               }}
             >
               <p>
-                <h2>Data collection and experiments</h2>
+                <h2>BENDER DB designing</h2>
               </p>
 
               <p>
@@ -236,6 +236,10 @@ const Home = () => {
               </p>
 
               <p>
+              BENDER AI, an artificial intelligence model, was designed to identify binding sites in proteins by integrating the outputs of several established predictors.
+              </p>
+
+              <p>
                 A web server was created to make the results accessible to the
                 entire community.
               </p>
@@ -248,7 +252,6 @@ const Home = () => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "center",
               }}
             >
               <br />
@@ -270,7 +273,7 @@ const Home = () => {
             <div class="col-md-6">
               <div class="bordered">
                 <img
-                  src="img/upset_example.png"
+                  src="img/upset_home.png"
                   className="img-fluid"
                   style={{
                     maxWidth: "100%",
