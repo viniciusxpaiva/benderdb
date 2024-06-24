@@ -357,7 +357,7 @@ export default function ResultsPageTabs(props) {
                         </AlertTitle>
                         <div>
                           <h6>
-                            Click on button to view list of residues for
+                            Click on button to view the list of residues for
                             selected intersection{" "}
                           </h6>
                         </div>
@@ -426,7 +426,7 @@ export default function ResultsPageTabs(props) {
                           found in those predicted binding sites
                         </h6>
                         <h6>
-                          Most common residues are listed in table bellow
+                          Most common residues are listed in the table bellow
                         </h6>
                       </Alert>
                     </Stack>

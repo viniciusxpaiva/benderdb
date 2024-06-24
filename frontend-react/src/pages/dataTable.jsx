@@ -199,7 +199,7 @@ const DataTable = () => {
                     </ul>
 
                     <h6>
-                      More info can be found at table below and at{" "}
+                      More info can be found at the table below and at{" "}
                       <a
                         className="text-decoration-none"
                         href={"https://alphafold.ebi.ac.uk/"}
@@ -209,7 +209,7 @@ const DataTable = () => {
                       >
                         AlphaFold
                       </a>{" "}
-                      webpage
+                      webpage.
                     </h6>
                   </Alert>
                 </Stack>

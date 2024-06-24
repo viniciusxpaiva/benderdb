@@ -83,7 +83,12 @@ const Results = () => {
           body: JSON.stringify({ inputString }),
         });
 
+        
+
         const data = await response.json();
+        if (data.prot_folder.length === 0){
+          navigate(`/notfound`);
+        }
         if (data.summary[3] === 0) {
           // Navigate to the "results" page with the input string
           navigate(`/nopredictions`);
@@ -105,7 +110,7 @@ const Results = () => {
     };
 
     fetchProcessedString();
-  }, [inputString]);
+  }, []);
 
   const summaryTableData = {
     columns: [

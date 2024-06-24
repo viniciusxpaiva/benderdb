@@ -28,7 +28,6 @@ const Home = () => {
         });
 
         const data = await response.json();
-        console.log(data.summary);
         if (data.prot_folder !== "") {
           // Navigate to the "results" page with the input string
           navigate(`/results/${encodeURIComponent(searchString)}`);
@@ -125,18 +124,18 @@ const Home = () => {
                         <Button
                           variant="outlined"
                           component={Link}
-                          to="/results/A4HXH5"
+                          to="/results/A0A5K4EN06"
                           sx={{ color: "white", borderColor: "white", mr: 2 }}
                         >
-                          A4HXH5
+                          A0A5K4EN06
                         </Button>
                         <Button
                           variant="outlined"
                           component={Link}
-                          to="/results/Q4E4E1"
+                          to="/results/E9AHS8"
                           sx={{ color: "white", borderColor: "white" }}
                         >
-                          Q4E4E1
+                          E9AHS8
                         </Button>
                       </Paper>
                     </div>
@@ -159,14 +158,14 @@ const Home = () => {
               }}
             >
               <p>
-                <h2>Binding sites in database</h2>
+                <h2>Binding sites database</h2>
               </p>
               <p>
                 BENDER DB is a comprehensive database containing protein binding
                 sites for proteomes of neglected disease pathogens.
               </p>
               <p>
-                Database includes 10 different proteomes, encompassing a total
+                The database includes 10 different proteomes, encompassing a total
                 of 101,813 proteins and 1,172,743 binding sites.
               </p>
               <p>
@@ -194,7 +193,7 @@ const Home = () => {
           <div class="row mb">
             <div class="col-md-6">
               <div class="bordered">
-                <img src="img/diagram_home.png" class=" img-fluid" />
+                <img src="img/diag_home.png" class=" img-fluid" />
               </div>
             </div>
             <div
@@ -206,7 +205,7 @@ const Home = () => {
               }}
             >
               <p>
-                <h2>BENDER DB designing</h2>
+                <h2>BENDER DB design</h2>
               </p>
 
               <p>
@@ -231,12 +230,12 @@ const Home = () => {
                 , were collected from the AlphaFold database.
               </p>
               <p>
-                Five different predictors were used to identify pockets and
-                binding sites in each protein.
+                Five different predictors were used to identify binding sites in each protein structure.
               </p>
 
               <p>
-              BENDER AI, an artificial intelligence model, was designed to identify binding sites in proteins by integrating the outputs of several established predictors.
+              BENDER AI, an artificial intelligence model, was designed to identify binding sites in proteins by integrating the outputs of these established predictors.
+              
               </p>
 
               <p>
@@ -258,16 +257,10 @@ const Home = () => {
               <br />
               <h2 style={{ marginBottom: "25px" }}>Data visualization</h2>
               <p>
-                BENDER DB utilizes two primary visual representations: NGL
-                Viewer and UpSet Plot.
+              The molecule viewer allows  the analysis of binding site residues identified by predictors within the protein structure itself. It shows the consensus of sites predicted by all tools with warm colors for regions of highest agreement and cold colors for regions where no sites were found or agreement is low.
               </p>
               <p>
-                NGL Viewer allows for the analysis of binding sites and residues
-                identified by predictors within the protein structure itself.
-              </p>
-              <p>
-                UpSet Plot enables verification of the convergence of results
-                across all combinations of binding site predictions.
+              UpSet Plot provides a general view of the convergence of results across all combinations of binding site predictions. Any combination of predictors can be selected and exhibited in the molecule viewer.
               </p>
             </div>
             <div class="col-md-6">

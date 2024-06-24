@@ -31,6 +31,22 @@ def prot_folder():
 def process_string():
     data = request.get_json()
     input_string = data.get('inputString', '')
+
+    prot_folder = search_PDB(input_string)
+
+    if not prot_folder:
+        return jsonify({'grasp': [],
+                    'puresnet': [], 
+                    'deeppocket': [], 
+                    'pointsite': [],
+                    'p2rank': [],
+                    'summary': [],
+                    'prot_folder': [],
+                    'all_residues': [],
+                    'mean_consensus' : [],
+                    'max_consensus_percent': [],
+                    'ai_prediction' : [],
+                    'prot_full_name': []})
     
     bsites_grasp = grasp_search(input_string)
     bsites_puresnet = puresnet_search(input_string)
@@ -38,8 +54,6 @@ def process_string():
     bsites_deeppocket = deeppocket_search(input_string)
     bsites_pointsite = pointsite_search(input_string)
     bsites_p2rank = p2rank_search(input_string)
-
-    prot_folder = search_PDB(input_string)
 
     summary_content = build_summary(bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank)
 
