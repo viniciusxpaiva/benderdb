@@ -66,7 +66,8 @@ const Help = () => {
               value={value}
               onChange={handleChange}
               aria-label="basic tabs example"
-              centered
+              variant="scrollable"
+              allowScrollButtonsMobile
             >
               <Tab
                 label="Visualizations"
