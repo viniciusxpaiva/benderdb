@@ -61,7 +61,12 @@ const Help = () => {
       </div>
       <div className="container">
         <Box sx={{ width: "100%" }}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Box sx={{
+            borderBottom: 1,
+            borderColor: "divider",
+            display: "flex",
+            justifyContent: "center",
+          }}>
             <Tabs
               value={value}
               onChange={handleChange}
@@ -480,7 +485,7 @@ const Help = () => {
               <Divider />
               <Box sx={{ p: 2 }}>
                 <Stack alignItems="left" sx={{ paddingLeft: 10, paddingRight: 10 }}>
-                <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
+                  <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
                     <b>6.</b>  The buttons indicate the predictors of the selected intersection. The button colors correspond to the same colors as the residues in the molecule. By clicking the buttons, users can toggle the visualization of the residues.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
