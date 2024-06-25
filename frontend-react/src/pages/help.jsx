@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
+import { Link } from 'react-router-dom';
 
 const Help = () => {
   const [value, setValue] = useState(0);
@@ -152,7 +153,7 @@ const Help = () => {
                   alignItems="center"
                 >
                   <Typography gutterBottom variant="h5" component="div">
-                    NGL Viewer
+                    Molecular viewer
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
@@ -163,13 +164,13 @@ const Help = () => {
               <Box sx={{ p: 2 }}>
                 <Stack alignItems="center" sx={{ paddingLeft: 10, paddingRight: 10 }}>
                   <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>1.</b> The viewer displays the protein structure and binding site residues.
+                    <b>1.</b> he molecule viewer displays binding site residues highlighted in the context of the protein structure
                   </Typography>
                   <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>2.</b> Customizations can be made to the protein structure visualization. The buttons within the viewer allow users to change the representation of the protein structure in different styles (cartoon, sticks, and surface), as well as to adjust the background color.
+                    <b>2.</b> Customizations can be made to the protein structure visualization. The buttons within the viewer allow users to change the representation of the protein structure in different styles (cartoon, licorice, and surface), as well as to adjust the background color.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3 mb-4" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>3.</b> Tabs display different graphical representations of the protein binding sites. The Consensus tab presents a heatmap of all binding site residues. Shades of blue indicate a lower occurrence of residues in the predictors' results, while shades of red indicate a higher presence. The BENDER AI tab shows the prediction results of binding site residues made by an Artificial Intelligence model. The tabs with percentages show the occurrence rate of residues in the predictors' results. For example, the 80% tab displays all protein residues present in at least 80% of the results.
+                    <b>3.</b> When visualizing the results summary, tabs in the molecular viewer display different graphical representations of the protein binding sites. The Consensus tab presents a heatmap of all binding site residues. Shades of blue indicate a lower or no occurrence of binding site residues calculated by the predictors, while shades of red indicate a higher presence of binding site residues. The BENDER AI tab shows binding site residues predicted by our Artificial Intelligence model. The tabs with percentages show the occurrence of binding site residues calculated by all the predictors. For example, the 80% tab displays all binding site residues present in at least 80% of the results.
                   </Typography>
 
                   <img
@@ -199,23 +200,23 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  UpSet plot is used for the visualization of sets and subsets of prediction results
+                  This plot shows all sets and possible intersections between them for binding sites predicted by all tools
                 </Typography>
               </Box>
               <Divider />
               <Box sx={{ p: 2 }}>
                 <Stack alignItems="left" sx={{ paddingLeft: 10, paddingRight: 10 }}>
                   <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>4.</b> Horizontal bars represent the size of the datasets, which correspond to the results from each of the binding site predictors.
+                    <b>4.</b> Horizontal bars represent the number of binding site residues predicted by each tool.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>5.</b> The central region of the UpSet plot shows the different intersections of the sets. The example below illustrates the subset formed by the GRaSP and P2Rank predictors being selected.
+                    <b>5.</b> The central region of this plot (nodes connected by edges) displays all possible intersections between the predictors. The example below shows the intersection between GRaSP and P2Rank, indicating that there are 20 binding site residues on which they agree.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>6.</b> The vertical bars display the size of each presented set and subset. The yellow color (which appears when selecting a set or subset) indicates the number of residues of the selected subset in all others.
+                    <b>6.</b> The vertical bars display the size of each selected set/intersection. When a set/intersection is selected, the bar corresponding to the selection turns yellow. In the other bars, which do not correspond to the selection, a yellow region appears, corresponding to the number of selected sites that are present in the other sets/intersections.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3 mb-4" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>7.</b> Upon selecting an intersection, the "View on protein" button appears. Clicking this button opens a window containing a molecular viewer that displays the residues of the selected intersection. For example, here, only the residues from the GRaSP and P2Rank predictors will be shown.
+                    <b>7.</b> Upon selecting an intersection, the "View on protein" button appears. Clicking this button opens a window containing a molecular viewer that displays the binding site residues of the selected intersection. For example, here, only the residues from the GRaSP and P2Rank predictors will be shown.
                   </Typography>
 
                   <img
@@ -313,10 +314,16 @@ const Help = () => {
               <Box sx={{ p: 2 }}>
                 <Stack alignItems="left" sx={{ paddingLeft: 10, paddingRight: 10 }}>
                   <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>1.</b> The search must be done by entering a valid UniProt code from a protein of one of the proteomes of neglected disease pathogens.
+                    <b>1.</b> The search must be done by entering a valid UniProt accession from a protein of one of the proteomes of neglected disease pathogens.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3 mb-4" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>2.</b> A complete list of all proteins and proteomes available in BENDER DB can be found in the Available Data menu.
+                    <b>2.</b> A complete list of all proteins and proteomes available in BENDER DB can be found in the <Typography
+                      noWrap
+                      component={Link}
+                      to="/datatable"
+                    >
+                      Available Data menu
+                    </Typography>.
                   </Typography>
 
                   <img
@@ -355,10 +362,10 @@ const Help = () => {
               <Box sx={{ p: 2 }}>
                 <Stack alignItems="left" sx={{ paddingLeft: 10, paddingRight: 10 }}>
                   <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>1.</b> When searching for a protein, information about binding sites is displayed on the results screen.
+                    <b>1.</b> When searching for a protein, information about binding sites for this specific entry is displayed on the results screen.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>2.</b> The results are presented in the Summary tab, where general aspects of the protein and its binding sites can be viewed, combining results from different predictors.
+                    <b>2.</b> Results are presented in the Summary tab, in which general aspects of the protein and its binding site residues can be viewed, bringing together results from different predictors.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
                     <b>3.</b> Individual results for each binding site predictor can be also accessed.
@@ -396,20 +403,20 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  Summary molecular visualization and binding sites residues
+                  Molecular visualization and binding sites residues
                 </Typography>
               </Box>
               <Divider />
               <Box sx={{ p: 2 }}>
                 <Stack alignItems="left" sx={{ paddingLeft: 10, paddingRight: 10 }}>
                   <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>1.</b> Structural representation of the searched protein. Tabs displaying different binding site results for the protein.
+                    <b>1.</b> Structural representation of the considered protein. Tabs displaying different binding site results for the protein.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
                     <b>2.</b> Download button for the PyMOL session, containing the consensus visualization of prediction results.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3 mb-4" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>3.</b> The binding sites residues are displayed on the right, according to the visualization selected in the tabs of the molecular viewer. Residues table shows the name, number, and chain of each residue. By clicking the 'Look at' button, the selected residue is highlighted in the molecular viewer window.
+                    <b>3.</b> The binding sites residues are displayed on the right, according to the visualization selected in the tabs of the molecular viewer. The residues table shows the name, number, and chain of each residue. By clicking the 'Look at' button, the selected residue is highlighted in the molecular viewer window.
                   </Typography>
 
                   <img
@@ -562,20 +569,20 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  Predictor molecular visualization and binding site residues
+                  Molecular visualization and binding site residues
                 </Typography>
               </Box>
               <Divider />
               <Box sx={{ p: 2 }}>
                 <Stack alignItems="left" sx={{ paddingLeft: 10, paddingRight: 10 }}>
                   <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>1.</b> The protein structure is displayed in the molecular viewer, with the different identified binding sites highlighted in stick format. Distinct colors were used to differentiate between the sites.
+                    <b>1.</b> The protein structure is displayed in the molecular viewer, with the binding site residues highlighted and represented as ball and stick. Colors were used to differentiate between the sites for those tools that group predicted residues in binding sites.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>2.</b> The various binding sites found in the protein appear as tabs in the molecular viewer. The colors correspond to the residues shown in the protein structure.
+                    <b>2.</b> The various binding sites detected in the protein appear as tabs in the molecular viewer. The colors correspond to the residues shown in the protein structure.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>3.</b> Download button for the PyMOL session, containing all the identified binding sites in the protein.
+                    <b>3.</b> Download button for the PyMOL session, containing all the identified binding site residues in the protein.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
                     <b>4.</b> Download button for the individual predictor results in CSV format.

@@ -87,7 +87,7 @@ const Home = () => {
                             setSearchString(e.target.value.toUpperCase())
                           }
                           sx={{ ml: 1, flex: 1 }}
-                          placeholder="Search for protein UniProt code"
+                          placeholder="Search for protein UniProt accession"
                           inputProps={{ "aria-label": "search for protein" }}
                         />
                         <IconButton sx={{ p: "10px" }} aria-label="menu">
@@ -170,7 +170,7 @@ const Home = () => {
               </p>
               <p>
                 A complete list of all proteomes and available binding sites in
-                BENDER DB can be found in the Available Data menu.
+                BENDER DB can be found in the <Link to={'/datatable'}><a>Available Data menu</a></Link>.
               </p>
             </div>
             <div class="col-md-6">

@@ -426,7 +426,7 @@ export default function ResultsPageTabs(props) {
                           found in those predicted binding sites
                         </h6>
                         <h6>
-                          Most common residues are listed in the table bellow
+                          Most common residues are listed in the table below
                         </h6>
                       </Alert>
                     </Stack>
