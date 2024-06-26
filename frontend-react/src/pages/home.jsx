@@ -170,7 +170,7 @@ const Home = () => {
               </p>
               <p>
                 A complete list of all proteomes and available binding sites in
-                BENDER DB can be found in the <Link to={'/datatable'} target="_blank" rel="noopener noreferrer"><a>Available Data page</a></Link>.
+                BENDER DB can be found on <Link to={'/datatable'} target="_blank" rel="noopener noreferrer"><a>Available Data page</a></Link>.
               </p>
             </div>
             <div class="col-md-6">

@@ -248,7 +248,7 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  All available data in BENDER DB can be found at Available Data menu
+                  All available data in BENDER DB can be found on Available Data page
                 </Typography>
               </Box>
               <Divider />
@@ -317,7 +317,7 @@ const Help = () => {
                     <b>1.</b> The search must be done by entering a valid UniProt accession from a protein of one of the proteomes of neglected disease pathogens.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3 mb-4" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>2.</b> A complete list of all proteins and proteomes available in BENDER DB can be found in the <Typography
+                    <b>2.</b> A complete list of all proteins and proteomes available in BENDER DB can be found on <Typography
                       noWrap
                       component={Link}
                       to="/datatable"
