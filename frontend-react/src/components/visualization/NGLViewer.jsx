@@ -328,21 +328,9 @@ export default function NGLViewer(props) {
           variant="scrollable"
           allowScrollButtonsMobile
         >
-          <Tab
-            key={"consensus"}
-            sx={{
-              "&:hover": {
-                color: "#1976d2",
-                borderBottom: 2,
-                borderColor: "#1976d2",
-              },
-            }}
-            label={<NoMaxWidthTooltip title="Predictors results consensus">Consensus</NoMaxWidthTooltip>}
-            {...a11yProps(0)}
-          />
-          {props.aiPredictionData.length > 0 ? (
+          <NoMaxWidthTooltip title="Predictors results consensus">
             <Tab
-              key={"bender-ai"}
+              key={"consensus"}
               sx={{
                 "&:hover": {
                   color: "#1976d2",
@@ -350,9 +338,25 @@ export default function NGLViewer(props) {
                   borderColor: "#1976d2",
                 },
               }}
-              label={<NoMaxWidthTooltip title="Meta-predictor based on a machine learning strategy">BENDER AI</NoMaxWidthTooltip>}
-              {...a11yProps(2)}
+              label={"Consensus"}
+              {...a11yProps(0)}
             />
+          </NoMaxWidthTooltip>
+          {props.aiPredictionData.length > 0 ? (
+            <NoMaxWidthTooltip title="Meta-predictor based on a machine learning strategy">
+              <Tab
+                key={"bender-ai"}
+                sx={{
+                  "&:hover": {
+                    color: "#1976d2",
+                    borderBottom: 2,
+                    borderColor: "#1976d2",
+                  },
+                }}
+                label={"BENDER AI"}
+                {...a11yProps(2)}
+              />
+            </NoMaxWidthTooltip>
           ) : (
             <NoMaxWidthTooltip title="BENDER AI did not predict any binding site residue for this protein">
               <Box>
@@ -375,6 +379,11 @@ export default function NGLViewer(props) {
 
           {[...Array(props.numPreds * props.maxConsensusPercent)].map(
             (_, i) => (
+              <NoMaxWidthTooltip title={`Predictors convergence in at least ${Math.floor(
+                ((props.numPreds * props.maxConsensusPercent - i) /
+                  props.numPreds) *
+                100
+              )}% of results`}>
               <Tab
                 key={`${Math.floor(
                   ((props.numPreds * props.maxConsensusPercent - i) /
@@ -388,17 +397,14 @@ export default function NGLViewer(props) {
                     borderColor: "#1976d2",
                   },
                 }}
-                label={<NoMaxWidthTooltip title={`Predictors convergence in at least ${Math.floor(
+                label={`${Math.floor(
                   ((props.numPreds * props.maxConsensusPercent - i) /
                     props.numPreds) *
                   100
-                )}% of results`}>{Math.floor(
-                  ((props.numPreds * props.maxConsensusPercent - i) /
-                    props.numPreds) *
-                  100
-                )}%</NoMaxWidthTooltip>}
+                )}%`}
                 {...a11yProps(i + 2)}
               />
+              </NoMaxWidthTooltip>
             )
           )}
         </Tabs>
@@ -674,15 +680,15 @@ export default function NGLViewer(props) {
                 >
                   <Stack direction="row" spacing={2}>
                     <div>
-                    <NoMaxWidthTooltip title="Visualization settings">
-                      <IconButton
-                        onClick={handleClickOpen}
-                      >
-                        <SettingsIcon
-                          htmlColor={bgroundColor === "white" ? "" : "white"}
-                        />
-                      </IconButton>
-                    </NoMaxWidthTooltip>
+                      <NoMaxWidthTooltip title="Visualization settings">
+                        <IconButton
+                          onClick={handleClickOpen}
+                        >
+                          <SettingsIcon
+                            htmlColor={bgroundColor === "white" ? "" : "white"}
+                          />
+                        </IconButton>
+                      </NoMaxWidthTooltip>
                       <Dialog
                         disableEscapeKeyDown
                         open={open}
