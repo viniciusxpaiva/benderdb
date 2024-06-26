@@ -17,9 +17,19 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import DownloadingIcon from "@mui/icons-material/Downloading";
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+
 
 //const csvDLUrl = "https://benderdb.ufv.br/benderdb-data/results/"
 const csvDLUrl = process.env.PUBLIC_URL + "/results/"
+
+const NoMaxWidthTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} arrow />
+))({
+  [`& .${tooltipClasses.tooltip}`]: {
+    maxWidth: 'none',
+  },
+});
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -70,7 +80,7 @@ export default function ResiduesTabs(props) {
 
   function ContentTabsSummary() {
     return (
-      <Card variant="outlined" sx={{marginTop: { xs: 2, md: 0 }}}>
+      <Card variant="outlined" sx={{ marginTop: { xs: 2, md: 0 } }}>
         <Box sx={{ p: 2, height: 137 }}>
           <Stack
             direction="row"
@@ -83,10 +93,10 @@ export default function ResiduesTabs(props) {
           </Stack>
           <Typography color="text.secondary" variant="body2">
             {props.tabIndex === 0
-              ? "Shades of blue represent a low probability of belonging to a binding site, while shades of red indicate a high probability"
+              ? "The colder the tones, the fewer residues are predicted as binding sites in that region. The warmer the tones, the more residues are predicted in that region."
               : props.tabIndex === 1
-                ? "Residues displayed below are predicted by BENDER AI, a Machine Learning model based meta-predictor"
-                : `Residues displayed below are presented in at least ${Math.floor(((props.numPreds*props.maxConsensusPercent - props.tabIndex + 2) / props.numPreds) * 100)}% of predictors results`}
+                ? "Residues displayed below are predicted by BENDER AI, a meta-predictor based on a machine learning strategy."
+                : `Residues displayed below are presented in at least ${Math.floor(((props.numPreds * props.maxConsensusPercent - props.tabIndex + 2) / props.numPreds) * 100)}% of predictors results.`}
 
           </Typography>
         </Box>
@@ -117,16 +127,17 @@ export default function ResiduesTabs(props) {
                           {p[0]}
                         </StyledTableCell>
                         <StyledTableCell align="center">
-                          <IconButton
-                            className="p-1"
-                            aria-label="focus-res"
-                            title="Focus on this residue"
-                            onClick={() =>
-                              focusResidue(props.stage, p[2], p[0])
-                            }
-                          >
-                            <RemoveRedEyeOutlinedIcon />
-                          </IconButton>
+                          <NoMaxWidthTooltip title="Focus on this residue">
+                            <IconButton
+                              className="p-1"
+                              aria-label="focus-res"
+                              onClick={() =>
+                                focusResidue(props.stage, p[2], p[0])
+                              }
+                            >
+                              <RemoveRedEyeOutlinedIcon />
+                            </IconButton>
+                          </NoMaxWidthTooltip>
                         </StyledTableCell>
                       </StyledTableRow>
                     ))}
@@ -158,16 +169,17 @@ export default function ResiduesTabs(props) {
                           {p[0]}
                         </StyledTableCell>
                         <StyledTableCell align="center">
-                          <IconButton
-                            className="p-1"
-                            aria-label="focus-res"
-                            title="Focus on this residue"
-                            onClick={() =>
-                              focusResidue(props.stage, p[2], p[0])
-                            }
-                          >
-                            <RemoveRedEyeOutlinedIcon />
-                          </IconButton>
+                          <NoMaxWidthTooltip title="Focus on this residue">
+                            <IconButton
+                              className="p-1"
+                              aria-label="focus-res"
+                              onClick={() =>
+                                focusResidue(props.stage, p[2], p[0])
+                              }
+                            >
+                              <RemoveRedEyeOutlinedIcon />
+                            </IconButton>
+                          </NoMaxWidthTooltip>
                         </StyledTableCell>
                       </StyledTableRow>
                     ))}
@@ -197,7 +209,7 @@ export default function ResiduesTabs(props) {
                     </TableHead>
                     <TableBody>
                       {props.consensusData.map((p, j) => {
-                        if (p[3] >= (props.numPreds*props.maxConsensusPercent - i) / props.numPreds) {
+                        if (p[3] >= (props.numPreds * props.maxConsensusPercent - i) / props.numPreds) {
                           return (
                             <StyledTableRow key={i}>
                               <StyledTableCell align="center">
@@ -210,16 +222,17 @@ export default function ResiduesTabs(props) {
                                 {p[0]}
                               </StyledTableCell>
                               <StyledTableCell align="center">
-                                <IconButton
-                                  className="p-1"
-                                  aria-label="focus-res"
-                                  title="Focus on this residue"
-                                  onClick={() =>
-                                    focusResidue(props.stage, p[2], p[0])
-                                  }
-                                >
-                                  <RemoveRedEyeOutlinedIcon />
-                                </IconButton>
+                                <NoMaxWidthTooltip title="Focus on this residue">
+                                  <IconButton
+                                    className="p-1"
+                                    aria-label="focus-res"
+                                    onClick={() =>
+                                      focusResidue(props.stage, p[2], p[0])
+                                    }
+                                  >
+                                    <RemoveRedEyeOutlinedIcon />
+                                  </IconButton>
+                                </NoMaxWidthTooltip>
                               </StyledTableCell>
                             </StyledTableRow>
                           );
@@ -239,7 +252,7 @@ export default function ResiduesTabs(props) {
 
   function ContentTabsPredictors() {
     return (
-      <Card variant="outlined" sx={{marginTop: { xs: 2, md: 0 }}}>
+      <Card variant="outlined" sx={{ marginTop: { xs: 2, md: 0 } }}>
         <Box sx={{ p: 2, height: 137 }}>
           <Stack
             direction="row"
@@ -249,22 +262,25 @@ export default function ResiduesTabs(props) {
             <Typography gutterBottom variant="h5" component="div">
               <span className="align-middle">{props.pred + " sites"}</span>
             </Typography>
-            <Button
-              size="small"
-              aria-label="download"
-              title="Download results"
-              onClick={() => handleDownloadResults(props.pred, props.pdb)}
-              variant="outlined"
-              startIcon={<DownloadingIcon />}
-              sx={{
-                height: "40px", // Set the height to match the IconButton's height
-              }}
-            >
-              Results
-            </Button>
+            <NoMaxWidthTooltip title="Download results">
+              <Button
+                size="small"
+                aria-label="download"
+                title="Download results"
+                onClick={() => handleDownloadResults(props.pred, props.pdb)}
+                variant="outlined"
+                startIcon={<DownloadingIcon />}
+                sx={{
+                  height: "40px", // Set the height to match the IconButton's height
+                }}
+              >
+                Results
+              </Button>
+            </NoMaxWidthTooltip>
+
           </Stack>
           <Typography color="text.secondary" variant="body2">
-            List of binding site residues
+            List of binding site residues.
           </Typography>
         </Box>
         <Divider />
@@ -305,16 +321,17 @@ export default function ResiduesTabs(props) {
                             {res[0]}
                           </StyledTableCell>
                           <StyledTableCell align="center">
-                            <IconButton
-                              className="p-1"
-                              aria-label="focus-res"
-                              title="Focus on this residue"
-                              onClick={() =>
-                                focusResidue(props.stage, res[2], res[0])
-                              }
-                            >
-                              <RemoveRedEyeOutlinedIcon />
-                            </IconButton>
+                            <NoMaxWidthTooltip title="Focus on this residue">
+                              <IconButton
+                                className="p-1"
+                                aria-label="focus-res"
+                                onClick={() =>
+                                  focusResidue(props.stage, res[2], res[0])
+                                }
+                              >
+                                <RemoveRedEyeOutlinedIcon />
+                              </IconButton>
+                            </NoMaxWidthTooltip>
                           </StyledTableCell>
                         </StyledTableRow>
                       ))}
@@ -331,7 +348,7 @@ export default function ResiduesTabs(props) {
 
   function ContentTabsPopup() {
     return (
-      <Card variant="outlined" sx={{marginTop: { xs: 2, md: 0 }}}>
+      <Card variant="outlined" sx={{ marginTop: { xs: 2, md: 0 } }}>
         <Box sx={{ p: 2, height: 137 }}>
           <Stack
             direction="row"
@@ -343,7 +360,7 @@ export default function ResiduesTabs(props) {
             </Typography>
           </Stack>
           <Typography color="text.secondary" variant="body2">
-            Residues related to selected intersection are listed bellow
+            Residues in the selected intersection are listed below.
           </Typography>
         </Box>
         <Divider />
@@ -373,20 +390,22 @@ export default function ResiduesTabs(props) {
                           {res.split("-")[2]}
                         </StyledTableCell>
                         <StyledTableCell align="center">
-                          <IconButton
-                            className="p-1"
-                            aria-label="focus-res"
-                            title="Focus on this residue"
-                            onClick={() =>
-                              focusResidue(
-                                props.stage,
-                                res.split("-")[1],
-                                res.split("-")[2]
-                              )
-                            }
-                          >
-                            <RemoveRedEyeOutlinedIcon />
-                          </IconButton>
+                          <NoMaxWidthTooltip title="Focus on this residue">
+                            <IconButton
+                              className="p-1"
+                              aria-label="focus-res"
+                              onClick={() =>
+                                focusResidue(
+                                  props.stage,
+                                  res.split("-")[1],
+                                  res.split("-")[2]
+                                )
+                              }
+                            >
+                              <RemoveRedEyeOutlinedIcon />
+                            </IconButton>
+                          </NoMaxWidthTooltip>
+
                         </StyledTableCell>
                       </StyledTableRow>
                     ))}

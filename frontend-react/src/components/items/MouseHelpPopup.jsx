@@ -10,6 +10,17 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import { styled } from '@mui/system';
+
+
+const NoMaxWidthTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} arrow />
+))({
+  [`& .${tooltipClasses.tooltip}`]: {
+    maxWidth: 'none',
+  },
+});
 
 export default function MouseHelpPopup(props) {
   const [open, setOpen] = React.useState(false);
@@ -26,9 +37,14 @@ export default function MouseHelpPopup(props) {
 
   return (
     <div>
-      <IconButton title="Mouse controls" onClick={handleClickOpen}>
-        <MouseIcon htmlColor={props.bgroundColor === "white" ? "" : "white"} />
-      </IconButton>
+      <NoMaxWidthTooltip title="Mouse controls">
+
+        <IconButton onClick={handleClickOpen}>
+          <MouseIcon htmlColor={props.bgroundColor === "white" ? "" : "white"} />
+        </IconButton>
+
+      </NoMaxWidthTooltip>
+
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>Mouse controls</DialogTitle>
         <DialogContent>

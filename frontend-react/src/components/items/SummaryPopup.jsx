@@ -17,6 +17,16 @@ import MolViewerPopup from "../utils/MolViewerPopup";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/Button";
 import { useTheme } from "@mui/material/styles";
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import { styled } from '@mui/system';
+
+const NoMaxWidthTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} arrow />
+))({
+  [`& .${tooltipClasses.tooltip}`]: {
+    maxWidth: 'none',
+  },
+});
 
 const bSiteColors = [
   "#167288",
@@ -57,6 +67,7 @@ const ResponsiveButtonGroup = (props) => {
         >
           Intersection
         </Button>
+        <NoMaxWidthTooltip title="Click here to show/hide other residues (besides the intersection) of this predictor's results in the molecular viewer">
         <Button
           variant="contained"
           sx={{
@@ -78,7 +89,9 @@ const ResponsiveButtonGroup = (props) => {
           }
         >
           GRaSP
-        </Button>
+        </Button>   
+        </NoMaxWidthTooltip>
+        <NoMaxWidthTooltip title="Click here to show/hide other residues (besides the intersection) of this predictor's results in the molecular viewer">
         <Button
           variant="contained"
           sx={{
@@ -101,7 +114,8 @@ const ResponsiveButtonGroup = (props) => {
         >
           PUResNet
         </Button>
-
+        </NoMaxWidthTooltip>
+        <NoMaxWidthTooltip title="Click here to show/hide other residues (besides the intersection) of this predictor's results in the molecular viewer">
         <Button
           variant="contained"
           sx={{
@@ -126,6 +140,8 @@ const ResponsiveButtonGroup = (props) => {
         >
           DeepPocket
         </Button>
+        </NoMaxWidthTooltip>
+        <NoMaxWidthTooltip title="Click here to show/hide other residues (besides the intersection) of this predictor's results in the molecular viewer">
         <Button
           variant="contained"
           sx={{
@@ -150,28 +166,31 @@ const ResponsiveButtonGroup = (props) => {
         >
           PointSite
         </Button>
-        <Button
-          variant="contained"
-          sx={{
-            backgroundColor: (theme) => theme.palette.action.disabledBackground,
-            "&:not(:disabled)": {
-              backgroundColor: "pink",
-              color: "white",
-            },
-            minWidth: isSmallScreen ? "80px" : "auto",
-            flexShrink: 0,
-          }}
-          disabled={
-            Object.values(props.predsToShow).includes("P2Rank") ? false : true
-          }
-          onClick={
-            props.p2rankButton === "selected"
-              ? () => props.setp2rankButton("not-selected")
-              : () => props.setp2rankButton("selected")
-          }
-        >
-          P2Rank
-        </Button>
+        </NoMaxWidthTooltip>
+        <NoMaxWidthTooltip title="Click here to show/hide other residues (besides the intersection) of this predictor's results in the molecular viewer">
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: (theme) => theme.palette.action.disabledBackground,
+              "&:not(:disabled)": {
+                backgroundColor: "pink",
+                color: "white",
+              },
+              minWidth: isSmallScreen ? "80px" : "auto",
+              flexShrink: 0,
+            }}
+            disabled={
+              Object.values(props.predsToShow).includes("P2Rank") ? false : true
+            }
+            onClick={
+              props.p2rankButton === "selected"
+                ? () => props.setp2rankButton("not-selected")
+                : () => props.setp2rankButton("selected")
+            }
+          >
+            P2Rank
+          </Button>
+        </NoMaxWidthTooltip>
       </ButtonGroup>
     </div>
   );
@@ -227,11 +246,11 @@ export default function SummaryPopup(props) {
                 {props.predsToShow.length === 1
                   ? props.predsToShow[0]
                   : props.predsToShow.slice(0, -1).join(", ") +
-                    " and " +
-                    props.predsToShow[props.predsToShow.length - 1]}
+                  " and " +
+                  props.predsToShow[props.predsToShow.length - 1]}
               </Typography>
               <Typography color="text.secondary" variant="body2">
-                Residues colors are displayed according to each predictor.
+                Residue colors are displayed according to each predictor.
                 Intersection residues are shown in light blue.
               </Typography>
               <Box sx={{ width: "100%", overflowX: "auto", marginTop: 2 }}>

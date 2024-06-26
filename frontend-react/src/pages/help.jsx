@@ -164,7 +164,7 @@ const Help = () => {
               <Box sx={{ p: 2 }}>
                 <Stack alignItems="center" sx={{ paddingLeft: 10, paddingRight: 10 }}>
                   <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>1.</b> he molecule viewer displays binding site residues highlighted in the context of the protein structure
+                    <b>1.</b> The molecule viewer displays binding site residues highlighted in the context of the protein structure
                   </Typography>
                   <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
                     <b>2.</b> Customizations can be made to the protein structure visualization. The buttons within the viewer allow users to change the representation of the protein structure in different styles (cartoon, licorice, and surface), as well as to adjust the background color.
@@ -321,8 +321,9 @@ const Help = () => {
                       noWrap
                       component={Link}
                       to="/datatable"
+                      target="_blank" rel="noopener noreferrer"
                     >
-                      Available Data menu
+                      Available Data page
                     </Typography>.
                   </Typography>
 
@@ -410,13 +411,13 @@ const Help = () => {
               <Box sx={{ p: 2 }}>
                 <Stack alignItems="left" sx={{ paddingLeft: 10, paddingRight: 10 }}>
                   <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>1.</b> Structural representation of the considered protein. Tabs displaying different binding site results for the protein.
+                    <b>1.</b> Structural representation of the protein considered.  Tabs show different thresholds of agreement between predictors. For instance, in the Tab 80% are presented residues detected as part of a binding site by at least 80% of the predictors.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>2.</b> Download button for the PyMOL session, containing the consensus visualization of prediction results.
+                    <b>2.</b> PyMOL session download, containing the consensus visualization of predicted binding site residues.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3 mb-4" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>3.</b> The binding sites residues are displayed on the right, according to the visualization selected in the tabs of the molecular viewer. The residues table shows the name, number, and chain of each residue. By clicking the 'Look at' button, the selected residue is highlighted in the molecular viewer window.
+                    <b>3.</b> A table with predicted binding site residues is provided on the right hand side, according to the visualization selected in the tabs of the molecular viewer. Name (3 letter code), number, and chain of each residue are displayed in the table. By clicking in the 'Look at' icon, the selected residue is highlighted in the molecular viewer.
                   </Typography>
 
                   <img
@@ -442,18 +443,18 @@ const Help = () => {
                   alignItems="center"
                 >
                   <Typography gutterBottom variant="h5" component="div">
-                    Binding site intersections
+                    Binding sites intersections
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  UpSet plot for intersections between predictors results
+                  UpSet plot for visualizing intersections between predictors
                 </Typography>
               </Box>
               <Divider />
               <Box sx={{ p: 2 }}>
                 <Stack alignItems="left" sx={{ paddingLeft: 10, paddingRight: 10 }}>
                   <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>4.</b> The UpSet plot presents all possible intersections between the sets of predictor results. The visualization is interactive, allowing for the selection of any subset of data.
+                    <b>4.</b> The UpSet plot presents all possible sets and intersections of predictor results. The visualization is interactive, allowing the selection of any subset of data.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3 mb-4" variant="body1" align="justify" sx={{ width: '100%' }}>
                     <b>5.</b> When selecting an intersection of predictors, the "View on protein" button appears, enabling a more in-depth analysis of the residues in the selected subset in a separate window with a molecular viewer.
@@ -486,17 +487,17 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  Popup window to analyze selected intersection between predictors results
+                Pop-up window to analyze an intersection selected  among predictors results
                 </Typography>
               </Box>
               <Divider />
               <Box sx={{ p: 2 }}>
                 <Stack alignItems="left" sx={{ paddingLeft: 10, paddingRight: 10 }}>
                   <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>6.</b>  The buttons indicate the predictors of the selected intersection. The button colors correspond to the same colors as the residues in the molecule. By clicking the buttons, users can toggle the visualization of the residues.
+                    <b>6.</b>  The buttons indicate the predictors of the selected intersection. Button colors correspond to the residues in the molecule. By clicking the buttons, users can show/hide the residues of that specific predictor in the structure visualization.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>7.</b> Molecular viewer displaying the residues of the selected intersection, along with the other residues from the predictors that do not belong to the intersection.
+                    <b>7.</b> Molecular viewer displaying the residues of the selected intersection, along with the other residues from the selected predictors that do not belong to the intersection.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3 mb-4" variant="body1" align="justify" sx={{ width: '100%' }}>
                     <b>8.</b> List of residues from the selected intersection.
@@ -528,17 +529,17 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  Dynamic table of residues and predictors
+                Interactive table with predictors and their respective binding site residues
                 </Typography>
               </Box>
               <Divider />
               <Box sx={{ p: 2 }}>
                 <Stack alignItems="left" sx={{ paddingLeft: 10, paddingRight: 10 }}>
                   <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>9.</b> Overall results of the identified binding sites are described, showing the total number of sites and residues found by the predictors.
+                    <b>9.</b> Overall results of the identified binding site residues are described, providing the total number of sites and residues calculated by the predictors.
                   </Typography>
                   <Typography color="text.secondary" className="mt-3 mb-4" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>10.</b> Dynamic table providing easy access to residues and predictors. The occurrence column lists the number of binding sites in which each residue is present.
+                    <b>10.</b> Interactive table providing easy access to predicted binding site residues and predictors. The occurrence column lists the number of binding sites in which each residue is present.
                   </Typography>
 
                   <img

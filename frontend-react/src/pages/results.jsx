@@ -18,7 +18,7 @@ const predictors = [
 ];
 
 const NoMaxWidthTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
+  <Tooltip {...props} classes={{ popper: className }} arrow />
 ))({
   [`& .${tooltipClasses.tooltip}`]: {
     maxWidth: 'none',

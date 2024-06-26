@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -19,7 +20,7 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/system';
 
 const NoMaxWidthTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
+  <Tooltip {...props} classes={{ popper: className }} arrow/>
 ))({
   [`& .${tooltipClasses.tooltip}`]: {
     maxWidth: 'none',
@@ -277,14 +278,11 @@ export default function ResultsPageTabs(props) {
                 alignItems="center"
               >
                 <Typography gutterBottom variant="h5" component="div">
-                  Binding sites intersections
+                  Predictors intersection
                 </Typography>
               </Stack>
               <Typography color="text.secondary" variant="body2">
-                Visualization bellow brings UpSet plot which shows intersection
-                of residues from different binding sites. <br />
-                Connected dots represent intersection of residues between
-                predictors.
+              UpSet plot provides a general view of all possible sets/intersections of predictions of all methods. Connected dots represent the intersection of predictors. More info on <Link to={'/help'} target="_blank" rel="noopener noreferrer"><a>Help page</a></Link>.
               </Typography>
             </Box>
 
@@ -357,7 +355,7 @@ export default function ResultsPageTabs(props) {
                         </AlertTitle>
                         <div>
                           <h6>
-                            Click on button to view the list of residues for
+                            Click on the button to view the list of residues for
                             selected intersection{" "}
                           </h6>
                         </div>
@@ -372,7 +370,7 @@ export default function ResultsPageTabs(props) {
                           </h6>
                         </AlertTitle>
                         <h6>
-                          Click on graph to show residues found by predictors
+                          Click on the graph to show residues found by predictors
                         </h6>
                       </Alert>
                     </Stack>
@@ -397,7 +395,7 @@ export default function ResultsPageTabs(props) {
                 alignItems="center"
               >
                 <Typography gutterBottom variant="h5" component="div">
-                  Binding sites data
+                  Binding site table
                 </Typography>
               </Stack>
             </Box>
@@ -426,7 +424,7 @@ export default function ResultsPageTabs(props) {
                           found in those predicted binding sites
                         </h6>
                         <h6>
-                          Most common residues are listed in the table below
+                          Binding residues are listed in the table below
                         </h6>
                       </Alert>
                     </Stack>

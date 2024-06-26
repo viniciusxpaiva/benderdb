@@ -45,7 +45,7 @@ const bSiteColors = [
 ];
 
 const NoMaxWidthTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
+  <Tooltip {...props} classes={{ popper: className }} arrow />
 ))({
   [`& .${tooltipClasses.tooltip}`]: {
     maxWidth: 'none',
@@ -337,7 +337,7 @@ export default function NGLViewer(props) {
                 borderColor: "#1976d2",
               },
             }}
-            label="Consensus"
+            label={<NoMaxWidthTooltip title="Predictors results consensus">Consensus</NoMaxWidthTooltip>}
             {...a11yProps(0)}
           />
           {props.aiPredictionData.length > 0 ? (
@@ -350,7 +350,7 @@ export default function NGLViewer(props) {
                   borderColor: "#1976d2",
                 },
               }}
-              label="BENDER AI"
+              label={<NoMaxWidthTooltip title="Meta-predictor based on a machine learning strategy">BENDER AI</NoMaxWidthTooltip>}
               {...a11yProps(2)}
             />
           ) : (
@@ -388,11 +388,15 @@ export default function NGLViewer(props) {
                     borderColor: "#1976d2",
                   },
                 }}
-                label={`${Math.floor(
+                label={<NoMaxWidthTooltip title={`Predictors convergence in at least ${Math.floor(
                   ((props.numPreds * props.maxConsensusPercent - i) /
                     props.numPreds) *
                   100
-                )}%`}
+                )}% of results`}>{Math.floor(
+                  ((props.numPreds * props.maxConsensusPercent - i) /
+                    props.numPreds) *
+                  100
+                )}%</NoMaxWidthTooltip>}
                 {...a11yProps(i + 2)}
               />
             )
@@ -619,16 +623,18 @@ export default function NGLViewer(props) {
             <Typography gutterBottom variant="h5" component="div">
               Molecular visualization
             </Typography>
-            <Button
-              size="small"
-              aria-label="download"
-              title="Download PyMol session"
-              onClick={() => handleDownloadPymol(props.pdb)}
-              variant="outlined"
-              startIcon={<DownloadingIcon />}
-            >
-              PyMol
-            </Button>
+            <NoMaxWidthTooltip title="Download PyMol session">
+              <Button
+                size="small"
+                aria-label="download"
+                onClick={() => handleDownloadPymol(props.pdb)}
+                variant="outlined"
+                startIcon={<DownloadingIcon />}
+              >
+                PyMol
+              </Button>
+            </NoMaxWidthTooltip>
+
           </Stack>
           <Typography color="text.secondary" variant="body2">
             {props.pdb} protein structure along with highlighted binding site
@@ -668,14 +674,15 @@ export default function NGLViewer(props) {
                 >
                   <Stack direction="row" spacing={2}>
                     <div>
+                    <NoMaxWidthTooltip title="Visualization settings">
                       <IconButton
-                        title="Visualization settings"
                         onClick={handleClickOpen}
                       >
                         <SettingsIcon
                           htmlColor={bgroundColor === "white" ? "" : "white"}
                         />
                       </IconButton>
+                    </NoMaxWidthTooltip>
                       <Dialog
                         disableEscapeKeyDown
                         open={open}
@@ -791,17 +798,19 @@ export default function NGLViewer(props) {
                       </Dialog>
                     </div>
                     <MouseHelpPopup bgroundColor={bgroundColor} />
-                    <IconButton
-                      aria-label="restart"
-                      title="Reset visualization"
-                      onClick={() =>
-                        resetNGLViewer(props.stage, props.tabIndex)
-                      }
-                    >
-                      <RestartAltIcon
-                        htmlColor={bgroundColor === "white" ? "" : "white"}
-                      />
-                    </IconButton>
+                    <NoMaxWidthTooltip title="Reset visualization">
+                      <IconButton
+                        aria-label="restart"
+                        onClick={() =>
+                          resetNGLViewer(props.stage, props.tabIndex)
+                        }
+                      >
+                        <RestartAltIcon
+                          htmlColor={bgroundColor === "white" ? "" : "white"}
+                        />
+                      </IconButton>
+                    </NoMaxWidthTooltip>
+
                   </Stack>
                 </Box>
               </div>
