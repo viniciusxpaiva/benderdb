@@ -18,6 +18,9 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import DownloadingIcon from "@mui/icons-material/Downloading";
 
+//const csvDLUrl = "https://benderdb.ufv.br/benderdb-data/results/"
+const csvDLUrl = process.env.PUBLIC_URL + "/results/"
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "grey",
@@ -56,27 +59,12 @@ export default function ResiduesTabs(props) {
   }
 
   function handleDownloadResults(predictor, protName) {
-    const fileUrl =
-      process.env.PUBLIC_URL +
-      "/results/" +
-      protName +
-      "_" +
-      predictor +
-      "_results.csv";
+    const fileUrl = csvDLUrl + protName + "_" + predictor + "_results.csv";
     const link = document.createElement("a");
-    // Setting the href attribute to the file URL
     link.href = fileUrl;
-
-    // Setting the filename for the download
     link.download = protName + "_" + predictor + "_results.csv";
-
-    // Appending the link to the document
     document.body.appendChild(link);
-
-    // Triggering a click event on the link to start the download
     link.click();
-
-    // Removing the link from the document
     document.body.removeChild(link);
   }
 

@@ -4,8 +4,6 @@ import glob
 
 BACKEND_PATH = '/home/vinicius/Desktop/benderdb/backend-flask/'
 FRONTEND_PATH = '/home/vinicius/Desktop/benderdb/frontend-react/'
-BENDERDB_DATA_PATH = '/home/vinicius/BENDERDB-server-data/'
-
 
 def get_protein_full_name(prot_name, pdb_folder):
 	pdb_name = '/AF-' + prot_name.upper() + '-F1-model_v4.pdb'
@@ -26,7 +24,7 @@ def get_protein_full_name(prot_name, pdb_folder):
 				prot_full_name += line[11:].replace('\n','')
 	
 	return prot_full_name.split(';')[0]
-
+	
 
 def search_PDB(search_string):
 	pdb_folder = FRONTEND_PATH + 'public/pdbs/'
@@ -46,58 +44,6 @@ def format_bsite_string(bsite_string):
 	items = bsite_string.split(',')
 	processed_result = [item.split('_') for item in items]
 	return processed_result
-
-
-def create_dataframe(prot_name, data, predictor):
-    rows = []
-    site_num = 0
-    for inner_list in data:
-        residues = ','.join([f'{x[1]}_{x[2]}_{x[0]}' for x in inner_list])
-        rows.append([predictor, site_num, residues])
-        site_num += 1
-
-    df = pd.DataFrame(rows, columns=['Predictor', 'Site', 'Residues'])
-    df.to_csv(BENDERDB_DATA_PATH + "results/" +  prot_name + '_' + predictor + '_results.csv', index=False)
-
-    cmd = 'cp ' + BENDERDB_DATA_PATH + "results/" +  prot_name + '_' + predictor + '_results.csv ' + FRONTEND_PATH + 'public/results'
-    os.system(cmd)
-
-
-def concat_dataframes(prot_name):
-	folder_path = BENDERDB_DATA_PATH + "results/"
-	
-	file_paths = glob.glob(BENDERDB_DATA_PATH + "results/" + prot_name +'_*.csv')
-
-	dataframes = []
-
-	for file_path in file_paths:
-	    df = pd.read_csv(file_path)
-	    dataframes.append(df)
-
-	concatenated_df = pd.concat(dataframes, ignore_index=True)
-
-	concatenated_df.to_csv(BENDERDB_DATA_PATH + "results/" + prot_name + '_overall_results.csv', index=False)  # Replace 'concatenated_data.csv' with your desired file name
-
-	cmd = 'cp ' + BENDERDB_DATA_PATH + "results/" +  prot_name + '_overall_results.csv ' + FRONTEND_PATH + 'public/results'
-	os.system(cmd)
-
-
-def create_download_files(prot_name, bsites_grasp, bsites_puresnet, bsites_gass, bsites_deeppocket, bsites_pointsite, bsites_p2rank):
-	
-	if prot_name + '_overall_results.csv' not in os.listdir(FRONTEND_PATH + 'public/results'):
-		create_dataframe(prot_name, bsites_grasp, "GRaSP")
-		create_dataframe(prot_name, bsites_puresnet, "PUResNet")
-		#create_dataframe(prot_name, bsites_gass, "GASS")
-		create_dataframe(prot_name, bsites_deeppocket, "DeepPocket")
-		create_dataframe(prot_name, bsites_pointsite, "PointSite")
-		create_dataframe(prot_name, bsites_p2rank, "P2Rank")
-
-		concat_dataframes(prot_name)
-
-		#cmd = 'rm *.csv'
-		#os.system(cmd)
-	else:
-		print("Results already done")
 	
 
 def get_all_protein_residues(prot_name, prot_folder):

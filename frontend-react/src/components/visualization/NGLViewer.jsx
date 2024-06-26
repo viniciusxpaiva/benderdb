@@ -25,6 +25,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/system';
 
+//const pymolDLUrl = "https://benderdb.ufv.br/benderdb-data/zip_pymol/"
+const pymolDLUrl = process.env.PUBLIC_URL + "/zip_pymol/"
+
 const bSiteColors = [
   "#167288",
   "#a89a49",
@@ -198,54 +201,23 @@ export default function NGLViewer(props) {
   }
 
   function handleDownloadPymolSummary(protName) {
-    const fileUrl =
-      process.env.PUBLIC_URL +
-      "/pymol/" +
-      props.pdbFolder +
-      "/" +
-      protName +
-      "_pymol_session.zip";
+    const fileUrl = pymolDLUrl + props.pdbFolder + "/" + protName + "_pymol_session.zip";
     const link = document.createElement("a");
-    // Setting the href attribute to the file URL
     link.href = fileUrl;
-
-    // Setting the filename for the download
     link.download = protName + "_pymol_session.zip";
-
-    // Appending the link to the document
     document.body.appendChild(link);
-
-    // Triggering a click event on the link to start the download
     link.click();
-
-    // Removing the link from the document
     document.body.removeChild(link);
   }
 
   function handleDownloadPymolPredictors(protName) {
-    const fileUrl =
-      process.env.PUBLIC_URL +
-      "/pymol/" +
-      props.pdbFolder +
-      "/" +
-      protName +
-      "_" +
-      props.pred +
-      "_sites_pymol_session.zip";
+    const fileUrl = pymolDLUrl + props.pdbFolder + "/" + protName + "_" + props.pred + "_sites_pymol_session.zip";
+    console.log(fileUrl)
     const link = document.createElement("a");
-    // Setting the href attribute to the file URL
     link.href = fileUrl;
-
-    // Setting the filename for the download
     link.download = protName + "_" + props.pred + "_sites_pymol_session.zip";
-
-    // Appending the link to the document
     document.body.appendChild(link);
-
-    // Triggering a click event on the link to start the download
     link.click();
-
-    // Removing the link from the document
     document.body.removeChild(link);
   }
 
