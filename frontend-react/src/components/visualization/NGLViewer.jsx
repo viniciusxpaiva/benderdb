@@ -28,6 +28,9 @@ import { styled } from '@mui/system';
 //const pymolDLUrl = "https://benderdb.ufv.br/benderdb-data/zip_pymol/"
 const pymolDLUrl = process.env.PUBLIC_URL + "/zip_pymol/"
 
+//const pdbFilesPath = "https://benderdb.ufv.br/benderdb-data"
+const pdbFilesPath = ""
+
 const bSiteColors = [
   "#167288",
   "#a89a49",
@@ -228,7 +231,7 @@ export default function NGLViewer(props) {
     if (tabIndex === 0) {
       stage
         .loadFile(
-          "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
+          pdbFilesPath + "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
         )
         .then((component) => {
           component.addRepresentation("cartoon", {
@@ -248,7 +251,7 @@ export default function NGLViewer(props) {
       );
       stage
         .loadFile(
-          "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
+          pdbFilesPath + "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
         )
         .then((component) => {
           component.addRepresentation("cartoon", { color: "lightgrey" });
@@ -270,7 +273,7 @@ export default function NGLViewer(props) {
     stage.removeAllComponents();
     stage
       .loadFile(
-        "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
+        pdbFilesPath + "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
       )
       .then((component) => {
         component.addRepresentation("cartoon", { color: "lightgrey" });
@@ -292,7 +295,7 @@ export default function NGLViewer(props) {
     stage.removeAllComponents();
     stage
       .loadFile(
-        "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
+        pdbFilesPath + "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
       )
       .then((component) => {
         component.addRepresentation("cartoon", { color: "lightgrey" });

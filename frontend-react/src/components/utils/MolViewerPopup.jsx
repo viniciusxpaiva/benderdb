@@ -4,6 +4,8 @@ import * as NGL from "ngl/dist/ngl";
 import NGLViewer from "../visualization/NGLViewer";
 import ResiduesTabs from "../items/ResiduesTabs";
 
+//const pdbFilesPath = "https://benderdb.ufv.br/benderdb-data"
+const pdbFilesPath = ""
 
 const bSiteColors = [
   "#167288",
@@ -58,7 +60,7 @@ export default function MolViewerPopup(props) {
     newStage.removeAllComponents(); // Remove previous components
     newStage
       .loadFile(
-        "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
+        pdbFilesPath + "/pdbs/" + props.pdbFolder + "/AF-" + props.pdb + "-F1-model_v4.pdb"
       )
       .then((component) => {
         component.addRepresentation("cartoon", { color: "lightgrey" });

@@ -3,11 +3,15 @@ import os
 import glob
 
 BACKEND_PATH = '/home/vinicius/Desktop/benderdb/backend-flask/'
-FRONTEND_PATH = '/home/vinicius/Desktop/benderdb/frontend-react/'
+#BACKEND_PATH = '/var/www/benderdb/backend-flask/'
+
+BENDERDB_DATA_PATH = '/home/vinicius/Desktop/benderdb/frontend-react/public/'
+#BENDERDB_DATA_PATH = '/var/www/benderdb-data/'
+
 
 def get_protein_full_name(prot_name, pdb_folder):
 	pdb_name = '/AF-' + prot_name.upper() + '-F1-model_v4.pdb'
-	file = open(FRONTEND_PATH + 'public/pdbs/' + pdb_folder + pdb_name)
+	file = open(BENDERDB_DATA_PATH + 'pdbs/' + pdb_folder + pdb_name)
 	file_lines = file.readlines()
 	file.close()
 
@@ -24,10 +28,10 @@ def get_protein_full_name(prot_name, pdb_folder):
 				prot_full_name += line[11:].replace('\n','')
 	
 	return prot_full_name.split(';')[0]
-	
+
 
 def search_PDB(search_string):
-	pdb_folder = FRONTEND_PATH + 'public/pdbs/'
+	pdb_folder = BENDERDB_DATA_PATH + 'pdbs/'
 
 	pdb_name = 'AF-' + search_string.upper() + '-F1-model_v4.pdb'
 	
@@ -44,10 +48,10 @@ def format_bsite_string(bsite_string):
 	items = bsite_string.split(',')
 	processed_result = [item.split('_') for item in items]
 	return processed_result
-	
+
 
 def get_all_protein_residues(prot_name, prot_folder):
-	pdb_folder = FRONTEND_PATH + 'public/pdbs/' + prot_folder + '/'
+	pdb_folder = BENDERDB_DATA_PATH + 'pdbs/' + prot_folder + '/'
 	pdb_name = 'AF-' + prot_name.upper() + '-F1-model_v4.pdb'
 	protein_file = open(pdb_folder + "AF-" + prot_name + "-F1-model_v4.pdb", "r")
 	pdb_lines = protein_file.readlines()
