@@ -69,13 +69,14 @@ export default function ResultsPageTabs(props) {
   return (
     <>
       <Box sx={{ width: "100%" }}>
-        <Box sx={{
-          borderBottom: 1,
-          borderColor: "divider",
-          display: "flex",
-          justifyContent: "center",
-        }}>
-
+        <Box
+          sx={{
+            borderBottom: 1,
+            borderColor: "divider",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <Tabs
             value={value}
             onChange={handleChange}
@@ -95,18 +96,20 @@ export default function ResultsPageTabs(props) {
               }}
               {...a11yProps(0)}
             />
-            {props.graspSites.length > 0 ? (<Tab
-              label="GRaSP"
-              key={"grasp"}
-              sx={{
-                "&:hover": {
-                  color: "#1976d2",
-                  borderBottom: 2,
-                  borderColor: "#1976d2",
-                },
-              }}
-              {...a11yProps(1)}
-            />) : (
+            {props.graspSites.length > 0 ? (
+              <Tab
+                label="GRaSP"
+                key={"grasp"}
+                sx={{
+                  "&:hover": {
+                    color: "#1976d2",
+                    borderBottom: 2,
+                    borderColor: "#1976d2",
+                  },
+                }}
+                {...a11yProps(1)}
+              />
+            ) : (
               <NoMaxWidthTooltip title="GRaSP did not predict any binding site for this protein">
                 <Box>
                   <Tab
@@ -125,18 +128,20 @@ export default function ResultsPageTabs(props) {
                 </Box>
               </NoMaxWidthTooltip>
             )}
-            {props.puresnetSites.length > 0 ? (<Tab
-              label="PUResNet"
-              key={"puresnet"}
-              sx={{
-                "&:hover": {
-                  color: "#1976d2",
-                  borderBottom: 2,
-                  borderColor: "#1976d2",
-                },
-              }}
-              {...a11yProps(2)}
-            />) : (
+            {props.puresnetSites.length > 0 ? (
+              <Tab
+                label="PUResNet"
+                key={"puresnet"}
+                sx={{
+                  "&:hover": {
+                    color: "#1976d2",
+                    borderBottom: 2,
+                    borderColor: "#1976d2",
+                  },
+                }}
+                {...a11yProps(2)}
+              />
+            ) : (
               <NoMaxWidthTooltip title="PUResNet did not predict any binding site for this protein">
                 <Box>
                   <Tab
@@ -155,18 +160,20 @@ export default function ResultsPageTabs(props) {
                 </Box>
               </NoMaxWidthTooltip>
             )}
-            {props.deeppocketSites.length > 0 ? (<Tab
-              label="DeepPocket"
-              key={"deeppocket"}
-              sx={{
-                "&:hover": {
-                  color: "#1976d2",
-                  borderBottom: 2,
-                  borderColor: "#1976d2",
-                },
-              }}
-              {...a11yProps(3)}
-            />) : (
+            {props.deeppocketSites.length > 0 ? (
+              <Tab
+                label="DeepPocket"
+                key={"deeppocket"}
+                sx={{
+                  "&:hover": {
+                    color: "#1976d2",
+                    borderBottom: 2,
+                    borderColor: "#1976d2",
+                  },
+                }}
+                {...a11yProps(3)}
+              />
+            ) : (
               <NoMaxWidthTooltip title="DeepPocket did not predict any binding site for this protein">
                 <Box>
                   <Tab
@@ -185,18 +192,20 @@ export default function ResultsPageTabs(props) {
                 </Box>
               </NoMaxWidthTooltip>
             )}
-            {props.pointsiteSites.length > 0 ? (<Tab
-              label="PointSite"
-              key={"pointsite"}
-              sx={{
-                "&:hover": {
-                  color: "#1976d2",
-                  borderBottom: 2,
-                  borderColor: "#1976d2",
-                },
-              }}
-              {...a11yProps(4)}
-            />) : (
+            {props.pointsiteSites.length > 0 ? (
+              <Tab
+                label="PointSite"
+                key={"pointsite"}
+                sx={{
+                  "&:hover": {
+                    color: "#1976d2",
+                    borderBottom: 2,
+                    borderColor: "#1976d2",
+                  },
+                }}
+                {...a11yProps(4)}
+              />
+            ) : (
               <NoMaxWidthTooltip title="PointSite did not predict any binding site for this protein">
                 <Box>
                   <Tab
@@ -215,18 +224,20 @@ export default function ResultsPageTabs(props) {
                 </Box>
               </NoMaxWidthTooltip>
             )}
-            {props.p2rankSites.length > 0 ? (<Tab
-              label="P2Rank"
-              key={"p2rank"}
-              sx={{
-                "&:hover": {
-                  color: "#1976d2",
-                  borderBottom: 2,
-                  borderColor: "#1976d2",
-                },
-              }}
-              {...a11yProps(5)}
-            />) : (
+            {props.p2rankSites.length > 0 ? (
+              <Tab
+                label="P2Rank"
+                key={"p2rank"}
+                sx={{
+                  "&:hover": {
+                    color: "#1976d2",
+                    borderBottom: 2,
+                    borderColor: "#1976d2",
+                  },
+                }}
+                {...a11yProps(5)}
+              />
+            ) : (
               <NoMaxWidthTooltip title="P2Rank did not predict any binding site for this protein">
                 <Box>
                   <Tab
@@ -251,12 +262,23 @@ export default function ResultsPageTabs(props) {
           <Stack sx={{ marginBottom: 2 }} spacing={2}>
             <Card
               variant="outlined"
-              style={{ textAlign: 'center', justifyContent: 'center', border: 0, borderTop: 0, borderLeft: 0, borderRight: 0 }}
+              style={{
+                textAlign: "center",
+                justifyContent: "center",
+                border: 0,
+                borderTop: 0,
+                borderLeft: 0,
+                borderRight: 0,
+              }}
             >
               <Typography variant="body1">
-                Protein from <b>{props.pdbFolder.replace('_', ' ')}</b> organism
+                Protein from <b>{props.pdbFolder.replace("_", " ")}</b> organism
               </Typography>
-              <Typography color="text.secondary" variant="body1" sx={{ marginTop: 1 }}>
+              <Typography
+                color="text.secondary"
+                variant="body1"
+                sx={{ marginTop: 1 }}
+              >
                 {props.proteinFullName}
               </Typography>
             </Card>
@@ -282,7 +304,13 @@ export default function ResultsPageTabs(props) {
                 </Typography>
               </Stack>
               <Typography color="text.secondary" variant="body2">
-              UpSet plot provides a general view of all possible sets/intersections of predictions of all methods. Connected dots represent the intersection of predictors. More info on <Link to={'/help'} target="_blank" rel="noopener noreferrer"><a>Help page</a></Link>.
+                The UpSet plot provides a general view of all possible
+                sets/intersections of predictions of all methods. Connected dots
+                represent the intersections of predictors. More info on the{" "}
+                <Link to={"/help"} target="_blank" rel="noopener noreferrer">
+                  <a>Help page</a>
+                </Link>
+                .
               </Typography>
             </Box>
 
@@ -304,7 +332,7 @@ export default function ResultsPageTabs(props) {
                               ))}
                             </h6>
                           </div>
-                          { }
+                          {}
                           <SummaryPopup
                             pdb={props.pdb}
                             pdbFolder={props.pdbFolder}
@@ -356,7 +384,7 @@ export default function ResultsPageTabs(props) {
                         <div>
                           <h6>
                             Click on the button to view the list of residues for
-                            selected intersection{" "}
+                            selected the intersection{" "}
                           </h6>
                         </div>
                       </Alert>
@@ -370,7 +398,8 @@ export default function ResultsPageTabs(props) {
                           </h6>
                         </AlertTitle>
                         <h6>
-                          Click on the graph to show residues found by predictors
+                          Click on the graph to show residues found by
+                          predictors
                         </h6>
                       </Alert>
                     </Stack>
@@ -379,7 +408,7 @@ export default function ResultsPageTabs(props) {
               </div>
             </Box>
             <Divider></Divider>
-            <Box sx={{ p: 0, overflowX: 'auto', maxWidth: '100%' }}>
+            <Box sx={{ p: 0, overflowX: "auto", maxWidth: "100%" }}>
               <UpsetPlot
                 upsetOnClick={props.upsetOnClick}
                 data={props.upsetPlotData}
@@ -398,6 +427,10 @@ export default function ResultsPageTabs(props) {
                   Binding site table
                 </Typography>
               </Stack>
+              <Typography color="text.secondary" variant="body2">
+                Binding residues are listed in the table below. Use the table
+                search bar to filter data by residue or predictor.
+              </Typography>
             </Box>
 
             <Box sx={{ p: 2, paddingTop: 0 }}>
@@ -416,28 +449,26 @@ export default function ResultsPageTabs(props) {
                         <h6>
                           {props.summaryContent[0]} binding sites/pockets were
                           predicted in {props.summaryContent[3]} different
-                          predictors
-                        </h6>
-
-                        <h6>
-                          {props.summaryContent[1]} different residues were
-                          found in those predicted binding sites
+                          predictors.
                         </h6>
                         <h6>
-                          Binding residues are listed in the table below
+                          {props.summaryContent[1]} different residues in those predicted binding sites.
                         </h6>
                       </Alert>
                     </Stack>
 
-                    <Box s sx={{
-                      width: '100%',
-                      '@media (max-width: 600px)': {
-                        overflowX: 'auto',
-                      },
-                      '@media (min-width: 601px)': {
-                        overflowX: 'hidden',
-                      },
-                    }}>
+                    <Box
+                      s
+                      sx={{
+                        width: "100%",
+                        "@media (max-width: 600px)": {
+                          overflowX: "auto",
+                        },
+                        "@media (min-width: 601px)": {
+                          overflowX: "hidden",
+                        },
+                      }}
+                    >
                       <MDBDataTable
                         striped
                         bordered

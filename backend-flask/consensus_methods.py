@@ -1,7 +1,7 @@
 from utils import *
 import os
 
-BACKEND_PATH = '/home/vinicius/Desktop/benderdb/backend-flask/'
+BACKEND_PATH = '/home/viniciusp/Desktop/benderdb/backend-flask/'
 #BACKEND_PATH = '/var/www/benderdb/backend-flask/'
 
 

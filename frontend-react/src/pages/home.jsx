@@ -57,7 +57,8 @@ const Home = () => {
                   className="display-7 text-light mt-3"
                   style={{ fontSize: "22px" }}
                 >
-                  a database of protein Binding sitEs across Neglected DiseasE pRoteomes
+                  a database of protein Binding sitEs across Neglected DiseasE
+                  pRoteomes
                 </p>
                 <div className="container p-0 mb-5 mt-5 justify-content-center">
                   <div className="row justify-content-center">
@@ -165,12 +166,20 @@ const Home = () => {
                 sites for proteomes of neglected disease pathogens.
               </p>
               <p>
-                The database includes 10 different proteomes, encompassing a total
-                of 101,813 proteins and 1,172,743 binding sites.
+                The database includes ten proteomes, encompassing 101,813
+                proteins and 1,172,743 binding sites.
               </p>
               <p>
-                A complete list of all proteomes and available binding sites in
-                BENDER DB can be found on <Link to={'/datatable'} target="_blank" rel="noopener noreferrer"><a>Available Data page</a></Link>.
+                The{" "}
+                <Link
+                  to={"/datatable"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <a>Available Data page</a>
+                </Link>{" "}
+                provides a complete list of all proteomes and available binding
+                sites in BENDER DB.
               </p>
             </div>
             <div class="col-md-6">
@@ -230,12 +239,14 @@ const Home = () => {
                 , were collected from the AlphaFold database.
               </p>
               <p>
-                Five different predictors were used to identify binding sites in each protein structure.
+                Five different predictors were used to identify binding sites in
+                each protein structure.
               </p>
 
               <p>
-              BENDER AI, an artificial intelligence model, was designed to identify binding sites in proteins by integrating the outputs of these established predictors.
-              
+                BENDER AI, an artificial intelligence model, was designed to
+                identify binding sites in proteins by integrating the outputs of
+                these established predictors.
               </p>
 
               <p>
@@ -257,10 +268,17 @@ const Home = () => {
               <br />
               <h2 style={{ marginBottom: "25px" }}>Data visualization</h2>
               <p>
-              The molecule viewer allows  the analysis of binding site residues identified by predictors within the protein structure itself. It shows the consensus of sites predicted by all tools with warm colors for regions of highest agreement and cold colors for regions where no sites were found or agreement is low.
+                The molecule viewer allows the analysis of binding site residues
+                identified by predictors within the protein structure. It shows
+                the consensus of sites predicted by all tools with warm colors
+                for regions of the highest agreement and cold colors for regions
+                where no sites were found, or agreement is low.
               </p>
               <p>
-              UpSet Plot provides a general view of the convergence of results across all combinations of binding site predictions. Any combination of predictors can be selected and exhibited in the molecule viewer.
+                The UpSet plot offers a flexible way to view the convergence of
+                results across all combinations of binding site predictions. It
+                allows users to select and display any combination of predictors
+                results in the molecule viewer.
               </p>
             </div>
             <div class="col-md-6">

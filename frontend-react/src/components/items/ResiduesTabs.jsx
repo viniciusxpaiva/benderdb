@@ -88,7 +88,7 @@ export default function ResiduesTabs(props) {
             alignItems="center"
           >
             <Typography gutterBottom variant="h5" component="div">
-              Binding sites residues
+              Binding site residues
             </Typography>
           </Stack>
           <Typography color="text.secondary" variant="body2">
@@ -356,7 +356,7 @@ export default function ResiduesTabs(props) {
             alignItems="center"
           >
             <Typography gutterBottom variant="h5" component="div">
-              Binding sites residues
+              Binding site residues
             </Typography>
           </Stack>
           <Typography color="text.secondary" variant="body2">

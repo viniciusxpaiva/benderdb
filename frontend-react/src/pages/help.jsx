@@ -62,12 +62,14 @@ const Help = () => {
       </div>
       <div className="container">
         <Box sx={{ width: "100%" }}>
-          <Box sx={{
-            borderBottom: 1,
-            borderColor: "divider",
-            display: "flex",
-            justifyContent: "center",
-          }}>
+          <Box
+            sx={{
+              borderBottom: 1,
+              borderColor: "divider",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <Tabs
               value={value}
               onChange={handleChange}
@@ -141,7 +143,6 @@ const Help = () => {
                 }}
                 {...a11yProps(5)}
               />
-
             </Tabs>
           </Box>
           <CustomTabPanel value={value} index={0}>
@@ -157,20 +158,56 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  BENDER DB employs NGL Viewer for molecular visualization
+                  BENDER DB employs NGL Viewer for molecular visualization.
                 </Typography>
               </Box>
               <Divider />
               <Box sx={{ p: 2 }}>
-                <Stack alignItems="center" sx={{ paddingLeft: 10, paddingRight: 10 }}>
-                  <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>1.</b> The molecule viewer displays binding site residues highlighted in the context of the protein structure
+                <Stack
+                  alignItems="center"
+                  sx={{ paddingLeft: 10, paddingRight: 10 }}
+                >
+                  <Typography
+                    color="text.secondary"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>1.</b> The molecule viewer displays binding site residues
+                    highlighted in the context of the protein structure
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>2.</b> Customizations can be made to the protein structure visualization. The buttons within the viewer allow users to change the representation of the protein structure in different styles (cartoon, licorice, and surface), as well as to adjust the background color.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>2.</b> The protein structure visualization can be
+                    customized. The buttons within the viewer allow users to
+                    change the representation of the protein structure in
+                    different styles (cartoon, licorice, and surface) and to
+                    adjust the background color.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3 mb-4" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>3.</b> When visualizing the results summary, tabs in the molecular viewer display different graphical representations of the protein binding sites. The Consensus tab presents a heatmap of all binding site residues. Shades of blue indicate a lower or no occurrence of binding site residues calculated by the predictors, while shades of red indicate a higher presence of binding site residues. The BENDER AI tab shows binding site residues predicted by our Artificial Intelligence model. The tabs with percentages show the occurrence of binding site residues calculated by all the predictors. For example, the 80% tab displays all binding site residues present in at least 80% of the results.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3 mb-4"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>3.</b> When visualizing the results summary, tabs in the
+                    molecular viewer display different graphical representations
+                    of the protein binding sites. The Consensus tab presents a
+                    heatmap of all binding site residues. Shades of blue
+                    indicate a lower or no occurrence of binding site residues
+                    calculated by the predictors, while shades of red indicate a
+                    higher presence of binding site residues. The BENDER AI tab
+                    shows binding site residues predicted by our Artificial
+                    Intelligence model. The tabs with percentages show the
+                    occurrence of binding site residues calculated by all the
+                    predictors. For example, the 80% tab displays all binding
+                    site residues in at least 80% of the results.
                   </Typography>
 
                   <img
@@ -186,7 +223,6 @@ const Help = () => {
                   />
                 </Stack>
               </Box>
-
             </Card>
             <Card className="mt-4" variant="outlined">
               <Box sx={{ p: 2 }}>
@@ -200,23 +236,67 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  This plot shows all sets and possible intersections between them for binding sites predicted by all tools
+                  This comprehensive plot presents all sets and potential
+                  intersections between them for binding sites predicted by all
+                  tools, providing a thorough overview.
                 </Typography>
               </Box>
               <Divider />
               <Box sx={{ p: 2 }}>
-                <Stack alignItems="left" sx={{ paddingLeft: 10, paddingRight: 10 }}>
-                  <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>4.</b> Horizontal bars represent the number of binding site residues predicted by each tool.
+                <Stack
+                  alignItems="left"
+                  sx={{ paddingLeft: 10, paddingRight: 10 }}
+                >
+                  <Typography
+                    color="text.secondary"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>4.</b> Horizontal bars represent the number of binding
+                    site residues predicted by each tool.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>5.</b> The central region of this plot (nodes connected by edges) displays all possible intersections between the predictors. The example below shows the intersection between GRaSP and P2Rank, indicating that there are 20 binding site residues on which they agree.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>5.</b> The central region of this plot (nodes connected
+                    by edges) displays all possible intersections between the
+                    predictors. The example below shows the intersection between
+                    GRaSP and P2Rank, indicating that there are 20 binding site
+                    residues on which they agree.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>6.</b> The vertical bars display the size of each selected set/intersection. When a set/intersection is selected, the bar corresponding to the selection turns yellow. In the other bars, which do not correspond to the selection, a yellow region appears, corresponding to the number of selected sites that are present in the other sets/intersections.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>6.</b> The vertical bars display the size of each
+                    selected set/intersection. When a set/intersection is
+                    selected, the bar corresponding to the selection turns
+                    yellow. In the other bars, which do not correspond to the
+                    selection, a yellow region appears, corresponding to the
+                    number of selected sites that are present in the other
+                    sets/intersections.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3 mb-4" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>7.</b> Upon selecting an intersection, the "View on protein" button appears. Clicking this button opens a window containing a molecular viewer that displays the binding site residues of the selected intersection. For example, here, only the residues from the GRaSP and P2Rank predictors will be shown.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3 mb-4"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>7.</b> Upon selecting an intersection, the "View on
+                    protein" button appears. Clicking this button opens a window
+                    containing a molecular viewer that displays the binding site
+                    residues of the selected intersection. For example, only the
+                    residues from the GRaSP and P2Rank predictors will be shown
+                    here.
                   </Typography>
 
                   <img
@@ -232,7 +312,6 @@ const Help = () => {
                   />
                 </Stack>
               </Box>
-
             </Card>
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
@@ -248,23 +327,55 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  All available data in BENDER DB can be found on Available Data page
+                  All available data in BENDER DB can be found on the Available
+                  Data page.
                 </Typography>
               </Box>
               <Divider />
               <Box sx={{ p: 2 }}>
-                <Stack alignItems="left" sx={{ paddingLeft: 10, paddingRight: 10 }}>
-                  <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>1.</b> The list below shows the 10 proteomes of pathogenic agents of neglected diseases available in BENDER DB.
+                <Stack
+                  alignItems="left"
+                  sx={{ paddingLeft: 10, paddingRight: 10 }}
+                >
+                  <Typography
+                    color="text.secondary"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>1.</b> The list below shows the ten proteomes of
+                    pathogenic agents of neglected diseases available in BENDER
+                    DB.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>2.</b> All 101,813 proteins cataloged by BENDER DB are listed in the table.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>2.</b> All 101,813 proteins cataloged by BENDER DB are
+                    listed in the table.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>3.</b> By clicking the highlighted button, the results screen for the selected protein is displayed.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>3.</b> The results screen for the selected protein is
+                    displayed by clicking the highlighted button.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3 mb-4" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>4.</b> Users can search for a specific protein, proteome, or neglected disease.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3 mb-4"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>4.</b> Users can search for a specific protein, proteome,
+                    or neglected disease.
                   </Typography>
 
                   <img
@@ -291,7 +402,6 @@ const Help = () => {
                   />
                 </Stack>
               </Box>
-
             </Card>
           </CustomTabPanel>
           <CustomTabPanel value={value} index={2}>
@@ -307,24 +417,44 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  Input search bar at homepage
+                  Input search bar at homepage.
                 </Typography>
               </Box>
               <Divider />
               <Box sx={{ p: 2 }}>
-                <Stack alignItems="left" sx={{ paddingLeft: 10, paddingRight: 10 }}>
-                  <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>1.</b> The search must be done by entering a valid UniProt accession from a protein of one of the proteomes of neglected disease pathogens.
+                <Stack
+                  alignItems="left"
+                  sx={{ paddingLeft: 10, paddingRight: 10 }}
+                >
+                  <Typography
+                    color="text.secondary"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>1.</b> The search must be performed by entering a valid
+                    UniProt accession from a protein in the proteome of a
+                    neglected disease pathogen.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3 mb-4" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>2.</b> A complete list of all proteins and proteomes available in BENDER DB can be found on <Typography
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3 mb-4"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>2.</b> A complete list of all proteins and proteomes
+                    available in BENDER DB can be found on the{" "}
+                    <Typography
                       noWrap
                       component={Link}
                       to="/datatable"
-                      target="_blank" rel="noopener noreferrer"
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
                       Available Data page
-                    </Typography>.
+                    </Typography>
+                    .
                   </Typography>
 
                   <img
@@ -340,7 +470,6 @@ const Help = () => {
                   />
                 </Stack>
               </Box>
-
             </Card>
           </CustomTabPanel>
           <CustomTabPanel value={value} index={3}>
@@ -356,23 +485,56 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  Protein binding sites results
+                  Protein binding site results.
                 </Typography>
               </Box>
               <Divider />
               <Box sx={{ p: 2 }}>
-                <Stack alignItems="left" sx={{ paddingLeft: 10, paddingRight: 10 }}>
-                  <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>1.</b> When searching for a protein, information about binding sites for this specific entry is displayed on the results screen.
+                <Stack
+                  alignItems="left"
+                  sx={{ paddingLeft: 10, paddingRight: 10 }}
+                >
+                  <Typography
+                    color="text.secondary"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>1.</b> When searching for a protein, information about
+                    binding sites for this specific entry is displayed on the
+                    results screen.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>2.</b> Results are presented in the Summary tab, in which general aspects of the protein and its binding site residues can be viewed, bringing together results from different predictors.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>2.</b> Results are presented in the Summary tab, in which
+                    general aspects of the protein and its binding site residues
+                    can be viewed, bringing together results from different
+                    predictors.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>3.</b> Individual results for each binding site predictor can be also accessed.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>3.</b> Individual results for each binding site predictor
+                    can also be accessed.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3 mb-4" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>4.</b> The name of the protein and the organism to which it belongs are displayed at the top of the screen.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3 mb-4"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>4.</b> The protein's name and the organism to which it
+                    belongs are displayed at the top of the screen.
                   </Typography>
 
                   <img
@@ -388,7 +550,6 @@ const Help = () => {
                   />
                 </Stack>
               </Box>
-
             </Card>
           </CustomTabPanel>
           <CustomTabPanel value={value} index={4}>
@@ -404,20 +565,50 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  Molecular visualization and binding sites residues
+                  Molecular visualization and binding site residues.
                 </Typography>
               </Box>
               <Divider />
               <Box sx={{ p: 2 }}>
-                <Stack alignItems="left" sx={{ paddingLeft: 10, paddingRight: 10 }}>
-                  <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>1.</b> Structural representation of the protein considered.  Tabs show different thresholds of agreement between predictors. For instance, in the Tab 80% are presented residues detected as part of a binding site by at least 80% of the predictors.
+                <Stack
+                  alignItems="left"
+                  sx={{ paddingLeft: 10, paddingRight: 10 }}
+                >
+                  <Typography
+                    color="text.secondary"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>1.</b> Structural representation of the protein
+                    considered. Tabs show different thresholds of agreement
+                    between predictors. For instance, in the Tab 80% are
+                    presented residues detected as part of a binding site by at
+                    least 80% of the predictors.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>2.</b> PyMOL session download, containing the consensus visualization of predicted binding site residues.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>2.</b> PyMOL session download, containing the consensus
+                    visualization of predicted binding site residues.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3 mb-4" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>3.</b> A table with predicted binding site residues is provided on the right hand side, according to the visualization selected in the tabs of the molecular viewer. Name (3 letter code), number, and chain of each residue are displayed in the table. By clicking in the 'Look at' icon, the selected residue is highlighted in the molecular viewer.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3 mb-4"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>3.</b> On the right-hand side, a table with predicted
+                    binding site residues is provided according to the
+                    visualization selected in the molecular viewer tabs. The
+                    name (3-letter code), number, and chain of each residue are
+                    displayed in the table. By clicking on the 'Look at' icon,
+                    the selected residue is highlighted in the molecular viewer.
                   </Typography>
 
                   <img
@@ -433,7 +624,6 @@ const Help = () => {
                   />
                 </Stack>
               </Box>
-
             </Card>
             <Card className="mt-4" variant="outlined">
               <Box sx={{ p: 2 }}>
@@ -447,19 +637,37 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  UpSet plot for visualizing intersections between predictors
+                  UpSet plot for visualizing intersections between predictors.
                 </Typography>
               </Box>
               <Divider />
               <Box sx={{ p: 2 }}>
-                <Stack alignItems="left" sx={{ paddingLeft: 10, paddingRight: 10 }}>
-                  <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>4.</b> The UpSet plot presents all possible sets and intersections of predictor results. The visualization is interactive, allowing the selection of any subset of data.
+                <Stack
+                  alignItems="left"
+                  sx={{ paddingLeft: 10, paddingRight: 10 }}
+                >
+                  <Typography
+                    color="text.secondary"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>4.</b> The UpSet plot presents all possible sets and
+                    intersections of predictor results. The visualization is
+                    interactive, allowing the selection of any subset of data.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3 mb-4" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>5.</b> When selecting an intersection of predictors, the "View on protein" button appears, enabling a more in-depth analysis of the residues in the selected subset in a separate window with a molecular viewer.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3 mb-4"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>5.</b> When selecting an intersection of predictors, the
+                    "View on protein" button appears, enabling a more in-depth
+                    analysis of the residues in the selected subset in a
+                    separate window with a molecular viewer.
                   </Typography>
-
 
                   <img
                     src="img/help-C2a.png"
@@ -487,19 +695,46 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                Pop-up window to analyze an intersection selected  among predictors results
+                  Pop-up window to analyze an intersection selected among
+                  predictors results.
                 </Typography>
               </Box>
               <Divider />
               <Box sx={{ p: 2 }}>
-                <Stack alignItems="left" sx={{ paddingLeft: 10, paddingRight: 10 }}>
-                  <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>6.</b>  The buttons indicate the predictors of the selected intersection. Button colors correspond to the residues in the molecule. By clicking the buttons, users can show/hide the residues of that specific predictor in the structure visualization.
+                <Stack
+                  alignItems="left"
+                  sx={{ paddingLeft: 10, paddingRight: 10 }}
+                >
+                  <Typography
+                    color="text.secondary"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>6.</b> The buttons indicate the predictors of the
+                    selected intersection. Button colors correspond to the
+                    residues in the molecule. By clicking the buttons, users can
+                    show/hide the residues of that specific predictor in the
+                    structure visualization.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>7.</b> Molecular viewer displaying the residues of the selected intersection, along with the other residues from the selected predictors that do not belong to the intersection.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>7.</b> The molecular viewer displays the residues of the
+                    selected intersection and the other residues from the
+                    selected predictors that do not belong to the intersection.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3 mb-4" variant="body1" align="justify" sx={{ width: '100%' }}>
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3 mb-4"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
                     <b>8.</b> List of residues from the selected intersection.
                   </Typography>
 
@@ -529,17 +764,37 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                Interactive table with predictors and their respective binding site residues
+                  Interactive table with predictors and their respective binding
+                  site residues.
                 </Typography>
               </Box>
               <Divider />
               <Box sx={{ p: 2 }}>
-                <Stack alignItems="left" sx={{ paddingLeft: 10, paddingRight: 10 }}>
-                  <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>9.</b> Overall results of the identified binding site residues are described, providing the total number of sites and residues calculated by the predictors.
+                <Stack
+                  alignItems="left"
+                  sx={{ paddingLeft: 10, paddingRight: 10 }}
+                >
+                  <Typography
+                    color="text.secondary"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>9.</b> Overall results of the identified binding site
+                    residues are described, providing the total number of sites
+                    and residues calculated by the predictors.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3 mb-4" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>10.</b> Interactive table providing easy access to predicted binding site residues and predictors. The occurrence column lists the number of binding sites in which each residue is present.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3 mb-4"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>10.</b> Interactive table providing easy access to
+                    predicted binding site residues and predictors. The
+                    occurrence column lists the number of binding sites in which
+                    each residue is present.
                   </Typography>
 
                   <img
@@ -570,26 +825,67 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  Molecular visualization and binding site residues
+                  Molecular visualization and binding site residues.
                 </Typography>
               </Box>
               <Divider />
               <Box sx={{ p: 2 }}>
-                <Stack alignItems="left" sx={{ paddingLeft: 10, paddingRight: 10 }}>
-                  <Typography color="text.secondary" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>1.</b> The protein structure is displayed in the molecular viewer, with the binding site residues highlighted and represented as ball and stick. Colors were used to differentiate between the sites for those tools that group predicted residues in binding sites.
+                <Stack
+                  alignItems="left"
+                  sx={{ paddingLeft: 10, paddingRight: 10 }}
+                >
+                  <Typography
+                    color="text.secondary"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>1.</b> The molecular viewer displays the protein
+                    structure, with the binding site residues highlighted and
+                    represented as ball and stick. For those tools that group
+                    predicted residues in binding sites, colors were used to
+                    differentiate between the sites.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>2.</b> The various binding sites detected in the protein appear as tabs in the molecular viewer. The colors correspond to the residues shown in the protein structure.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>2.</b> The various binding sites detected in the protein
+                    appear as tabs in the molecular viewer. The colors
+                    correspond to the residues shown in the protein structure.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>3.</b> Download button for the PyMOL session, containing all the identified binding site residues in the protein.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>3.</b> Download button for the PyMOL session, containing
+                    all the identified binding site residues in the protein.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>4.</b> Download button for the individual predictor results in CSV format.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>4.</b> Download button for the individual predictor
+                    results in CSV format.
                   </Typography>
-                  <Typography color="text.secondary" className="mt-3 mb-4" variant="body1" align="justify" sx={{ width: '100%' }}>
-                    <b>5.</b> Table displaying the residues of the selected binding site.
+                  <Typography
+                    color="text.secondary"
+                    className="mt-3 mb-4"
+                    variant="body1"
+                    align="justify"
+                    sx={{ width: "100%" }}
+                  >
+                    <b>5.</b> Table displaying the residues of the selected
+                    binding site.
                   </Typography>
 
                   <img
@@ -605,10 +901,8 @@ const Help = () => {
                   />
                 </Stack>
               </Box>
-
             </Card>
           </CustomTabPanel>
-
         </Box>
       </div>
     </BaseLayout>

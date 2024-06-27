@@ -2,10 +2,10 @@ import pandas as pd
 import os
 import glob
 
-BACKEND_PATH = '/home/vinicius/Desktop/benderdb/backend-flask/'
+BACKEND_PATH = '/home/viniciusp/Desktop/benderdb/backend-flask/'
 #BACKEND_PATH = '/var/www/benderdb/backend-flask/'
 
-BENDERDB_DATA_PATH = '/home/vinicius/Desktop/benderdb/frontend-react/public/'
+BENDERDB_DATA_PATH = '/home/viniciusp/Desktop/benderdb/frontend-react/public/'
 #BENDERDB_DATA_PATH = '/var/www/benderdb-data/'
 
 
