@@ -1,10 +1,6 @@
 from utils import *
 import os
 
-BACKEND_PATH = '/home/viniciusp/Desktop/benderdb/backend-flask/'
-#BACKEND_PATH = '/var/www/benderdb/backend-flask/'
-
-
 def mean_consensus(residues_list, total_pred):
 	'''
 	Params:
@@ -26,7 +22,7 @@ def mean_consensus(residues_list, total_pred):
 
 def ai_prediction(prot_name, prot_folder):
 	prot_name = prot_name.upper()
-	file_path = BACKEND_PATH + 'data/predictions/'
+	file_path = 'data/predictions/'
 	file_name = 'final_ai_prediction_' + prot_folder + '.csv'
 	if os.path.exists(file_path + file_name):
 		df = pd.read_csv(file_path + file_name)

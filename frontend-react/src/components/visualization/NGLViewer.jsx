@@ -644,7 +644,7 @@ export default function NGLViewer(props) {
           </Stack>
           <Typography color="text.secondary" variant="body2">
             {props.pdb} protein structure along with highlighted binding site
-            residues.
+            residues
           </Typography>
         </Box>
 

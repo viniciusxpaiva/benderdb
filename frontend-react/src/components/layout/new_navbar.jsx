@@ -132,9 +132,6 @@ function ResponsiveAppBar() {
                     variant="body2"
                     sx={{
                       textDecoration: "none",
-                      "&:hover": {
-                        fontWeight: "bold",
-                      },
                       fontWeight: currentPage === v ? "bold" : "normal",
                     }}
                   >

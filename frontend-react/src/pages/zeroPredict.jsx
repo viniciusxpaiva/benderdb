@@ -12,7 +12,7 @@ const ZeroPredict = () => {
         <div className="row justify-content-center">
           <div className="col-md-12 text-center">
             <h6 className="display-6 text-light">
-              Searched protein is not available in BENDER DB
+              Input protein is not available in BENDER DB
             </h6>
           </div>
         </div>
@@ -23,7 +23,7 @@ const ZeroPredict = () => {
             <AlertTitle>
               <strong>No predictions are available for this protein</strong>
             </AlertTitle>
-            The input protein returned no results from all predictors.
+            The input protein returned no binding sites from all predictors.
             <br></br>
             <br></br>
             The following table lists all available proteins in BENDER DB. Use

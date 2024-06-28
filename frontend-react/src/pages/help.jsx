@@ -158,7 +158,7 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  BENDER DB employs NGL Viewer for molecular visualization.
+                  BENDER DB employs NGL Viewer for molecular visualization
                 </Typography>
               </Box>
               <Divider />
@@ -328,7 +328,7 @@ const Help = () => {
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
                   All available data in BENDER DB can be found on the Available
-                  Data page.
+                  Data page
                 </Typography>
               </Box>
               <Divider />
@@ -417,7 +417,7 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  Input search bar at homepage.
+                  Input search bar at homepage
                 </Typography>
               </Box>
               <Divider />
@@ -485,7 +485,7 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  Protein binding site results.
+                  Protein binding site results
                 </Typography>
               </Box>
               <Divider />
@@ -565,7 +565,7 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  Molecular visualization and binding site residues.
+                  Molecular visualization and binding site residues
                 </Typography>
               </Box>
               <Divider />
@@ -637,7 +637,7 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  UpSet plot for visualizing intersections between predictors.
+                  UpSet plot for visualizing intersections between predictors
                 </Typography>
               </Box>
               <Divider />
@@ -696,7 +696,7 @@ const Help = () => {
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
                   Pop-up window to analyze an intersection selected among
-                  predictors results.
+                  predictors results
                 </Typography>
               </Box>
               <Divider />
@@ -765,7 +765,7 @@ const Help = () => {
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
                   Interactive table with predictors and their respective binding
-                  site residues.
+                  site residues
                 </Typography>
               </Box>
               <Divider />
@@ -825,7 +825,7 @@ const Help = () => {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" variant="body2">
-                  Molecular visualization and binding site residues.
+                  Molecular visualization and binding site residues
                 </Typography>
               </Box>
               <Divider />
