@@ -2,11 +2,11 @@ import pandas as pd
 import os
 import glob
 
-#BACKEND_PATH = ''
-BACKEND_PATH = '/var/www/benderdb/backend-flask/'
+BACKEND_PATH = ''
+#BACKEND_PATH = '/var/www/benderdb/backend-flask/'
 
-#BENDERDB_DATA_PATH = '../frontend-react/public/'
-BENDERDB_DATA_PATH = '/var/www/benderdb-data/'
+BENDERDB_DATA_PATH = '../frontend-react/public/'
+#BENDERDB_DATA_PATH = '/var/www/benderdb-data/'
 
 
 def get_protein_full_name(prot_name, pdb_folder):

@@ -328,7 +328,7 @@ export default function NGLViewer(props) {
           variant="scrollable"
           allowScrollButtonsMobile
         >
-          <NoMaxWidthTooltip title="Predictors results consensus">
+          <NoMaxWidthTooltip title="Predictors consensus">
             <Tab
               key={"consensus"}
               sx={{
