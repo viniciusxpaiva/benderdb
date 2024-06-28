@@ -96,25 +96,6 @@ const Footer = () => {
                     />
                   </a>
                 </div>
-                <div className="col">
-                  <a
-                    href="https://ufmg.br/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img
-                      src="/img/ufmg.png"
-                      className="img-fluid"
-                      style={{
-                        maxWidth: "100%",
-                        maxHeight: "60px",
-                        width: "auto",
-                        height: "auto",
-                      }}
-                      alt="ufmg-logo"
-                    />
-                  </a>
-                </div>
               </div>
             </div>
           </div>

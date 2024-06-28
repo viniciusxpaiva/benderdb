@@ -166,7 +166,7 @@ const Home = () => {
                 sites for proteomes of neglected disease pathogens.
               </p>
               <p>
-                The database includes ten proteomes, encompassing 101,813
+                The database includes 10 proteomes, encompassing 101,813
                 proteins and 1,172,743 binding sites.
               </p>
               <p>
