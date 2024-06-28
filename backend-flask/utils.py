@@ -2,8 +2,12 @@ import pandas as pd
 import os
 import glob
 
-BENDERDB_DATA_PATH = '../frontend-react/public/'
-#BENDERDB_DATA_PATH = '/var/www/benderdb-data/'
+#BACKEND_PATH = ''
+BACKEND_PATH = '/var/www/benderdb/backend-flask/'
+
+#BENDERDB_DATA_PATH = '../frontend-react/public/'
+BENDERDB_DATA_PATH = '/var/www/benderdb-data/'
+
 
 def get_protein_full_name(prot_name, pdb_folder):
 	pdb_name = '/AF-' + prot_name.upper() + '-F1-model_v4.pdb'
@@ -231,7 +235,7 @@ def grasp_search(prot_name):
 	Function to handle search for GRaSP results
 	'''
 	prot_name = prot_name.upper()
-	file_path = 'data/grasp/'
+	file_path = BACKEND_PATH + 'data/grasp/'
 	file_name = 'GRaSP_Concatenated_Sites.csv'
 
 	df = pd.read_csv(file_path + file_name)
@@ -257,7 +261,7 @@ def puresnet_search(prot_name):
 	Function to handle search for PUResNet results
 	'''
 	prot_name = prot_name.upper()
-	file_path = 'data/puresnet/'
+	file_path = BACKEND_PATH + 'data/puresnet/'
 	file_name = 'PUResNet_Concatenated_Sites.csv'
 
 	df = pd.read_csv(file_path + file_name)
@@ -285,7 +289,7 @@ def p2rank_search(prot_name):
 	Function to handle search for p2Rank results
 	'''
 	prot_name = prot_name.upper()
-	file_path = 'data/p2rank/'
+	file_path = BACKEND_PATH + 'data/p2rank/'
 	file_name = 'p2Rank_Concatenated_Sites.csv'
 
 	df = pd.read_csv(file_path + file_name)
@@ -310,7 +314,7 @@ def pointsite_search(prot_name):
 	Function to handle search for PointSite results
 	'''
 	prot_name = prot_name.upper()
-	file_path = 'data/pointsite/'
+	file_path = BACKEND_PATH + 'data/pointsite/'
 	file_name = 'PointSite_Concatenated_Sites.csv'
 
 	df = pd.read_csv(file_path + file_name)
@@ -335,7 +339,7 @@ def deeppocket_search(prot_name):
 	Function to handle search for DeepPocket results
 	'''
 	prot_name = prot_name.upper()
-	file_path = 'data/deeppocket/'
+	file_path = BACKEND_PATH + 'data/deeppocket/'
 	file_name = 'DeepPocket_Concatenated_Sites.csv'
 
 	df = pd.read_csv(file_path + file_name)
