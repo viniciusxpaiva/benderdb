@@ -202,7 +202,7 @@ const Home = () => {
           <div class="row mb">
             <div class="col-md-6">
               <div class="bordered">
-                <img src="img/diag_home.png" class=" img-fluid" />
+                <img src="img/bender_home.png" class=" img-fluid" />
               </div>
             </div>
             <div
